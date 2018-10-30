@@ -86,9 +86,9 @@ public class StaticParamsController {
 		try {
 			staticParamsResponse = staticParamsService.deleteByIds(idList);
 		}catch (Exception e){
-			logger.error("数据查询异常");
+			logger.error("数据删除异常");
 			staticParamsResponse.setRspcode(WebUtil.EXCEPTION);
-			staticParamsResponse.setRspdesc("数据查询异常!");
+			staticParamsResponse.setRspdesc("数据删除异常!");
 		}
 		staticParamsServiceResponse.setResponse(staticParamsResponse);
 		return staticParamsServiceResponse;
