@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.service.StaticParamsService;
 import com.asiainfo.qm.manage.util.WebUtil;
-import com.asiainfo.qm.manage.vo.DemoUserServiceResponse;
 import com.asiainfo.qm.manage.vo.StaticParamsResponse;
 import com.asiainfo.qm.manage.vo.StaticParamsServiceResponse;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -15,10 +14,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +33,7 @@ public class StaticParamsController {
 	private SequenceUtils sequenceUtils;
 
 	// 以这个为准
-	@ApiOperation(value = "前端调用接口查询静态配置参数", notes = "qm_configservice查询静态配置参数", response = DemoUserServiceResponse.class)
+	@ApiOperation(value = "前端调用接口查询静态配置参数", notes = "qm_configservice查询静态配置参数", response = StaticParamsServiceResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
 			                @ApiResponse(code = 403, message = "资源不存在"),
 			                @ApiResponse(code = 404, message = "传入的参数无效"),
@@ -69,23 +65,24 @@ public class StaticParamsController {
 		return staticParamsServiceResponse;
 	}
 
-	@ApiOperation(value = "前端调用接口查询静态配置参数", notes = "qm_configservice删除静态配置参数", response = DemoUserServiceResponse.class)
+	@ApiOperation(value = "前端调用接口查询静态配置参数", notes = "qm_configservice删除静态配置参数", response = StaticParamsServiceResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
 			@ApiResponse(code = 403, message = "资源不存在"),
 			@ApiResponse(code = 404, message = "传入的参数无效"),
 			@ApiResponse(code = 500, message = "服务器出现异常错误") })
-	@HystrixCommand(groupKey = "qm_configservice ", commandKey = "deleteByIds", threadPoolKey = "deleteByIdsThread", fallbackMethod = "fallbackDeleteByIds",commandProperties = {
+	@HystrixCommand(groupKey = "qm_configservice", commandKey = "deleteByIds", threadPoolKey = "deleteByIdsThread", commandProperties = {
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
 			@HystrixProperty(name = "coreSize", value = "200") })
-	@RequestMapping(value = "/deleteByIds", method = RequestMethod.GET)
-	public StaticParamsServiceResponse deleteByIds(@RequestParam(name = "ids")String ids) throws Exception {
+	@RequestMapping(value = "/deleteByIds/{ids}", method = RequestMethod.DELETE)
+	public StaticParamsServiceResponse deleteByIds(@PathVariable("ids")String ids) throws Exception {
 		StaticParamsResponse staticParamsResponse = new StaticParamsResponse();
 		StaticParamsServiceResponse staticParamsServiceResponse = new StaticParamsServiceResponse();
 		List<String> idList = Arrays.asList(ids.split(","));
 		try {
 			staticParamsResponse = staticParamsService.deleteByIds(idList);
 		}catch (Exception e){
+			e.printStackTrace();
 			logger.error("数据删除异常");
 			staticParamsResponse.setRspcode(WebUtil.EXCEPTION);
 			staticParamsResponse.setRspdesc("数据删除异常!");
@@ -95,7 +92,7 @@ public class StaticParamsController {
 	}
 
 	public StaticParamsServiceResponse fallbackDeleteByIds(@RequestParam(name = "ids")String ids) throws Exception {
-		logger.info("数据查询出错啦！");
+		logger.info("数据删除出错啦！");
 		logger.error("");
 		StaticParamsServiceResponse staticParamsServiceResponse = new StaticParamsServiceResponse();
 		return staticParamsServiceResponse;

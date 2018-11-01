@@ -62,9 +62,12 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 
 	@Override
 	public StaticParamsResponse deleteByIds(List<String> ids) throws Exception {
-		StaticParamsResponse staticParamsResponse = null;
+		StaticParamsResponse staticParamsResponse = new StaticParamsResponse();
 		try {
-			int result = staticParamsMapper.deleteByIdList(ids);
+			StaticParamsExample example = new StaticParamsExample();
+			StaticParamsExample.Criteria criteria= example.createCriteria();
+			criteria.andParamsPurposeIdIn(ids);
+			int result = staticParamsMapper.deleteByExample(example);
 			if(result > 0){
 				staticParamsResponse.setRspcode(WebUtil.SUCCESS);
 				staticParamsResponse.setRspdesc("删除成功");
@@ -73,6 +76,7 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 				staticParamsResponse.setRspdesc("删除失败");
 			}
 		}catch (Exception e){
+			e.printStackTrace();
 			logger.error("删除异常",e);
 			staticParamsResponse.setRspcode(WebUtil.EXCEPTION);
 			staticParamsResponse.setRspdesc("删除异常");

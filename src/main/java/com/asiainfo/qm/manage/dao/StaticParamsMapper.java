@@ -9,9 +9,6 @@ import java.util.List;
 
 public interface StaticParamsMapper {
 
-    //批量删除
-    int deleteByIdList(List<String> ids);
-
     int countByExample(StaticParamsExample example);
 
     int deleteByExample(StaticParamsExample example);
