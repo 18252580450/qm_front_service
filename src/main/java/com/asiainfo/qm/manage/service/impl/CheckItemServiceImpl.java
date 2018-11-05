@@ -94,7 +94,26 @@ public class CheckItemServiceImpl implements CheckItemService {
 
     @Override
     public CheckItemResponse deleteCheckItem(List<String> idList) throws Exception {
-        return null;
+        CheckItemResponse checkItemResponse = new CheckItemResponse();
+        try {
+            CheckItemExample example = new CheckItemExample();
+            CheckItemExample.Criteria criteria= example.createCriteria();
+            criteria.andCheckitemIdIn(idList);
+            int result = checkItemMapper.deleteByExample(example);
+            if(result > 0){
+                checkItemResponse.setRspcode(WebUtil.SUCCESS);
+                checkItemResponse.setRspdesc("删除成功");
+            }else {
+                checkItemResponse.setRspcode(WebUtil.FAIL);
+                checkItemResponse.setRspdesc("删除失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("删除异常",e);
+            checkItemResponse.setRspcode(WebUtil.EXCEPTION);
+            checkItemResponse.setRspdesc("删除异常");
+        }
+        return checkItemResponse;
     }
 
     @Override

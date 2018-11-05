@@ -14,11 +14,10 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,6 +62,38 @@ public class CheckItemController {
     }
 
     public CheckItemServiceResponse fallbackQueryCheckItem(@RequestParam(name = "params")String params,@RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        logger.info("数据查询出错啦！");
+        logger.error("");
+        CheckItemServiceResponse checkItemServiceResponse = new CheckItemServiceResponse();
+        return checkItemServiceResponse;
+    }
+
+    @ApiOperation(value = "前端调用接口删除考评项", notes = "qm_configservice删除考评项", response = CheckItemServiceResponse.class)
+    @ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误") })
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "deleteCheckItem", threadPoolKey = "deleteCheckItemThread", fallbackMethod = "fallbackDeleteCheckItem",commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200") })
+    @RequestMapping(value = "/deleteCheckItem/{delArr}", method = RequestMethod.DELETE)
+    public CheckItemServiceResponse deleteCheckItem(@PathVariable("delArr")String delArr) throws Exception {
+        CheckItemResponse checkItemResponse = new CheckItemResponse();
+        CheckItemServiceResponse checkItemServiceResponse = new CheckItemServiceResponse();
+        List<String> idlList = Arrays.asList(delArr.split(","));
+        try {
+            checkItemResponse = checkItemService.deleteCheckItem(idlList);
+        }catch (Exception e){
+            logger.error("数据查询异常");
+            checkItemResponse.setRspcode(WebUtil.EXCEPTION);
+            checkItemResponse.setRspdesc("数据查询异常!");
+        }
+        checkItemServiceResponse.setResponse(checkItemResponse);
+        return checkItemServiceResponse;
+    }
+
+    public CheckItemServiceResponse fallbackDeleteCheckItem(@RequestParam(name = "delArr")String delArr) throws Exception {
         logger.info("数据查询出错啦！");
         logger.error("");
         CheckItemServiceResponse checkItemServiceResponse = new CheckItemServiceResponse();
