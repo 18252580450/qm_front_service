@@ -27,6 +27,8 @@ public class SequenceUtils {
     @Qualifier("redisTemplate")
     private RedisTemplate redisTemplate;
 
+
+
     private static final Log logger = LogFactory.getLog(SequenceUtils.class);
 
 //    private static SequenceUtils sequenceUtils = null;

@@ -1,9 +1,11 @@
 package com.asiainfo.qm.manage.service.impl;
 
+import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.StaticParamsMapper;
 import com.asiainfo.qm.manage.domain.StaticParams;
 import com.asiainfo.qm.manage.domain.StaticParamsExample;
 import com.asiainfo.qm.manage.service.StaticParamsService;
+import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.manage.vo.StaticParamsResponse;
 import com.github.pagehelper.Page;
@@ -26,6 +28,9 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 
 	@Autowired
 	private StaticParamsMapper staticParamsMapper;
+
+	@Autowired
+	private SequenceUtils sequenceUtils;
 
 	@Override
 	public StaticParamsResponse selectByParams(Map params,int start,int limit) throws Exception  {
@@ -82,6 +87,29 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 			staticParamsResponse.setRspdesc("删除异常");
 		}
 		return staticParamsResponse;
+	}
+
+	@Override
+	public StaticParamsResponse addStaticParams(StaticParams staticParams) throws Exception {
+		StaticParamsResponse staticParamsResponse = new StaticParamsResponse();
+		try {
+			staticParams.setCrtTime(DateUtil.getCurrontTime());
+			staticParams.setParamsPurposeId(String.valueOf(sequenceUtils.getSequence("t_qm_static_params")));
+			int result = staticParamsMapper.insertSelective(staticParams);
+			if(result > 0){
+				staticParamsResponse.setRspcode(WebUtil.SUCCESS);
+				staticParamsResponse.setRspdesc("新增成功");
+			}else {
+				staticParamsResponse.setRspcode(WebUtil.FAIL);
+				staticParamsResponse.setRspdesc("新增失败");
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error("新增异常",e);
+			staticParamsResponse.setRspcode(WebUtil.EXCEPTION);
+			staticParamsResponse.setRspdesc("新增异常");
+		}
+		return  staticParamsResponse;
 	}
 
 

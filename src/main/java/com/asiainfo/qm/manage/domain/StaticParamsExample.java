@@ -455,6 +455,146 @@ public class StaticParamsExample {
             return (Criteria) this;
         }
 
+        public Criteria andCityIdIsNull() {
+            addCriterion("CITY_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIdIsNotNull() {
+            addCriterion("CITY_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIdEqualTo(String value) {
+            addCriterion("CITY_ID =", value, "cityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIdNotEqualTo(String value) {
+            addCriterion("CITY_ID <>", value, "cityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIdGreaterThan(String value) {
+            addCriterion("CITY_ID >", value, "cityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIdGreaterThanOrEqualTo(String value) {
+            addCriterion("CITY_ID >=", value, "cityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIdLessThan(String value) {
+            addCriterion("CITY_ID <", value, "cityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIdLessThanOrEqualTo(String value) {
+            addCriterion("CITY_ID <=", value, "cityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIdLike(String value) {
+            addCriterion("CITY_ID like", value, "cityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIdNotLike(String value) {
+            addCriterion("CITY_ID not like", value, "cityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIdIn(List<String> values) {
+            addCriterion("CITY_ID in", values, "cityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIdNotIn(List<String> values) {
+            addCriterion("CITY_ID not in", values, "cityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIdBetween(String value1, String value2) {
+            addCriterion("CITY_ID between", value1, value2, "cityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIdNotBetween(String value1, String value2) {
+            addCriterion("CITY_ID not between", value1, value2, "cityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andParamsTypeNameIsNull() {
+            addCriterion("PARAMS_TYPE_NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParamsTypeNameIsNotNull() {
+            addCriterion("PARAMS_TYPE_NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParamsTypeNameEqualTo(String value) {
+            addCriterion("PARAMS_TYPE_NAME =", value, "paramsTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andParamsTypeNameNotEqualTo(String value) {
+            addCriterion("PARAMS_TYPE_NAME <>", value, "paramsTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andParamsTypeNameGreaterThan(String value) {
+            addCriterion("PARAMS_TYPE_NAME >", value, "paramsTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andParamsTypeNameGreaterThanOrEqualTo(String value) {
+            addCriterion("PARAMS_TYPE_NAME >=", value, "paramsTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andParamsTypeNameLessThan(String value) {
+            addCriterion("PARAMS_TYPE_NAME <", value, "paramsTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andParamsTypeNameLessThanOrEqualTo(String value) {
+            addCriterion("PARAMS_TYPE_NAME <=", value, "paramsTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andParamsTypeNameLike(String value) {
+            addCriterion("PARAMS_TYPE_NAME like", value, "paramsTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andParamsTypeNameNotLike(String value) {
+            addCriterion("PARAMS_TYPE_NAME not like", value, "paramsTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andParamsTypeNameIn(List<String> values) {
+            addCriterion("PARAMS_TYPE_NAME in", values, "paramsTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andParamsTypeNameNotIn(List<String> values) {
+            addCriterion("PARAMS_TYPE_NAME not in", values, "paramsTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andParamsTypeNameBetween(String value1, String value2) {
+            addCriterion("PARAMS_TYPE_NAME between", value1, value2, "paramsTypeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andParamsTypeNameNotBetween(String value1, String value2) {
+            addCriterion("PARAMS_TYPE_NAME not between", value1, value2, "paramsTypeName");
+            return (Criteria) this;
+        }
+
         public Criteria andParamsNameIsNull() {
             addCriterion("PARAMS_NAME is null");
             return (Criteria) this;
@@ -642,6 +782,76 @@ public class StaticParamsExample {
 
         public Criteria andModfTimeNotBetween(Date value1, Date value2) {
             addCriterion("MODF_TIME not between", value1, value2, "modfTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFalgIsNull() {
+            addCriterion("IS_FALG is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFalgIsNotNull() {
+            addCriterion("IS_FALG is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFalgEqualTo(String value) {
+            addCriterion("IS_FALG =", value, "isFalg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFalgNotEqualTo(String value) {
+            addCriterion("IS_FALG <>", value, "isFalg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFalgGreaterThan(String value) {
+            addCriterion("IS_FALG >", value, "isFalg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFalgGreaterThanOrEqualTo(String value) {
+            addCriterion("IS_FALG >=", value, "isFalg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFalgLessThan(String value) {
+            addCriterion("IS_FALG <", value, "isFalg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFalgLessThanOrEqualTo(String value) {
+            addCriterion("IS_FALG <=", value, "isFalg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFalgLike(String value) {
+            addCriterion("IS_FALG like", value, "isFalg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFalgNotLike(String value) {
+            addCriterion("IS_FALG not like", value, "isFalg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFalgIn(List<String> values) {
+            addCriterion("IS_FALG in", values, "isFalg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFalgNotIn(List<String> values) {
+            addCriterion("IS_FALG not in", values, "isFalg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFalgBetween(String value1, String value2) {
+            addCriterion("IS_FALG between", value1, value2, "isFalg");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFalgNotBetween(String value1, String value2) {
+            addCriterion("IS_FALG not between", value1, value2, "isFalg");
             return (Criteria) this;
         }
 

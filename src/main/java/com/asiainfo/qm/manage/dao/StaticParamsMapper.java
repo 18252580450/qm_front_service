@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface StaticParamsMapper {
-
     int countByExample(StaticParamsExample example);
 
     int deleteByExample(StaticParamsExample example);

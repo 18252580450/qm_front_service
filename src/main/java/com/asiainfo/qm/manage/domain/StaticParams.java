@@ -7,11 +7,17 @@ public class StaticParams extends StaticParamsKey {
 
     private String provinceId;
 
+    private String cityId;
+
+    private String paramsTypeName;
+
     private String paramsName;
 
     private Date crtTime;
 
     private Date modfTime;
+
+    private String isFalg;
 
     private String reserve1;
 
@@ -49,6 +55,22 @@ public class StaticParams extends StaticParamsKey {
         this.provinceId = provinceId == null ? null : provinceId.trim();
     }
 
+    public String getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(String cityId) {
+        this.cityId = cityId == null ? null : cityId.trim();
+    }
+
+    public String getParamsTypeName() {
+        return paramsTypeName;
+    }
+
+    public void setParamsTypeName(String paramsTypeName) {
+        this.paramsTypeName = paramsTypeName == null ? null : paramsTypeName.trim();
+    }
+
     public String getParamsName() {
         return paramsName;
     }
@@ -71,6 +93,14 @@ public class StaticParams extends StaticParamsKey {
 
     public void setModfTime(Date modfTime) {
         this.modfTime = modfTime;
+    }
+
+    public String getIsFalg() {
+        return isFalg;
+    }
+
+    public void setIsFalg(String isFalg) {
+        this.isFalg = isFalg == null ? null : isFalg.trim();
     }
 
     public String getReserve1() {

@@ -38,8 +38,8 @@
         <!-- ****************要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名*****************-->
 
 
+        <!--<table schema="" tableName="t_qm_checktype" domainObjectName="Checktype"></table> -->
         <table schema="" tableName="t_qm_static_params" domainObjectName="StaticParams"/>
 
-        <!--<table schema="" tableName="ir_admin_account"></table>-->
     </context>
 </generatorConfiguration>
