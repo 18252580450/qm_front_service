@@ -126,4 +126,68 @@ public class StaticParamsController {
 		StaticParamsServiceResponse staticParamsServiceResponse = new StaticParamsServiceResponse();
 		return staticParamsServiceResponse;
 	}
+
+	@ApiOperation(value = "查询静态配置参数类型", notes = "qm_configservice查询静态配置参数类型", response = StaticParamsServiceResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+			@ApiResponse(code = 403, message = "资源不存在"),
+			@ApiResponse(code = 404, message = "传入的参数无效"),
+			@ApiResponse(code = 500, message = "服务器出现异常错误") })
+	@HystrixCommand(groupKey = "qm_configservice ", commandKey = "selectAllTypes", threadPoolKey = "selectAllTypesThread", fallbackMethod = "fallbackSelectAllTypes",commandProperties = {
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
+			@HystrixProperty(name = "coreSize", value = "200") })
+	@RequestMapping(value = "/selectAllTypes", method = RequestMethod.GET)
+	public StaticParamsServiceResponse selectAllTypes(@RequestParam(name = "params")String params) throws Exception {
+		StaticParamsResponse staticParamsResponse = new StaticParamsResponse();
+		StaticParamsServiceResponse staticParamsServiceResponse = new StaticParamsServiceResponse();
+		Map reqParams = JSONObject.parseObject(params);
+		try {
+			staticParamsResponse = staticParamsService.selectAllTypes(reqParams);
+		}catch (Exception e){
+			logger.error("静态参数类型查询异常");
+			staticParamsResponse.setRspcode(WebUtil.EXCEPTION);
+			staticParamsResponse.setRspdesc("静态参数类型查询异常!");
+		}
+		staticParamsServiceResponse.setResponse(staticParamsResponse);
+		return staticParamsServiceResponse;
+	}
+
+	public StaticParamsServiceResponse fallbackSelectAllTypes(@RequestParam(name = "params")String params) throws Exception {
+		logger.info("静态参数类型查询出错啦！");
+		logger.error("");
+		StaticParamsServiceResponse staticParamsServiceResponse = new StaticParamsServiceResponse();
+		return staticParamsServiceResponse;
+	}
+
+	@ApiOperation(value = "更新静态配置参数", notes = "qm_configservice更新静态配置参数", response = StaticParamsServiceResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+			@ApiResponse(code = 403, message = "资源不存在"),
+			@ApiResponse(code = 404, message = "传入的参数无效"),
+			@ApiResponse(code = 500, message = "服务器出现异常错误") })
+	@HystrixCommand(groupKey = "qm_configservice", commandKey = "updateStaticParams", threadPoolKey = "updateStaticParamsThread",fallbackMethod = "fallbackUpdateStaticParams", commandProperties = {
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
+			@HystrixProperty(name = "coreSize", value = "200") })
+	@RequestMapping(value = "/", method = RequestMethod.PUT, consumes = "application/json")
+	public StaticParamsServiceResponse updateStaticParams(@RequestBody StaticParams staticParams) throws Exception {
+		StaticParamsResponse staticParamsResponse = new StaticParamsResponse();
+		StaticParamsServiceResponse staticParamsServiceResponse = new StaticParamsServiceResponse();
+		try {
+			staticParamsResponse = staticParamsService.updateStaticParams(staticParams);
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error("更新静态参数异常");
+			staticParamsResponse.setRspcode(WebUtil.EXCEPTION);
+			staticParamsResponse.setRspdesc("更新静态参数异常!");
+		}
+		staticParamsServiceResponse.setResponse(staticParamsResponse);
+		return staticParamsServiceResponse;
+	}
+
+	public StaticParamsServiceResponse fallbackUpdateStaticParams(@RequestBody StaticParams staticParams) throws Exception {
+		logger.info("更新静态参数出错啦！");
+		logger.error("");
+		StaticParamsServiceResponse staticParamsServiceResponse = new StaticParamsServiceResponse();
+		return staticParamsServiceResponse;
+	}
 }

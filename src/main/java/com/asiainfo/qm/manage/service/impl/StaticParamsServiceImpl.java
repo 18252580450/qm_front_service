@@ -45,10 +45,16 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 			if(null != params.get("paramsTypeId") && !"".equals(params.get("paramsTypeId"))) {
 				criteria.andParamsTypeIdEqualTo((String) params.get("paramsTypeId"));
 			}
-			PageHelper.offsetPage(start, limit);
-			List<StaticParams> list = staticParamsMapper.selectByExample(example);
-			Page<StaticParams> pagelist = (Page)list;
-			staticParamsResponse = new StaticParamsResponse(pagelist);
+			if(0 != limit) {
+				PageHelper.offsetPage(start, limit);
+				List<StaticParams> list = staticParamsMapper.selectByExample(example);
+				Page<StaticParams> pagelist = (Page) list;
+				staticParamsResponse = new StaticParamsResponse(pagelist);
+			}else {
+				staticParamsResponse = new StaticParamsResponse();
+				List<StaticParams> list = staticParamsMapper.selectByExample(example);
+				staticParamsResponse.setData(list);
+			}
 
 			if(null != staticParamsResponse.getData() && staticParamsResponse.getData().size() > 0){
 				staticParamsResponse.setRspcode(WebUtil.SUCCESS);
@@ -61,6 +67,32 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 			logger.error("查询异常",e);
 			staticParamsResponse.setRspcode(WebUtil.EXCEPTION);
 			staticParamsResponse.setRspdesc("查询异常");
+		}
+		return staticParamsResponse;
+	}
+
+	@Override
+	public StaticParamsResponse selectAllTypes(Map params) throws Exception {
+		StaticParamsResponse staticParamsResponse = null;
+		StaticParamsExample example = new StaticParamsExample();
+		try {
+			StaticParamsExample.Criteria criteria= example.createCriteria();
+			criteria.andTenantIdEqualTo((String) params.get("tenantId"));
+			staticParamsResponse = new StaticParamsResponse();
+			List<StaticParams> list = staticParamsMapper.selectAllTypes(example);
+			staticParamsResponse.setData(list);
+
+			if(null != staticParamsResponse.getData() && staticParamsResponse.getData().size() > 0){
+				staticParamsResponse.setRspcode(WebUtil.SUCCESS);
+				staticParamsResponse.setRspdesc("查询类型成功");
+			}else {
+				staticParamsResponse.setRspcode(WebUtil.FAIL);
+				staticParamsResponse.setRspdesc("无数据");
+			}
+		}catch (Exception e){
+			logger.error("查询类型异常",e);
+			staticParamsResponse.setRspcode(WebUtil.EXCEPTION);
+			staticParamsResponse.setRspdesc("查询类型异常");
 		}
 		return staticParamsResponse;
 	}
@@ -108,6 +140,28 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 			logger.error("新增异常",e);
 			staticParamsResponse.setRspcode(WebUtil.EXCEPTION);
 			staticParamsResponse.setRspdesc("新增异常");
+		}
+		return  staticParamsResponse;
+	}
+
+	@Override
+	public StaticParamsResponse updateStaticParams(StaticParams staticParams) throws Exception {
+		StaticParamsResponse staticParamsResponse = new StaticParamsResponse();
+		try {
+			staticParams.setModfTime(DateUtil.getCurrontTime());
+			int result = staticParamsMapper.updateByPrimaryKey(staticParams);
+			if(result > 0){
+				staticParamsResponse.setRspcode(WebUtil.SUCCESS);
+				staticParamsResponse.setRspdesc("更新成功");
+			}else {
+				staticParamsResponse.setRspcode(WebUtil.FAIL);
+				staticParamsResponse.setRspdesc("更新失败");
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error("更新异常",e);
+			staticParamsResponse.setRspcode(WebUtil.EXCEPTION);
+			staticParamsResponse.setRspdesc("更新异常");
 		}
 		return  staticParamsResponse;
 	}

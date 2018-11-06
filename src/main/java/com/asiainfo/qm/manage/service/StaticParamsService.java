@@ -10,8 +10,12 @@ public interface StaticParamsService {
 
 	StaticParamsResponse selectByParams(Map params,int start,int limit)throws Exception;
 
+	StaticParamsResponse selectAllTypes(Map params)throws Exception;
+
 	StaticParamsResponse deleteByIds(List<String> ids)throws Exception;
 
 	StaticParamsResponse addStaticParams(StaticParams staticParams)throws Exception;
+
+	StaticParamsResponse updateStaticParams(StaticParams staticParams)throws Exception;
 }
 	

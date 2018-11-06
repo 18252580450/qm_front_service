@@ -8,6 +8,15 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface StaticParamsMapper {
+
+    /**
+     * 查询所有类型
+     *
+     * @param example
+     * @return
+     */
+    List<StaticParams> selectAllTypes(StaticParamsExample example);
+
     int countByExample(StaticParamsExample example);
 
     int deleteByExample(StaticParamsExample example);
