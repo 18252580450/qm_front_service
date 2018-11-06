@@ -1,8 +1,5 @@
 package com.asiainfo.qm.manage.common.sequence;
 
-
-
-
 import com.asiainfo.qm.manage.config.EnvironmentValue;
 import com.asiainfo.qm.manage.exception.SequenceException;
 import org.apache.commons.lang.RandomStringUtils;
@@ -26,8 +23,6 @@ public class SequenceUtils {
     @Autowired
     @Qualifier("redisTemplate")
     private RedisTemplate redisTemplate;
-
-
 
     private static final Log logger = LogFactory.getLog(SequenceUtils.class);
 

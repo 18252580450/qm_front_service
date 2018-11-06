@@ -1,9 +1,11 @@
 package com.asiainfo.qm.manage.service.impl;
 
+import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.CheckItemMapper;
 import com.asiainfo.qm.manage.domain.CheckItem;
 import com.asiainfo.qm.manage.domain.CheckItemExample;
 import com.asiainfo.qm.manage.service.CheckItemService;
+import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.manage.vo.CheckItemResponse;
 import com.github.pagehelper.Page;
@@ -28,6 +30,9 @@ public class CheckItemServiceImpl implements CheckItemService {
 
     @Autowired
     private CheckItemMapper checkItemMapper;
+
+    @Autowired
+    private SequenceUtils sequenceUtils;
 
     @Override
     public CheckItemResponse queryCheckItem(Map params, int start, int limit) throws Exception {
@@ -66,6 +71,12 @@ public class CheckItemServiceImpl implements CheckItemService {
                     if (null != item.getCheckitemType() && item.getCheckitemType().equals("3")){
                         item.setCheckitemType("互联网考核项");
                     }
+                    if (null != item.getCheckitemVitalType() && item.getCheckitemVitalType().equals("0")){
+                        item.setCheckitemVitalType("非致命性");
+                    }
+                    if (null != item.getCheckitemVitalType() && item.getCheckitemVitalType().equals("1")){
+                        item.setCheckitemVitalType("致命性");
+                    }
                 }
                 checkItemResponse.setRspcode(WebUtil.SUCCESS);
                 checkItemResponse.setRspdesc("查询成功");
@@ -83,12 +94,31 @@ public class CheckItemServiceImpl implements CheckItemService {
     }
 
     @Override
-    public CheckItemResponse addCheckItem(Map params) throws Exception {
-        return null;
+    public CheckItemResponse createCheckItem(CheckItem checkItem) throws Exception {
+        CheckItemResponse checkItemResponse = new CheckItemResponse();
+        try{
+            checkItem.setCreateTime(DateUtil.getCurrontTime());
+            checkItem.setOperateTime(DateUtil.getCurrontTime());
+            checkItem.setCheckitemId(String.valueOf(sequenceUtils.getSequence("t_qm_checkitem")));
+            int result = checkItemMapper.insertSelective(checkItem);
+            if(result > 0){
+                checkItemResponse.setRspcode(WebUtil.SUCCESS);
+                checkItemResponse.setRspdesc("新增成功");
+            }else {
+                checkItemResponse.setRspcode(WebUtil.FAIL);
+                checkItemResponse.setRspdesc("新增失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("考评项新增异常",e);
+            checkItemResponse.setRspcode(WebUtil.EXCEPTION);
+            checkItemResponse.setRspdesc("考评项新增异常");
+        }
+        return checkItemResponse;
     }
 
     @Override
-    public CheckItemResponse editCheckItem(Map params) throws Exception {
+    public CheckItemResponse updateCheckItem(Map params) throws Exception {
         return null;
     }
 
@@ -109,9 +139,9 @@ public class CheckItemServiceImpl implements CheckItemService {
             }
         }catch (Exception e){
             e.printStackTrace();
-            logger.error("删除异常",e);
+            logger.error("考评项删除异常",e);
             checkItemResponse.setRspcode(WebUtil.EXCEPTION);
-            checkItemResponse.setRspdesc("删除异常");
+            checkItemResponse.setRspdesc("考评项删除异常");
         }
         return checkItemResponse;
     }

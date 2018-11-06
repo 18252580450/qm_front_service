@@ -1,5 +1,6 @@
 package com.asiainfo.qm.manage.service;
 
+import com.asiainfo.qm.manage.domain.CheckItem;
 import com.asiainfo.qm.manage.vo.CheckItemResponse;
 
 import java.util.List;
@@ -14,9 +15,9 @@ public interface CheckItemService {
 
     CheckItemResponse queryCheckItem(Map params, int start, int limit)throws Exception;
 
-    CheckItemResponse addCheckItem(Map params)throws Exception;
+    CheckItemResponse createCheckItem(CheckItem checkItem)throws Exception;
 
-    CheckItemResponse editCheckItem(Map params)throws Exception;
+    CheckItemResponse updateCheckItem(Map params)throws Exception;
 
     CheckItemResponse deleteCheckItem(List<String> idList)throws Exception;
 

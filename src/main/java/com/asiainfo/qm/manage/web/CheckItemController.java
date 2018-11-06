@@ -2,6 +2,7 @@ package com.asiainfo.qm.manage.web;
 
 import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
+import com.asiainfo.qm.manage.domain.CheckItem;
 import com.asiainfo.qm.manage.service.CheckItemService;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.manage.vo.CheckItemResponse;
@@ -64,8 +65,37 @@ public class CheckItemController {
     public CheckItemServiceResponse fallbackQueryCheckItem(@RequestParam(name = "params")String params,@RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
         logger.info("数据查询出错啦！");
         logger.error("");
+        return new CheckItemServiceResponse();
+    }
+
+    @ApiOperation(value = "前端调用接口新增考评项", notes = "qm_configservice新增考评项", response = CheckItemServiceResponse.class)
+    @ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误") })
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "createCheckItem", threadPoolKey = "createCheckItemThread", fallbackMethod = "fallbackCreateCheckItem",commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200") })
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public CheckItemServiceResponse createCheckItem(@RequestBody CheckItem checkItem) throws Exception {
+        CheckItemResponse checkItemResponse = new CheckItemResponse();
         CheckItemServiceResponse checkItemServiceResponse = new CheckItemServiceResponse();
+        try {
+            checkItemResponse = checkItemService.createCheckItem(checkItem);
+        }catch (Exception e){
+            logger.error("数据查询异常");
+            checkItemResponse.setRspcode(WebUtil.EXCEPTION);
+            checkItemResponse.setRspdesc("数据查询异常!");
+        }
+        checkItemServiceResponse.setResponse(checkItemResponse);
         return checkItemServiceResponse;
+    }
+
+    public CheckItemServiceResponse fallbackCreateCheckItem(@RequestBody CheckItem checkItem) throws Exception {
+        logger.info("数据查询出错啦！");
+        logger.error("");
+        return new CheckItemServiceResponse();
     }
 
     @ApiOperation(value = "前端调用接口删除考评项", notes = "qm_configservice删除考评项", response = CheckItemServiceResponse.class)
@@ -77,7 +107,7 @@ public class CheckItemController {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
             @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
             @HystrixProperty(name = "coreSize", value = "200") })
-    @RequestMapping(value = "/deleteCheckItem/{delArr}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{delArr}", method = RequestMethod.DELETE)
     public CheckItemServiceResponse deleteCheckItem(@PathVariable("delArr")String delArr) throws Exception {
         CheckItemResponse checkItemResponse = new CheckItemResponse();
         CheckItemServiceResponse checkItemServiceResponse = new CheckItemServiceResponse();
@@ -96,7 +126,6 @@ public class CheckItemController {
     public CheckItemServiceResponse fallbackDeleteCheckItem(@RequestParam(name = "delArr")String delArr) throws Exception {
         logger.info("数据查询出错啦！");
         logger.error("");
-        CheckItemServiceResponse checkItemServiceResponse = new CheckItemServiceResponse();
-        return checkItemServiceResponse;
+        return new CheckItemServiceResponse();
     }
 }
