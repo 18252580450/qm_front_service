@@ -41,16 +41,16 @@ public class CheckItemServiceImpl implements CheckItemService {
         try{
             CheckItemExample.Criteria criteria = example.createCriteria();
             if(null != params.get("parentCheckItemId") && !"".equals(params.get("parentCheckItemId"))){
-                criteria.andParentCheckitemIdEqualTo((String)params.get("parentCheckItemId"));
+                criteria.andParentCheckItemIdEqualTo((String)params.get("parentCheckItemId"));
             }
             if(null != params.get("checkItemName") && !"".equals(params.get("checkItemName"))){
-                criteria.andCheckitemNameLike("%"+(String)params.get("checkItemName")+"%");
+                criteria.andCheckItemNameLike("%"+(String)params.get("checkItemName")+"%");
             }
             if(null != params.get("tenantId") && !"".equals(params.get("tenantId"))){
                 criteria.andTenantIdEqualTo((String)params.get("tenantId"));
             }
             if(null != params.get("checkItemType") && !"".equals(params.get("checkItemType"))){
-                criteria.andCheckitemTypeEqualTo((String)params.get("checkItemType"));
+                criteria.andCheckItemTypeEqualTo((String)params.get("checkItemType"));
             }
             PageHelper.offsetPage(start, limit);
             List<CheckItem> list = checkItemMapper.selectByExample(example);
@@ -59,23 +59,23 @@ public class CheckItemServiceImpl implements CheckItemService {
 
             if(null != checkItemResponse.getData() && checkItemResponse.getData().size() > 0){
                 for (CheckItem item : checkItemResponse.getData()) {
-                    if (null != item.getCheckitemType() && item.getCheckitemType().equals("0")){
-                        item.setCheckitemType("语音考核项");
+                    if (null != item.getCheckItemType() && item.getCheckItemType().equals("0")){
+                        item.setCheckItemType("语音考核项");
                     }
-                    if (null != item.getCheckitemType() && item.getCheckitemType().equals("1")){
-                        item.setCheckitemType("工单考核项");
+                    if (null != item.getCheckItemType() && item.getCheckItemType().equals("1")){
+                        item.setCheckItemType("工单考核项");
                     }
-                    if (null != item.getCheckitemType() && item.getCheckitemType().equals("2")){
-                        item.setCheckitemType("电商平台考核项");
+                    if (null != item.getCheckItemType() && item.getCheckItemType().equals("2")){
+                        item.setCheckItemType("电商平台考核项");
                     }
-                    if (null != item.getCheckitemType() && item.getCheckitemType().equals("3")){
-                        item.setCheckitemType("互联网考核项");
+                    if (null != item.getCheckItemType() && item.getCheckItemType().equals("3")){
+                        item.setCheckItemType("互联网考核项");
                     }
-                    if (null != item.getCheckitemVitalType() && item.getCheckitemVitalType().equals("0")){
-                        item.setCheckitemVitalType("非致命性");
+                    if (null != item.getCheckItemVitalType() && item.getCheckItemVitalType().equals("0")){
+                        item.setCheckItemVitalType("非致命性");
                     }
-                    if (null != item.getCheckitemVitalType() && item.getCheckitemVitalType().equals("1")){
-                        item.setCheckitemVitalType("致命性");
+                    if (null != item.getCheckItemVitalType() && item.getCheckItemVitalType().equals("1")){
+                        item.setCheckItemVitalType("致命性");
                     }
                 }
                 checkItemResponse.setRspcode(WebUtil.SUCCESS);
@@ -99,7 +99,7 @@ public class CheckItemServiceImpl implements CheckItemService {
         try{
             checkItem.setCreateTime(DateUtil.getCurrontTime());
             checkItem.setOperateTime(DateUtil.getCurrontTime());
-            checkItem.setCheckitemId(String.valueOf(sequenceUtils.getSequence("t_qm_checkitem")));
+            checkItem.setCheckItemId(String.valueOf(sequenceUtils.getSequence("t_qm_checkitem")));
             int result = checkItemMapper.insertSelective(checkItem);
             if(result > 0){
                 checkItemResponse.setRspcode(WebUtil.SUCCESS);
@@ -145,7 +145,7 @@ public class CheckItemServiceImpl implements CheckItemService {
         try {
             CheckItemExample example = new CheckItemExample();
             CheckItemExample.Criteria criteria= example.createCriteria();
-            criteria.andCheckitemIdIn(idList);
+            criteria.andCheckItemIdIn(idList);
             int result = checkItemMapper.deleteByExample(example);
             if(result > 0){
                 checkItemResponse.setRspcode(WebUtil.SUCCESS);
