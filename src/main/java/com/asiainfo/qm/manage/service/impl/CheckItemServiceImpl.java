@@ -118,8 +118,25 @@ public class CheckItemServiceImpl implements CheckItemService {
     }
 
     @Override
-    public CheckItemResponse updateCheckItem(Map params) throws Exception {
-        return null;
+    public CheckItemResponse updateCheckItem(CheckItem checkItem) throws Exception {
+        CheckItemResponse checkItemResponse = new CheckItemResponse();
+        try {
+            checkItem.setOperateTime(DateUtil.getCurrontTime());
+            int result = checkItemMapper.updateByPrimaryKey(checkItem);
+            if(result > 0){
+                checkItemResponse.setRspcode(WebUtil.SUCCESS);
+                checkItemResponse.setRspdesc("更新成功");
+            }else {
+                checkItemResponse.setRspcode(WebUtil.FAIL);
+                checkItemResponse.setRspdesc("更新失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("考评项更新异常",e);
+            checkItemResponse.setRspcode(WebUtil.EXCEPTION);
+            checkItemResponse.setRspdesc("考评项更新异常");
+        }
+        return  checkItemResponse;
     }
 
     @Override

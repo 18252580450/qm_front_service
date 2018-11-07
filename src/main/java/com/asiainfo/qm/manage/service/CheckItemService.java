@@ -17,7 +17,7 @@ public interface CheckItemService {
 
     CheckItemResponse createCheckItem(CheckItem checkItem)throws Exception;
 
-    CheckItemResponse updateCheckItem(Map params)throws Exception;
+    CheckItemResponse updateCheckItem(CheckItem checkItem)throws Exception;
 
     CheckItemResponse deleteCheckItem(List<String> idList)throws Exception;
 
