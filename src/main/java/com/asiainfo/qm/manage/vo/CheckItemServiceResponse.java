@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 @Data
 @ApiModel
 public class CheckItemServiceResponse extends ServiceResponseParent{
-
     private static Logger logger = LoggerFactory.getLogger(CheckItemServiceResponse.class);
 
     @ApiModelProperty(name = "RSP", value = "服务返回业务数据", required = true)
@@ -62,5 +61,4 @@ public class CheckItemServiceResponse extends ServiceResponseParent{
         this.setTxid(TxidUtils.generateTxid());
         return this;
     }
-
 }

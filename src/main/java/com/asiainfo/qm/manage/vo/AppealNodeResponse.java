@@ -1,6 +1,6 @@
 package com.asiainfo.qm.manage.vo;
 
-import com.asiainfo.qm.manage.domain.AppealProcess;
+import com.asiainfo.qm.manage.domain.AppealNode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.pagehelper.Page;
 import io.swagger.annotations.ApiModel;
@@ -13,28 +13,28 @@ import java.util.List;
 
 /**
  * @ Author     ：dingzc.
- * @ Date       ：Created in 15:12 2018/11/8
+ * @ Date       ：Created in 18:06 2018/11/8
  * @ Description：${description}
  */
 @EqualsAndHashCode(callSuper = false)
 @Data
 @ApiModel
-public class AppealProcessResponse extends ResponseParent{
+public class AppealNodeResponse extends ResponseParent{
     @ApiModelProperty(name = "DATA", value = "", required = true, example = "")
     @JsonProperty(value = "DATA")
-    private List<AppealProcess> data = new ArrayList<AppealProcess>();
+    private List<AppealNode> data = new ArrayList<AppealNode>();
 
-    public AppealProcessResponse() {}
+    public AppealNodeResponse() {}
 
-    public List<AppealProcess> getData() {
+    public List<AppealNode> getData() {
         return data;
     }
 
-    public void setData(List<AppealProcess> data) {
+    public void setData(List<AppealNode> data) {
         this.data = data;
     }
 
-    public AppealProcessResponse(Page<AppealProcess> pageResult) {
+    public AppealNodeResponse(Page<AppealNode> pageResult) {
         this.setData(pageResult != null ? pageResult.getResult() : null);
         this.setAttach(new Attach(pageResult != null ? pageResult.getTotal() : 0L));
     }

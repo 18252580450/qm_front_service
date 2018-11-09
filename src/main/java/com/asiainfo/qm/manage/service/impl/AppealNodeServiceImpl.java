@@ -2,7 +2,7 @@ package com.asiainfo.qm.manage.service.impl;
 
 import com.asiainfo.qm.manage.domain.AppealNode;
 import com.asiainfo.qm.manage.service.AppealNodeService;
-import com.asiainfo.qm.manage.vo.AppealProcessResponse;
+import com.asiainfo.qm.manage.vo.AppealNodeResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -15,22 +15,22 @@ import java.util.Map;
 @Service
 public class AppealNodeServiceImpl implements AppealNodeService {
     @Override
-    public AppealProcessResponse queryAppealNode(Map params, int start, int limit) throws Exception {
+    public AppealNodeResponse queryAppealNode(Map params, int start, int limit) throws Exception {
         return null;
     }
 
     @Override
-    public AppealProcessResponse createAppealNode(AppealNode appealNode) throws Exception {
+    public AppealNodeResponse createAppealNode(AppealNode appealNode) throws Exception {
         return null;
     }
 
     @Override
-    public AppealProcessResponse updateAppealNode(AppealNode appealNode) throws Exception {
+    public AppealNodeResponse updateAppealNode(AppealNode appealNode) throws Exception {
         return null;
     }
 
     @Override
-    public AppealProcessResponse deleteAppealNode(Map params) throws Exception {
+    public AppealNodeResponse deleteAppealNode(Map params) throws Exception {
         return null;
     }
 }

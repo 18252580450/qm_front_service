@@ -15,7 +15,6 @@ import java.util.List;
 @Data
 @ApiModel
 public class CheckItemResponse extends ResponseParent{
-
     @ApiModelProperty(name = "DATA", value = "", required = true, example = "")
     @JsonProperty(value = "DATA")
     private List<CheckItem> data = new ArrayList<CheckItem>();
@@ -34,6 +33,4 @@ public class CheckItemResponse extends ResponseParent{
         this.setData(pageResult != null ? pageResult.getResult() : null);
         this.setAttach(new Attach(pageResult != null ? pageResult.getTotal() : 0L));
     }
-
-
 }
