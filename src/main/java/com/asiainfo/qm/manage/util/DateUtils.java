@@ -254,6 +254,30 @@ public class DateUtils {
     }
 
     /**
+     * 获得往数据库字段类型为Date型时，插入的时间
+     *
+     * @param date       默认为当前日期，如果为空时 方法会自动new Date()
+     * @param dateFormat 默认为yyyy-MM-dd
+     * @return
+     */
+    public static java.sql.Timestamp paraseSqlTimestamp(String date, String dateFormat) {
+        try {
+            if (date == null || date.length() == 0) {
+                return new java.sql.Timestamp(new Date().getTime());
+            } else {
+                if (dateFormat == null) dateFormat = DateUtils.dateFormat;
+                SimpleDateFormat sf = new SimpleDateFormat(dateFormat);
+                Date d = sf.parse(date);
+                System.out.println(new java.sql.Timestamp(d.getTime()));
+                return new java.sql.Timestamp(d.getTime());
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return null;
+    }
+
+    /**
      * 获取当前的年份
      * @return
      */
