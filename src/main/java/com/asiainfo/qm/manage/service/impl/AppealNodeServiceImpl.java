@@ -20,7 +20,7 @@ public class AppealNodeServiceImpl implements AppealNodeService {
     }
 
     @Override
-    public AppealNodeResponse createAppealNode(AppealNode appealNode) throws Exception {
+    public AppealNodeResponse addAppealNode(AppealNode appealNode) throws Exception {
         return null;
     }
 

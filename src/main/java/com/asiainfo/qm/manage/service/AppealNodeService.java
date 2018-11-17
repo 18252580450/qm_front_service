@@ -20,7 +20,7 @@ public interface AppealNodeService {
     /**
      * 申诉节点新增
      */
-    AppealNodeResponse createAppealNode(AppealNode appealNode)throws Exception;
+    AppealNodeResponse addAppealNode(AppealNode appealNode)throws Exception;
 
     /**
      * 申诉节点修改

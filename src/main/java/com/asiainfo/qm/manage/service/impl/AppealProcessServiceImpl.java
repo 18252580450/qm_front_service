@@ -87,6 +87,11 @@ public class AppealProcessServiceImpl implements AppealProcessService {
     }
 
     @Override
+    public AppealProcessResponse addSubAppealProcess(AppealProcess appealProcess) throws Exception {
+        return null;
+    }
+
+    @Override
     public AppealProcessResponse updateAppealProcess(AppealProcess appealProcess) throws Exception {
         return null;
     }

@@ -19,9 +19,14 @@ public interface AppealProcessService {
     AppealProcessResponse queryAppealProcess(Map params, int start, int limit)throws Exception;
 
     /**
-     * 申诉流程新增
+     * 申诉流程(主）新增
      */
     AppealProcessResponse createAppealProcess(AppealProcess appealProcess)throws Exception;
+
+    /**
+     * 申诉流程(子流程）新增
+     */
+    AppealProcessResponse addSubAppealProcess(AppealProcess appealProcess)throws Exception;
 
     /**
      * 申诉流程修改
