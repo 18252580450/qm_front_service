@@ -32,6 +32,6 @@ public interface AppealProcessService {
     /**
      * 申诉主流程删除
      */
-    AppealProcessResponse deleteAppealProcess(List<String> processList, List<String> nodeList)throws Exception;
+    AppealProcessResponse deleteAppealProcess(List<String> processList)throws Exception;
 
 }

@@ -131,7 +131,7 @@ public class AppealProcessServiceImpl implements AppealProcessService {
     }
 
     @Override
-    public AppealProcessResponse deleteAppealProcess(List<String> processList, List<String> nodeList) throws Exception {
+    public AppealProcessResponse deleteAppealProcess(List<String> processList) throws Exception {
         return null;
     }
 }

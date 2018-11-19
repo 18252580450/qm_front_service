@@ -52,32 +52,19 @@ public class CheckItemServiceImpl implements CheckItemService {
             if(null != params.get("checkItemType") && !"".equals(params.get("checkItemType"))){
                 criteria.andCheckItemTypeEqualTo((String)params.get("checkItemType"));
             }
-            PageHelper.offsetPage(start, limit);
-            List<CheckItem> list = checkItemMapper.selectByExample(example);
-            Page<CheckItem> pagelist = (Page)list;
-            checkItemResponse = new CheckItemResponse(pagelist);
+
+            if(0 != limit) {
+                PageHelper.offsetPage(start, limit);
+                List<CheckItem> list = checkItemMapper.selectByExample(example);
+                Page<CheckItem> pagelist = (Page)list;
+                checkItemResponse = new CheckItemResponse(pagelist);
+            }else {
+                checkItemResponse = new CheckItemResponse();
+                List<CheckItem> list = checkItemMapper.selectByExample(example);
+                checkItemResponse.setData(list);
+            }
 
             if(null != checkItemResponse.getData() && checkItemResponse.getData().size() > 0){
-                for (CheckItem item : checkItemResponse.getData()) {
-                    if (null != item.getCheckItemType() && item.getCheckItemType().equals("0")){
-                        item.setCheckItemType("语音考核项");
-                    }
-                    if (null != item.getCheckItemType() && item.getCheckItemType().equals("1")){
-                        item.setCheckItemType("工单考核项");
-                    }
-                    if (null != item.getCheckItemType() && item.getCheckItemType().equals("2")){
-                        item.setCheckItemType("电商平台考核项");
-                    }
-                    if (null != item.getCheckItemType() && item.getCheckItemType().equals("3")){
-                        item.setCheckItemType("互联网考核项");
-                    }
-                    if (null != item.getCheckItemVitalType() && item.getCheckItemVitalType().equals("0")){
-                        item.setCheckItemVitalType("非致命性");
-                    }
-                    if (null != item.getCheckItemVitalType() && item.getCheckItemVitalType().equals("1")){
-                        item.setCheckItemVitalType("致命性");
-                    }
-                }
                 checkItemResponse.setRspcode(WebUtil.SUCCESS);
                 checkItemResponse.setRspdesc("查询成功");
             }else {
