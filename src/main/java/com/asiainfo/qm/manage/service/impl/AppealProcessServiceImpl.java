@@ -1,7 +1,9 @@
 package com.asiainfo.qm.manage.service.impl;
 
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
+import com.asiainfo.qm.manage.dao.AppealNodeMapper;
 import com.asiainfo.qm.manage.dao.AppealProcessMapper;
+import com.asiainfo.qm.manage.domain.AppealNode;
 import com.asiainfo.qm.manage.domain.AppealProcess;
 import com.asiainfo.qm.manage.domain.AppealProcessExample;
 import com.asiainfo.qm.manage.service.AppealProcessService;
@@ -15,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,9 @@ public class AppealProcessServiceImpl implements AppealProcessService {
 
     @Autowired
     private AppealProcessMapper appealProcessMapper;
+
+    @Autowired
+    private AppealNodeMapper appealNodeMapper;
 
     @Autowired
     private SequenceUtils sequenceUtils;
@@ -82,27 +86,52 @@ public class AppealProcessServiceImpl implements AppealProcessService {
     }
 
     @Override
-    public AppealProcessResponse createAppealProcess(AppealProcess appealProcess) throws Exception {
+    public AppealProcessResponse createAppealProcess(List<AppealProcess> appealProcessList, List<AppealNode> appealNodeList) throws Exception {
+        AppealProcessResponse appealProcessResponse = new AppealProcessResponse();
+        try{
+            int result = 0;
+            for (AppealProcess appealProcess:appealProcessList
+                 ) {
+                result = appealProcessMapper.insertSelective(appealProcess);
+                if(result == 0){
+                    break;
+                }
+            }
+            //申诉流程表插入成功后再插入子节点表
+            if(result > 0){
+                for (AppealNode appealNode:appealNodeList
+                ) {
+                    result = appealNodeMapper.insertSelective(appealNode);
+                    if(result == 0){
+                        break;
+                    }
+                }
+            }
+
+            if(result > 0){
+                appealProcessResponse.setRspcode(WebUtil.SUCCESS);
+                appealProcessResponse.setRspdesc("新增成功");
+            }else {
+                appealProcessResponse.setRspcode(WebUtil.FAIL);
+                appealProcessResponse.setRspdesc("新增失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("申诉流程新增异常",e);
+            appealProcessResponse.setRspcode(WebUtil.EXCEPTION);
+            appealProcessResponse.setRspdesc("申诉流程新增异常");
+        }
+        return appealProcessResponse;
+    }
+
+
+    @Override
+    public AppealProcessResponse updateAppealProcess(List<AppealProcess> appealProcesses, List<AppealNode> appealNodes) throws Exception {
         return null;
     }
 
     @Override
-    public AppealProcessResponse addSubAppealProcess(AppealProcess appealProcess) throws Exception {
-        return null;
-    }
-
-    @Override
-    public AppealProcessResponse updateAppealProcess(AppealProcess appealProcess) throws Exception {
-        return null;
-    }
-
-    @Override
-    public AppealProcessResponse deleteAppealMainProcess(List<String> idList) throws Exception {
-        return null;
-    }
-
-    @Override
-    public AppealProcessResponse deleteAppealSubProcess(String id) throws Exception {
+    public AppealProcessResponse deleteAppealProcess(List<String> processList, List<String> nodeList) throws Exception {
         return null;
     }
 }

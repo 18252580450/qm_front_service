@@ -1,5 +1,6 @@
 package com.asiainfo.qm.manage.service;
 
+import com.asiainfo.qm.manage.domain.AppealNode;
 import com.asiainfo.qm.manage.domain.AppealProcess;
 import com.asiainfo.qm.manage.vo.AppealProcessResponse;
 
@@ -19,28 +20,18 @@ public interface AppealProcessService {
     AppealProcessResponse queryAppealProcess(Map params, int start, int limit)throws Exception;
 
     /**
-     * 申诉流程(主）新增
+     * 申诉流程新增
      */
-    AppealProcessResponse createAppealProcess(AppealProcess appealProcess)throws Exception;
-
-    /**
-     * 申诉流程(子流程）新增
-     */
-    AppealProcessResponse addSubAppealProcess(AppealProcess appealProcess)throws Exception;
+    AppealProcessResponse createAppealProcess(List<AppealProcess> appealProcesses, List<AppealNode> appealNodes)throws Exception;
 
     /**
      * 申诉流程修改
      */
-    AppealProcessResponse updateAppealProcess(AppealProcess appealProcess)throws Exception;
+    AppealProcessResponse updateAppealProcess(List<AppealProcess> appealProcesses, List<AppealNode> appealNodes)throws Exception;
 
     /**
      * 申诉主流程删除
      */
-    AppealProcessResponse deleteAppealMainProcess(List<String> idList)throws Exception;
-
-    /**
-     * 申诉子流程删除
-     */
-    AppealProcessResponse deleteAppealSubProcess(String id)throws Exception;
+    AppealProcessResponse deleteAppealProcess(List<String> processList, List<String> nodeList)throws Exception;
 
 }

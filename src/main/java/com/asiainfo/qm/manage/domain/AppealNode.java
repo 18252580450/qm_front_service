@@ -9,6 +9,8 @@ public class AppealNode extends AppealNodeKey {
 
     private String nodeName;
 
+    private String userName;
+
     private String userType;
 
     private String informId;
@@ -69,6 +71,14 @@ public class AppealNode extends AppealNodeKey {
 
     public void setNodeName(String nodeName) {
         this.nodeName = nodeName == null ? null : nodeName.trim();
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
     }
 
     public String getUserType() {

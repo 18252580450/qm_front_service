@@ -8,6 +8,7 @@
     <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
     <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
     <result column="NODE_NAME" property="nodeName" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
     <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
     <result column="INFORM_ID" property="informId" jdbcType="VARCHAR" />
     <result column="INFORM_TYPE" property="informType" jdbcType="VARCHAR" />
@@ -87,10 +88,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    PROCESS_ID, NODE_ID, USER_ID, TENANT_ID, PROVINCE_ID, NODE_NAME, USER_TYPE, INFORM_ID, 
-    INFORM_TYPE, AUTH_TYPE, ORDER_NO, CREATE_TIME, CREATE_STAFF_ID, MODIFY_TIME, MODIFY_STAFF_ID, 
-    RESERVE_1, RESERVE_2, RESERVE_3, RESERVE_4, RESERVE_5, RESERVE_6, RESERVE_7, RESERVE_8, 
-    RESERVE_9, RESERVE_10
+    PROCESS_ID, NODE_ID, USER_ID, TENANT_ID, PROVINCE_ID, NODE_NAME, USER_NAME, USER_TYPE, 
+    INFORM_ID, INFORM_TYPE, AUTH_TYPE, ORDER_NO, CREATE_TIME, CREATE_STAFF_ID, MODIFY_TIME, 
+    MODIFY_STAFF_ID, RESERVE_1, RESERVE_2, RESERVE_3, RESERVE_4, RESERVE_5, RESERVE_6, 
+    RESERVE_7, RESERVE_8, RESERVE_9, RESERVE_10
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.AppealNodeExample" >
     select
@@ -129,22 +130,22 @@
   <insert id="insert" parameterType="com.asiainfo.qm.manage.domain.AppealNode" >
     insert into t_qm_appeal_node_info (PROCESS_ID, NODE_ID, USER_ID, 
       TENANT_ID, PROVINCE_ID, NODE_NAME, 
-      USER_TYPE, INFORM_ID, INFORM_TYPE, 
-      AUTH_TYPE, ORDER_NO, CREATE_TIME, 
-      CREATE_STAFF_ID, MODIFY_TIME, MODIFY_STAFF_ID, 
-      RESERVE_1, RESERVE_2, RESERVE_3, 
-      RESERVE_4, RESERVE_5, RESERVE_6, 
-      RESERVE_7, RESERVE_8, RESERVE_9, 
-      RESERVE_10)
+      USER_NAME, USER_TYPE, INFORM_ID, 
+      INFORM_TYPE, AUTH_TYPE, ORDER_NO, 
+      CREATE_TIME, CREATE_STAFF_ID, MODIFY_TIME, 
+      MODIFY_STAFF_ID, RESERVE_1, RESERVE_2, 
+      RESERVE_3, RESERVE_4, RESERVE_5, 
+      RESERVE_6, RESERVE_7, RESERVE_8, 
+      RESERVE_9, RESERVE_10)
     values (#{processId,jdbcType=VARCHAR}, #{nodeId,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, 
       #{tenantId,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, #{nodeName,jdbcType=VARCHAR}, 
-      #{userType,jdbcType=VARCHAR}, #{informId,jdbcType=VARCHAR}, #{informType,jdbcType=VARCHAR}, 
-      #{authType,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createStaffId,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifyStaffId,jdbcType=VARCHAR}, 
-      #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR}, 
-      #{reserve4,jdbcType=VARCHAR}, #{reserve5,jdbcType=VARCHAR}, #{reserve6,jdbcType=VARCHAR}, 
-      #{reserve7,jdbcType=VARCHAR}, #{reserve8,jdbcType=VARCHAR}, #{reserve9,jdbcType=VARCHAR}, 
-      #{reserve10,jdbcType=VARCHAR})
+      #{userName,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{informId,jdbcType=VARCHAR}, 
+      #{informType,jdbcType=VARCHAR}, #{authType,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createStaffId,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifyStaffId,jdbcType=VARCHAR}, #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, 
+      #{reserve3,jdbcType=VARCHAR}, #{reserve4,jdbcType=VARCHAR}, #{reserve5,jdbcType=VARCHAR}, 
+      #{reserve6,jdbcType=VARCHAR}, #{reserve7,jdbcType=VARCHAR}, #{reserve8,jdbcType=VARCHAR}, 
+      #{reserve9,jdbcType=VARCHAR}, #{reserve10,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.asiainfo.qm.manage.domain.AppealNode" >
     insert into t_qm_appeal_node_info
@@ -166,6 +167,9 @@
       </if>
       <if test="nodeName != null" >
         NODE_NAME,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
       </if>
       <if test="userType != null" >
         USER_TYPE,
@@ -243,6 +247,9 @@
       </if>
       <if test="nodeName != null" >
         #{nodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
       </if>
       <if test="userType != null" >
         #{userType,jdbcType=VARCHAR},
@@ -330,6 +337,9 @@
       <if test="record.nodeName != null" >
         NODE_NAME = #{record.nodeName,jdbcType=VARCHAR},
       </if>
+      <if test="record.userName != null" >
+        USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      </if>
       <if test="record.userType != null" >
         USER_TYPE = #{record.userType,jdbcType=VARCHAR},
       </if>
@@ -400,6 +410,7 @@
       TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
       PROVINCE_ID = #{record.provinceId,jdbcType=VARCHAR},
       NODE_NAME = #{record.nodeName,jdbcType=VARCHAR},
+      USER_NAME = #{record.userName,jdbcType=VARCHAR},
       USER_TYPE = #{record.userType,jdbcType=VARCHAR},
       INFORM_ID = #{record.informId,jdbcType=VARCHAR},
       INFORM_TYPE = #{record.informType,jdbcType=VARCHAR},
@@ -434,6 +445,9 @@
       </if>
       <if test="nodeName != null" >
         NODE_NAME = #{nodeName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
       </if>
       <if test="userType != null" >
         USER_TYPE = #{userType,jdbcType=VARCHAR},
@@ -502,6 +516,7 @@
     set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
       PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
       NODE_NAME = #{nodeName,jdbcType=VARCHAR},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
       USER_TYPE = #{userType,jdbcType=VARCHAR},
       INFORM_ID = #{informId,jdbcType=VARCHAR},
       INFORM_TYPE = #{informType,jdbcType=VARCHAR},

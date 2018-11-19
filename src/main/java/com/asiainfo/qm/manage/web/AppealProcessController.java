@@ -2,13 +2,13 @@ package com.asiainfo.qm.manage.web;
 
 import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
+import com.asiainfo.qm.manage.domain.AppealNode;
 import com.asiainfo.qm.manage.domain.AppealProcess;
 import com.asiainfo.qm.manage.service.AppealProcessService;
+import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.manage.vo.AppealProcessServiceResponse;
 import com.asiainfo.qm.manage.vo.AppealProcessResponse;
-import com.asiainfo.qm.manage.vo.AppealProcessResponse;
-import com.asiainfo.qm.manage.vo.AppealProcessServiceResponse;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -80,15 +81,66 @@ public class AppealProcessController {
             @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
             @HystrixProperty(name = "coreSize", value = "200") })
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public AppealProcessServiceResponse createAppealProcess(@RequestBody Map<String,Object> reqMap) throws Exception {
+    public AppealProcessServiceResponse createAppealProcess(@RequestBody Map<String,List<Map>> reqMap) throws Exception {
         AppealProcessResponse appealProcessResponse = new AppealProcessResponse();
         AppealProcessServiceResponse appealProcessServiceResponse = new AppealProcessServiceResponse();
-        @SuppressWarnings("unchecked")
-        ArrayList<AppealProcess> appealProcessesList = (ArrayList<AppealProcess>)reqMap.get("appealProcess");
+
+        List<Map> appealProcessList = (ArrayList<Map>)reqMap.get("appealProcess");
+        List<AppealProcess> appealProcesses = new ArrayList<AppealProcess>();
+        List<AppealNode> appealNodes = new ArrayList<AppealNode>();
+        //生成主流程id
+        String mainProcessId = String.valueOf(sequenceUtils.getSequence("t_qm_appeal_process_info"));
+        Date currentTime = DateUtil.getCurrontTime();
         try {
-//            appealProcessResponse = appealProcessService.createAppealProcess(appealProcess);
+            for (int i = 0; i < appealProcessList.size(); i++) {
+                AppealProcess appealProcess = new AppealProcess();
+                String subProcessId = String.valueOf(sequenceUtils.getSequence("t_qm_appeal_process_info"));
+                if (i == 0) {
+                    appealProcess.setProcessId(mainProcessId);
+                    appealProcess.setParentProcessId(mainProcessId);
+                } else {
+                    appealProcess.setProcessId(subProcessId);
+                    appealProcess.setParentProcessId(mainProcessId);
+                }
+                //添加子流程
+                appealProcess.setCreateTime(currentTime);
+                appealProcess.setProcessName(appealProcessList.get(i).get("processName").toString());
+                appealProcess.setTenantId(appealProcessList.get(i).get("tenantId").toString());
+                appealProcess.setDepartmentId(appealProcessList.get(i).get("departmentId").toString());
+                appealProcess.setDepartmentName(appealProcessList.get(i).get("departmentName").toString());
+                appealProcess.setCheckType(appealProcessList.get(i).get("checkType").toString());
+                appealProcess.setMainProcessFlag(appealProcessList.get(i).get("mainProcessFlag").toString());
+                appealProcess.setOrderNo(Integer.parseInt(appealProcessList.get(i).get("orderNo").toString()));
+                appealProcess.setSubProcessNum(Integer.parseInt(appealProcessList.get(i).get("subProcessNum").toString()));
+                appealProcess.setSubNodeNum(Integer.parseInt(appealProcessList.get(i).get("subNodeNum").toString()));
+
+                appealProcesses.add(appealProcess);
+
+                //添加子节点
+                @SuppressWarnings("unchecked")
+                List<Map> appealNodeList = (ArrayList<Map>) appealProcessList.get(i).get("subNodeList");
+                if (appealNodeList.size() != 0) {
+                    for (Map data : appealNodeList
+                    ) {
+                        AppealNode appealNode = new AppealNode();
+                        appealNode.setProcessId(subProcessId);
+                        appealNode.setCreateTime(currentTime);
+                        appealNode.setTenantId(data.get("tenantId").toString());
+                        appealNode.setNodeId(Integer.parseInt(data.get("nodeId").toString()));
+                        appealNode.setNodeName(data.get("nodeName").toString());
+                        appealNode.setUserId(data.get("userId").toString());
+                        appealNode.setInformId(data.get("userId").toString());
+                        appealNode.setUserName(data.get("userName").toString());
+                        appealNode.setUserType(data.get("userType").toString());
+                        appealNode.setOrderNo(Integer.parseInt(data.get("orderNo").toString()));
+
+                        appealNodes.add(appealNode);
+                    }
+                }
+            }
+            appealProcessResponse = appealProcessService.createAppealProcess(appealProcesses, appealNodes);
         }catch (Exception e){
-            logger.error("申诉流程新增异常");
+            logger.error("申诉流程新增异常", e);
             appealProcessResponse.setRspcode(WebUtil.EXCEPTION);
             appealProcessResponse.setRspdesc("申诉流程新增异常!");
         }
