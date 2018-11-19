@@ -2,9 +2,8 @@ package com.asiainfo.qm.manage.dao;
 
 import com.asiainfo.qm.manage.domain.QmPlan;
 import com.asiainfo.qm.manage.domain.QmPlanExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface QmPlanMapper {
     int countByExample(QmPlanExample example);

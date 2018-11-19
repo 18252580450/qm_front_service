@@ -168,11 +168,12 @@ public class QmPlanController {
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
 			@HystrixProperty(name = "coreSize", value = "200") })
-	@RequestMapping(value = "batchUpdate", method = RequestMethod.PUT)
-	public QmPlanServiceResponse batchUpdate(@RequestParam(name = "ids")String ids,@RequestParam(name = "halfFlag") String halfFlag) throws Exception {
+	@RequestMapping(value = "/batchUpdate", method = RequestMethod.PUT)
+	public QmPlanServiceResponse batchUpdate(@RequestBody Map params) throws Exception {
 		QmPlanResponse qmPlanResponse = new QmPlanResponse();
 		QmPlanServiceResponse qmPlanServiceResponse = new QmPlanServiceResponse();
-		List<String> idList = Arrays.asList(ids.split(","));
+		String halfFlag = (String)params.get("halfFlag");
+		List<String> idList = (List<String>)params.get("ids");
 		try {
 			qmPlanResponse = qmPlanService.batchUpdate(idList,halfFlag);
 		}catch (Exception e){
@@ -185,7 +186,7 @@ public class QmPlanController {
 		return qmPlanServiceResponse;
 	}
 
-	public QmPlanServiceResponse fallbackBatchUpdate(@RequestParam(name = "ids")String ids,@RequestParam(name = "halfFlag") int halfFlag) throws Exception {
+	public QmPlanServiceResponse fallbackBatchUpdate(@RequestBody Map params) throws Exception {
 		logger.info("批量更新考评计划出错啦！");
 		logger.error("");
 		QmPlanServiceResponse qmPlanServiceResponse = new QmPlanServiceResponse();
