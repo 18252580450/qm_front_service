@@ -184,4 +184,39 @@ public class AppealProcessServiceImpl implements AppealProcessService {
         }
         return appealProcessResponse;
     }
+
+    @Override
+    public AppealProcessResponse changeProcessStatus(List<AppealProcess> processList, String processStatus) throws Exception {
+        AppealProcessResponse appealProcessResponse = new AppealProcessResponse();
+        String rspDesc = "";
+        if (processStatus.equals("1")) {
+            rspDesc = "启动";
+        } else {
+            rspDesc = "暂停";
+        }
+        try {
+            int result = 0;
+            for (AppealProcess appealProcess : processList
+            ) {
+                appealProcess.setProcessStatus(processStatus);
+                result = appealProcessMapper.updateByPrimaryKey(appealProcess);
+                if (result == 0) {
+                    break;
+                }
+            }
+            if (result > 0) {
+                appealProcessResponse.setRspcode(WebUtil.SUCCESS);
+                appealProcessResponse.setRspdesc(rspDesc + "成功");
+            } else {
+                appealProcessResponse.setRspcode(WebUtil.FAIL);
+                appealProcessResponse.setRspdesc(rspDesc + "失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("流程状态更新异常", e);
+            appealProcessResponse.setRspcode(WebUtil.EXCEPTION);
+            appealProcessResponse.setRspdesc("流程状态更新异常");
+        }
+        return appealProcessResponse;
+    }
 }

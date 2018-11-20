@@ -34,4 +34,9 @@ public interface AppealProcessService {
      */
     AppealProcessResponse deleteAppealProcess(List<String> processList) throws Exception;
 
+    /**
+     * 主流程启动or暂停
+     */
+    AppealProcessResponse changeProcessStatus(List<AppealProcess> processList, String processStatus) throws Exception;
+
 }
