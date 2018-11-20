@@ -7,6 +7,7 @@ import com.asiainfo.qm.manage.domain.AppealProcess;
 import com.asiainfo.qm.manage.domain.AppealProcessExample;
 import com.asiainfo.qm.manage.service.AppealNodeService;
 import com.asiainfo.qm.manage.service.AppealProcessService;
+import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.manage.vo.AppealNodeResponse;
 import com.asiainfo.qm.manage.vo.AppealProcessResponse;
@@ -198,7 +199,7 @@ public class AppealProcessServiceImpl implements AppealProcessService {
             int result = 0;
             for (AppealProcess appealProcess : processList
             ) {
-                appealProcess.setProcessStatus(processStatus);
+                appealProcess.setModifyTime(DateUtil.getCurrontTime());
                 result = appealProcessMapper.updateByPrimaryKey(appealProcess);
                 if (result == 0) {
                     break;
