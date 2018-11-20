@@ -3,6 +3,7 @@ package com.asiainfo.qm.manage.service;
 import com.asiainfo.qm.manage.domain.AppealNode;
 import com.asiainfo.qm.manage.vo.AppealNodeResponse;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,20 +16,20 @@ public interface AppealNodeService {
     /**
      * 申诉节点查询
      */
-    AppealNodeResponse queryAppealNode(Map params, int start, int limit)throws Exception;
+    AppealNodeResponse queryAppealNode(Map params, int start, int limit) throws Exception;
 
     /**
      * 申诉节点新增
      */
-    AppealNodeResponse addAppealNode(AppealNode appealNode)throws Exception;
+    AppealNodeResponse addAppealNode(List<AppealNode> appealNodes) throws Exception;
 
     /**
      * 申诉节点修改
      */
-    AppealNodeResponse updateAppealNode(AppealNode appealNode)throws Exception;
+    AppealNodeResponse updateAppealNode(AppealNode appealNode) throws Exception;
 
     /**
      * 申诉节点删除
      */
-    AppealNodeResponse deleteAppealNode(Map params)throws Exception;
+    AppealNodeResponse deleteAppealNode(List<String> nodeList) throws Exception;
 }

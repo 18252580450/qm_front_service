@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.domain.AppealNode;
 import com.asiainfo.qm.manage.domain.AppealProcess;
+import com.asiainfo.qm.manage.service.AppealNodeService;
 import com.asiainfo.qm.manage.service.AppealProcessService;
 import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.WebUtil;
+import com.asiainfo.qm.manage.vo.AppealNodeResponse;
 import com.asiainfo.qm.manage.vo.AppealProcessServiceResponse;
 import com.asiainfo.qm.manage.vo.AppealProcessResponse;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -19,10 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ Author     ：dingzc.
@@ -38,26 +37,28 @@ public class AppealProcessController {
     @Autowired
     private AppealProcessService appealProcessService;
     @Autowired
+    private AppealNodeService appealNodeService;
+    @Autowired
     private SequenceUtils sequenceUtils;
 
     @ApiOperation(value = "前端调用接口查询申诉流程", notes = "qm_configservice查询申诉流程", response = AppealProcessServiceResponse.class)
-    @ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+    @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
             @ApiResponse(code = 403, message = "资源不存在"),
             @ApiResponse(code = 404, message = "传入的参数无效"),
-            @ApiResponse(code = 500, message = "服务器出现异常错误") })
-    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "queryAppealProcess", threadPoolKey = "queryAppealProcessThread", fallbackMethod = "fallbackQueryAppealProcess",commandProperties = {
+            @ApiResponse(code = 500, message = "服务器出现异常错误")})
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "queryAppealProcess", threadPoolKey = "queryAppealProcessThread", fallbackMethod = "fallbackQueryAppealProcess", commandProperties = {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
-            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
-            @HystrixProperty(name = "coreSize", value = "200") })
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200")})
     @RequestMapping(value = "/queryAppealProcess", method = RequestMethod.GET)
-    public AppealProcessServiceResponse queryAppealProcess(@RequestParam(name = "params")String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+    public AppealProcessServiceResponse queryAppealProcess(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
         AppealProcessResponse appealProcessResponse = new AppealProcessResponse();
         AppealProcessServiceResponse appealProcessServiceResponse = new AppealProcessServiceResponse();
         Map reqParams = JSONObject.parseObject(params);
         try {
-            appealProcessResponse = appealProcessService.queryAppealProcess(reqParams,start,limit);
-        }catch (Exception e){
-            logger.error("申诉流程数据查询异常");
+            appealProcessResponse = appealProcessService.queryAppealProcess(reqParams, start, limit);
+        } catch (Exception e) {
+            logger.error("申诉流程数据查询异常", e);
             appealProcessResponse.setRspcode(WebUtil.EXCEPTION);
             appealProcessResponse.setRspdesc("申诉流程数据查询异常!");
         }
@@ -65,27 +66,27 @@ public class AppealProcessController {
         return appealProcessServiceResponse;
     }
 
-    public AppealProcessServiceResponse fallbackQueryAppealProcess(@RequestParam(name = "params")String params,@RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+    public AppealProcessServiceResponse fallbackQueryAppealProcess(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
         logger.info("申诉流程数据查询出错啦！");
         logger.error("");
         return new AppealProcessServiceResponse();
     }
 
     @ApiOperation(value = "前端调用接口新增申诉流程", notes = "qm_configservice新增申诉流程", response = AppealProcessServiceResponse.class)
-    @ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+    @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
             @ApiResponse(code = 403, message = "资源不存在"),
             @ApiResponse(code = 404, message = "传入的参数无效"),
-            @ApiResponse(code = 500, message = "服务器出现异常错误") })
-    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "createAppealProcess", threadPoolKey = "createAppealProcessThread", fallbackMethod = "fallbackCreateAppealProcess",commandProperties = {
+            @ApiResponse(code = 500, message = "服务器出现异常错误")})
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "createAppealProcess", threadPoolKey = "createAppealProcessThread", fallbackMethod = "fallbackCreateAppealProcess", commandProperties = {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
-            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
-            @HystrixProperty(name = "coreSize", value = "200") })
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200")})
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public AppealProcessServiceResponse createAppealProcess(@RequestBody Map<String,List<Map>> reqMap) throws Exception {
+    public AppealProcessServiceResponse createAppealProcess(@RequestBody Map<String, List<Map>> reqMap) throws Exception {
         AppealProcessResponse appealProcessResponse = new AppealProcessResponse();
         AppealProcessServiceResponse appealProcessServiceResponse = new AppealProcessServiceResponse();
 
-        List<Map> appealProcessList = (ArrayList<Map>)reqMap.get("appealProcess");
+        List<Map> appealProcessList = (ArrayList<Map>) reqMap.get("appealProcess");
         List<AppealProcess> appealProcesses = new ArrayList<AppealProcess>();
         List<AppealNode> appealNodes = new ArrayList<AppealNode>();
         //生成主流程id
@@ -119,7 +120,7 @@ public class AppealProcessController {
                 //添加子节点
                 @SuppressWarnings("unchecked")
                 List<Map> appealNodeList = (ArrayList<Map>) appealProcessList.get(i).get("subNodeList");
-                if (appealNodeList.size() != 0) {
+                if (!appealNodeList.isEmpty()) {
                     for (Map data : appealNodeList
                     ) {
                         AppealNode appealNode = new AppealNode();
@@ -138,8 +139,20 @@ public class AppealProcessController {
                     }
                 }
             }
+            //新增流程
             appealProcessResponse = appealProcessService.createAppealProcess(appealProcesses, appealNodes);
-        }catch (Exception e){
+            //新增节点（流程新增成功之后）
+            if (appealProcessResponse.getRspcode().equals("1")) {
+                if (!appealNodes.isEmpty()) {
+                    AppealNodeResponse appealNodeResponse = appealNodeService.addAppealNode(appealNodes);
+                    //新增节点失败
+                    if (!appealNodeResponse.getRspcode().equals("1")) {
+                        appealProcessResponse.setRspcode(WebUtil.FAIL);
+                        appealProcessResponse.setRspdesc("新增失败");
+                    }
+                }
+            }
+        } catch (Exception e) {
             logger.error("申诉流程新增异常", e);
             appealProcessResponse.setRspcode(WebUtil.EXCEPTION);
             appealProcessResponse.setRspdesc("申诉流程新增异常!");
@@ -148,8 +161,39 @@ public class AppealProcessController {
         return appealProcessServiceResponse;
     }
 
-    public AppealProcessServiceResponse fallbackCreateAppealProcess(@RequestBody Map<String,Object> reqMap) throws Exception {
+    public AppealProcessServiceResponse fallbackCreateAppealProcess(@RequestBody Map<String, Object> reqMap) throws Exception {
         logger.info("申诉流程新增出错啦！");
+        logger.error("");
+        return new AppealProcessServiceResponse();
+    }
+
+    @ApiOperation(value = "前端调用接口删除主流程", notes = "qm_configservice删除主流程", response = AppealProcessServiceResponse.class)
+    @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误")})
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "deleteAppealProcess", threadPoolKey = "deleteAppealProcessThread", fallbackMethod = "fallbackDeleteAppealProcess", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200")})
+    @RequestMapping(value = "/{delArr}", method = RequestMethod.DELETE)
+    public AppealProcessServiceResponse deleteAppealProcess(@PathVariable("delArr") String delArr) throws Exception {
+        AppealProcessResponse appealProcessResponse = new AppealProcessResponse();
+        AppealProcessServiceResponse appealProcessServiceResponse = new AppealProcessServiceResponse();
+        List<String> idlList = Arrays.asList(delArr.split(","));
+        try {
+            appealProcessResponse = appealProcessService.deleteAppealProcess(idlList);
+        } catch (Exception e) {
+            logger.error("主流程数据删除异常", e);
+            appealProcessResponse.setRspcode(WebUtil.EXCEPTION);
+            appealProcessResponse.setRspdesc("主流程数据删除异常!");
+        }
+        appealProcessServiceResponse.setResponse(appealProcessResponse);
+        return appealProcessServiceResponse;
+    }
+
+    public AppealProcessServiceResponse fallbackDeleteAppealProcess(@RequestParam(name = "delArr") String delArr) throws Exception {
+        logger.info("主流程数据删除出错啦！");
         logger.error("");
         return new AppealProcessServiceResponse();
     }

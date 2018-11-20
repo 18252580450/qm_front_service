@@ -16,24 +16,24 @@ public interface CheckItemService {
     /**
      * 考评项查询
      */
-    CheckItemResponse queryCheckItem(Map params, int start, int limit)throws Exception;
+    CheckItemResponse queryCheckItem(Map params, int start, int limit) throws Exception;
 
     /**
      * 考评项新增
      */
-    CheckItemResponse createCheckItem(CheckItem checkItem)throws Exception;
+    CheckItemResponse createCheckItem(CheckItem checkItem) throws Exception;
 
     /**
      * 考评项更新
      */
-    CheckItemResponse updateCheckItem(CheckItem checkItem)throws Exception;
+    CheckItemResponse updateCheckItem(CheckItem checkItem) throws Exception;
 
     /**
      * 考评项删除
      */
-    CheckItemResponse deleteCheckItem(List<String> idList)throws Exception;
+    CheckItemResponse deleteCheckItem(List<String> idList) throws Exception;
 
-    CheckItemResponse copyCheckItem(Map params)throws  Exception;
+    CheckItemResponse copyCheckItem(Map params) throws Exception;
 
-    CheckItemResponse pasteCheckItem(Map params)throws Exception;
+    CheckItemResponse pasteCheckItem(Map params) throws Exception;
 }
