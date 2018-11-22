@@ -49,8 +49,14 @@ public class AppealProcessServiceImpl implements AppealProcessService {
         AppealProcessExample example = new AppealProcessExample();
         try {
             AppealProcessExample.Criteria criteria = example.createCriteria();
+            if (null != params.get("mainProcessFlag") && !"".equals(params.get("mainProcessFlag"))) {
+                criteria.andMainProcessFlagEqualTo((String) params.get("mainProcessFlag"));
+            }
             if (null != params.get("processId") && !"".equals(params.get("processId"))) {
                 criteria.andProcessIdEqualTo((String) params.get("processId"));
+            }
+            if (null != params.get("parentProcessId") && !"".equals(params.get("parentProcessId"))) {
+                criteria.andParentProcessIdEqualTo((String) params.get("parentProcessId"));
             }
             if (null != params.get("processName") && !"".equals(params.get("processName"))) {
                 criteria.andProcessNameLike("%" + (String) params.get("processName") + "%");
@@ -67,12 +73,17 @@ public class AppealProcessServiceImpl implements AppealProcessService {
             if (null != params.get("createTimeBegin") && !"".equals(params.get("createTimeBegin")) && null != params.get("createTimeEnd") && !"".equals(params.get("createTimeEnd"))) {
                 criteria.andCreateTimeBetween(sdf.parse((String) params.get("createTimeBegin")), sdf.parse((String) params.get("createTimeEnd")));
             }
-            //只显示主流程
-            criteria.andMainProcessFlagEqualTo("0");
-            PageHelper.offsetPage(start, limit);
-            List<AppealProcess> list = appealProcessMapper.selectByExample(example);
-            Page<AppealProcess> pagelist = (Page) list;
-            appealProcessResponse = new AppealProcessResponse(pagelist);
+
+            if(0 != limit){
+                PageHelper.offsetPage(start, limit);
+                List<AppealProcess> list = appealProcessMapper.selectByExample(example);
+                Page<AppealProcess> pagelist = (Page) list;
+                appealProcessResponse = new AppealProcessResponse(pagelist);
+            }else{
+                appealProcessResponse = new AppealProcessResponse();
+                List<AppealProcess> list = appealProcessMapper.selectByExample(example);
+                appealProcessResponse.setData(list);
+            }
 
             if (null != appealProcessResponse.getData() && appealProcessResponse.getData().size() > 0) {
                 appealProcessResponse.setRspcode(WebUtil.SUCCESS);
