@@ -68,7 +68,7 @@ public class OrdinaryCommentController {
 		return ordinaryCommentServiceResponse;
 	}
 
-	@ApiOperation(value = "前端调用接口删除考评评语数据", notes = "qm_configservice删除考评评语数据", response = OrdinaryCommentResponse.class)
+	@ApiOperation(value = "前端调用接口删除考评评语数据", notes = "qm_configservice删除考评评语数据", response = OrdinaryCommentServiceResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
 			@ApiResponse(code = 403, message = "资源不存在"),
 			@ApiResponse(code = 404, message = "传入的参数无效"),
@@ -93,7 +93,7 @@ public class OrdinaryCommentController {
 		return ordinaryCommentServiceResponse;
 	}
 
-	@ApiOperation(value = "前端调用接口修改考评评语数据", notes = "qm_configservice修改考评评语数据", response = OrdinaryCommentResponse.class)
+	@ApiOperation(value = "前端调用接口修改考评评语数据", notes = "qm_configservice修改考评评语数据", response = OrdinaryCommentServiceResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
 			@ApiResponse(code = 403, message = "资源不存在"),
 			@ApiResponse(code = 404, message = "传入的参数无效"),

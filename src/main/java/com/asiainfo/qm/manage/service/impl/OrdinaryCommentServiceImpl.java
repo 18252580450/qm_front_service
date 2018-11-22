@@ -42,7 +42,7 @@ public class OrdinaryCommentServiceImpl implements OrdinaryCommentService {
 		OrdinaryCommentExample example = new OrdinaryCommentExample();
 		try {
 			OrdinaryCommentExample.Criteria criteria= example.createCriteria();//在运行时动态生成查询语句
-			criteria.andTenantIdEqualTo((String) params.get("tenantId"));
+//			criteria.andTenantIdEqualTo((String) params.get("tenantId"));
 			if(null != params.get("parentCommentId")&& !"".equals(params.get("parentCommentId"))){
 				example.createCriteria().andParentCommentIdEqualTo((String) params.get("parentCommentId"));
 			}
