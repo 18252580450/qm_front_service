@@ -22,17 +22,22 @@ public interface AppealProcessService {
     /**
      * 申诉流程新增
      */
-    AppealProcessResponse createAppealProcess(List<AppealProcess> appealProcesses, List<AppealNode> appealNodes) throws Exception;
+    AppealProcessResponse addAppealProcess(List<AppealProcess> appealProcesses) throws Exception;
 
     /**
      * 申诉流程修改
      */
-    AppealProcessResponse updateAppealProcess(List<AppealProcess> appealProcesses, List<AppealNode> appealNodes) throws Exception;
+    AppealProcessResponse updateAppealProcess(List<AppealProcess> appealProcesses) throws Exception;
 
     /**
      * 申诉主流程删除
      */
-    AppealProcessResponse deleteAppealProcess(List<String> processList) throws Exception;
+    AppealProcessResponse deleteMainProcess(List<String> processList) throws Exception;
+
+    /**
+     * 申诉子流程删除
+     */
+    AppealProcessResponse deleteSubProcess(List<AppealProcess> processList) throws Exception;
 
     /**
      * 主流程启动or暂停

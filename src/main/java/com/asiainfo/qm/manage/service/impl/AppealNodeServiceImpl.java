@@ -39,12 +39,12 @@ public class AppealNodeServiceImpl implements AppealNodeService {
                 criteria.andProcessIdEqualTo((String) params.get("processId"));
             }
 
-            if(0 != limit){
+            if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
                 List<AppealNode> list = appealNodeMapper.selectByExample(example);
                 Page<AppealNode> pagelist = (Page) list;
                 appealNodeResponse = new AppealNodeResponse(pagelist);
-            }else{
+            } else {
                 appealNodeResponse = new AppealNodeResponse();
                 List<AppealNode> list = appealNodeMapper.selectByExample(example);
                 appealNodeResponse.setData(list);
@@ -69,7 +69,7 @@ public class AppealNodeServiceImpl implements AppealNodeService {
     @Override
     public AppealNodeResponse addAppealNode(List<AppealNode> appealNodeList) throws Exception {
         AppealNodeResponse appealNodeResponse = new AppealNodeResponse();
-        try{
+        try {
             int result = 0;
             for (AppealNode appealNode : appealNodeList
             ) {
@@ -78,16 +78,16 @@ public class AppealNodeServiceImpl implements AppealNodeService {
                     break;
                 }
             }
-            if(result > 0){
+            if (result > 0) {
                 appealNodeResponse.setRspcode(WebUtil.SUCCESS);
                 appealNodeResponse.setRspdesc("节点新增成功");
-            }else {
+            } else {
                 appealNodeResponse.setRspcode(WebUtil.FAIL);
                 appealNodeResponse.setRspdesc("节点新增失败");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            logger.error("申诉节点新增异常",e);
+            logger.error("申诉节点新增异常", e);
             appealNodeResponse.setRspcode(WebUtil.EXCEPTION);
             appealNodeResponse.setRspdesc("申诉节点新增异常");
         }
@@ -95,30 +95,72 @@ public class AppealNodeServiceImpl implements AppealNodeService {
     }
 
     @Override
-    public AppealNodeResponse updateAppealNode(AppealNode appealNode) throws Exception {
-        return null;
+    public AppealNodeResponse updateAppealNode(List<AppealNode> appealNodes) throws Exception {
+        AppealNodeResponse appealNodeResponse = new AppealNodeResponse();
+        try {
+            int result = 0;
+            for (AppealNode appealNode : appealNodes
+            ) {
+                result = appealNodeMapper.updateByPrimaryKeySelective(appealNode);
+                if (result == 0) {
+                    break;
+                }
+            }
+            if (result > 0) {
+                appealNodeResponse.setRspcode(WebUtil.SUCCESS);
+                appealNodeResponse.setRspdesc("子节点更新成功");
+            } else {
+                appealNodeResponse.setRspcode(WebUtil.FAIL);
+                appealNodeResponse.setRspdesc("子节点更新失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("子节点更新异常", e);
+            appealNodeResponse.setRspcode(WebUtil.EXCEPTION);
+            appealNodeResponse.setRspdesc("子节点更新异常");
+        }
+        return appealNodeResponse;
     }
 
     @Override
-    public AppealNodeResponse deleteAppealNode(List<String> nodeList) throws Exception {
+    public AppealNodeResponse deleteAppealNode(List<String> processIdList, List<AppealNode> appealNodes) throws Exception {
         AppealNodeResponse appealNodeResponse = new AppealNodeResponse();
         try {
-            AppealNodeExample example = new AppealNodeExample();
-            AppealNodeExample.Criteria criteria= example.createCriteria();
-            //删除子节点
-            criteria.andProcessIdIn(nodeList);
-            int result = appealNodeMapper.deleteByExample(example);
+            int result = 0;
 
-            if(result > 0){
+            //根据父流程Id删除子节点
+            if (processIdList != null && !processIdList.isEmpty()) {
+                AppealNodeExample example = new AppealNodeExample();
+                AppealNodeExample.Criteria criteria = example.createCriteria();
+                criteria.andProcessIdIn(processIdList);
+                result = appealNodeMapper.deleteByExample(example);
+            }
+            if (appealNodes != null && !appealNodes.isEmpty()) {
+                for (AppealNode appealNode : appealNodes
+                ) {
+                    AppealNodeExample example = new AppealNodeExample();
+                    AppealNodeExample.Criteria criteria = example.createCriteria();
+//                    criteria = example.createCriteria();
+                    criteria.andProcessIdEqualTo(appealNode.getProcessId());
+                    criteria.andNodeIdEqualTo(appealNode.getNodeId());
+                    criteria.andUserIdEqualTo(appealNode.getUserId());
+
+                    result = appealNodeMapper.deleteByExample(example);
+                    if (result == 0) {
+                        break;
+                    }
+                }
+            }
+            if (result > 0) {
                 appealNodeResponse.setRspcode(WebUtil.SUCCESS);
                 appealNodeResponse.setRspdesc("删除成功");
-            }else {
+            } else {
                 appealNodeResponse.setRspcode(WebUtil.FAIL);
                 appealNodeResponse.setRspdesc("删除失败");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            logger.error("子节点删除异常",e);
+            logger.error("子节点删除异常", e);
             appealNodeResponse.setRspcode(WebUtil.EXCEPTION);
             appealNodeResponse.setRspdesc("子节点删除异常");
         }

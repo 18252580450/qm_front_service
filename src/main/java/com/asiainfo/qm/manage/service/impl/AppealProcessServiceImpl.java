@@ -74,12 +74,12 @@ public class AppealProcessServiceImpl implements AppealProcessService {
                 criteria.andCreateTimeBetween(sdf.parse((String) params.get("createTimeBegin")), sdf.parse((String) params.get("createTimeEnd")));
             }
 
-            if(0 != limit){
+            if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
                 List<AppealProcess> list = appealProcessMapper.selectByExample(example);
                 Page<AppealProcess> pagelist = (Page) list;
                 appealProcessResponse = new AppealProcessResponse(pagelist);
-            }else{
+            } else {
                 appealProcessResponse = new AppealProcessResponse();
                 List<AppealProcess> list = appealProcessMapper.selectByExample(example);
                 appealProcessResponse.setData(list);
@@ -102,7 +102,7 @@ public class AppealProcessServiceImpl implements AppealProcessService {
     }
 
     @Override
-    public AppealProcessResponse createAppealProcess(List<AppealProcess> appealProcessList, List<AppealNode> appealNodeList) throws Exception {
+    public AppealProcessResponse addAppealProcess(List<AppealProcess> appealProcessList) throws Exception {
         AppealProcessResponse appealProcessResponse = new AppealProcessResponse();
         try {
             int result = 0;
@@ -131,12 +131,35 @@ public class AppealProcessServiceImpl implements AppealProcessService {
 
 
     @Override
-    public AppealProcessResponse updateAppealProcess(List<AppealProcess> appealProcesses, List<AppealNode> appealNodes) throws Exception {
-        return null;
+    public AppealProcessResponse updateAppealProcess(List<AppealProcess> appealProcesses) throws Exception {
+        AppealProcessResponse appealProcessResponse = new AppealProcessResponse();
+        try {
+            int result = 0;
+            for (AppealProcess appealProcess : appealProcesses
+            ) {
+                result = appealProcessMapper.updateByPrimaryKeySelective(appealProcess);
+                if (result == 0) {
+                    break;
+                }
+            }
+            if (result > 0) {
+                appealProcessResponse.setRspcode(WebUtil.SUCCESS);
+                appealProcessResponse.setRspdesc("子流程更新成功");
+            } else {
+                appealProcessResponse.setRspcode(WebUtil.FAIL);
+                appealProcessResponse.setRspdesc("子流程更新失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("子流程更新异常", e);
+            appealProcessResponse.setRspcode(WebUtil.EXCEPTION);
+            appealProcessResponse.setRspdesc("子流程更新异常");
+        }
+        return appealProcessResponse;
     }
 
     @Override
-    public AppealProcessResponse deleteAppealProcess(List<String> processList) throws Exception {
+    public AppealProcessResponse deleteMainProcess(List<String> processList) throws Exception {
         AppealProcessResponse appealProcessResponse = new AppealProcessResponse();
         try {
             AppealProcessExample mainProcessExample = new AppealProcessExample();
@@ -162,11 +185,11 @@ public class AppealProcessServiceImpl implements AppealProcessService {
             //删除子节点
             AppealNodeResponse appealNodeResponse = new AppealNodeResponse();
             if (!nodeDelList.isEmpty()) {
-                appealNodeResponse = appealNodeService.deleteAppealNode(nodeDelList);
+                appealNodeResponse = appealNodeService.deleteAppealNode(nodeDelList, null);
             }
 
             //子节点删除成功后再删除子流程（或无子节点）
-            if (nodeDelList.isEmpty() || appealNodeResponse.getRspcode().equals("1")) {
+            if (nodeDelList.isEmpty() || appealNodeResponse.getRspcode().equals(WebUtil.SUCCESS)) {
                 //删除子流程（存在子流程）
                 if (!subProcessList.isEmpty()) {
                     result = appealProcessMapper.deleteByExample(subProcessExample);
@@ -193,6 +216,52 @@ public class AppealProcessServiceImpl implements AppealProcessService {
             logger.error("主流程删除异常", e);
             appealProcessResponse.setRspcode(WebUtil.EXCEPTION);
             appealProcessResponse.setRspdesc("主流程删除异常");
+        }
+        return appealProcessResponse;
+    }
+
+    @Override
+    public AppealProcessResponse deleteSubProcess(List<AppealProcess> processList) throws Exception {
+        AppealProcessResponse appealProcessResponse = new AppealProcessResponse();
+        try {
+            AppealProcessExample subProcessExample = new AppealProcessExample();
+            AppealProcessExample.Criteria subProcessCriteria = subProcessExample.createCriteria();
+            int result = 0;
+            List<String> nodeDelList = new ArrayList<>();
+            List<String> processDelList = new ArrayList<>();
+
+            for (AppealProcess subProcess : processList
+            ) {
+                //判断该子流程有无子节点
+                if (subProcess.getSubNodeNum() != 0) {
+                    nodeDelList.add(subProcess.getProcessId());
+                }
+                processDelList.add(subProcess.getProcessId());
+            }
+            //删除子节点
+            AppealNodeResponse appealNodeResponse = new AppealNodeResponse();
+            if (!nodeDelList.isEmpty()) {
+                appealNodeResponse = appealNodeService.deleteAppealNode(nodeDelList, null);
+            }
+
+            //子节点删除成功后再删除子流程（或无子节点）
+            if (nodeDelList.isEmpty() || appealNodeResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                //删除子流程
+                subProcessCriteria.andProcessIdIn(processDelList);
+                result = appealProcessMapper.deleteByExample(subProcessExample);
+            }
+            if (result > 0) {
+                appealProcessResponse.setRspcode(WebUtil.SUCCESS);
+                appealProcessResponse.setRspdesc("子流程删除成功");
+            } else {
+                appealProcessResponse.setRspcode(WebUtil.FAIL);
+                appealProcessResponse.setRspdesc("子流程删除失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("子流程删除异常", e);
+            appealProcessResponse.setRspcode(WebUtil.EXCEPTION);
+            appealProcessResponse.setRspdesc("子流程删除异常");
         }
         return appealProcessResponse;
     }

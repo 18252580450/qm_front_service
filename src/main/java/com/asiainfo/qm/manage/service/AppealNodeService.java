@@ -26,10 +26,13 @@ public interface AppealNodeService {
     /**
      * 申诉节点修改
      */
-    AppealNodeResponse updateAppealNode(AppealNode appealNode) throws Exception;
+    AppealNodeResponse updateAppealNode(List<AppealNode> appealNodes) throws Exception;
 
     /**
      * 申诉节点删除
+     *
+     * processIdList - 子节点的父流程id
+     * appealNodes - 子节点列表（根据processId、nodeId、userId删除子节点）
      */
-    AppealNodeResponse deleteAppealNode(List<String> nodeList) throws Exception;
+    AppealNodeResponse deleteAppealNode(List<String> processIdList, List<AppealNode> appealNodes) throws Exception;
 }
