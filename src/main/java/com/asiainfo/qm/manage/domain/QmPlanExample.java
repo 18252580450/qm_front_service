@@ -2,6 +2,7 @@ package com.asiainfo.qm.manage.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class QmPlanExample {
@@ -103,6 +104,32 @@ public class QmPlanExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCTime(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Time(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCTime(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Time> timeList = new ArrayList<java.sql.Time>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                timeList.add(new java.sql.Time(iter.next().getTime()));
+            }
+            addCriterion(condition, timeList, property);
+        }
+
+        protected void addCriterionForJDBCTime(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Time(value1.getTime()), new java.sql.Time(value2.getTime()), property);
         }
 
         public Criteria andPlanIdIsNull() {
@@ -765,126 +792,6 @@ public class QmPlanExample {
             return (Criteria) this;
         }
 
-        public Criteria andBeginTimeIsNull() {
-            addCriterion("BEGIN_TIME is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBeginTimeIsNotNull() {
-            addCriterion("BEGIN_TIME is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBeginTimeEqualTo(Date value) {
-            addCriterion("BEGIN_TIME =", value, "beginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andBeginTimeNotEqualTo(Date value) {
-            addCriterion("BEGIN_TIME <>", value, "beginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andBeginTimeGreaterThan(Date value) {
-            addCriterion("BEGIN_TIME >", value, "beginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andBeginTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("BEGIN_TIME >=", value, "beginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andBeginTimeLessThan(Date value) {
-            addCriterion("BEGIN_TIME <", value, "beginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andBeginTimeLessThanOrEqualTo(Date value) {
-            addCriterion("BEGIN_TIME <=", value, "beginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andBeginTimeIn(List<Date> values) {
-            addCriterion("BEGIN_TIME in", values, "beginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andBeginTimeNotIn(List<Date> values) {
-            addCriterion("BEGIN_TIME not in", values, "beginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andBeginTimeBetween(Date value1, Date value2) {
-            addCriterion("BEGIN_TIME between", value1, value2, "beginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andBeginTimeNotBetween(Date value1, Date value2) {
-            addCriterion("BEGIN_TIME not between", value1, value2, "beginTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeIsNull() {
-            addCriterion("END_TIME is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeIsNotNull() {
-            addCriterion("END_TIME is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeEqualTo(Date value) {
-            addCriterion("END_TIME =", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeNotEqualTo(Date value) {
-            addCriterion("END_TIME <>", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeGreaterThan(Date value) {
-            addCriterion("END_TIME >", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("END_TIME >=", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeLessThan(Date value) {
-            addCriterion("END_TIME <", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeLessThanOrEqualTo(Date value) {
-            addCriterion("END_TIME <=", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeIn(List<Date> values) {
-            addCriterion("END_TIME in", values, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeNotIn(List<Date> values) {
-            addCriterion("END_TIME not in", values, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeBetween(Date value1, Date value2) {
-            addCriterion("END_TIME between", value1, value2, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeNotBetween(Date value1, Date value2) {
-            addCriterion("END_TIME not between", value1, value2, "endTime");
-            return (Criteria) this;
-        }
-
         public Criteria andPlanTypeIsNull() {
             addCriterion("PLAN_TYPE is null");
             return (Criteria) this;
@@ -1095,123 +1002,143 @@ public class QmPlanExample {
             return (Criteria) this;
         }
 
-        public Criteria andRecommendFlagIsNull() {
-            addCriterion("RECOMMEND_FLAG is null");
+        public Criteria andPNameIsNull() {
+            addCriterion("P_NAME is null");
             return (Criteria) this;
         }
 
-        public Criteria andRecommendFlagIsNotNull() {
-            addCriterion("RECOMMEND_FLAG is not null");
+        public Criteria andPNameIsNotNull() {
+            addCriterion("P_NAME is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRecommendFlagEqualTo(Byte value) {
-            addCriterion("RECOMMEND_FLAG =", value, "recommendFlag");
+        public Criteria andPNameEqualTo(String value) {
+            addCriterion("P_NAME =", value, "pName");
             return (Criteria) this;
         }
 
-        public Criteria andRecommendFlagNotEqualTo(Byte value) {
-            addCriterion("RECOMMEND_FLAG <>", value, "recommendFlag");
+        public Criteria andPNameNotEqualTo(String value) {
+            addCriterion("P_NAME <>", value, "pName");
             return (Criteria) this;
         }
 
-        public Criteria andRecommendFlagGreaterThan(Byte value) {
-            addCriterion("RECOMMEND_FLAG >", value, "recommendFlag");
+        public Criteria andPNameGreaterThan(String value) {
+            addCriterion("P_NAME >", value, "pName");
             return (Criteria) this;
         }
 
-        public Criteria andRecommendFlagGreaterThanOrEqualTo(Byte value) {
-            addCriterion("RECOMMEND_FLAG >=", value, "recommendFlag");
+        public Criteria andPNameGreaterThanOrEqualTo(String value) {
+            addCriterion("P_NAME >=", value, "pName");
             return (Criteria) this;
         }
 
-        public Criteria andRecommendFlagLessThan(Byte value) {
-            addCriterion("RECOMMEND_FLAG <", value, "recommendFlag");
+        public Criteria andPNameLessThan(String value) {
+            addCriterion("P_NAME <", value, "pName");
             return (Criteria) this;
         }
 
-        public Criteria andRecommendFlagLessThanOrEqualTo(Byte value) {
-            addCriterion("RECOMMEND_FLAG <=", value, "recommendFlag");
+        public Criteria andPNameLessThanOrEqualTo(String value) {
+            addCriterion("P_NAME <=", value, "pName");
             return (Criteria) this;
         }
 
-        public Criteria andRecommendFlagIn(List<Byte> values) {
-            addCriterion("RECOMMEND_FLAG in", values, "recommendFlag");
+        public Criteria andPNameLike(String value) {
+            addCriterion("P_NAME like", value, "pName");
             return (Criteria) this;
         }
 
-        public Criteria andRecommendFlagNotIn(List<Byte> values) {
-            addCriterion("RECOMMEND_FLAG not in", values, "recommendFlag");
+        public Criteria andPNameNotLike(String value) {
+            addCriterion("P_NAME not like", value, "pName");
             return (Criteria) this;
         }
 
-        public Criteria andRecommendFlagBetween(Byte value1, Byte value2) {
-            addCriterion("RECOMMEND_FLAG between", value1, value2, "recommendFlag");
+        public Criteria andPNameIn(List<String> values) {
+            addCriterion("P_NAME in", values, "pName");
             return (Criteria) this;
         }
 
-        public Criteria andRecommendFlagNotBetween(Byte value1, Byte value2) {
-            addCriterion("RECOMMEND_FLAG not between", value1, value2, "recommendFlag");
+        public Criteria andPNameNotIn(List<String> values) {
+            addCriterion("P_NAME not in", values, "pName");
             return (Criteria) this;
         }
 
-        public Criteria andAddFlagIsNull() {
-            addCriterion("ADD_FLAG is null");
+        public Criteria andPNameBetween(String value1, String value2) {
+            addCriterion("P_NAME between", value1, value2, "pName");
             return (Criteria) this;
         }
 
-        public Criteria andAddFlagIsNotNull() {
-            addCriterion("ADD_FLAG is not null");
+        public Criteria andPNameNotBetween(String value1, String value2) {
+            addCriterion("P_NAME not between", value1, value2, "pName");
             return (Criteria) this;
         }
 
-        public Criteria andAddFlagEqualTo(Byte value) {
-            addCriterion("ADD_FLAG =", value, "addFlag");
+        public Criteria andPIdIsNull() {
+            addCriterion("P_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andAddFlagNotEqualTo(Byte value) {
-            addCriterion("ADD_FLAG <>", value, "addFlag");
+        public Criteria andPIdIsNotNull() {
+            addCriterion("P_ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAddFlagGreaterThan(Byte value) {
-            addCriterion("ADD_FLAG >", value, "addFlag");
+        public Criteria andPIdEqualTo(String value) {
+            addCriterion("P_ID =", value, "pId");
             return (Criteria) this;
         }
 
-        public Criteria andAddFlagGreaterThanOrEqualTo(Byte value) {
-            addCriterion("ADD_FLAG >=", value, "addFlag");
+        public Criteria andPIdNotEqualTo(String value) {
+            addCriterion("P_ID <>", value, "pId");
             return (Criteria) this;
         }
 
-        public Criteria andAddFlagLessThan(Byte value) {
-            addCriterion("ADD_FLAG <", value, "addFlag");
+        public Criteria andPIdGreaterThan(String value) {
+            addCriterion("P_ID >", value, "pId");
             return (Criteria) this;
         }
 
-        public Criteria andAddFlagLessThanOrEqualTo(Byte value) {
-            addCriterion("ADD_FLAG <=", value, "addFlag");
+        public Criteria andPIdGreaterThanOrEqualTo(String value) {
+            addCriterion("P_ID >=", value, "pId");
             return (Criteria) this;
         }
 
-        public Criteria andAddFlagIn(List<Byte> values) {
-            addCriterion("ADD_FLAG in", values, "addFlag");
+        public Criteria andPIdLessThan(String value) {
+            addCriterion("P_ID <", value, "pId");
             return (Criteria) this;
         }
 
-        public Criteria andAddFlagNotIn(List<Byte> values) {
-            addCriterion("ADD_FLAG not in", values, "addFlag");
+        public Criteria andPIdLessThanOrEqualTo(String value) {
+            addCriterion("P_ID <=", value, "pId");
             return (Criteria) this;
         }
 
-        public Criteria andAddFlagBetween(Byte value1, Byte value2) {
-            addCriterion("ADD_FLAG between", value1, value2, "addFlag");
+        public Criteria andPIdLike(String value) {
+            addCriterion("P_ID like", value, "pId");
             return (Criteria) this;
         }
 
-        public Criteria andAddFlagNotBetween(Byte value1, Byte value2) {
-            addCriterion("ADD_FLAG not between", value1, value2, "addFlag");
+        public Criteria andPIdNotLike(String value) {
+            addCriterion("P_ID not like", value, "pId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdIn(List<String> values) {
+            addCriterion("P_ID in", values, "pId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdNotIn(List<String> values) {
+            addCriterion("P_ID not in", values, "pId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdBetween(String value1, String value2) {
+            addCriterion("P_ID between", value1, value2, "pId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPIdNotBetween(String value1, String value2) {
+            addCriterion("P_ID not between", value1, value2, "pId");
             return (Criteria) this;
         }
 
@@ -1742,6 +1669,136 @@ public class QmPlanExample {
 
         public Criteria andExtractCountNotBetween(Integer value1, Integer value2) {
             addCriterion("EXTRACT_COUNT not between", value1, value2, "extractCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntimeIsNull() {
+            addCriterion("PLAN_RUNTIME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntimeIsNotNull() {
+            addCriterion("PLAN_RUNTIME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntimeEqualTo(Date value) {
+            addCriterionForJDBCTime("PLAN_RUNTIME =", value, "planRuntime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntimeNotEqualTo(Date value) {
+            addCriterionForJDBCTime("PLAN_RUNTIME <>", value, "planRuntime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntimeGreaterThan(Date value) {
+            addCriterionForJDBCTime("PLAN_RUNTIME >", value, "planRuntime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCTime("PLAN_RUNTIME >=", value, "planRuntime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntimeLessThan(Date value) {
+            addCriterionForJDBCTime("PLAN_RUNTIME <", value, "planRuntime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCTime("PLAN_RUNTIME <=", value, "planRuntime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntimeIn(List<Date> values) {
+            addCriterionForJDBCTime("PLAN_RUNTIME in", values, "planRuntime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntimeNotIn(List<Date> values) {
+            addCriterionForJDBCTime("PLAN_RUNTIME not in", values, "planRuntime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCTime("PLAN_RUNTIME between", value1, value2, "planRuntime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCTime("PLAN_RUNTIME not between", value1, value2, "planRuntime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntypeIsNull() {
+            addCriterion("PLAN_RUNTYPE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntypeIsNotNull() {
+            addCriterion("PLAN_RUNTYPE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntypeEqualTo(String value) {
+            addCriterion("PLAN_RUNTYPE =", value, "planRuntype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntypeNotEqualTo(String value) {
+            addCriterion("PLAN_RUNTYPE <>", value, "planRuntype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntypeGreaterThan(String value) {
+            addCriterion("PLAN_RUNTYPE >", value, "planRuntype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntypeGreaterThanOrEqualTo(String value) {
+            addCriterion("PLAN_RUNTYPE >=", value, "planRuntype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntypeLessThan(String value) {
+            addCriterion("PLAN_RUNTYPE <", value, "planRuntype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntypeLessThanOrEqualTo(String value) {
+            addCriterion("PLAN_RUNTYPE <=", value, "planRuntype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntypeLike(String value) {
+            addCriterion("PLAN_RUNTYPE like", value, "planRuntype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntypeNotLike(String value) {
+            addCriterion("PLAN_RUNTYPE not like", value, "planRuntype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntypeIn(List<String> values) {
+            addCriterion("PLAN_RUNTYPE in", values, "planRuntype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntypeNotIn(List<String> values) {
+            addCriterion("PLAN_RUNTYPE not in", values, "planRuntype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntypeBetween(String value1, String value2) {
+            addCriterion("PLAN_RUNTYPE between", value1, value2, "planRuntype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanRuntypeNotBetween(String value1, String value2) {
+            addCriterion("PLAN_RUNTYPE not between", value1, value2, "planRuntype");
             return (Criteria) this;
         }
     }

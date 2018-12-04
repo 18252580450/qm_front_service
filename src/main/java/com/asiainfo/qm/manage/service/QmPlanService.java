@@ -17,5 +17,7 @@ public interface QmPlanService {
 	QmPlanResponse updateQmPlan(QmPlan qmPlan)throws Exception;
 
 	QmPlanResponse batchUpdate(List<String> ids, String halfFlag)throws Exception;
+
+	QmPlanResponse getPlanById(String id)throws Exception;
 }
 	

@@ -23,19 +23,15 @@ public class QmPlan {
 
     private Date planEndtime;
 
-    private Date beginTime;
-
-    private Date endTime;
-
     private String planType;
 
     private String templateName;
 
     private String templateId;
 
-    private Byte recommendFlag;
+    private String pName;
 
-    private Byte addFlag;
+    private String pId;
 
     private String manOrAuto;
 
@@ -52,6 +48,10 @@ public class QmPlan {
     private Integer planCount;
 
     private Integer extractCount;
+
+    private Date planRuntime;
+
+    private String planRuntype;
 
     public String getPlanId() {
         return planId;
@@ -133,22 +133,6 @@ public class QmPlan {
         this.planEndtime = planEndtime;
     }
 
-    public Date getBeginTime() {
-        return beginTime;
-    }
-
-    public void setBeginTime(Date beginTime) {
-        this.beginTime = beginTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
     public String getPlanType() {
         return planType;
     }
@@ -173,20 +157,20 @@ public class QmPlan {
         this.templateId = templateId == null ? null : templateId.trim();
     }
 
-    public Byte getRecommendFlag() {
-        return recommendFlag;
+    public String getpName() {
+        return pName;
     }
 
-    public void setRecommendFlag(Byte recommendFlag) {
-        this.recommendFlag = recommendFlag;
+    public void setpName(String pName) {
+        this.pName = pName == null ? null : pName.trim();
     }
 
-    public Byte getAddFlag() {
-        return addFlag;
+    public String getpId() {
+        return pId;
     }
 
-    public void setAddFlag(Byte addFlag) {
-        this.addFlag = addFlag;
+    public void setpId(String pId) {
+        this.pId = pId == null ? null : pId.trim();
     }
 
     public String getManOrAuto() {
@@ -251,5 +235,20 @@ public class QmPlan {
 
     public void setExtractCount(Integer extractCount) {
         this.extractCount = extractCount;
+    }
+
+    public Date getPlanRuntime() {
+        return planRuntime;
+    }
+    public void setPlanRuntime(Date planRuntime) {
+        this.planRuntime = planRuntime;
+    }
+
+    public String getPlanRuntype() {
+        return planRuntype;
+    }
+
+    public void setPlanRuntype(String planRuntype) {
+        this.planRuntype = planRuntype == null ? null : planRuntype.trim();
     }
 }

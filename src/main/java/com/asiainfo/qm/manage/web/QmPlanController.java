@@ -9,6 +9,7 @@ import com.asiainfo.qm.manage.vo.QmPlanServiceResponse;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
@@ -105,11 +106,12 @@ public class QmPlanController {
 			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
 			@HystrixProperty(name = "coreSize", value = "200") })
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public QmPlanServiceResponse addQmPlan(@RequestBody QmPlan qmPlan) throws Exception {
+	public QmPlanServiceResponse addQmPlan(@RequestBody String qmPlan) throws Exception {
 		QmPlanResponse qmPlanResponse = new QmPlanResponse();
 		QmPlanServiceResponse qmPlanServiceResponse = new QmPlanServiceResponse();
 		try {
-			qmPlanResponse = qmPlanService.addQmPlan(qmPlan);
+			QmPlan qmPlanBean = JSONObject.parseObject(qmPlan,QmPlan.class);
+			qmPlanResponse = qmPlanService.addQmPlan(qmPlanBean);
 		}catch (Exception e){
 			e.printStackTrace();
 			logger.error("新增考评计划异常");
@@ -120,7 +122,7 @@ public class QmPlanController {
 		return qmPlanServiceResponse;
 	}
 
-	public QmPlanServiceResponse fallbackAddQmPlan(@RequestBody QmPlan qmPlan) throws Exception {
+	public QmPlanServiceResponse fallbackAddQmPlan(@RequestBody String  qmPlan) throws Exception {
 		logger.info("新增考评计划出错啦！");
 		logger.error("");
 		QmPlanServiceResponse qmPlanServiceResponse = new QmPlanServiceResponse();
@@ -137,11 +139,12 @@ public class QmPlanController {
 			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
 			@HystrixProperty(name = "coreSize", value = "200") })
 	@RequestMapping(value = "/", method = RequestMethod.PUT, consumes = "application/json")
-	public QmPlanServiceResponse updateQmPlan(@RequestBody QmPlan qmPlan) throws Exception {
+	public QmPlanServiceResponse updateQmPlan(@RequestBody String qmPlan) throws Exception {
 		QmPlanResponse qmPlanResponse = new QmPlanResponse();
 		QmPlanServiceResponse qmPlanServiceResponse = new QmPlanServiceResponse();
 		try {
-			qmPlanResponse = qmPlanService.updateQmPlan(qmPlan);
+			QmPlan qmPlanBean = JSONObject.parseObject(qmPlan,QmPlan.class);
+			qmPlanResponse = qmPlanService.updateQmPlan(qmPlanBean);
 		}catch (Exception e){
 			e.printStackTrace();
 			logger.error("更新考评计划异常");
@@ -152,7 +155,7 @@ public class QmPlanController {
 		return qmPlanServiceResponse;
 	}
 
-	public QmPlanServiceResponse fallbackUpdateQmPlan(@RequestBody QmPlan qmPlan) throws Exception {
+	public QmPlanServiceResponse fallbackUpdateQmPlan(@RequestBody String qmPlan) throws Exception {
 		logger.info("更新考评计划出错啦！");
 		logger.error("");
 		QmPlanServiceResponse qmPlanServiceResponse = new QmPlanServiceResponse();
@@ -191,5 +194,36 @@ public class QmPlanController {
 		logger.error("");
 		QmPlanServiceResponse qmPlanServiceResponse = new QmPlanServiceResponse();
 		return qmPlanServiceResponse;
+	}
+
+	@ApiOperation(value = "根据ID查询考评计划", notes = "qm_configservice根据ID查询考评计划", response = QmPlanServiceResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+			@ApiResponse(code = 403, message = "资源不存在"),
+			@ApiResponse(code = 404, message = "传入的参数无效"),
+			@ApiResponse(code = 500, message = "服务器出现异常错误") })
+	@HystrixCommand(groupKey = "qm_configservice", commandKey = "updateQmPlan", threadPoolKey = "getPlanByIdThread",fallbackMethod = "fallbackGetPlanById", commandProperties = {
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
+			@HystrixProperty(name = "coreSize", value = "200") })
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public QmPlanServiceResponse getPlanById(@ApiParam(value = "计划ID", required = true) @PathVariable("id") String id) throws Exception {
+		QmPlanServiceResponse qmPlanServiceResponse = new QmPlanServiceResponse();
+		QmPlanResponse qmPlanResponse = new QmPlanResponse();
+		try {
+			qmPlanResponse = qmPlanService.getPlanById(id);
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error("根据ID查询考评计划异常");
+			qmPlanResponse.setRspcode(WebUtil.EXCEPTION);
+			qmPlanResponse.setRspdesc("批根据ID查询考评计划异常!");
+		}
+		qmPlanServiceResponse.setResponse(qmPlanResponse);
+		return qmPlanServiceResponse;
+	}
+
+	// 降级处理的函数
+	public QmPlanServiceResponse fallbackGetPlanById(String id) {
+		QmPlanServiceResponse serviceResponse = new QmPlanServiceResponse();
+		return serviceResponse;
 	}
 }

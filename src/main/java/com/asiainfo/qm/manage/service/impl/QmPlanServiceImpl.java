@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -191,5 +192,26 @@ public class QmPlanServiceImpl implements QmPlanService {
 		return  qmPlanResponse;
 	}
 
+	@Override
+	public QmPlanResponse getPlanById(String id) throws Exception {
+		QmPlanResponse qmPlanResponse = new QmPlanResponse();
+
+		try {
+			QmPlan qmPlan = qmPlanMapper.selectByPrimaryKey(id);
+			if(null != qmPlan){
+				List<QmPlan> list = new ArrayList<QmPlan>();
+				list.add(qmPlan);
+				qmPlanResponse.setData(list);
+				qmPlanResponse.setRspcode(WebUtil.SUCCESS);
+				qmPlanResponse.setRspdesc("查询成功");
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error("查询异常",e);
+			qmPlanResponse.setRspcode(WebUtil.EXCEPTION);
+			qmPlanResponse.setRspdesc("查询异常");
+		}
+		return  qmPlanResponse;
+	}
 
 }

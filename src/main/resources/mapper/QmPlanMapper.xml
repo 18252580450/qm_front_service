@@ -12,13 +12,11 @@
     <result column="MODIFIED_STAFF_ID" property="modifiedStaffId" jdbcType="VARCHAR" />
     <result column="PLAN_STARTTIME" property="planStarttime" jdbcType="TIMESTAMP" />
     <result column="PLAN_ENDTIME" property="planEndtime" jdbcType="TIMESTAMP" />
-    <result column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
-    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
     <result column="PLAN_TYPE" property="planType" jdbcType="VARCHAR" />
     <result column="TEMPLATE_NAME" property="templateName" jdbcType="VARCHAR" />
     <result column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
-    <result column="RECOMMEND_FLAG" property="recommendFlag" jdbcType="TINYINT" />
-    <result column="ADD_FLAG" property="addFlag" jdbcType="TINYINT" />
+    <result column="P_NAME" property="pName" jdbcType="VARCHAR" />
+    <result column="P_ID" property="pId" jdbcType="VARCHAR" />
     <result column="MAN_OR_AUTO" property="manOrAuto" jdbcType="CHAR" />
     <result column="BIND_RELATION" property="bindRelation" jdbcType="CHAR" />
     <result column="HALT_FLAG" property="haltFlag" jdbcType="CHAR" />
@@ -27,8 +25,10 @@
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="PLAN_COUNT" property="planCount" jdbcType="INTEGER" />
     <result column="EXTRACT_COUNT" property="extractCount" jdbcType="INTEGER" />
+    <result column="PLAN_RUNTIME" property="planRuntime" jdbcType="TIME" />
+    <result column="PLAN_RUNTYPE" property="planRuntype" jdbcType="CHAR" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
+  <sql id="Delete_By_Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
         <if test="criteria.valid" >
@@ -46,6 +46,35 @@
                 </when>
                 <when test="criterion.listValue" >
                   and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and t.${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and t.${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and t.${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and t.${criterion.condition}
                   <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
@@ -87,12 +116,26 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    PLAN_ID, TENANT_ID, PROVINCE_ID, PLAN_NAME, CREATE_TIME, CREATE_STAFF_ID, MODIFIED_TIME, 
-    MODIFIED_STAFF_ID, PLAN_STARTTIME, PLAN_ENDTIME, BEGIN_TIME, END_TIME, PLAN_TYPE, 
-    TEMPLATE_NAME, TEMPLATE_ID, RECOMMEND_FLAG, ADD_FLAG, MAN_OR_AUTO, BIND_RELATION, 
-    HALT_FLAG, PLAN_STATUS, DELETE_FLAG, REMARK, PLAN_COUNT, EXTRACT_COUNT
+    t.PLAN_ID, t.TENANT_ID, t.PROVINCE_ID, t.PLAN_NAME, t.CREATE_TIME, t.CREATE_STAFF_ID, t.MODIFIED_TIME,
+    t.MODIFIED_STAFF_ID, t.PLAN_STARTTIME, t.PLAN_ENDTIME, t.PLAN_TYPE, t1.TEMPLATE_NAME, t.TEMPLATE_ID,
+    t.P_NAME, t.P_ID, t.MAN_OR_AUTO, t.BIND_RELATION, t.HALT_FLAG, t.PLAN_STATUS, t.DELETE_FLAG, t.REMARK,
+    t.PLAN_COUNT, t.EXTRACT_COUNT, t.PLAN_RUNTIME, t.PLAN_RUNTYPE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.QmPlanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_qm_plan t left outer join t_qm_checktemplate t1 ON t.TEMPLATE_ID = t1.TEMPLATE_ID
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by t.${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleOld" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.QmPlanExample" >
     select
     <if test="distinct" >
       distinct
@@ -109,8 +152,8 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from t_qm_plan
-    where PLAN_ID = #{planId,jdbcType=VARCHAR}
+    from t_qm_plan t left outer join t_qm_checktemplate t1 ON t.TEMPLATE_ID = t1.TEMPLATE_ID
+    where t.PLAN_ID = #{planId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_qm_plan
@@ -119,28 +162,28 @@
   <delete id="deleteByExample" parameterType="com.asiainfo.qm.manage.domain.QmPlanExample" >
     delete from t_qm_plan
     <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
+      <include refid="Delete_By_Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.asiainfo.qm.manage.domain.QmPlan" >
     insert into t_qm_plan (PLAN_ID, TENANT_ID, PROVINCE_ID, 
       PLAN_NAME, CREATE_TIME, CREATE_STAFF_ID, 
       MODIFIED_TIME, MODIFIED_STAFF_ID, PLAN_STARTTIME, 
-      PLAN_ENDTIME, BEGIN_TIME, END_TIME, 
-      PLAN_TYPE, TEMPLATE_NAME, TEMPLATE_ID, 
-      RECOMMEND_FLAG, ADD_FLAG, MAN_OR_AUTO, 
-      BIND_RELATION, HALT_FLAG, PLAN_STATUS, 
-      DELETE_FLAG, REMARK, PLAN_COUNT, 
-      EXTRACT_COUNT)
+      PLAN_ENDTIME, PLAN_TYPE, TEMPLATE_NAME, 
+      TEMPLATE_ID, P_NAME, P_ID, 
+      MAN_OR_AUTO, BIND_RELATION, HALT_FLAG, 
+      PLAN_STATUS, DELETE_FLAG, REMARK, 
+      PLAN_COUNT, EXTRACT_COUNT, PLAN_RUNTIME, 
+      PLAN_RUNTYPE)
     values (#{planId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, 
       #{planName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createStaffId,jdbcType=VARCHAR}, 
       #{modifiedTime,jdbcType=TIMESTAMP}, #{modifiedStaffId,jdbcType=VARCHAR}, #{planStarttime,jdbcType=TIMESTAMP}, 
-      #{planEndtime,jdbcType=TIMESTAMP}, #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
-      #{planType,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR}, #{templateId,jdbcType=VARCHAR}, 
-      #{recommendFlag,jdbcType=TINYINT}, #{addFlag,jdbcType=TINYINT}, #{manOrAuto,jdbcType=CHAR}, 
-      #{bindRelation,jdbcType=CHAR}, #{haltFlag,jdbcType=CHAR}, #{planStatus,jdbcType=CHAR}, 
-      #{deleteFlag,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{planCount,jdbcType=INTEGER}, 
-      #{extractCount,jdbcType=INTEGER})
+      #{planEndtime,jdbcType=TIMESTAMP}, #{planType,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR}, 
+      #{templateId,jdbcType=VARCHAR}, #{pName,jdbcType=VARCHAR}, #{pId,jdbcType=VARCHAR}, 
+      #{manOrAuto,jdbcType=CHAR}, #{bindRelation,jdbcType=CHAR}, #{haltFlag,jdbcType=CHAR}, 
+      #{planStatus,jdbcType=CHAR}, #{deleteFlag,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
+      #{planCount,jdbcType=INTEGER}, #{extractCount,jdbcType=INTEGER}, #{planRuntime,jdbcType=TIME}, 
+      #{planRuntype,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.asiainfo.qm.manage.domain.QmPlan" >
     insert into t_qm_plan
@@ -175,12 +218,6 @@
       <if test="planEndtime != null" >
         PLAN_ENDTIME,
       </if>
-      <if test="beginTime != null" >
-        BEGIN_TIME,
-      </if>
-      <if test="endTime != null" >
-        END_TIME,
-      </if>
       <if test="planType != null" >
         PLAN_TYPE,
       </if>
@@ -190,11 +227,11 @@
       <if test="templateId != null" >
         TEMPLATE_ID,
       </if>
-      <if test="recommendFlag != null" >
-        RECOMMEND_FLAG,
+      <if test="pName != null" >
+        P_NAME,
       </if>
-      <if test="addFlag != null" >
-        ADD_FLAG,
+      <if test="pId != null" >
+        P_ID,
       </if>
       <if test="manOrAuto != null" >
         MAN_OR_AUTO,
@@ -219,6 +256,12 @@
       </if>
       <if test="extractCount != null" >
         EXTRACT_COUNT,
+      </if>
+      <if test="planRuntime != null" >
+        PLAN_RUNTIME,
+      </if>
+      <if test="planRuntype != null" >
+        PLAN_RUNTYPE,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -252,12 +295,6 @@
       <if test="planEndtime != null" >
         #{planEndtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="beginTime != null" >
-        #{beginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null" >
-        #{endTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="planType != null" >
         #{planType,jdbcType=VARCHAR},
       </if>
@@ -267,11 +304,11 @@
       <if test="templateId != null" >
         #{templateId,jdbcType=VARCHAR},
       </if>
-      <if test="recommendFlag != null" >
-        #{recommendFlag,jdbcType=TINYINT},
+      <if test="pName != null" >
+        #{pName,jdbcType=VARCHAR},
       </if>
-      <if test="addFlag != null" >
-        #{addFlag,jdbcType=TINYINT},
+      <if test="pId != null" >
+        #{pId,jdbcType=VARCHAR},
       </if>
       <if test="manOrAuto != null" >
         #{manOrAuto,jdbcType=CHAR},
@@ -297,10 +334,16 @@
       <if test="extractCount != null" >
         #{extractCount,jdbcType=INTEGER},
       </if>
+      <if test="planRuntime != null" >
+        #{planRuntime,jdbcType=TIME},
+      </if>
+      <if test="planRuntype != null" >
+        #{planRuntype,jdbcType=CHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.asiainfo.qm.manage.domain.QmPlanExample" resultType="java.lang.Integer" >
-    select count(*) from t_qm_plan
+    select count(t.*) from t_qm_plan t left outer join t_qm_checktemplate t1 ON t.TEMPLATE_ID = t1.TEMPLATE_ID
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -338,12 +381,6 @@
       <if test="record.planEndtime != null" >
         PLAN_ENDTIME = #{record.planEndtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.beginTime != null" >
-        BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.endTime != null" >
-        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="record.planType != null" >
         PLAN_TYPE = #{record.planType,jdbcType=VARCHAR},
       </if>
@@ -353,11 +390,11 @@
       <if test="record.templateId != null" >
         TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
       </if>
-      <if test="record.recommendFlag != null" >
-        RECOMMEND_FLAG = #{record.recommendFlag,jdbcType=TINYINT},
+      <if test="record.pName != null" >
+        P_NAME = #{record.pName,jdbcType=VARCHAR},
       </if>
-      <if test="record.addFlag != null" >
-        ADD_FLAG = #{record.addFlag,jdbcType=TINYINT},
+      <if test="record.pId != null" >
+        P_ID = #{record.pId,jdbcType=VARCHAR},
       </if>
       <if test="record.manOrAuto != null" >
         MAN_OR_AUTO = #{record.manOrAuto,jdbcType=CHAR},
@@ -383,6 +420,12 @@
       <if test="record.extractCount != null" >
         EXTRACT_COUNT = #{record.extractCount,jdbcType=INTEGER},
       </if>
+      <if test="record.planRuntime != null" >
+        PLAN_RUNTIME = #{record.planRuntime,jdbcType=TIME},
+      </if>
+      <if test="record.planRuntype != null" >
+        PLAN_RUNTYPE = #{record.planRuntype,jdbcType=CHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -400,13 +443,11 @@
       MODIFIED_STAFF_ID = #{record.modifiedStaffId,jdbcType=VARCHAR},
       PLAN_STARTTIME = #{record.planStarttime,jdbcType=TIMESTAMP},
       PLAN_ENDTIME = #{record.planEndtime,jdbcType=TIMESTAMP},
-      BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
-      END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
       PLAN_TYPE = #{record.planType,jdbcType=VARCHAR},
       TEMPLATE_NAME = #{record.templateName,jdbcType=VARCHAR},
       TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
-      RECOMMEND_FLAG = #{record.recommendFlag,jdbcType=TINYINT},
-      ADD_FLAG = #{record.addFlag,jdbcType=TINYINT},
+      P_NAME = #{record.pName,jdbcType=VARCHAR},
+      P_ID = #{record.pId,jdbcType=VARCHAR},
       MAN_OR_AUTO = #{record.manOrAuto,jdbcType=CHAR},
       BIND_RELATION = #{record.bindRelation,jdbcType=CHAR},
       HALT_FLAG = #{record.haltFlag,jdbcType=CHAR},
@@ -414,7 +455,9 @@
       DELETE_FLAG = #{record.deleteFlag,jdbcType=TINYINT},
       REMARK = #{record.remark,jdbcType=VARCHAR},
       PLAN_COUNT = #{record.planCount,jdbcType=INTEGER},
-      EXTRACT_COUNT = #{record.extractCount,jdbcType=INTEGER}
+      EXTRACT_COUNT = #{record.extractCount,jdbcType=INTEGER},
+      PLAN_RUNTIME = #{record.planRuntime,jdbcType=TIME},
+      PLAN_RUNTYPE = #{record.planRuntype,jdbcType=CHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -449,12 +492,6 @@
       <if test="planEndtime != null" >
         PLAN_ENDTIME = #{planEndtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="beginTime != null" >
-        BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null" >
-        END_TIME = #{endTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="planType != null" >
         PLAN_TYPE = #{planType,jdbcType=VARCHAR},
       </if>
@@ -464,11 +501,11 @@
       <if test="templateId != null" >
         TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
       </if>
-      <if test="recommendFlag != null" >
-        RECOMMEND_FLAG = #{recommendFlag,jdbcType=TINYINT},
+      <if test="pName != null" >
+        P_NAME = #{pName,jdbcType=VARCHAR},
       </if>
-      <if test="addFlag != null" >
-        ADD_FLAG = #{addFlag,jdbcType=TINYINT},
+      <if test="pId != null" >
+        P_ID = #{pId,jdbcType=VARCHAR},
       </if>
       <if test="manOrAuto != null" >
         MAN_OR_AUTO = #{manOrAuto,jdbcType=CHAR},
@@ -494,6 +531,12 @@
       <if test="extractCount != null" >
         EXTRACT_COUNT = #{extractCount,jdbcType=INTEGER},
       </if>
+      <if test="planRuntime != null" >
+        PLAN_RUNTIME = #{planRuntime,jdbcType=TIME},
+      </if>
+      <if test="planRuntype != null" >
+        PLAN_RUNTYPE = #{planRuntype,jdbcType=CHAR},
+      </if>
     </set>
     where PLAN_ID = #{planId,jdbcType=VARCHAR}
   </update>
@@ -508,13 +551,11 @@
       MODIFIED_STAFF_ID = #{modifiedStaffId,jdbcType=VARCHAR},
       PLAN_STARTTIME = #{planStarttime,jdbcType=TIMESTAMP},
       PLAN_ENDTIME = #{planEndtime,jdbcType=TIMESTAMP},
-      BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
-      END_TIME = #{endTime,jdbcType=TIMESTAMP},
       PLAN_TYPE = #{planType,jdbcType=VARCHAR},
       TEMPLATE_NAME = #{templateName,jdbcType=VARCHAR},
       TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
-      RECOMMEND_FLAG = #{recommendFlag,jdbcType=TINYINT},
-      ADD_FLAG = #{addFlag,jdbcType=TINYINT},
+      P_NAME = #{pName,jdbcType=VARCHAR},
+      P_ID = #{pId,jdbcType=VARCHAR},
       MAN_OR_AUTO = #{manOrAuto,jdbcType=CHAR},
       BIND_RELATION = #{bindRelation,jdbcType=CHAR},
       HALT_FLAG = #{haltFlag,jdbcType=CHAR},
@@ -522,7 +563,9 @@
       DELETE_FLAG = #{deleteFlag,jdbcType=TINYINT},
       REMARK = #{remark,jdbcType=VARCHAR},
       PLAN_COUNT = #{planCount,jdbcType=INTEGER},
-      EXTRACT_COUNT = #{extractCount,jdbcType=INTEGER}
+      EXTRACT_COUNT = #{extractCount,jdbcType=INTEGER},
+      PLAN_RUNTIME = #{planRuntime,jdbcType=TIME},
+      PLAN_RUNTYPE = #{planRuntype,jdbcType=CHAR}
     where PLAN_ID = #{planId,jdbcType=VARCHAR}
   </update>
 </mapper>
