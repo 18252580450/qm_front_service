@@ -9,6 +9,7 @@ import com.asiainfo.qm.manage.vo.QmStrategyElesServiceResponse;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
@@ -121,7 +122,7 @@ public class QmStrategyElesController {
 		return qmStrategyElesServiceResponse;
 	}
 
-	public QmStrategyElesServiceResponse fallbackAddQmStrategyElesResponse(@RequestBody String  qmStrategyEles) throws Exception {
+	public QmStrategyElesServiceResponse fallbackAddQmStrategyEles(@RequestBody String  qmStrategyEles) throws Exception {
 		logger.info("新增策略元素出错啦！");
 		logger.error("");
 		QmStrategyElesServiceResponse qmStrategyElesServiceResponse = new QmStrategyElesServiceResponse();
@@ -161,4 +162,34 @@ public class QmStrategyElesController {
 		return qmStrategyElesServiceResponse;
 	}
 
+	@ApiOperation(value = "根据ID查询策略元素", notes = "qm_configservice根据ID查询策略元素", response = QmStrategyElesServiceResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+			@ApiResponse(code = 403, message = "资源不存在"),
+			@ApiResponse(code = 404, message = "传入的参数无效"),
+			@ApiResponse(code = 500, message = "服务器出现异常错误") })
+	@HystrixCommand(groupKey = "qm_configservice", commandKey = "getStrategyElesById", threadPoolKey = "getStrategyElesByIdThread",fallbackMethod = "fallbackGetStrategyElesById", commandProperties = {
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
+			@HystrixProperty(name = "coreSize", value = "200") })
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public QmStrategyElesServiceResponse getStrategyElesById(@ApiParam(value = "元素ID", required = true) @PathVariable("id") String id) throws Exception {
+		QmStrategyElesServiceResponse qmStrategyElesServiceResponse = new QmStrategyElesServiceResponse();
+		QmStrategyElesResponse qmStrategyElesResponse = new QmStrategyElesResponse();
+		try {
+			qmStrategyElesResponse = qmStrategyElesService.getStrategyElesById(id);
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error("根据ID查询策略元素异常");
+			qmStrategyElesResponse.setRspcode(WebUtil.EXCEPTION);
+			qmStrategyElesResponse.setRspdesc("批根据ID查询策略元素异常!");
+		}
+		qmStrategyElesServiceResponse.setResponse(qmStrategyElesResponse);
+		return qmStrategyElesServiceResponse;
+	}
+
+	// 降级处理的函数
+	public QmStrategyElesServiceResponse fallbackGetStrategyElesById(String id) {
+		QmStrategyElesServiceResponse serviceResponse = new QmStrategyElesServiceResponse();
+		return serviceResponse;
+	}
 }

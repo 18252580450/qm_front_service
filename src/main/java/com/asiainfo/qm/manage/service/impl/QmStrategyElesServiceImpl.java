@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -130,6 +131,28 @@ public class QmStrategyElesServiceImpl implements QmStrategyElesService {
 			logger.error("更新异常",e);
 			qmStrategyElesResponse.setRspcode(WebUtil.EXCEPTION);
 			qmStrategyElesResponse.setRspdesc("更新异常");
+		}
+		return  qmStrategyElesResponse;
+	}
+
+	@Override
+	public QmStrategyElesResponse getStrategyElesById(String id) throws Exception {
+		QmStrategyElesResponse qmStrategyElesResponse = new QmStrategyElesResponse();
+
+		try {
+			QmStrategyElement qmStrategyEles = qmStrategyElementMapper.selectByPrimaryKey(id);
+			if(null != qmStrategyEles){
+				List<QmStrategyElement> list = new ArrayList<QmStrategyElement>();
+				list.add(qmStrategyEles);
+				qmStrategyElesResponse.setData(list);
+				qmStrategyElesResponse.setRspcode(WebUtil.SUCCESS);
+				qmStrategyElesResponse.setRspdesc("查询成功");
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error("查询异常",e);
+			qmStrategyElesResponse.setRspcode(WebUtil.EXCEPTION);
+			qmStrategyElesResponse.setRspdesc("查询异常");
 		}
 		return  qmStrategyElesResponse;
 	}
