@@ -2,7 +2,6 @@ package com.asiainfo.qm.manage.service.impl;
 
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.AppealProcessMapper;
-import com.asiainfo.qm.manage.domain.AppealNode;
 import com.asiainfo.qm.manage.domain.AppealProcess;
 import com.asiainfo.qm.manage.domain.AppealProcessExample;
 import com.asiainfo.qm.manage.service.AppealNodeService;

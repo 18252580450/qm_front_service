@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,31 +38,76 @@ public class CheckItemServiceImpl implements CheckItemService {
     @Override
     public CheckItemResponse queryCheckItem(Map params, int start, int limit) throws Exception {
         CheckItemResponse checkItemResponse = null;
-        CheckItemExample example = new CheckItemExample();
+        String tenantId = "";
+        String checkItemName = "";
+        String checkItemType = "";
+        if (null != params.get("tenantId") && !"".equals(params.get("tenantId"))) {
+            tenantId = (String) params.get("tenantId");
+        }
+        if (null != params.get("checkItemName") && !"".equals(params.get("checkItemName"))) {
+            checkItemName = (String) params.get("checkItemName");
+        }
+        if (null != params.get("checkItemType") && !"".equals(params.get("checkItemType"))) {
+            checkItemType = (String) params.get("checkItemType");
+        }
         try {
-            CheckItemExample.Criteria criteria = example.createCriteria();
+            //指定目录下的所有考评项
+            List<CheckItem> rawList = new ArrayList<>();
+            //每级目录下子目录id集合
+            List<String> catalogIdList = new ArrayList<>();
             if (null != params.get("parentCheckItemId") && !"".equals(params.get("parentCheckItemId"))) {
-                criteria.andParentCheckItemIdEqualTo((String) params.get("parentCheckItemId"));
+                catalogIdList.add((String) params.get("parentCheckItemId"));
             }
-            if (null != params.get("checkItemName") && !"".equals(params.get("checkItemName"))) {
-                criteria.andCheckItemNameLike("%" + (String) params.get("checkItemName") + "%");
+            //递归查询指定目录下的所有考评项
+            while (true) {
+                CheckItemExample example = new CheckItemExample();
+                CheckItemExample.Criteria criteria = example.createCriteria();
+                if (!catalogIdList.isEmpty()) {
+                    criteria.andParentCheckItemIdIn(catalogIdList);
+                }
+
+
+                List<CheckItem> list = checkItemMapper.selectByExample(example);
+                rawList.addAll(list);
+                //针对入参不包含parentCheckItemId的情况
+                if (catalogIdList.isEmpty()) {
+                    break;
+                }
+                catalogIdList.clear();
+                for (CheckItem item : list
+                ) {
+                    if (item.getCatalogFlag().equals("0")) {
+                        catalogIdList.add(item.getCheckItemId());
+                    }
+                }
+                //子节点没有目录的情况下跳出循环
+                if (catalogIdList.isEmpty()) {
+                    break;
+                }
             }
-            if (null != params.get("tenantId") && !"".equals(params.get("tenantId"))) {
-                criteria.andTenantIdEqualTo((String) params.get("tenantId"));
-            }
-            if (null != params.get("checkItemType") && !"".equals(params.get("checkItemType"))) {
-                criteria.andCheckItemTypeEqualTo((String) params.get("checkItemType"));
+            //根据搜索条件二次筛选
+            List<CheckItem> resultList = new Page<>();
+            for (CheckItem checkItem : rawList
+            ) {
+                if (!tenantId.equals("") && !checkItem.getTenantId().equals(tenantId)) {
+                    continue;
+                }
+                if (!checkItemName.equals("") && !checkItem.getCheckItemName().contains(checkItemName)) {
+                    continue;
+                }
+                if (!checkItemType.equals("") && !checkItem.getCheckItemType().equals(checkItemType)) {
+                    continue;
+                }
+                resultList.add(checkItem);
             }
 
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
-                List<CheckItem> list = checkItemMapper.selectByExample(example);
-                Page<CheckItem> pagelist = (Page) list;
+                Page<CheckItem> pagelist = (Page) resultList;
                 checkItemResponse = new CheckItemResponse(pagelist);
             } else {
                 checkItemResponse = new CheckItemResponse();
-                List<CheckItem> list = checkItemMapper.selectByExample(example);
-                checkItemResponse.setData(list);
+                checkItemResponse.setData(resultList);
             }
 
             if (null != checkItemResponse.getData() && checkItemResponse.getData().size() > 0) {
