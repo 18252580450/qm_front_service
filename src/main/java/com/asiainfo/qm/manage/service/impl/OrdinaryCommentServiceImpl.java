@@ -49,10 +49,17 @@ public class OrdinaryCommentServiceImpl implements OrdinaryCommentService {
 			if(null != params.get("commentName") && !"".equals(params.get("commentName"))) {
 				criteria.andCommentNameEqualTo((String) params.get("commentName"));
 			}
-			PageHelper.offsetPage(start, limit);
-			List<OrdinaryComment> list = ordinaryCommentMapper.selectByExample(example);
-			Page<OrdinaryComment> pagelist = (Page)list;
-			ordinaryCommentResponse = new OrdinaryCommentResponse(pagelist);
+
+			if (0 != limit) {
+				PageHelper.offsetPage(start, limit);
+				List<OrdinaryComment> list = ordinaryCommentMapper.selectByExample(example);
+				Page<OrdinaryComment> pagelist = (Page)list;
+				ordinaryCommentResponse = new OrdinaryCommentResponse(pagelist);
+			} else {
+				ordinaryCommentResponse = new OrdinaryCommentResponse();
+				List<OrdinaryComment> list = ordinaryCommentMapper.selectByExample(example);
+				ordinaryCommentResponse.setData(list);
+			}
 
 			if(null != ordinaryCommentResponse.getData() && ordinaryCommentResponse.getData().size() > 0){
 				ordinaryCommentResponse.setRspcode(WebUtil.SUCCESS);

@@ -47,10 +47,17 @@ public class CheckTemplateServiceImpl implements CheckTemplateService {
 			if(null != params.get("templateStatus") && !"".equals(params.get("templateStatus"))) {
 				criteria.andTemplateStatusEqualTo((String) params.get("templateStatus"));
 			}
-			PageHelper.offsetPage(start, limit);
-			List<CheckTemplate> list = checkTemplateMapper.selectByExample(example);
-			Page<CheckTemplate> pagelist = (Page)list;
-			checkTemplateResponse = new CheckTemplateResponse(pagelist);
+
+			if (0 != limit) {
+				PageHelper.offsetPage(start, limit);
+				List<CheckTemplate> list = checkTemplateMapper.selectByExample(example);
+				Page<CheckTemplate> pagelist = (Page)list;
+				checkTemplateResponse = new CheckTemplateResponse(pagelist);
+			} else {
+				checkTemplateResponse = new CheckTemplateResponse();
+				List<CheckTemplate> list = checkTemplateMapper.selectByExample(example);
+				checkTemplateResponse.setData(list);
+			}
 
 			if(null != checkTemplateResponse.getData() && checkTemplateResponse.getData().size() > 0){
 				checkTemplateResponse.setRspcode(WebUtil.SUCCESS);
