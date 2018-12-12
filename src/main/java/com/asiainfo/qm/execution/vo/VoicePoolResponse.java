@@ -1,7 +1,5 @@
 package com.asiainfo.qm.execution.vo;
 
-
-import com.asiainfo.qm.execution.domain.Pool;
 import com.asiainfo.qm.execution.domain.VoicePool;
 import com.asiainfo.qm.manage.vo.Attach;
 import com.asiainfo.qm.manage.vo.ResponseParent;
