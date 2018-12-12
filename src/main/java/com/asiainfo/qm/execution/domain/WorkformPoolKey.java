@@ -1,6 +1,6 @@
 package com.asiainfo.qm.execution.domain;
 
-public class PoolKey {
+public class WorkformPoolKey {
     private String touchId;
 
     private String planId;

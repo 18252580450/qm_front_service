@@ -4,10 +4,8 @@ import com.asiainfo.qm.manage.domain.QmPlan;
 
 import java.util.Date;
 
-public class Pool extends PoolKey {
+public class WorkformPool extends WorkformPoolKey {
     private String tenantId;
-
-    private String planId;
 
     private QmPlan qmPlan;
 
@@ -50,6 +48,8 @@ public class Pool extends PoolKey {
     private String customerBrand;
 
     private String checkStaffId;
+
+    private String checkStaffName;
 
     private String recordPath;
 
@@ -103,14 +103,6 @@ public class Pool extends PoolKey {
         this.tenantId = tenantId == null ? null : tenantId.trim();
     }
 
-    public String getPlanId() {
-        return planId;
-    }
-
-    public void setPlanId(String planId) {
-        this.planId = planId == null ? null : planId.trim();
-    }
-
     public QmPlan getQmPlan() {
         return qmPlan;
     }
@@ -118,7 +110,6 @@ public class Pool extends PoolKey {
     public void setQmPlan(QmPlan qmPlan) {
         this.qmPlan = qmPlan;
     }
-
 
     public String getProvinceId() {
         return provinceId;
@@ -278,6 +269,14 @@ public class Pool extends PoolKey {
 
     public void setCheckStaffId(String checkStaffId) {
         this.checkStaffId = checkStaffId == null ? null : checkStaffId.trim();
+    }
+
+    public String getCheckStaffName() {
+        return checkStaffName;
+    }
+
+    public void setCheckStaffName(String checkStaffName) {
+        this.checkStaffName = checkStaffName == null ? null : checkStaffName.trim();
     }
 
     public String getRecordPath() {

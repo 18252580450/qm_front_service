@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.asiainfo.qm.execution.dao.PoolMapper" >
-  <resultMap id="BaseResultMap" type="com.asiainfo.qm.execution.domain.Pool" >
+<mapper namespace="com.asiainfo.qm.execution.dao.WorkformPoolMapper" >
+  <resultMap id="BaseResultMap" type="com.asiainfo.qm.execution.domain.WorkformPool" >
     <id column="TOUCH_ID" property="touchId" jdbcType="VARCHAR" />
     <id column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
     <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
@@ -25,6 +25,7 @@
     <result column="WORKFORM_ID" property="workformId" jdbcType="VARCHAR" />
     <result column="CUSTOMER_BRAND" property="customerBrand" jdbcType="VARCHAR" />
     <result column="CHECK_STAFF_ID" property="checkStaffId" jdbcType="VARCHAR" />
+    <result column="CHECK_STAFF_NAME" property="checkStaffName" jdbcType="VARCHAR" />
     <result column="RECORD_PATH" property="recordPath" jdbcType="VARCHAR" />
     <result column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
     <result column="SATISFY_EXTENT" property="satisfyExtent" jdbcType="VARCHAR" />
@@ -47,12 +48,12 @@
     <result column="RESERVE_3" property="reserve3" jdbcType="VARCHAR" />
     <result column="RESERVE_4" property="reserve4" jdbcType="VARCHAR" />
     <result column="RESERVE_5" property="reserve5" jdbcType="VARCHAR" />
+
     <!--联合元素用来处理“一对一”的关系 ,返回一个qmPlan实体-->
     <association property="qmPlan" column="PLAN_ID" javaType="com.asiainfo.qm.manage.domain.QmPlan" select="queryPool">
     </association>
 
   </resultMap>
-
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -115,18 +116,45 @@
     TOUCH_ID, PLAN_ID, TENANT_ID, PROVINCE_ID, POOL_STATUS, OPERATE_STAFF_ID, OPERATE_TIME, 
     STAFF_ID, DEPART_ID, BEGIN_TIME, END_TIME, CALL_TYPE, RECORD_TIME, CALLING_NUMBER, 
     ACCEPT_NUMBER, CALLED_NUMBER, CUSTOMER_CITY, CUSTOMER_LEVEL, HANGUP_SIDE, BUSINESS_TYPE, 
-    WORKFORM_ID, CUSTOMER_BRAND, CHECK_STAFF_ID, RECORD_PATH, TEMPLATE_ID, SATISFY_EXTENT, 
-    DISCONTENT_REASON, CALL_REASON, TASK_ID, TASK_NAME, PROJECT_TYPE, MARKETING_RESULT, 
-    CUSTOMER_NAME, REPEAT_CALLS, CRT_TIME, MODF_TIME, SRV_REQST_TYPE_ID, SRV_REQST_TYPE_NM, 
-    SRV_REQST_TYPE_FULL_NM, CHECK_LINK, RESERVE_1, RESERVE_2, RESERVE_3, RESERVE_4, RESERVE_5
+    WORKFORM_ID, CUSTOMER_BRAND, CHECK_STAFF_ID, CHECK_STAFF_NAME, RECORD_PATH, TEMPLATE_ID, 
+    SATISFY_EXTENT, DISCONTENT_REASON, CALL_REASON, TASK_ID, TASK_NAME, PROJECT_TYPE, 
+    MARKETING_RESULT, CUSTOMER_NAME, REPEAT_CALLS, CRT_TIME, MODF_TIME, SRV_REQST_TYPE_ID, 
+    SRV_REQST_TYPE_NM, SRV_REQST_TYPE_FULL_NM, CHECK_LINK, RESERVE_1, RESERVE_2, RESERVE_3, 
+    RESERVE_4, RESERVE_5
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.execution.domain.PoolExample" >
+
+  <!--新增查询方法-->
+  <select id="queryPool" resultType="com.asiainfo.qm.manage.domain.QmPlan" parameterType="String">
+     select PLAN_NAME planName from t_qm_plan where PLAN_ID is not null and PLAN_ID = #{planId,jdbcType=VARCHAR}
+  </select>
+
+  <!--批量更新-->
+  <update id="update" parameterType="java.util.List" >
+    update t_qm_workform_pool
+    set  CHECK_STAFF_ID =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TOUCH_ID" close="end">
+      when #{item} then  null
+    </foreach>
+    ,CHECK_STAFF_NAME =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TOUCH_ID" close="end">
+      when #{item} then  null
+    </foreach>
+    where TOUCH_ID in
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+
+
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.execution.domain.WorkformPoolExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_qm_pool
+    from t_qm_workform_pool
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -134,46 +162,41 @@
       order by ${orderByClause}
     </if>
   </select>
-<!--新增查询方法-->
-  <select id="queryPool" resultType="com.asiainfo.qm.manage.domain.QmPlan" parameterType="String">
-       select PLAN_NAME planName from t_qm_plan where PLAN_ID is not null and PLAN_ID = #{planId,jdbcType=VARCHAR}
-  </select>
-
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.execution.domain.PoolKey" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.execution.domain.WorkformPoolKey" >
     select 
     <include refid="Base_Column_List" />
-    from t_qm_pool
+    from t_qm_workform_pool
     where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
       and PLAN_ID = #{planId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.asiainfo.qm.execution.domain.PoolKey" >
-    delete from t_qm_pool
+  <delete id="deleteByPrimaryKey" parameterType="com.asiainfo.qm.execution.domain.WorkformPoolKey" >
+    delete from t_qm_workform_pool
     where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
       and PLAN_ID = #{planId,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.asiainfo.qm.execution.domain.PoolExample" >
-    delete from t_qm_pool
+  <delete id="deleteByExample" parameterType="com.asiainfo.qm.execution.domain.WorkformPoolExample" >
+    delete from t_qm_workform_pool
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.asiainfo.qm.execution.domain.Pool" >
-    insert into t_qm_pool (TOUCH_ID, PLAN_ID, TENANT_ID, 
+  <insert id="insert" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
+    insert into t_qm_workform_pool (TOUCH_ID, PLAN_ID, TENANT_ID, 
       PROVINCE_ID, POOL_STATUS, OPERATE_STAFF_ID, 
       OPERATE_TIME, STAFF_ID, DEPART_ID, 
       BEGIN_TIME, END_TIME, CALL_TYPE, 
       RECORD_TIME, CALLING_NUMBER, ACCEPT_NUMBER, 
       CALLED_NUMBER, CUSTOMER_CITY, CUSTOMER_LEVEL, 
       HANGUP_SIDE, BUSINESS_TYPE, WORKFORM_ID, 
-      CUSTOMER_BRAND, CHECK_STAFF_ID, RECORD_PATH, 
-      TEMPLATE_ID, SATISFY_EXTENT, DISCONTENT_REASON, 
-      CALL_REASON, TASK_ID, TASK_NAME, 
-      PROJECT_TYPE, MARKETING_RESULT, CUSTOMER_NAME, 
-      REPEAT_CALLS, CRT_TIME, MODF_TIME, 
-      SRV_REQST_TYPE_ID, SRV_REQST_TYPE_NM, SRV_REQST_TYPE_FULL_NM, 
-      CHECK_LINK, RESERVE_1, RESERVE_2, 
-      RESERVE_3, RESERVE_4, RESERVE_5
-      )
+      CUSTOMER_BRAND, CHECK_STAFF_ID, CHECK_STAFF_NAME, 
+      RECORD_PATH, TEMPLATE_ID, SATISFY_EXTENT, 
+      DISCONTENT_REASON, CALL_REASON, TASK_ID, 
+      TASK_NAME, PROJECT_TYPE, MARKETING_RESULT, 
+      CUSTOMER_NAME, REPEAT_CALLS, CRT_TIME, 
+      MODF_TIME, SRV_REQST_TYPE_ID, SRV_REQST_TYPE_NM, 
+      SRV_REQST_TYPE_FULL_NM, CHECK_LINK, RESERVE_1, 
+      RESERVE_2, RESERVE_3, RESERVE_4, 
+      RESERVE_5)
     values (#{touchId,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, 
       #{provinceId,jdbcType=VARCHAR}, #{poolStatus,jdbcType=CHAR}, #{operateStaffId,jdbcType=VARCHAR}, 
       #{operateTime,jdbcType=TIMESTAMP}, #{staffId,jdbcType=VARCHAR}, #{departId,jdbcType=VARCHAR}, 
@@ -181,18 +204,18 @@
       #{recordTime,jdbcType=INTEGER}, #{callingNumber,jdbcType=VARCHAR}, #{acceptNumber,jdbcType=VARCHAR}, 
       #{calledNumber,jdbcType=VARCHAR}, #{customerCity,jdbcType=VARCHAR}, #{customerLevel,jdbcType=VARCHAR}, 
       #{hangupSide,jdbcType=VARCHAR}, #{businessType,jdbcType=VARCHAR}, #{workformId,jdbcType=VARCHAR}, 
-      #{customerBrand,jdbcType=VARCHAR}, #{checkStaffId,jdbcType=VARCHAR}, #{recordPath,jdbcType=VARCHAR}, 
-      #{templateId,jdbcType=VARCHAR}, #{satisfyExtent,jdbcType=VARCHAR}, #{discontentReason,jdbcType=VARCHAR}, 
-      #{callReason,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, #{taskName,jdbcType=VARCHAR}, 
-      #{projectType,jdbcType=VARCHAR}, #{marketingResult,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR}, 
-      #{repeatCalls,jdbcType=TINYINT}, #{crtTime,jdbcType=TIMESTAMP}, #{modfTime,jdbcType=TIMESTAMP}, 
-      #{srvReqstTypeId,jdbcType=VARCHAR}, #{srvReqstTypeNm,jdbcType=VARCHAR}, #{srvReqstTypeFullNm,jdbcType=VARCHAR}, 
-      #{checkLink,jdbcType=VARCHAR}, #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, 
-      #{reserve3,jdbcType=VARCHAR}, #{reserve4,jdbcType=VARCHAR}, #{reserve5,jdbcType=VARCHAR}
-      )
+      #{customerBrand,jdbcType=VARCHAR}, #{checkStaffId,jdbcType=VARCHAR}, #{checkStaffName,jdbcType=VARCHAR}, 
+      #{recordPath,jdbcType=VARCHAR}, #{templateId,jdbcType=VARCHAR}, #{satisfyExtent,jdbcType=VARCHAR}, 
+      #{discontentReason,jdbcType=VARCHAR}, #{callReason,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, 
+      #{taskName,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, #{marketingResult,jdbcType=VARCHAR}, 
+      #{customerName,jdbcType=VARCHAR}, #{repeatCalls,jdbcType=TINYINT}, #{crtTime,jdbcType=TIMESTAMP}, 
+      #{modfTime,jdbcType=TIMESTAMP}, #{srvReqstTypeId,jdbcType=VARCHAR}, #{srvReqstTypeNm,jdbcType=VARCHAR}, 
+      #{srvReqstTypeFullNm,jdbcType=VARCHAR}, #{checkLink,jdbcType=VARCHAR}, #{reserve1,jdbcType=VARCHAR}, 
+      #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR}, #{reserve4,jdbcType=VARCHAR}, 
+      #{reserve5,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.asiainfo.qm.execution.domain.Pool" >
-    insert into t_qm_pool
+  <insert id="insertSelective" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
+    insert into t_qm_workform_pool
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="touchId != null" >
         TOUCH_ID,
@@ -262,6 +285,9 @@
       </if>
       <if test="checkStaffId != null" >
         CHECK_STAFF_ID,
+      </if>
+      <if test="checkStaffName != null" >
+        CHECK_STAFF_NAME,
       </if>
       <if test="recordPath != null" >
         RECORD_PATH,
@@ -400,6 +426,9 @@
       <if test="checkStaffId != null" >
         #{checkStaffId,jdbcType=VARCHAR},
       </if>
+      <if test="checkStaffName != null" >
+        #{checkStaffName,jdbcType=VARCHAR},
+      </if>
       <if test="recordPath != null" >
         #{recordPath,jdbcType=VARCHAR},
       </if>
@@ -468,14 +497,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.asiainfo.qm.execution.domain.PoolExample" resultType="java.lang.Integer" >
-    select count(*) from t_qm_pool
+  <select id="countByExample" parameterType="com.asiainfo.qm.execution.domain.WorkformPoolExample" resultType="java.lang.Integer" >
+    select count(*) from t_qm_workform_pool
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update t_qm_pool
+    update t_qm_workform_pool
     <set >
       <if test="record.touchId != null" >
         TOUCH_ID = #{record.touchId,jdbcType=VARCHAR},
@@ -545,6 +574,9 @@
       </if>
       <if test="record.checkStaffId != null" >
         CHECK_STAFF_ID = #{record.checkStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkStaffName != null" >
+        CHECK_STAFF_NAME = #{record.checkStaffName,jdbcType=VARCHAR},
       </if>
       <if test="record.recordPath != null" >
         RECORD_PATH = #{record.recordPath,jdbcType=VARCHAR},
@@ -618,7 +650,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update t_qm_pool
+    update t_qm_workform_pool
     set TOUCH_ID = #{record.touchId,jdbcType=VARCHAR},
       PLAN_ID = #{record.planId,jdbcType=VARCHAR},
       TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
@@ -642,6 +674,7 @@
       WORKFORM_ID = #{record.workformId,jdbcType=VARCHAR},
       CUSTOMER_BRAND = #{record.customerBrand,jdbcType=VARCHAR},
       CHECK_STAFF_ID = #{record.checkStaffId,jdbcType=VARCHAR},
+      CHECK_STAFF_NAME = #{record.checkStaffName,jdbcType=VARCHAR},
       RECORD_PATH = #{record.recordPath,jdbcType=VARCHAR},
       TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
       SATISFY_EXTENT = #{record.satisfyExtent,jdbcType=VARCHAR},
@@ -668,8 +701,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.qm.execution.domain.Pool" >
-    update t_qm_pool
+  <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
+    update t_qm_workform_pool
     <set >
       <if test="tenantId != null" >
         TENANT_ID = #{tenantId,jdbcType=VARCHAR},
@@ -733,6 +766,9 @@
       </if>
       <if test="checkStaffId != null" >
         CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStaffName != null" >
+        CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
       </if>
       <if test="recordPath != null" >
         RECORD_PATH = #{recordPath,jdbcType=VARCHAR},
@@ -804,8 +840,8 @@
     where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
       and PLAN_ID = #{planId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.execution.domain.Pool" >
-    update t_qm_pool
+  <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
+    update t_qm_workform_pool
     set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
       PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
       POOL_STATUS = #{poolStatus,jdbcType=CHAR},
@@ -827,6 +863,7 @@
       WORKFORM_ID = #{workformId,jdbcType=VARCHAR},
       CUSTOMER_BRAND = #{customerBrand,jdbcType=VARCHAR},
       CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
+      CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
       RECORD_PATH = #{recordPath,jdbcType=VARCHAR},
       TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
       SATISFY_EXTENT = #{satisfyExtent,jdbcType=VARCHAR},

@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PoolExample {
+public class WorkformPoolExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public PoolExample() {
+    public WorkformPoolExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -1672,6 +1672,76 @@ public class PoolExample {
 
         public Criteria andCheckStaffIdNotBetween(String value1, String value2) {
             addCriterion("CHECK_STAFF_ID not between", value1, value2, "checkStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckStaffNameIsNull() {
+            addCriterion("CHECK_STAFF_NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckStaffNameIsNotNull() {
+            addCriterion("CHECK_STAFF_NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckStaffNameEqualTo(String value) {
+            addCriterion("CHECK_STAFF_NAME =", value, "checkStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckStaffNameNotEqualTo(String value) {
+            addCriterion("CHECK_STAFF_NAME <>", value, "checkStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckStaffNameGreaterThan(String value) {
+            addCriterion("CHECK_STAFF_NAME >", value, "checkStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckStaffNameGreaterThanOrEqualTo(String value) {
+            addCriterion("CHECK_STAFF_NAME >=", value, "checkStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckStaffNameLessThan(String value) {
+            addCriterion("CHECK_STAFF_NAME <", value, "checkStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckStaffNameLessThanOrEqualTo(String value) {
+            addCriterion("CHECK_STAFF_NAME <=", value, "checkStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckStaffNameLike(String value) {
+            addCriterion("CHECK_STAFF_NAME like", value, "checkStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckStaffNameNotLike(String value) {
+            addCriterion("CHECK_STAFF_NAME not like", value, "checkStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckStaffNameIn(List<String> values) {
+            addCriterion("CHECK_STAFF_NAME in", values, "checkStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckStaffNameNotIn(List<String> values) {
+            addCriterion("CHECK_STAFF_NAME not in", values, "checkStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckStaffNameBetween(String value1, String value2) {
+            addCriterion("CHECK_STAFF_NAME between", value1, value2, "checkStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckStaffNameNotBetween(String value1, String value2) {
+            addCriterion("CHECK_STAFF_NAME not between", value1, value2, "checkStaffName");
             return (Criteria) this;
         }
 

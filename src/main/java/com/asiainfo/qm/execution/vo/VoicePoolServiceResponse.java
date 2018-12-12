@@ -15,31 +15,31 @@ import org.slf4j.LoggerFactory;
 @EqualsAndHashCode(callSuper=false)
 @Data
 @ApiModel
-public class PoolServiceResponse extends ServiceResponseParent{
-    private static Logger logger = LoggerFactory.getLogger(PoolServiceResponse.class);
+public class VoicePoolServiceResponse extends ServiceResponseParent{
+    private static Logger logger = LoggerFactory.getLogger(VoicePoolServiceResponse.class);
 
     @ApiModelProperty(name = "RSP", value = "服务返回业务数据", required = true)
     @JSONField(name = "RSP")
     @JsonProperty("RSP")
-    private PoolResponse response;
+    private VoicePoolResponse response;
 
     public static Logger getLogger() {
         return logger;
     }
 
     public static void setLogger(Logger logger) {
-        PoolServiceResponse.logger = logger;
+        VoicePoolServiceResponse.logger = logger;
     }
 
-    public PoolResponse getResponse() {
+    public VoicePoolResponse getResponse() {
         return response;
     }
 
-    public void setResponse(PoolResponse response) {
+    public void setResponse(VoicePoolResponse response) {
         this.response = response;
     }
 
-    public PoolServiceResponse() {
+    public VoicePoolServiceResponse() {
         try {
             this.txid = TxidUtils.generateTxid();
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class PoolServiceResponse extends ServiceResponseParent{
         }
     }
 
-    public PoolServiceResponse getSuccessResponse(PoolResponse response) {
+    public VoicePoolServiceResponse getSuccessResponse(VoicePoolResponse response) {
         this.setStatus(ServiceConstant.STATUS_SUCCESS);
         this.setMsg(ServiceConstant.MSG_SUCCESS);
         this.setResponse(response);
@@ -55,7 +55,7 @@ public class PoolServiceResponse extends ServiceResponseParent{
         return this;
     }
 
-    public PoolServiceResponse getErrorResponse(String errorStatus, String errorMsg, PoolResponse response) {
+    public VoicePoolServiceResponse getErrorResponse(String errorStatus, String errorMsg, VoicePoolResponse response) {
         this.setStatus(errorStatus);
         this.setMsg(errorMsg);
         this.setResponse(response);
