@@ -1,5 +1,6 @@
 package com.asiainfo.qm.manage.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.CheckItemMapper;
 import com.asiainfo.qm.manage.dao.TemplateDetailMapper;
@@ -87,10 +88,21 @@ public class AddCheckTemplateServiceImpl implements AddCheckTemplateService {
         try {
             TemplateDetailExample.Criteria criteria= example.createCriteria();//在运行时动态生成查询语句
 			criteria.andTenantIdEqualTo((String) params.get("tenantId"));
-            PageHelper.offsetPage(start, limit);
-            List<TemplateDetail> list = templateDetailMapper.selectByExample(example);
-            Page<TemplateDetail> pagelist = (Page)list;
-            templateDetailResponse = new TemplateDetailResponse(pagelist);
+            if(null != params.get("templateId")&& !"".equals(params.get("templateId"))){
+                JSONObject jsonObject = (JSONObject) params.get("templateId");
+                criteria.andTemplateIdEqualTo(jsonObject.getString("templateId"));
+            }
+            if(0 != limit) {
+                PageHelper.offsetPage(start, limit);
+                List<TemplateDetail> list = templateDetailMapper.selectByExample(example);
+                Page<TemplateDetail> pagelist = (Page)list;
+                templateDetailResponse = new TemplateDetailResponse(pagelist);
+            }else {
+                templateDetailResponse = new TemplateDetailResponse();
+                List<TemplateDetail> list = templateDetailMapper.selectByExample(example);
+                templateDetailResponse.setData(list);
+            }
+
             if(null != templateDetailResponse.getData() && templateDetailResponse.getData().size() > 0){
                 templateDetailResponse.setRspcode(WebUtil.SUCCESS);
                 templateDetailResponse.setRspdesc("查询成功");
