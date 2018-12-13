@@ -9,6 +9,7 @@ import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,8 +61,14 @@ public class VoicePoolServiceImpl implements VoicePoolService {
             if (null != params.get("hungupType") && !"".equals(params.get("hungupType"))) {
                 criteria.andHungupTypeEqualTo((String) params.get("hungupType"));
             }
-            if (null != params.get("startTime") && !"".equals(params.get("startTime")) && null != params.get("endTime") && !"".equals(params.get("endTime"))) {
-                criteria.andCheckedTimeBetween(sdf.parse((String) params.get("startTime")), sdf.parse((String) params.get("endTime")));
+            if (null != params.get("extractBeginTime") && !"".equals(params.get("extractBeginTime")) && null != params.get("extractEndTime") && !"".equals(params.get("extractEndTime"))) {
+                criteria.andCheckedTimeBetween(sdf.parse((String) params.get("extractBeginTime")), sdf.parse((String) params.get("extractEndTime")));
+            }
+            if (null != params.get("distributeBeginTime") && !"".equals(params.get("distributeBeginTime")) && null != params.get("distributeEndTime") && !"".equals(params.get("distributeEndTime"))) {
+                criteria.andOperateTimeBetween(sdf.parse((String) params.get("distributeBeginTime")), sdf.parse((String) params.get("distributeEndTime")));
+            }
+            if (null != params.get("minRecordTime") && !"".equals(params.get("minRecordTime")) && null != params.get("maxRecordTime") && !"".equals(params.get("maxRecordTime"))) {
+                criteria.andRecordTimeBetween(Integer.parseInt((String) params.get("minRecordTime")), Integer.parseInt((String) params.get("maxRecordTime")));
             }
             if (null != params.get("callType") && !"".equals(params.get("callType"))) {
                 criteria.andCallTypeEqualTo((String) params.get("callType"));
@@ -71,6 +78,9 @@ public class VoicePoolServiceImpl implements VoicePoolService {
             }
             if (null != params.get("callingNumber") && !"".equals(params.get("callingNumber"))) {
                 criteria.andCallingNumberEqualTo((String) params.get("callingNumber"));
+            }
+            if (null != params.get("calledNumber") && !"".equals(params.get("calledNumber"))) {
+                criteria.andCalledNumberEqualTo((String) params.get("calledNumber"));
             }
             if (null != params.get("satisfyExtentType") && !"".equals(params.get("satisfyExtentType"))) {
                 criteria.andSatisfyExtentTypeEqualTo((String) params.get("satisfyExtentType"));

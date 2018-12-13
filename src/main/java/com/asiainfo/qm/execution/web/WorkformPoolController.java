@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/qm/configservice/pool/")
+@RequestMapping("/qm/configservice/orderPool/")
 public class WorkformPoolController {
 
 	// 创建Logger实例

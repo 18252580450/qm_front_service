@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/qm/configservice/voicepool/")
+@RequestMapping("/qm/configservice/voicePool/")
 public class VoicePoolController {
 
 	// 创建Logger实例
