@@ -1,6 +1,6 @@
 package com.asiainfo.qm.execution.vo;
 
-import com.asiainfo.qm.execution.domain.OrderCheckResult;
+import com.asiainfo.qm.execution.domain.VoiceCheckResultDetail;
 import com.asiainfo.qm.manage.vo.Attach;
 import com.asiainfo.qm.manage.vo.ResponseParent;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,31 +15,31 @@ import java.util.List;
 
 /**
  * @ Author     ：dingzc.
- * @ Date       ：Created in 2018-12-11 16:26
+ * @ Date       ：Created in 2018-12-14 10:42
  * @ Description：${description}
  */
 
 @EqualsAndHashCode(callSuper = false)
 @Data
 @ApiModel
-public class OrderCheckResponse extends ResponseParent {
+public class VoiceCheckResultDetailResponse extends ResponseParent {
 
     @ApiModelProperty(name = "DATA", value = "", required = true, example = "")
     @JsonProperty(value = "DATA")
-    private List<OrderCheckResult> data = new ArrayList<OrderCheckResult>();
+    private List<VoiceCheckResultDetail> data = new ArrayList<VoiceCheckResultDetail>();
 
-    public OrderCheckResponse() {
+    public VoiceCheckResultDetailResponse() {
     }
 
-    public List<OrderCheckResult> getData() {
+    public List<VoiceCheckResultDetail> getData() {
         return data;
     }
 
-    public void setData(List<OrderCheckResult> data) {
+    public void setData(List<VoiceCheckResultDetail> data) {
         this.data = data;
     }
 
-    public OrderCheckResponse(Page<OrderCheckResult> pageResult) {
+    public VoiceCheckResultDetailResponse(Page<VoiceCheckResultDetail> pageResult) {
         this.setData(pageResult != null ? pageResult.getResult() : null);
         this.setAttach(new Attach(pageResult != null ? pageResult.getTotal() : 0L));
     }

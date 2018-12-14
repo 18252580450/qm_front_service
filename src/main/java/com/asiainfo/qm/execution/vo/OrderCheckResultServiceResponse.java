@@ -14,39 +14,38 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @ Author     ：dingzc.
- * @ Date       ：Created in 2018-12-11 16:31
+ * @ Date       ：Created in 2018-12-11 16:29
  * @ Description：${description}
  */
 
 @EqualsAndHashCode(callSuper = false)
 @Data
 @ApiModel
-public class VoiceCheckServiceResponse extends ServiceResponseParent {
-
-    private static Logger logger = LoggerFactory.getLogger(VoiceCheckServiceResponse.class);
+public class OrderCheckResultServiceResponse extends ServiceResponseParent {
+    private static Logger logger = LoggerFactory.getLogger(OrderCheckResultServiceResponse.class);
 
     @ApiModelProperty(name = "RSP", value = "服务返回业务数据", required = true)
     @JSONField(name = "RSP")
     @JsonProperty("RSP")
-    private VoiceCheckResponse response;
+    private OrderCheckResultResponse response;
 
     public static Logger getLogger() {
         return logger;
     }
 
     public static void setLogger(Logger logger) {
-        VoiceCheckServiceResponse.logger = logger;
+        OrderCheckResultServiceResponse.logger = logger;
     }
 
-    public VoiceCheckResponse getResponse() {
+    public OrderCheckResultResponse getResponse() {
         return response;
     }
 
-    public void setResponse(VoiceCheckResponse response) {
+    public void setResponse(OrderCheckResultResponse response) {
         this.response = response;
     }
 
-    public VoiceCheckServiceResponse() {
+    public OrderCheckResultServiceResponse() {
         try {
             this.txid = TxidUtils.generateTxid();
         } catch (Exception e) {
@@ -54,7 +53,7 @@ public class VoiceCheckServiceResponse extends ServiceResponseParent {
         }
     }
 
-    public VoiceCheckServiceResponse getSuccessResponse(VoiceCheckResponse response) {
+    public OrderCheckResultServiceResponse getSuccessResponse(OrderCheckResultResponse response) {
         this.setStatus(ServiceConstant.STATUS_SUCCESS);
         this.setMsg(ServiceConstant.MSG_SUCCESS);
         this.setResponse(response);
@@ -62,12 +61,11 @@ public class VoiceCheckServiceResponse extends ServiceResponseParent {
         return this;
     }
 
-    public VoiceCheckServiceResponse getErrorResponse(String errorStatus, String errorMsg, VoiceCheckResponse response) {
+    public OrderCheckResultServiceResponse getErrorResponse(String errorStatus, String errorMsg, OrderCheckResultResponse response) {
         this.setStatus(errorStatus);
         this.setMsg(errorMsg);
         this.setResponse(response);
         this.setTxid(TxidUtils.generateTxid());
         return this;
     }
-
 }
