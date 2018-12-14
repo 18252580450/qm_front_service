@@ -1,8 +1,11 @@
 package com.asiainfo.qm.manage.service.impl;
 
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
+import com.asiainfo.qm.manage.dao.QmStrategyElementRelMapper;
 import com.asiainfo.qm.manage.dao.QmStrategyMapper;
 import com.asiainfo.qm.manage.domain.QmStrategy;
+import com.asiainfo.qm.manage.domain.QmStrategyElementRel;
+import com.asiainfo.qm.manage.domain.QmStrategyElementRelExample;
 import com.asiainfo.qm.manage.domain.QmStrategyExample;
 import com.asiainfo.qm.manage.service.QmStrategyService;
 import com.asiainfo.qm.manage.util.DateUtil;
@@ -15,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +34,9 @@ public class QmStrategyServiceImpl implements QmStrategyService {
 	private QmStrategyMapper qmStrategyMapper;
 
 	@Autowired
+	private QmStrategyElementRelMapper qmStrategyElementRelMapper;
+
+	@Autowired
 	private SequenceUtils sequenceUtils;
 
 	@Override
@@ -39,33 +46,15 @@ public class QmStrategyServiceImpl implements QmStrategyService {
 		try {
 			QmStrategyExample.Criteria criteria= example.createCriteria();
 			criteria.andTenantIdEqualTo((String) params.get("tenantId"));
-//			if(null != params.get("planId")&& !"".equals(params.get("planId"))){
-//				criteria.andPlanIdEqualTo((String) params.get("planId"));
-//			}
-//			if(null != params.get("planName")&& !"".equals(params.get("planName"))){
-//				criteria.andPlanNameLike("%" + params.get("planName") + "%");
-//			}
-//			if(null != params.get("haltFlag")&& !"".equals(params.get("haltFlag"))){
-//				criteria.andHaltFlagEqualTo((String) params.get("haltFlag"));
-//			}
-//			if(null != params.get("planType")&& !"".equals(params.get("planType"))){
-//				criteria.andPlanTypeEqualTo((String) params.get("planType"));
-//			}
-//			if(null != params.get("createTimeStart")&& !"".equals(params.get("createTimeStart")) &&
-//					null != params.get("createTimeEnd")&& !"".equals(params.get("createTimeEnd"))){
-//				Timestamp createTimeStart = DateUtils.paraseSqlTimestamp((String) params.get("createTimeStart"), DateUtils.DATE_FORMAT_A_YYYYMMDDHHMMSS);
-//				Timestamp createTimeEnd = DateUtils.paraseSqlTimestamp((String)params.get("createTimeEnd"),DateUtils.DATE_FORMAT_A_YYYYMMDDHHMMSS);
-//				criteria.andCreateTimeBetween(createTimeStart, createTimeEnd);
-//			}else{
-//				if(null != params.get("createTimeStart")&& !"".equals(params.get("createTimeStart"))){
-//					Timestamp createTimeStart = DateUtils.paraseSqlTimestamp((String) params.get("createTimeStart"), DateUtils.DATE_FORMAT_A_YYYYMMDDHHMMSS);
-//					criteria.andCreateTimeGreaterThanOrEqualTo(createTimeStart);
-//				}
-//				if(null != params.get("createTimeEnd")&& !"".equals(params.get("createTimeEnd"))){
-//					Timestamp createTimeEnd = DateUtils.paraseSqlTimestamp((String) params.get("createTimeEnd"), DateUtils.DATE_FORMAT_A_YYYYMMDDHHMMSS);
-//					criteria.andCreateTimeGreaterThanOrEqualTo(createTimeEnd);
-//				}
-//			}
+			if(null != params.get("pName")&& !"".equals(params.get("pName"))){
+				criteria.andPNameLike("%"+ params.get("pName")+"%");
+			}
+			if(null != params.get("paramsTypeId")&& !"".equals(params.get("paramsTypeId"))){
+				criteria.andParamsTypeIdEqualTo((String) params.get("paramsTypeId"));
+			}
+			if(null != params.get("isValidate")&& !"".equals(params.get("isValidate"))){
+				criteria.andIsValidateEqualTo((String) params.get("isValidate"));
+			}
 
 			if(0 != limit) {
 				PageHelper.offsetPage(start, limit);
@@ -99,7 +88,7 @@ public class QmStrategyServiceImpl implements QmStrategyService {
 		try {
 			QmStrategyExample example = new QmStrategyExample();
 			QmStrategyExample.Criteria criteria= example.createCriteria();
-//			criteria.andPlanIdIn(ids);
+			criteria.andPIdIn(ids);
 			int result = qmStrategyMapper.deleteByExample(example);
 			if(result > 0){
 				qmStrategyResponse.setRspcode(WebUtil.SUCCESS);
@@ -125,8 +114,23 @@ public class QmStrategyServiceImpl implements QmStrategyService {
 			qmStrategy.setpId(String.valueOf(sequenceUtils.getSequence("t_qm_strategy")));
 			int result = qmStrategyMapper.insertSelective(qmStrategy);
 			if(result > 0){
-				qmStrategyResponse.setRspcode(WebUtil.SUCCESS);
-				qmStrategyResponse.setRspdesc("新增成功");
+				List<QmStrategyElementRel> elementRels = qmStrategy.getElements();
+				int eleRet = elementRels.size();
+				for(int i = 0;i<elementRels.size();i++){
+					QmStrategyElementRel elementRel = elementRels.get(i);
+					elementRel.setpId(qmStrategy.getpId());
+					int ret = qmStrategyElementRelMapper.insertSelective(elementRel);
+					if(ret <= 0){
+						eleRet--;
+					}
+				}
+				if(eleRet == elementRels.size()){
+					qmStrategyResponse.setRspcode(WebUtil.SUCCESS);
+					qmStrategyResponse.setRspdesc("新增成功");
+				}else {
+					qmStrategyResponse.setRspcode(WebUtil.FAIL);
+					qmStrategyResponse.setRspdesc("新增元素失败");
+				}
 			}else {
 				qmStrategyResponse.setRspcode(WebUtil.FAIL);
 				qmStrategyResponse.setRspdesc("新增失败");
@@ -147,8 +151,28 @@ public class QmStrategyServiceImpl implements QmStrategyService {
 			qmStrategy.setUpdateDate(DateUtil.getCurrontTime());
 			int result = qmStrategyMapper.updateByPrimaryKey(qmStrategy);
 			if(result > 0){
-				qmStrategyResponse.setRspcode(WebUtil.SUCCESS);
-				qmStrategyResponse.setRspdesc("更新成功");
+				List<QmStrategyElementRel> elementRels = qmStrategy.getElements();
+				int eleRet = elementRels.size();
+				for(int i = 0;i<elementRels.size();i++){
+					QmStrategyElementRel elementRel = elementRels.get(i);
+					int ret;
+					if(null != elementRel.getpId()){
+						ret = qmStrategyElementRelMapper.updateByPrimaryKey(elementRel);
+					}else{
+						elementRel.setpId(qmStrategy.getpId());
+						ret = qmStrategyElementRelMapper.insertSelective(elementRel);
+					}
+					if(ret <= 0){
+						eleRet--;
+					}
+				}
+				if(eleRet == elementRels.size()){
+					qmStrategyResponse.setRspcode(WebUtil.SUCCESS);
+					qmStrategyResponse.setRspdesc("更新成功");
+				}else{
+					qmStrategyResponse.setRspcode(WebUtil.FAIL);
+					qmStrategyResponse.setRspdesc("更新元素失败");
+				}
 			}else {
 				qmStrategyResponse.setRspcode(WebUtil.FAIL);
 				qmStrategyResponse.setRspdesc("更新失败");
@@ -162,26 +186,31 @@ public class QmStrategyServiceImpl implements QmStrategyService {
 		return  qmStrategyResponse;
 	}
 
-//	@Override
-//	public QmPlanResponse getPlanById(String id) throws Exception {
-//		QmPlanResponse qmPlanResponse = new QmPlanResponse();
-//
-//		try {
-//			QmPlan qmPlan = qmPlanMapper.selectByPrimaryKey(id);
-//			if(null != qmPlan){
-//				List<QmPlan> list = new ArrayList<QmPlan>();
-//				list.add(qmPlan);
-//				qmPlanResponse.setData(list);
-//				qmPlanResponse.setRspcode(WebUtil.SUCCESS);
-//				qmPlanResponse.setRspdesc("查询成功");
-//			}
-//		}catch (Exception e){
-//			e.printStackTrace();
-//			logger.error("查询异常",e);
-//			qmPlanResponse.setRspcode(WebUtil.EXCEPTION);
-//			qmPlanResponse.setRspdesc("查询异常");
-//		}
-//		return  qmPlanResponse;
-//	}
+	@Override
+	public QmStrategyResponse getStrategyById(String id) throws Exception {
+		QmStrategyResponse qmStrategyResponse = new QmStrategyResponse();
+
+		try {
+			QmStrategy qmStrategy = qmStrategyMapper.selectByPrimaryKey(id);
+			if(null != qmStrategy){
+				List<QmStrategy> list = new ArrayList<>();
+				QmStrategyElementRelExample qmStrategyElementRelExample = new QmStrategyElementRelExample();
+				QmStrategyElementRelExample.Criteria criteria = qmStrategyElementRelExample.createCriteria();
+				criteria.andPIdEqualTo(qmStrategy.getpId());
+				List<QmStrategyElementRel> qmStrategyElementRels = qmStrategyElementRelMapper.selectByExample(qmStrategyElementRelExample);
+				qmStrategy.setElements(qmStrategyElementRels);
+				list.add(qmStrategy);
+				qmStrategyResponse.setData(list);
+				qmStrategyResponse.setRspcode(WebUtil.SUCCESS);
+				qmStrategyResponse.setRspdesc("查询成功");
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error("查询异常",e);
+			qmStrategyResponse.setRspcode(WebUtil.EXCEPTION);
+			qmStrategyResponse.setRspdesc("查询异常");
+		}
+		return  qmStrategyResponse;
+	}
 
 }

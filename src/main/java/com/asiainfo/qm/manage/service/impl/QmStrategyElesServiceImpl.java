@@ -2,8 +2,11 @@ package com.asiainfo.qm.manage.service.impl;
 
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.QmStrategyElementMapper;
+import com.asiainfo.qm.manage.dao.QmStrategyElementRelMapper;
 import com.asiainfo.qm.manage.domain.QmStrategyElement;
 import com.asiainfo.qm.manage.domain.QmStrategyElementExample;
+import com.asiainfo.qm.manage.domain.QmStrategyElementRel;
+import com.asiainfo.qm.manage.domain.QmStrategyElementRelExample;
 import com.asiainfo.qm.manage.service.QmStrategyElesService;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.manage.vo.QmStrategyElesResponse;
@@ -28,6 +31,9 @@ public class QmStrategyElesServiceImpl implements QmStrategyElesService {
 
 	@Autowired
 	private QmStrategyElementMapper qmStrategyElementMapper;
+
+	@Autowired
+	private QmStrategyElementRelMapper qmStrategyElementRelMapper;
 
 	@Autowired
 	private SequenceUtils sequenceUtils;
@@ -72,16 +78,27 @@ public class QmStrategyElesServiceImpl implements QmStrategyElesService {
 	public QmStrategyElesResponse deleteByIds(List<String> ids) throws Exception {
 		QmStrategyElesResponse qmStrategyElesResponse = new QmStrategyElesResponse();
 		try {
-			QmStrategyElementExample example = new QmStrategyElementExample();
-			QmStrategyElementExample.Criteria criteria= example.createCriteria();
-			criteria.andElementIdIn(ids);
-			int result = qmStrategyElementMapper.deleteByExample(example);
-			if(result > 0){
-				qmStrategyElesResponse.setRspcode(WebUtil.SUCCESS);
-				qmStrategyElesResponse.setRspdesc("删除成功");
-			}else {
-				qmStrategyElesResponse.setRspcode(WebUtil.FAIL);
-				qmStrategyElesResponse.setRspdesc("删除失败");
+			for(int i = 0;i<ids.size();i++){
+				QmStrategyElementRelExample elementExample = new QmStrategyElementRelExample();
+				QmStrategyElementRelExample.Criteria criteria = elementExample.createCriteria();
+				criteria.andElementIdEqualTo(ids.get(i));
+				List<QmStrategyElementRel> rels = qmStrategyElementRelMapper.selectByExample(elementExample);
+				if(rels.size() > 0){
+					qmStrategyElesResponse.setRspcode(WebUtil.FAIL);
+					qmStrategyElesResponse.setRspdesc("元素正被使用，无法删除");
+				}else {
+					QmStrategyElementExample example = new QmStrategyElementExample();
+					QmStrategyElementExample.Criteria criteria1 = example.createCriteria();
+					criteria1.andElementIdIn(ids);
+					int result = qmStrategyElementMapper.deleteByExample(example);
+					if(result > 0){
+						qmStrategyElesResponse.setRspcode(WebUtil.SUCCESS);
+						qmStrategyElesResponse.setRspdesc("删除成功");
+					}else {
+						qmStrategyElesResponse.setRspcode(WebUtil.FAIL);
+						qmStrategyElesResponse.setRspdesc("删除失败");
+					}
+				}
 			}
 		}catch (Exception e){
 			e.printStackTrace();
@@ -118,13 +135,22 @@ public class QmStrategyElesServiceImpl implements QmStrategyElesService {
 	public QmStrategyElesResponse updateQmStrategyEles(QmStrategyElement qmStrategyEles) throws Exception {
 		QmStrategyElesResponse qmStrategyElesResponse = new QmStrategyElesResponse();
 		try {
-			int result = qmStrategyElementMapper.updateByPrimaryKey(qmStrategyEles);
-			if(result > 0){
-				qmStrategyElesResponse.setRspcode(WebUtil.SUCCESS);
-				qmStrategyElesResponse.setRspdesc("更新成功");
-			}else {
+			QmStrategyElementRelExample elementExample = new QmStrategyElementRelExample();
+			QmStrategyElementRelExample.Criteria criteria = elementExample.createCriteria();
+			criteria.andElementIdEqualTo(qmStrategyEles.getElementId());
+			List<QmStrategyElementRel> rels = qmStrategyElementRelMapper.selectByExample(elementExample);
+			if(rels.size() > 0){
 				qmStrategyElesResponse.setRspcode(WebUtil.FAIL);
-				qmStrategyElesResponse.setRspdesc("更新失败");
+				qmStrategyElesResponse.setRspdesc("该元素正被使用，无法更新");
+			}else {
+				int result = qmStrategyElementMapper.updateByPrimaryKey(qmStrategyEles);
+				if(result > 0){
+					qmStrategyElesResponse.setRspcode(WebUtil.SUCCESS);
+					qmStrategyElesResponse.setRspdesc("更新成功");
+				}else {
+					qmStrategyElesResponse.setRspcode(WebUtil.FAIL);
+					qmStrategyElesResponse.setRspdesc("更新失败");
+				}
 			}
 		}catch (Exception e){
 			e.printStackTrace();

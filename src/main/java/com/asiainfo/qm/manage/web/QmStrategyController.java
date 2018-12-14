@@ -9,6 +9,7 @@ import com.asiainfo.qm.manage.vo.QmStrategyServiceResponse;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
@@ -47,7 +48,7 @@ public class QmStrategyController {
 		try {
 			qmStrategyResponse = qmStrategyService.selectByParams(reqParams,start,limit);
 		}catch (Exception e){
-			logger.error("考评策略元素查询异常");
+			logger.error("考评策略查询异常");
 			qmStrategyResponse.setRspcode(WebUtil.EXCEPTION);
 			qmStrategyResponse.setRspdesc("考评策略查询异常!");
 		}
@@ -121,7 +122,7 @@ public class QmStrategyController {
 		return qmStrategyServiceResponse;
 	}
 
-	public QmStrategyServiceResponse fallbackAddQmStrategyResponse(@RequestBody String  qmStrategy) throws Exception {
+	public QmStrategyServiceResponse fallbackAddQmStrategy(@RequestBody String  qmStrategy) throws Exception {
 		logger.info("新增考评策略出错啦！");
 		logger.error("");
 		QmStrategyServiceResponse qmStrategyServiceResponse = new QmStrategyServiceResponse();
@@ -161,4 +162,34 @@ public class QmStrategyController {
 		return qmStrategyServiceResponse;
 	}
 
+	@ApiOperation(value = "根据ID查询考评策略", notes = "qm_configservice根据ID查询考评策略", response = QmStrategyServiceResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+			@ApiResponse(code = 403, message = "资源不存在"),
+			@ApiResponse(code = 404, message = "传入的参数无效"),
+			@ApiResponse(code = 500, message = "服务器出现异常错误") })
+	@HystrixCommand(groupKey = "qm_configservice", commandKey = "getStrategyById", threadPoolKey = "getStrategyByIdThread",fallbackMethod = "fallbackGetStrategyById", commandProperties = {
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
+			@HystrixProperty(name = "coreSize", value = "200") })
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public QmStrategyServiceResponse getStrategyById(@ApiParam(value = "策略ID", required = true) @PathVariable("id") String id) throws Exception {
+		QmStrategyServiceResponse qmStrategyServiceResponse = new QmStrategyServiceResponse();
+		QmStrategyResponse qmStrategyResponse = new QmStrategyResponse();
+		try {
+			qmStrategyResponse = qmStrategyService.getStrategyById(id);
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error("根据ID查询考评策略异常");
+			qmStrategyResponse.setRspcode(WebUtil.EXCEPTION);
+			qmStrategyResponse.setRspdesc("批根据ID查询考评策略异常!");
+		}
+		qmStrategyServiceResponse.setResponse(qmStrategyResponse);
+		return qmStrategyServiceResponse;
+	}
+
+	// 降级处理的函数
+	public QmStrategyServiceResponse fallbackGetStrategyById(String id) {
+		QmStrategyServiceResponse serviceResponse = new QmStrategyServiceResponse();
+		return serviceResponse;
+	}
 }

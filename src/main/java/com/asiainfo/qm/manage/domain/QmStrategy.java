@@ -1,6 +1,7 @@
 package com.asiainfo.qm.manage.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class QmStrategy {
     private String pId;
@@ -13,7 +14,11 @@ public class QmStrategy {
 
     private String pName;
 
-    private String pType;
+    private String paramsTypeId;
+
+    private String paramsTypeName;
+
+    private List<QmStrategyElementRel> elements;
 
     private String isValidate;
 
@@ -40,6 +45,22 @@ public class QmStrategy {
     private String reserve4;
 
     private String reserve5;
+
+    public List<QmStrategyElementRel> getElements() {
+        return elements;
+    }
+
+    public void setElements(List<QmStrategyElementRel> elements) {
+        this.elements = elements;
+    }
+
+    public String getParamsTypeName() {
+        return paramsTypeName;
+    }
+
+    public void setParamsTypeName(String paramsTypeName) {
+        this.paramsTypeName = paramsTypeName;
+    }
 
     public String getpId() {
         return pId;
@@ -81,12 +102,12 @@ public class QmStrategy {
         this.pName = pName == null ? null : pName.trim();
     }
 
-    public String getpType() {
-        return pType;
+    public String getParamsTypeId() {
+        return paramsTypeId;
     }
 
-    public void setpType(String pType) {
-        this.pType = pType == null ? null : pType.trim();
+    public void setParamsTypeId(String paramsTypeId) {
+        this.paramsTypeId = paramsTypeId == null ? null : paramsTypeId.trim();
     }
 
     public String getIsValidate() {

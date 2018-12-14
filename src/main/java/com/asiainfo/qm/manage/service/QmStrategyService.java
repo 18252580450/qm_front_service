@@ -18,6 +18,6 @@ public interface QmStrategyService {
 
 //	QmStrategyResponse batchUpdate(List<String> ids, String halfFlag)throws Exception;
 
-//	QmStrategyResponse getPlanById(String id)throws Exception;
+	QmStrategyResponse getStrategyById(String id)throws Exception;
 }
 	
