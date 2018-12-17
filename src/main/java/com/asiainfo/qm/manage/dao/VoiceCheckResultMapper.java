@@ -1,7 +1,7 @@
-package com.asiainfo.qm.execution.dao;
+package com.asiainfo.qm.manage.dao;
 
-import com.asiainfo.qm.execution.domain.VoiceCheckResult;
-import com.asiainfo.qm.execution.domain.VoiceCheckResultExample;
+import com.asiainfo.qm.manage.domain.VoiceCheckResult;
+import com.asiainfo.qm.manage.domain.VoiceCheckResultExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

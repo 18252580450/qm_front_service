@@ -1017,4 +1017,24 @@ public class Constants {
         String UNTREATED="0";//待处理
         String TREATED="1";//已处理
     }
+
+    /**
+     * 考评模版节点类型
+     */
+    public interface QM_TEMPLATE_NODE_TYPE {
+        String ROOT_NODE = "0";  //根节点考评模板
+        String OBJECT = "1";     //考评对象
+        String CATEGORY = "2";   //考评类别
+        String CHECK_ITEM = "3"; //考评项
+    }
+
+    /**
+     * 质检状态标志
+     */
+    public interface QM_CHECK_RESULT {
+        String CHECKING = "0";   //待质检
+        String RECHECKING = "1"; //待复检
+        String CHECKED = "2";    //已质检
+        String RECHECKED = "3";  //已复检
+    }
 }

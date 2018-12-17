@@ -1,7 +1,7 @@
 package com.asiainfo.qm.execution.service;
 
-import com.asiainfo.qm.execution.domain.VoiceCheckResult;
 import com.asiainfo.qm.execution.vo.VoiceCheckResultResponse;
+import com.asiainfo.qm.manage.domain.VoiceCheckResult;
 
 import java.util.List;
 import java.util.Map;

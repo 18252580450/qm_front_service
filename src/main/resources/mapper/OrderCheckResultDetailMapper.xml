@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.asiainfo.qm.execution.dao.OrderCheckResultDetailMapper" >
-  <resultMap id="BaseResultMap" type="com.asiainfo.qm.execution.domain.OrderCheckResultDetail" >
+<mapper namespace="com.asiainfo.qm.manage.dao.OrderCheckResultDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.asiainfo.qm.manage.domain.OrderCheckResultDetail" >
     <id column="INSPECTION_ID" property="inspectionId" jdbcType="VARCHAR" />
     <id column="TOUCH_ID" property="touchId" jdbcType="VARCHAR" />
     <id column="CHECK_LINK" property="checkLink" jdbcType="VARCHAR" />
@@ -101,7 +101,7 @@
     MIN_SCORE, MAX_SCORE, REAL_SCORE, CHECK_COMMENT, RESERVE_1, RESERVE_2, RESERVE_3, 
     RESERVE_4, RESERVE_5, RESERVE_6, RESERVE_7, RESERVE_8, RESERVE_9, RESERVE_10
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.execution.domain.OrderCheckResultDetailExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultDetailExample" >
     select
     <if test="distinct" >
       distinct
@@ -115,7 +115,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.execution.domain.OrderCheckResultDetailKey" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultDetailKey" >
     select 
     <include refid="Base_Column_List" />
     from t_qm_order_check_result_detail
@@ -124,20 +124,20 @@
       and CHECK_LINK = #{checkLink,jdbcType=VARCHAR}
       and NODE_ID = #{nodeId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.asiainfo.qm.execution.domain.OrderCheckResultDetailKey" >
+  <delete id="deleteByPrimaryKey" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultDetailKey" >
     delete from t_qm_order_check_result_detail
     where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
       and TOUCH_ID = #{touchId,jdbcType=VARCHAR}
       and CHECK_LINK = #{checkLink,jdbcType=VARCHAR}
       and NODE_ID = #{nodeId,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.asiainfo.qm.execution.domain.OrderCheckResultDetailExample" >
+  <delete id="deleteByExample" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultDetailExample" >
     delete from t_qm_order_check_result_detail
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.asiainfo.qm.execution.domain.OrderCheckResultDetail" >
+  <insert id="insert" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultDetail" >
     insert into t_qm_order_check_result_detail (INSPECTION_ID, TOUCH_ID, CHECK_LINK, 
       NODE_ID, TENANT_ID, ACCEPT_MONTH, 
       PROVINCE_ID, CITY_ID, NODE_TYPE, 
@@ -163,7 +163,7 @@
       #{reserve8,jdbcType=VARCHAR}, #{reserve9,jdbcType=VARCHAR}, #{reserve10,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.asiainfo.qm.execution.domain.OrderCheckResultDetail" >
+  <insert id="insertSelective" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultDetail" >
     insert into t_qm_order_check_result_detail
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="inspectionId != null" >
@@ -368,7 +368,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.asiainfo.qm.execution.domain.OrderCheckResultDetailExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultDetailExample" resultType="java.lang.Integer" >
     select count(*) from t_qm_order_check_result_detail
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -520,7 +520,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.qm.execution.domain.OrderCheckResultDetail" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultDetail" >
     update t_qm_order_check_result_detail
     <set >
       <if test="tenantId != null" >
@@ -616,7 +616,7 @@
       and CHECK_LINK = #{checkLink,jdbcType=VARCHAR}
       and NODE_ID = #{nodeId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.execution.domain.OrderCheckResultDetail" >
+  <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultDetail" >
     update t_qm_order_check_result_detail
     set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
       ACCEPT_MONTH = #{acceptMonth,jdbcType=VARCHAR},

@@ -1,6 +1,6 @@
 package com.asiainfo.qm.execution.vo;
 
-import com.asiainfo.qm.execution.domain.OrderCheckResultDetail;
+import com.asiainfo.qm.manage.domain.OrderCheckResultDetail;
 import com.asiainfo.qm.manage.vo.Attach;
 import com.asiainfo.qm.manage.vo.ResponseParent;
 import com.fasterxml.jackson.annotation.JsonProperty;

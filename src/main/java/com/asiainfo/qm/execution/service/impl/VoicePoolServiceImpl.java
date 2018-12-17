@@ -167,5 +167,26 @@ public class VoicePoolServiceImpl implements VoicePoolService {
         }
         return voicePoolResponse;
     }
+
+    @Override
+    public VoicePoolResponse updateVoicePool(VoicePool voicePool) throws Exception {
+        VoicePoolResponse voicePoolResponse = new VoicePoolResponse();
+        try {
+            int result = voicePoolMapper.updateByPrimaryKey(voicePool);
+            if (result > 0) {
+                voicePoolResponse.setRspcode(WebUtil.SUCCESS);
+                voicePoolResponse.setRspdesc("更新成功");
+            } else {
+                voicePoolResponse.setRspcode(WebUtil.FAIL);
+                voicePoolResponse.setRspdesc("更新失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("质检池更新异常", e);
+            voicePoolResponse.setRspcode(WebUtil.EXCEPTION);
+            voicePoolResponse.setRspdesc("质检池更新异常");
+        }
+        return voicePoolResponse;
+    }
 }
 

@@ -1,8 +1,15 @@
 package com.asiainfo.qm.execution.service.impl;
 
-import com.asiainfo.qm.execution.domain.VoiceCheckResult;
 import com.asiainfo.qm.execution.service.VoiceCheckResultService;
 import com.asiainfo.qm.execution.vo.VoiceCheckResultResponse;
+import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
+import com.asiainfo.qm.manage.dao.VoiceCheckResultMapper;
+import com.asiainfo.qm.manage.domain.VoiceCheckResult;
+import com.asiainfo.qm.manage.service.impl.CheckItemServiceImpl;
+import com.asiainfo.qm.manage.util.WebUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +24,13 @@ import java.util.Map;
 @Service
 public class VoiceCheckResultServiceImpl implements VoiceCheckResultService {
 
+    private static Logger logger = LoggerFactory.getLogger(CheckItemServiceImpl.class);
+    @Autowired
+    private VoiceCheckResultMapper voiceCheckResultMapper;
+
+    @Autowired
+    private SequenceUtils sequenceUtils;
+
     @Override
     public VoiceCheckResultResponse queryVoiceCheckResult(Map params, int start, int limit) throws Exception {
         return null;
@@ -24,7 +38,23 @@ public class VoiceCheckResultServiceImpl implements VoiceCheckResultService {
 
     @Override
     public VoiceCheckResultResponse addVoiceCheckResult(VoiceCheckResult voiceCheckResult) throws Exception {
-        return null;
+        VoiceCheckResultResponse voiceCheckResultResponse = new VoiceCheckResultResponse();
+        try {
+            int result = voiceCheckResultMapper.insertSelective(voiceCheckResult);
+            if (result > 0) {
+                voiceCheckResultResponse.setRspcode(WebUtil.SUCCESS);
+                voiceCheckResultResponse.setRspdesc("新增成功");
+            } else {
+                voiceCheckResultResponse.setRspcode(WebUtil.FAIL);
+                voiceCheckResultResponse.setRspdesc("新增失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("语音考评结果新增异常", e);
+            voiceCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
+            voiceCheckResultResponse.setRspdesc("语音考评结果新增异常");
+        }
+        return voiceCheckResultResponse;
     }
 
     @Override

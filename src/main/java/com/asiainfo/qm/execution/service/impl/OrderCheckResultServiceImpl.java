@@ -1,8 +1,8 @@
 package com.asiainfo.qm.execution.service.impl;
 
-import com.asiainfo.qm.execution.domain.OrderCheckResult;
 import com.asiainfo.qm.execution.service.OrderCheckResultService;
 import com.asiainfo.qm.execution.vo.OrderCheckResultResponse;
+import com.asiainfo.qm.manage.domain.OrderCheckResult;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

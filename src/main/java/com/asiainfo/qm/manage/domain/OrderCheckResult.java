@@ -1,11 +1,9 @@
-package com.asiainfo.qm.execution.domain;
+package com.asiainfo.qm.manage.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class VoiceCheckResult {
-    private String inspectionId;
-
+public class OrderCheckResult extends OrderCheckResultKey {
     private String tenantId;
 
     private String acceptMonth;
@@ -21,8 +19,6 @@ public class VoiceCheckResult {
     private String customerLevel;
 
     private String originInspectionId;
-
-    private String touchId;
 
     private String planId;
 
@@ -108,14 +104,6 @@ public class VoiceCheckResult {
 
     private String reserve10;
 
-    public String getInspectionId() {
-        return inspectionId;
-    }
-
-    public void setInspectionId(String inspectionId) {
-        this.inspectionId = inspectionId == null ? null : inspectionId.trim();
-    }
-
     public String getTenantId() {
         return tenantId;
     }
@@ -178,14 +166,6 @@ public class VoiceCheckResult {
 
     public void setOriginInspectionId(String originInspectionId) {
         this.originInspectionId = originInspectionId == null ? null : originInspectionId.trim();
-    }
-
-    public String getTouchId() {
-        return touchId;
-    }
-
-    public void setTouchId(String touchId) {
-        this.touchId = touchId == null ? null : touchId.trim();
     }
 
     public String getPlanId() {

@@ -1,18 +1,18 @@
-package com.asiainfo.qm.execution.domain;
+package com.asiainfo.qm.manage.domain;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class VoiceCheckResultDetailExample {
+public class OrderCheckResultDetailExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public VoiceCheckResultDetailExample() {
+    public OrderCheckResultDetailExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -173,6 +173,146 @@ public class VoiceCheckResultDetailExample {
 
         public Criteria andInspectionIdNotBetween(String value1, String value2) {
             addCriterion("INSPECTION_ID not between", value1, value2, "inspectionId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdIsNull() {
+            addCriterion("TOUCH_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdIsNotNull() {
+            addCriterion("TOUCH_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdEqualTo(String value) {
+            addCriterion("TOUCH_ID =", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdNotEqualTo(String value) {
+            addCriterion("TOUCH_ID <>", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdGreaterThan(String value) {
+            addCriterion("TOUCH_ID >", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdGreaterThanOrEqualTo(String value) {
+            addCriterion("TOUCH_ID >=", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdLessThan(String value) {
+            addCriterion("TOUCH_ID <", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdLessThanOrEqualTo(String value) {
+            addCriterion("TOUCH_ID <=", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdLike(String value) {
+            addCriterion("TOUCH_ID like", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdNotLike(String value) {
+            addCriterion("TOUCH_ID not like", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdIn(List<String> values) {
+            addCriterion("TOUCH_ID in", values, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdNotIn(List<String> values) {
+            addCriterion("TOUCH_ID not in", values, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdBetween(String value1, String value2) {
+            addCriterion("TOUCH_ID between", value1, value2, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdNotBetween(String value1, String value2) {
+            addCriterion("TOUCH_ID not between", value1, value2, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckLinkIsNull() {
+            addCriterion("CHECK_LINK is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckLinkIsNotNull() {
+            addCriterion("CHECK_LINK is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckLinkEqualTo(String value) {
+            addCriterion("CHECK_LINK =", value, "checkLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckLinkNotEqualTo(String value) {
+            addCriterion("CHECK_LINK <>", value, "checkLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckLinkGreaterThan(String value) {
+            addCriterion("CHECK_LINK >", value, "checkLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckLinkGreaterThanOrEqualTo(String value) {
+            addCriterion("CHECK_LINK >=", value, "checkLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckLinkLessThan(String value) {
+            addCriterion("CHECK_LINK <", value, "checkLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckLinkLessThanOrEqualTo(String value) {
+            addCriterion("CHECK_LINK <=", value, "checkLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckLinkLike(String value) {
+            addCriterion("CHECK_LINK like", value, "checkLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckLinkNotLike(String value) {
+            addCriterion("CHECK_LINK not like", value, "checkLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckLinkIn(List<String> values) {
+            addCriterion("CHECK_LINK in", values, "checkLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckLinkNotIn(List<String> values) {
+            addCriterion("CHECK_LINK not in", values, "checkLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckLinkBetween(String value1, String value2) {
+            addCriterion("CHECK_LINK between", value1, value2, "checkLink");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckLinkNotBetween(String value1, String value2) {
+            addCriterion("CHECK_LINK not between", value1, value2, "checkLink");
             return (Criteria) this;
         }
 

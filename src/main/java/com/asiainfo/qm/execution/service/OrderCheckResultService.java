@@ -1,7 +1,7 @@
 package com.asiainfo.qm.execution.service;
 
-import com.asiainfo.qm.execution.domain.OrderCheckResult;
 import com.asiainfo.qm.execution.vo.OrderCheckResultResponse;
+import com.asiainfo.qm.manage.domain.OrderCheckResult;
 
 import java.util.List;
 import java.util.Map;

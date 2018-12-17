@@ -1,8 +1,8 @@
-package com.asiainfo.qm.execution.dao;
+package com.asiainfo.qm.manage.dao;
 
-import com.asiainfo.qm.execution.domain.OrderCheckResultDetail;
-import com.asiainfo.qm.execution.domain.OrderCheckResultDetailExample;
-import com.asiainfo.qm.execution.domain.OrderCheckResultDetailKey;
+import com.asiainfo.qm.manage.domain.OrderCheckResultDetail;
+import com.asiainfo.qm.manage.domain.OrderCheckResultDetailExample;
+import com.asiainfo.qm.manage.domain.OrderCheckResultDetailKey;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

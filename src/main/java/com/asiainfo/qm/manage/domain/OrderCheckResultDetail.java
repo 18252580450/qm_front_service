@@ -1,9 +1,9 @@
-package com.asiainfo.qm.execution.domain;
+package com.asiainfo.qm.manage.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class VoiceCheckResultDetail extends VoiceCheckResultDetailKey {
+public class OrderCheckResultDetail extends OrderCheckResultDetailKey {
     private String tenantId;
 
     private String acceptMonth;

@@ -1,4 +1,4 @@
-package com.asiainfo.qm.execution.domain;
+package com.asiainfo.qm.manage.domain;
 
 public class VoiceCheckResultDetailKey {
     private String inspectionId;
