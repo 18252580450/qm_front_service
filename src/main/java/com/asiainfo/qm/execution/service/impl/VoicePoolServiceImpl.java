@@ -172,7 +172,7 @@ public class VoicePoolServiceImpl implements VoicePoolService {
     public VoicePoolResponse updateVoicePool(VoicePool voicePool) throws Exception {
         VoicePoolResponse voicePoolResponse = new VoicePoolResponse();
         try {
-            int result = voicePoolMapper.updateByPrimaryKey(voicePool);
+            int result = voicePoolMapper.updateByInspectionId(voicePool);
             if (result > 0) {
                 voicePoolResponse.setRspcode(WebUtil.SUCCESS);
                 voicePoolResponse.setRspdesc("更新成功");

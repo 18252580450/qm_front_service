@@ -680,6 +680,45 @@
     where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
   </update>
 
+  <!--根据质检流水更新质检状态-->
+  <update id="updateByInspectionId" parameterType="com.asiainfo.qm.execution.domain.VoicePool" >
+    update t_qm_voice_pool
+    set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+        PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+        INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR},
+        PLAN_ID = #{planId,jdbcType=VARCHAR},
+        CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
+        CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
+        CHECKED_STAFF_ID = #{checkedStaffId,jdbcType=VARCHAR},
+        CHECKED_STAFF_NAME = #{checkedStaffName,jdbcType=VARCHAR},
+        IS_OPERATE = #{isOperate,jdbcType=VARCHAR},
+        HUNGUP_TYPE = #{hungupType,jdbcType=VARCHAR},
+        CALL_TYPE = #{callType,jdbcType=VARCHAR},
+        VOICE_SATISFY_EXTENT = #{voiceSatisfyExtent,jdbcType=VARCHAR},
+        RECORD_TIME = #{recordTime,jdbcType=INTEGER},
+        CALLING_NUMBER = #{callingNumber,jdbcType=VARCHAR},
+        CALLED_NUMBER = #{calledNumber,jdbcType=VARCHAR},
+        SATISFY_EXTENT_TYPE = #{satisfyExtentType,jdbcType=VARCHAR},
+        VIP_SATISFY_EXTENT = #{vipSatisfyExtent,jdbcType=VARCHAR},
+        MEDIA_TYPE = #{mediaType,jdbcType=VARCHAR},
+        SRV_REQST_TYPE_ID = #{srvReqstTypeId,jdbcType=VARCHAR},
+        SRV_REQST_TYPE_NM = #{srvReqstTypeNm,jdbcType=VARCHAR},
+        SRV_REQST_TYPE_FULL_NM = #{srvReqstTypeFullNm,jdbcType=VARCHAR},
+        CHECKED_TIME = #{checkedTime,jdbcType=TIMESTAMP},
+        OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+        STRATEGY_NAME = #{strategyName,jdbcType=VARCHAR},
+        ORG_TYPE = #{orgType,jdbcType=VARCHAR},
+        RESERVE_1 = #{reserve1,jdbcType=VARCHAR},
+        RESERVE_2 = #{reserve2,jdbcType=VARCHAR},
+        RESERVE_3 = #{reserve3,jdbcType=VARCHAR},
+        RESERVE_4 = #{reserve4,jdbcType=VARCHAR},
+        RESERVE_5 = #{reserve5,jdbcType=VARCHAR},
+        RESERVE_6 = #{reserve6,jdbcType=VARCHAR},
+        RESERVE_7 = #{reserve7,jdbcType=VARCHAR},
+        RESERVE_8 = #{reserve8,jdbcType=VARCHAR}
+    where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
+  </update>
+
   <!--新增批量更新-->
   <update id="update" parameterType="java.util.List" >
     update t_qm_voice_pool

@@ -34,4 +34,5 @@ public interface VoicePoolMapper {
 
     int updateCheck(List<Map> list);//新增方法
 
+    int updateByInspectionId(VoicePool record); //根据质检流水号更新质检状态
 }
