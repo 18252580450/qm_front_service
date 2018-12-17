@@ -163,4 +163,38 @@ public class AddCheckTemplateController {
 		return templateDetailServiceResponse;
 	}
 
+	//数据更新
+    @ApiOperation(value = "前端调用接口修改考评模板状态", notes = "qm_configservice修改考评模板状态", response = TemplateDetailServiceResponse.class)
+    @ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误") })
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "action", threadPoolKey = "actionThread", fallbackMethod = "fallbackUpdate",commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200") })
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    public TemplateDetailServiceResponse action(@RequestBody String params) throws Exception {
+        TemplateDetailResponse templateDetailResponse = new TemplateDetailResponse();
+        TemplateDetailServiceResponse templateDetailServiceResponse = new TemplateDetailServiceResponse();
+        //String 转 ListMap
+        JSONArray jsonArray = JSONArray.fromObject(params);
+        List<Map> list = (List<Map>)jsonArray;
+        try {
+            templateDetailResponse = addCheckTemplateService.update(list);
+        }catch (Exception e){
+            logger.error("数据修改异常");
+            templateDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            templateDetailResponse.setRspdesc("数据修改异常!");
+        }
+        templateDetailServiceResponse.setResponse(templateDetailResponse);
+        return templateDetailServiceResponse;
+    }
+
+    public TemplateDetailServiceResponse fallbackUpdate(@RequestBody String params) throws Exception {
+        logger.info("修改模板状态出错啦！");
+        logger.error("");
+        TemplateDetailServiceResponse templateDetailServiceResponse = new TemplateDetailServiceResponse();
+        return templateDetailServiceResponse;
+    }
 }

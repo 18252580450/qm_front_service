@@ -19,4 +19,5 @@ public interface AddCheckTemplateService {
 
     TemplateDetailResponse selectByParams(Map params, int start, int limit)throws Exception;
 
+    TemplateDetailResponse update(List<Map> list)throws Exception;
 }

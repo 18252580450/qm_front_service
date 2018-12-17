@@ -4,6 +4,8 @@ import com.asiainfo.qm.manage.domain.TemplateDetail;
 import com.asiainfo.qm.manage.domain.TemplateDetailExample;
 import com.asiainfo.qm.manage.domain.TemplateDetailKey;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface TemplateDetailMapper {
@@ -28,4 +30,6 @@ public interface TemplateDetailMapper {
     int updateByPrimaryKeySelective(TemplateDetail record);
 
     int updateByPrimaryKey(TemplateDetail record);
+
+    int update(List<Map> list);//新增方法
 }

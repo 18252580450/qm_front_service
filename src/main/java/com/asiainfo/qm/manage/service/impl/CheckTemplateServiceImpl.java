@@ -105,16 +105,16 @@ public class CheckTemplateServiceImpl implements CheckTemplateService {
 			int result = checkTemplateMapper.updateByPrimaryKey(checkTemplate);
 			if(result > 0){
 				checkTemplateResponse.setRspcode(WebUtil.SUCCESS);
-				checkTemplateResponse.setRspdesc("修改模板状态成功");
+				checkTemplateResponse.setRspdesc("修改模板成功");
 			}else {
 				checkTemplateResponse.setRspcode(WebUtil.FAIL);
-				checkTemplateResponse.setRspdesc("修改模板状态失败");
+				checkTemplateResponse.setRspdesc("修改模板失败");
 			}
 		}catch (Exception e){
 			e.printStackTrace();
-			logger.error("修改模板状态异常",e);
+			logger.error("修改模板异常",e);
 			checkTemplateResponse.setRspcode(WebUtil.EXCEPTION);
-			checkTemplateResponse.setRspdesc("修改模板状态异常");
+			checkTemplateResponse.setRspdesc("修改模板异常");
 		}
 		return checkTemplateResponse;
 	}

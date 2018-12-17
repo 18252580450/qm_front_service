@@ -634,4 +634,23 @@
       and NODE_TYPE = #{nodeType,jdbcType=VARCHAR}
       and TEMPLATE_ID = #{templateId,jdbcType=VARCHAR}
   </update>
+
+  <!--新增的批量更新方法-->
+  <update id="update" parameterType="java.util.List" >
+    update t_qm_templatedetail
+    set  MAX_SCORE =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case NODE_ID" close="end">
+      when #{item.nodeId} then  #{item.maxScore,jdbcType=VARCHAR}
+    </foreach>
+    ,NODE_SCORE =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case NODE_ID" close="end">
+      when #{item.nodeId} then  #{item.nodeScore,jdbcType=TIMESTAMP}
+    </foreach>
+    where NODE_ID in
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item.nodeId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
 </mapper>

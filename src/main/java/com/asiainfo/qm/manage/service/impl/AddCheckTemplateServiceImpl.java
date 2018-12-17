@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @ Author     ：dingzc.
+ * @ Author     ：wangcheng.
  * @ Date       ：Created in 14:22 2018/11/1
  * @ Description：${description}
  */
@@ -62,6 +62,7 @@ public class AddCheckTemplateServiceImpl implements AddCheckTemplateService {
         TemplateDetailResponse templateDetailResponse = new TemplateDetailResponse();
         try {
             for(TemplateDetail t : list) {//循环插入
+                t.setCrtTime(DateUtil.getCurrontTime());
                 result =  templateDetailMapper.insertSelective(t);
             }
 //            int result = templateDetailMapper.insertSelective(templateDetail);
@@ -89,8 +90,9 @@ public class AddCheckTemplateServiceImpl implements AddCheckTemplateService {
             TemplateDetailExample.Criteria criteria= example.createCriteria();//在运行时动态生成查询语句
 			criteria.andTenantIdEqualTo((String) params.get("tenantId"));
             if(null != params.get("templateId")&& !"".equals(params.get("templateId"))){
-                JSONObject jsonObject = (JSONObject) params.get("templateId");
-                criteria.andTemplateIdEqualTo(jsonObject.getString("templateId"));
+//                JSONObject jsonObject = (JSONObject) params.get("templateId");
+//                criteria.andTemplateIdEqualTo(jsonObject.getString("templateId"));
+                criteria.andTemplateIdEqualTo((String) params.get("templateId"));
             }
             if(0 != limit) {
                 PageHelper.offsetPage(start, limit);
@@ -138,6 +140,26 @@ public class AddCheckTemplateServiceImpl implements AddCheckTemplateService {
             logger.error("删除异常",e);
             templateDetailResponse.setRspcode(WebUtil.EXCEPTION);
             templateDetailResponse.setRspdesc("删除异常");
+        }
+        return templateDetailResponse;
+    }
+    @Override
+    public TemplateDetailResponse update(List<Map> list) throws Exception{
+        TemplateDetailResponse templateDetailResponse = new TemplateDetailResponse();
+        try {
+            int result = templateDetailMapper.update(list);
+            if (result > 0) {
+                templateDetailResponse.setRspcode(WebUtil.SUCCESS);
+                templateDetailResponse.setRspdesc("操作成功");
+            } else {
+                templateDetailResponse.setRspcode(WebUtil.FAIL);
+                templateDetailResponse.setRspdesc("操作失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("操作异常", e);
+            templateDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            templateDetailResponse.setRspdesc("操作异常");
         }
         return templateDetailResponse;
     }
