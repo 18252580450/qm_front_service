@@ -6,6 +6,8 @@ import java.util.Date;
 public class OrderCheckResult extends OrderCheckResultKey {
     private String tenantId;
 
+    private QmPlan qmPlan;
+
     private String acceptMonth;
 
     private String provinceId;
@@ -106,6 +108,14 @@ public class OrderCheckResult extends OrderCheckResultKey {
 
     public String getTenantId() {
         return tenantId;
+    }
+
+    public QmPlan getQmPlan() {
+        return qmPlan;
+    }
+
+    public void setQmPlan(QmPlan qmPlan) {
+        this.qmPlan = qmPlan;
     }
 
     public void setTenantId(String tenantId) {

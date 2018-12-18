@@ -2346,7 +2346,7 @@ public class OrderCheckResultExample {
             return (Criteria) this;
         }
 
-        public Criteria andFinalScoreBetween(BigDecimal value1, BigDecimal value2) {
+        public Criteria andFinalScoreBetween(Object value1, Object value2) {
             addCriterion("FINAL_SCORE between", value1, value2, "finalScore");
             return (Criteria) this;
         }

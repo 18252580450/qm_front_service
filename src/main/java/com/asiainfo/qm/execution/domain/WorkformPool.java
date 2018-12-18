@@ -11,6 +11,10 @@ public class WorkformPool extends WorkformPoolKey {
 
     private String provinceId;
 
+    private Integer handleDuration;
+
+    private Integer actualHandleDuration;
+
     private String poolStatus;
 
     private String operateStaffId;
@@ -117,6 +121,22 @@ public class WorkformPool extends WorkformPoolKey {
 
     public void setProvinceId(String provinceId) {
         this.provinceId = provinceId == null ? null : provinceId.trim();
+    }
+
+    public Integer getHandleDuration() {
+        return handleDuration;
+    }
+
+    public void setHandleDuration(Integer handleDuration) {
+        this.handleDuration = handleDuration;
+    }
+
+    public Integer getActualHandleDuration() {
+        return actualHandleDuration;
+    }
+
+    public void setActualHandleDuration(Integer actualHandleDuration) {
+        this.actualHandleDuration = actualHandleDuration;
     }
 
     public String getPoolStatus() {

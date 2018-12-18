@@ -29,5 +29,5 @@ public interface WorkformPoolMapper {
 
     int updateByPrimaryKey(WorkformPool record);
 
-    int update(List<String> list);//新增方法
+    int update(List<String> list);//新增
 }

@@ -385,6 +385,126 @@ public class WorkformPoolExample {
             return (Criteria) this;
         }
 
+        public Criteria andHandleDurationIsNull() {
+            addCriterion("HANDLE_DURATION is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleDurationIsNotNull() {
+            addCriterion("HANDLE_DURATION is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleDurationEqualTo(Integer value) {
+            addCriterion("HANDLE_DURATION =", value, "handleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleDurationNotEqualTo(Integer value) {
+            addCriterion("HANDLE_DURATION <>", value, "handleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleDurationGreaterThan(Integer value) {
+            addCriterion("HANDLE_DURATION >", value, "handleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleDurationGreaterThanOrEqualTo(Integer value) {
+            addCriterion("HANDLE_DURATION >=", value, "handleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleDurationLessThan(Integer value) {
+            addCriterion("HANDLE_DURATION <", value, "handleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleDurationLessThanOrEqualTo(Integer value) {
+            addCriterion("HANDLE_DURATION <=", value, "handleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleDurationIn(List<Integer> values) {
+            addCriterion("HANDLE_DURATION in", values, "handleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleDurationNotIn(List<Integer> values) {
+            addCriterion("HANDLE_DURATION not in", values, "handleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleDurationBetween(Integer value1, Integer value2) {
+            addCriterion("HANDLE_DURATION between", value1, value2, "handleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andHandleDurationNotBetween(Integer value1, Integer value2) {
+            addCriterion("HANDLE_DURATION not between", value1, value2, "handleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualHandleDurationIsNull() {
+            addCriterion("ACTUAL_HANDLE_DURATION is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualHandleDurationIsNotNull() {
+            addCriterion("ACTUAL_HANDLE_DURATION is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualHandleDurationEqualTo(Integer value) {
+            addCriterion("ACTUAL_HANDLE_DURATION =", value, "actualHandleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualHandleDurationNotEqualTo(Integer value) {
+            addCriterion("ACTUAL_HANDLE_DURATION <>", value, "actualHandleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualHandleDurationGreaterThan(Integer value) {
+            addCriterion("ACTUAL_HANDLE_DURATION >", value, "actualHandleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualHandleDurationGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ACTUAL_HANDLE_DURATION >=", value, "actualHandleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualHandleDurationLessThan(Integer value) {
+            addCriterion("ACTUAL_HANDLE_DURATION <", value, "actualHandleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualHandleDurationLessThanOrEqualTo(Integer value) {
+            addCriterion("ACTUAL_HANDLE_DURATION <=", value, "actualHandleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualHandleDurationIn(List<Integer> values) {
+            addCriterion("ACTUAL_HANDLE_DURATION in", values, "actualHandleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualHandleDurationNotIn(List<Integer> values) {
+            addCriterion("ACTUAL_HANDLE_DURATION not in", values, "actualHandleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualHandleDurationBetween(Integer value1, Integer value2) {
+            addCriterion("ACTUAL_HANDLE_DURATION between", value1, value2, "actualHandleDuration");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualHandleDurationNotBetween(Integer value1, Integer value2) {
+            addCriterion("ACTUAL_HANDLE_DURATION not between", value1, value2, "actualHandleDuration");
+            return (Criteria) this;
+        }
+
         public Criteria andPoolStatusIsNull() {
             addCriterion("POOL_STATUS is null");
             return (Criteria) this;
