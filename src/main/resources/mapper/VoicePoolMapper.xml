@@ -680,42 +680,110 @@
     where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
   </update>
 
-  <!--根据质检流水更新质检状态-->
+  <!--根据质检流水号更新质检池-->
   <update id="updateByInspectionId" parameterType="com.asiainfo.qm.execution.domain.VoicePool" >
     update t_qm_voice_pool
-    set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+    <set >
+      <if test="tenantId != null" >
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
         PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionId != null" >
         INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR},
+      </if>
+      <if test="planId != null" >
         PLAN_ID = #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStaffId != null" >
         CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStaffName != null" >
         CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedStaffId != null" >
         CHECKED_STAFF_ID = #{checkedStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedStaffName != null" >
         CHECKED_STAFF_NAME = #{checkedStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="isOperate != null" >
         IS_OPERATE = #{isOperate,jdbcType=VARCHAR},
+      </if>
+      <if test="hungupType != null" >
         HUNGUP_TYPE = #{hungupType,jdbcType=VARCHAR},
+      </if>
+      <if test="callType != null" >
         CALL_TYPE = #{callType,jdbcType=VARCHAR},
+      </if>
+      <if test="voiceSatisfyExtent != null" >
         VOICE_SATISFY_EXTENT = #{voiceSatisfyExtent,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null" >
         RECORD_TIME = #{recordTime,jdbcType=INTEGER},
+      </if>
+      <if test="callingNumber != null" >
         CALLING_NUMBER = #{callingNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="calledNumber != null" >
         CALLED_NUMBER = #{calledNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="satisfyExtentType != null" >
         SATISFY_EXTENT_TYPE = #{satisfyExtentType,jdbcType=VARCHAR},
+      </if>
+      <if test="vipSatisfyExtent != null" >
         VIP_SATISFY_EXTENT = #{vipSatisfyExtent,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaType != null" >
         MEDIA_TYPE = #{mediaType,jdbcType=VARCHAR},
+      </if>
+      <if test="srvReqstTypeId != null" >
         SRV_REQST_TYPE_ID = #{srvReqstTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="srvReqstTypeNm != null" >
         SRV_REQST_TYPE_NM = #{srvReqstTypeNm,jdbcType=VARCHAR},
+      </if>
+      <if test="srvReqstTypeFullNm != null" >
         SRV_REQST_TYPE_FULL_NM = #{srvReqstTypeFullNm,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedTime != null" >
         CHECKED_TIME = #{checkedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateTime != null" >
         OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="strategyName != null" >
         STRATEGY_NAME = #{strategyName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgType != null" >
         ORG_TYPE = #{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve1 != null" >
         RESERVE_1 = #{reserve1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve2 != null" >
         RESERVE_2 = #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve3 != null" >
         RESERVE_3 = #{reserve3,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve4 != null" >
         RESERVE_4 = #{reserve4,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve5 != null" >
         RESERVE_5 = #{reserve5,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve6 != null" >
         RESERVE_6 = #{reserve6,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve7 != null" >
         RESERVE_7 = #{reserve7,jdbcType=VARCHAR},
-        RESERVE_8 = #{reserve8,jdbcType=VARCHAR}
+      </if>
+      <if test="reserve8 != null" >
+        RESERVE_8 = #{reserve8,jdbcType=VARCHAR},
+      </if>
+    </set>
     where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
   </update>
 

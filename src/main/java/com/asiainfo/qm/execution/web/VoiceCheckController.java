@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -67,15 +66,22 @@ public class VoiceCheckController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public VoiceCheckResultServiceResponse voiceCheck(@RequestBody Map<String, Object> reqMap) throws Exception {
         VoiceCheckResultResponse voiceCheckResultResponse = new VoiceCheckResultResponse();
-        VoiceCheckResultDetailResponse voiceCheckResultDetailResponse = new VoiceCheckResultDetailResponse();
-        VoicePoolResponse voicePoolResponse = new VoicePoolResponse();
         VoiceCheckResultServiceResponse voiceCheckResultServiceResponse = new VoiceCheckResultServiceResponse();
         @SuppressWarnings("unchecked")
         Map<String, Object> checkResult = (Map<String, Object>) reqMap.get("voiceCheckResult");
         @SuppressWarnings("unchecked")
         List<Map> checkItemList = (ArrayList<Map>) reqMap.get("checkItemList");
+        String checkStatus = checkResult.get("resultStatus").toString();
         Date currentTime = DateUtil.getCurrontTime();
+        String tmpStr = checkResult.get("checkStartTime").toString();
+        String checkStartTime = tmpStr.substring(0, 10) + " " + tmpStr.substring(11);
+        boolean updateFlag = false; //更新标志
         try {
+            //查询语音质检结果信息表，质检结果已存在（暂存数据）则更新质检结果，反之插入
+            voiceCheckResultResponse = voiceCheckResultService.queryVoiceCheckResult(checkResult, 0, 0);
+            if (null != voiceCheckResultResponse.getData() && voiceCheckResultResponse.getData().size() > 0) {
+                updateFlag = true;
+            }
             //更新语音质检结果信息表
             VoiceCheckResult voiceCheckResult = new VoiceCheckResult();
 
@@ -96,18 +102,22 @@ public class VoiceCheckController {
             voiceCheckResult.setCheckStaffName(checkResult.get("checkStaffName").toString());
             voiceCheckResult.setCheckDepartId(checkResult.get("checkDepartId").toString());
             voiceCheckResult.setCheckDepartName(checkResult.get("checkDepartName").toString());
-            voiceCheckResult.setCheckStartTime(DateUtil.string2Date(checkResult.get("checkStartTime").toString()));
+            voiceCheckResult.setCheckStartTime(DateUtil.string2Date(checkStartTime));
             voiceCheckResult.setCheckEndTime(currentTime);
             voiceCheckResult.setCheckTime(Integer.parseInt(checkResult.get("checkTime").toString()));
 //            voiceCheckResult.setPlayVoiceTime(0);       //放音时长，暂时不处理
 //            voiceCheckResult.setPlayVoiceNum(0);        //放音次数，暂时不处理
             voiceCheckResult.setScoreType(checkResult.get("scoreType").toString());
-            voiceCheckResult.setResultStatus(checkResult.get("resultStatus").toString());
+            voiceCheckResult.setResultStatus(checkStatus);
             voiceCheckResult.setLastResultFlag("1");      //最新质检结果
             voiceCheckResult.setFinalScore(BigDecimal.valueOf(Double.parseDouble(checkResult.get("finalScore").toString())));
             voiceCheckResult.setCheckComment(checkResult.get("checkComment").toString());
 
-            voiceCheckResultResponse = voiceCheckResultService.addVoiceCheckResult(voiceCheckResult);
+            if (updateFlag) {
+                voiceCheckResultResponse = voiceCheckResultService.updateVoiceCheckResult(voiceCheckResult);
+            } else {
+                voiceCheckResultResponse = voiceCheckResultService.addVoiceCheckResult(voiceCheckResult);
+            }
 
             //更新语音质检结果详细信息表
             if (voiceCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
@@ -125,7 +135,7 @@ public class VoiceCheckController {
                     voiceCheckResultDetail.setCheckStaffName(checkResult.get("checkStaffName").toString());
                     voiceCheckResultDetail.setCheckDepartId(checkResult.get("checkDepartId").toString());
                     voiceCheckResultDetail.setCheckDepartName(checkResult.get("checkDepartName").toString());
-                    voiceCheckResultDetail.setCheckStartTime(DateUtil.string2Date(checkResult.get("checkStartTime").toString()));
+                    voiceCheckResultDetail.setCheckStartTime(DateUtil.string2Date(checkStartTime));
                     voiceCheckResultDetail.setCheckEndTime(currentTime);
                     voiceCheckResultDetail.setScoreType(checkResult.get("scoreType").toString());
                     voiceCheckResultDetail.setScoreScope(Integer.parseInt(checkItem.get("scoreScope").toString()));
@@ -136,27 +146,34 @@ public class VoiceCheckController {
 
                     voiceCheckResultDetailList.add(voiceCheckResultDetail);
                 }
-                voiceCheckResultDetailResponse = voiceCheckResultDetailService.addVoiceCheckResultDetail(voiceCheckResultDetailList);
-                if (voiceCheckResultDetailResponse.getRspcode().equals(WebUtil.FAIL)) {
-                    voiceCheckResultResponse.setRspcode(WebUtil.FAIL);
-                    voiceCheckResultResponse.setRspdesc("质检详细信息更新失败");
+
+                VoiceCheckResultDetailResponse voiceCheckResultDetailResponse = new VoiceCheckResultDetailResponse();
+                if (updateFlag) {
+                    voiceCheckResultDetailResponse = voiceCheckResultDetailService.updateVoiceCheckResultDetail(voiceCheckResultDetailList);
+                } else {
+                    voiceCheckResultDetailResponse = voiceCheckResultDetailService.addVoiceCheckResultDetail(voiceCheckResultDetailList);
                 }
 
-                //更新语音质检池
-                if (voiceCheckResultDetailResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                if (!voiceCheckResultDetailResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    voiceCheckResultResponse.setRspcode(WebUtil.FAIL);
+                    voiceCheckResultResponse.setRspdesc("提交失败");
+                }
+
+                //更新语音质检池（质检暂存不更新质检池）
+                if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) && voiceCheckResultDetailResponse.getRspcode().equals(WebUtil.SUCCESS)) {
                     VoicePool voicePool = new VoicePool();
                     voicePool.setInspectionId(checkResult.get("inspectionId").toString());
-                    voicePool.setReserve1(Constants.QM_CHECK_RESULT.CHECKED);
+                    voicePool.setReserve1(Constants.QM_CHECK_STATUS.CHECKED);
 
+                    VoicePoolResponse voicePoolResponse = new VoicePoolResponse();
                     voicePoolResponse = voicePoolService.updateVoicePool(voicePool);
-                    if (voicePoolResponse.getRspcode().equals(WebUtil.FAIL)) {
+                    if (!voicePoolResponse.getRspcode().equals(WebUtil.SUCCESS)) {
                         voiceCheckResultResponse.setRspcode(WebUtil.FAIL);
-                        voiceCheckResultResponse.setRspdesc("质检池更新失败");
+                        voiceCheckResultResponse.setRspdesc("提交失败");
                     }
                 }
             }
-        } catch (
-                Exception e) {
+        } catch (Exception e) {
             logger.error("语音质检异常", e);
             voiceCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
             voiceCheckResultResponse.setRspdesc("语音质检异常!");

@@ -50,16 +50,44 @@ public class VoiceCheckResultDetailServiceImpl implements VoiceCheckResultDetail
             }
             if (result > 0) {
                 voiceCheckResultDetailResponse.setRspcode(WebUtil.SUCCESS);
-                voiceCheckResultDetailResponse.setRspdesc("质检完成");
+                voiceCheckResultDetailResponse.setRspdesc("语音质检结果详细信息新增成功");
             } else {
                 voiceCheckResultDetailResponse.setRspcode(WebUtil.FAIL);
-                voiceCheckResultDetailResponse.setRspdesc("质检失败");
+                voiceCheckResultDetailResponse.setRspdesc("语音质检结果详细信息新增失败");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("语音考评结果新增异常", e);
+            logger.error("语音质检结果详细信息新增异常", e);
             voiceCheckResultDetailResponse.setRspcode(WebUtil.EXCEPTION);
-            voiceCheckResultDetailResponse.setRspdesc("语音考评结果新增异常");
+            voiceCheckResultDetailResponse.setRspdesc("语音质检结果详细信息新增异常");
+        }
+        return voiceCheckResultDetailResponse;
+    }
+
+    @Override
+    public VoiceCheckResultDetailResponse updateVoiceCheckResultDetail(List<VoiceCheckResultDetail> voiceCheckResultDetailList) throws Exception {
+        VoiceCheckResultDetailResponse voiceCheckResultDetailResponse = new VoiceCheckResultDetailResponse();
+        try {
+            int result = 0;
+            for (VoiceCheckResultDetail voiceCheckResultDetail : voiceCheckResultDetailList
+            ) {
+                result = voiceCheckResultDetailMapper.updateByPrimaryKeySelective(voiceCheckResultDetail);
+                if (result == 0) {
+                    break;
+                }
+            }
+            if (result > 0) {
+                voiceCheckResultDetailResponse.setRspcode(WebUtil.SUCCESS);
+                voiceCheckResultDetailResponse.setRspdesc("语音质检结果详细信息更新成功");
+            } else {
+                voiceCheckResultDetailResponse.setRspcode(WebUtil.FAIL);
+                voiceCheckResultDetailResponse.setRspdesc("语音质检结果详细信息更新失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("语音质检结果详细信息更新异常", e);
+            voiceCheckResultDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            voiceCheckResultDetailResponse.setRspdesc("语音质检结果详细信息更新异常");
         }
         return voiceCheckResultDetailResponse;
     }

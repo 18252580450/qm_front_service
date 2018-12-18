@@ -100,6 +100,10 @@ public class VoicePoolServiceImpl implements VoicePoolService {
             if (null != params.get("recordTimeMin") && !"".equals(params.get("recordTimeMin")) && null != params.get("recordTimeMax") && !"".equals(params.get("recordTimeMax"))) {
                 criteria.andRecordTimeBetween(Integer.parseInt((String) params.get("recordTimeMin")) , Integer.parseInt((String)  params.get("recordTimeMax")));
             }
+            //质检状态，区分已质检和未质检数据
+            if (null != params.get("checkStatus") && !"".equals(params.get("checkStatus"))) {
+                criteria.andReserve1EqualTo((String) params.get("checkStatus"));
+            }
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
                 List<VoicePool> list = voicePoolMapper.selectByExample(example);

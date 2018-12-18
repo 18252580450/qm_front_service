@@ -113,25 +113,25 @@ public class Constants {
         //热门关键词统计缓存
         String NGKM_HOTSEARCHCODES_COUNT = "NGKM_HOTSEARCHCODES_COUNT:";
         //模板信息缓存
-        String NGKM_TMPLTINFO="NGKM_TMPLTINFO:";
+        String NGKM_TMPLTINFO = "NGKM_TMPLTINFO:";
         //分组信息缓存
-        String NGKM_TMPLT_GROUPS="NGKM_TMPLT_GROUPS:";
+        String NGKM_TMPLT_GROUPS = "NGKM_TMPLT_GROUPS:";
         //原子信息缓存
-        String NGKM_TMPLT_KEYS="NGKM_TMPLT_KEYS:";
+        String NGKM_TMPLT_KEYS = "NGKM_TMPLT_KEYS:";
         //筛选条件信息缓存
-        String NGKM_TMPLT_FILTER="NGKM_TMPLT_FILTER:";
+        String NGKM_TMPLT_FILTER = "NGKM_TMPLT_FILTER:";
         //模板父节点下所有分组缓存
-        String NGKM_TMPLT_GROUPS_CHILD="NGKM_TMPLT_GROUPS_CHILD:";
+        String NGKM_TMPLT_GROUPS_CHILD = "NGKM_TMPLT_GROUPS_CHILD:";
         //分组或筛选条件下所有原子信息缓存
-        String NGKM_TMPLT_KEY_OBJREL="NGKM_TMPLT_KEY_OBJREL:";
+        String NGKM_TMPLT_KEY_OBJREL = "NGKM_TMPLT_KEY_OBJREL:";
         //模板下所有筛选条件缓存
-        String NGKM_TMPLT_FILTER_ALL="NGKM_TMPLT_FILTER_ALL:";
+        String NGKM_TMPLT_FILTER_ALL = "NGKM_TMPLT_FILTER_ALL:";
         //知识索引模板配置上信息 缓存
-        String NGKM_INDEX_TMPLT_CFG="NGKM_INDEX_TMPLT_CFG:";
+        String NGKM_INDEX_TMPLT_CFG = "NGKM_INDEX_TMPLT_CFG:";
     }
 
     // session 信息
-    public interface NGKM_USER_INFO{
+    public interface NGKM_USER_INFO {
         //用户省份
         String NGKM_USER_PROVNCE = "provnce";
         //用户工号姓名
@@ -166,12 +166,14 @@ public class Constants {
         // 外围系统真实小工号
         String NGKM_USER_CRM_STAFFID = "crmStaffId";
     }
+
     // session 信息
-    public interface NGKM_ClIENT_INFO{
+    public interface NGKM_ClIENT_INFO {
         String ClIENT_INFO = "CLINET_INFO";
 
     }
-    public interface NGKM_INTERFACE_CODE{
+
+    public interface NGKM_INTERFACE_CODE {
         //统一知识库在ngmtt中的code
         String NGKM_CODE = "245";
         String NGKM_SMS_CODE = "KM_SMS_SEND";
@@ -195,21 +197,21 @@ public class Constants {
         //查询知识模板列表
         String NGMKSEARCH_GETKNOWLEDGETEMPLATES_POST = "NGMKSEARCH_GETKNOWLEDGETEMPLATES_POST";
         //根据关键词搜索
-        String NGKMSEARCH_GETKNOWLEDGESBYKEYWORDS_POST =  "NGKMSEARCH_GETKNOWLEDGESBYKEYWORDS_POST";
+        String NGKMSEARCH_GETKNOWLEDGESBYKEYWORDS_POST = "NGKMSEARCH_GETKNOWLEDGESBYKEYWORDS_POST";
         //搜索热门搜索词
-        String NGKMSEARCH_GETHOTKEYWORDS_POST =  "NGKMSEARCH_GETHOTKEYWORDS_POST";
+        String NGKMSEARCH_GETHOTKEYWORDS_POST = "NGKMSEARCH_GETHOTKEYWORDS_POST";
         //根据知识模板展示筛选项
-        String NGKMSEARCH_GETTEMPLATEFILTERCONDITION_POST =  "NGKMSEARCH_GETTEMPLATEFILTERCONDITION_POST";
+        String NGKMSEARCH_GETTEMPLATEFILTERCONDITION_POST = "NGKMSEARCH_GETTEMPLATEFILTERCONDITION_POST";
         //搜索补全提示词查询
-        String NGKMSEARCH_GETSUGGESTIONWORDS_POST =  "NGKMSEARCH_GETSUGGESTIONWORDS_POST";
+        String NGKMSEARCH_GETSUGGESTIONWORDS_POST = "NGKMSEARCH_GETSUGGESTIONWORDS_POST";
         //基于模板类型的知识列表查询
         String NGKMSEARCH_GETKNOWLEDGESBYTEMPLATE_POST = "NGKMSEARCH_GETKNOWLEDGESBYTEMPLATE_POST";
         //基于逻辑树图的知识列表查询
-        String NGKMSEARCH_GETKNOWLEDGESBYBUSINESSTAGID_POST =  "NGKMSEARCH_GETKNOWLEDGESBYBUSINESSTAGID_POST";
+        String NGKMSEARCH_GETKNOWLEDGESBYBUSINESSTAGID_POST = "NGKMSEARCH_GETKNOWLEDGESBYBUSINESSTAGID_POST";
         //逻辑树节点查询子集
-        String NGKMSEARCH_GETTAGS_POST =  "NGKMSEARCH_GETTAGS_POST";
+        String NGKMSEARCH_GETTAGS_POST = "NGKMSEARCH_GETTAGS_POST";
         // 逻辑树图路径查询接口
-        String NGKMSEARCH_GETTAGBREADCRUMBNAVI_POST="NGKMSEARCH_GETTAGBREADCRUMBNAVI_POST";
+        String NGKMSEARCH_GETTAGBREADCRUMBNAVI_POST = "NGKMSEARCH_GETTAGBREADCRUMBNAVI_POST";
         //全网知识库基于知识id的知识详情查询
         String NGKMSEARCH_GETKNOWLEDGEDETAIL_POST = "NGKMSEARCH_GETKNOWLEDGEDETAIL_POST";
         //全网知识库短信链接生成接口
@@ -219,9 +221,8 @@ public class Constants {
         String NGKMSEARCH_GETNEWESTKNOWLEDGEVERSIONID_POST = "NGKMSEARCH_GETNEWESTKNOWLEDGEVERSIONID_POST";
 
 
-
         //该员工今天发送相同短信的总条数
-        String NGKM_SMS_PERSON_TOTAL ="245002002";
+        String NGKM_SMS_PERSON_TOTAL = "245002002";
         //每人每天发送短信的总条数
         String NGKM_SMS_ONE_COUNT = "245002001";
         //短信链接访问互联网域代理
@@ -230,11 +231,11 @@ public class Constants {
         String NGKM_ADVERT_PUBLISH_COUNT = "245003001";
 
         //全网知识库配置
-        String SYS_ZSK_TYPE ="245001";//类型
-        String SYS_ZSK_TYPE_CHANNEL ="245001001";//本渠道
-        String SYS_ZSK_TYPE_CHANNEL_APP ="245001002";//应用渠道
-        String SYS_ZSK_TYPE_ATTACH_URL ="245001003";//附件URL
-        String SYS_ZSK_TYPE_SMS_URL ="245001003";//短信URL
+        String SYS_ZSK_TYPE = "245001";//类型
+        String SYS_ZSK_TYPE_CHANNEL = "245001001";//本渠道
+        String SYS_ZSK_TYPE_CHANNEL_APP = "245001002";//应用渠道
+        String SYS_ZSK_TYPE_ATTACH_URL = "245001003";//附件URL
+        String SYS_ZSK_TYPE_SMS_URL = "245001003";//短信URL
         String API_KEY = "245002005";
         String USER_NAME = "245002004";
         String LOCAL_URL = "245002006";
@@ -244,26 +245,26 @@ public class Constants {
     }
 
     //广告管理 信息
-    public interface TKM_ADVERT_INFO{
+    public interface TKM_ADVERT_INFO {
         //发布状态
         String TKM_ADVERT_STATUS_0 = "0"; //未发布
         String TKM_ADVERT_STATUS_1 = "1"; //已发布
 
     }
 
-    public interface KM_FDBKTPL_INFO{
+    public interface KM_FDBKTPL_INFO {
         String KM_FDBKTPL_STATUS_0 = "0"; //未默认
         String KM_FDBKTPL_STATUS_1 = "1"; //默认
     }
 
-    public interface NGKM_KLG_STATUS_INFO{
-        String NGKM_KLG_STATUS_INFO_0 = "0" ;//未上线
-        String NGKM_KLG_STATUS_INFO_1 = "1" ;//已下线
-        String NGKM_KLG_STATUS_INFO_2 = "2" ;//正常
+    public interface NGKM_KLG_STATUS_INFO {
+        String NGKM_KLG_STATUS_INFO_0 = "0";//未上线
+        String NGKM_KLG_STATUS_INFO_1 = "1";//已下线
+        String NGKM_KLG_STATUS_INFO_2 = "2";//正常
     }
 
     // CSF接口编码
-    public interface CSF_SERVICE_CODE{
+    public interface CSF_SERVICE_CODE {
         //静态数据查询
         String NGMTT_QUERYSTATICDATADICTREST_GET = "NGMTT_QUERYSTATICDATADICTREST_GET";
         //系统参数查询
@@ -287,17 +288,17 @@ public class Constants {
         String ZSK_GETKNOWLEDGETEMPLATES_POST = "ZSK_GETKNOWLEDGETEMPLATES_POST";
         String NGKMSEARCH_GETALLTEMPLATES_POST = "NGKMSEARCH_GETALLTEMPLATES_POST";
         //根据关键词搜索
-        String ZSK_GETKNOWLEDGESBYKEYWORDS_POST =  "ZSK_GETKNOWLEDGESBYKEYWORDS_POST";
-        String NGKMSEARCH_GETKNOWLEDGESBYKEYWORDS_POST =  "NGKMSEARCH_GETKNOWLEDGESBYKEYWORDS_POST";
+        String ZSK_GETKNOWLEDGESBYKEYWORDS_POST = "ZSK_GETKNOWLEDGESBYKEYWORDS_POST";
+        String NGKMSEARCH_GETKNOWLEDGESBYKEYWORDS_POST = "NGKMSEARCH_GETKNOWLEDGESBYKEYWORDS_POST";
         //搜索热门搜索词
-        String ZSK_GETHOTKEYWORDS_POST =  "ZSK_GETHOTKEYWORDS_POST";
-        String NGKMSEARCH_GETHOTKEYWORDS_POST =  "NGKMSEARCH_GETHOTKEYWORDS_POST";
+        String ZSK_GETHOTKEYWORDS_POST = "ZSK_GETHOTKEYWORDS_POST";
+        String NGKMSEARCH_GETHOTKEYWORDS_POST = "NGKMSEARCH_GETHOTKEYWORDS_POST";
         //根据知识模板展示筛选项
-        String ZSK_GETTEMPLATEFILTERCONDITION_POST =  "ZSK_GETTEMPLATEFILTERCONDITION_POST";
-        String NGKMSEARCH_GETTEMPLATEFILTERINFOS_POST =  "NGKMSEARCH_GETTEMPLATEFILTERINFOS_POST";
+        String ZSK_GETTEMPLATEFILTERCONDITION_POST = "ZSK_GETTEMPLATEFILTERCONDITION_POST";
+        String NGKMSEARCH_GETTEMPLATEFILTERINFOS_POST = "NGKMSEARCH_GETTEMPLATEFILTERINFOS_POST";
         //搜索补全提示词查询
-        String ZSK_GETSUGGESTIONWORDS_POST =  "ZSK_GETSUGGESTIONWORDS_POST";
-        String NGKMSEARCH_GETSUGGESTIONWORDS_POST =  "NGKMSEARCH_GETSUGGESTIONWORDS_POST";
+        String ZSK_GETSUGGESTIONWORDS_POST = "ZSK_GETSUGGESTIONWORDS_POST";
+        String NGKMSEARCH_GETSUGGESTIONWORDS_POST = "NGKMSEARCH_GETSUGGESTIONWORDS_POST";
 
         //基于模板类型的知识列表查询
         String ZSK_GETKNOWLEDGESBYTEMPLATE_POST = "ZSK_GETKNOWLEDGESBYTEMPLATE_POST";
@@ -309,19 +310,19 @@ public class Constants {
         String CMOSGIS_GEOCODER_POST = "CMOSGIS_GEOCODER_POST";
 
         //基于逻辑树图的知识列表查询
-        String ZSK_GETKNOWLEDGESBYBUSINESSTAGID_POST =  "ZSK_GETKNOWLEDGESBYBUSINESSTAGID_POST";
-        String NGKMSEARCH_GETKNOWLEDGESBYBUSINESSTAGID_POST =  "NGKMSEARCH_GETKNOWLEDGESBYBUSINESSTAGID_POST";
+        String ZSK_GETKNOWLEDGESBYBUSINESSTAGID_POST = "ZSK_GETKNOWLEDGESBYBUSINESSTAGID_POST";
+        String NGKMSEARCH_GETKNOWLEDGESBYBUSINESSTAGID_POST = "NGKMSEARCH_GETKNOWLEDGESBYBUSINESSTAGID_POST";
         //逻辑树节点查询子集
-        String ZSK_GETTAGS_POST =  "ZSK_GETTAGS_POST";
-        String NGKMSEARCH_GETCHILDNODESBYPARENTNODE_POST =  "NGKMSEARCH_GETCHILDNODESBYPARENTNODE_POST";
+        String ZSK_GETTAGS_POST = "ZSK_GETTAGS_POST";
+        String NGKMSEARCH_GETCHILDNODESBYPARENTNODE_POST = "NGKMSEARCH_GETCHILDNODESBYPARENTNODE_POST";
         // 逻辑树图路径查询接口
-        String ZSK_GETTAGBREADCRUMBNAVI_POST="ZSK_GETTAGBREADCRUMBNAVI_POST";
-        String NGKMSEARCH_GETTAGBREADCRUMBNAVIBYTAGID_POST="NGKMSEARCH_GETTAGBREADCRUMBNAVIBYTAGID_POST";
+        String ZSK_GETTAGBREADCRUMBNAVI_POST = "ZSK_GETTAGBREADCRUMBNAVI_POST";
+        String NGKMSEARCH_GETTAGBREADCRUMBNAVIBYTAGID_POST = "NGKMSEARCH_GETTAGBREADCRUMBNAVIBYTAGID_POST";
         //全网知识库基于知识id的知识详情查询
         String ZSK_GETKNOWLEDGEDETAIL_POST = "ZSK_GETKNOWLEDGEDETAIL_POST";
         String NGKMSEARCH_GETKNOWLEDGEDETAILSBYID_POST = "NGKMSEARCH_GETKNOWLEDGEDETAILSBYID_POST";
         //全网知识库短信链接生成接口
-        String ZSK_GETSMSURL_POST ="ZSK_GETSMSURL_POST";
+        String ZSK_GETSMSURL_POST = "ZSK_GETSMSURL_POST";
 
         //最新版本知识ID查询
         String ZSK_GETNEWESTKNOWLEDGEVERSIONID_POST = "ZSK_GETNEWESTKNOWLEDGEVERSIONID_POST";
@@ -352,20 +353,20 @@ public class Constants {
     }
 
     // 系统参数编码
-    public interface SYS_PARAM_CODE{
-        String CRMPFCORE_CRMPF_BUSI_PHONEAREAQURY_GET ="CRMPFCORE_CRMPF_BUSI_PHONEAREAQURY_GET";
+    public interface SYS_PARAM_CODE {
+        String CRMPFCORE_CRMPF_BUSI_PHONEAREAQURY_GET = "CRMPFCORE_CRMPF_BUSI_PHONEAREAQURY_GET";
         String COUNTY_CODE = "000";
     }
 
     // 默认系统参数值
-    public interface SYS_PARAM_DEFALUT{
+    public interface SYS_PARAM_DEFALUT {
         String TKM_ACCESS_CHNL_ID = "1";//来访渠道（全网知识库为本系统定义的固定来访渠道）；
         String TKM_APPLYCATION_CHNL_ID = "3";//知识应用渠道（全网知识库为本系统定义的固定知识应用渠道）；
 
     }
 
     //知识反馈信息
-    public interface TKM_FEEDBACK_INFO{
+    public interface TKM_FEEDBACK_INFO {
         //反馈处理状态
         String TKM_FEEDBACK_STATUS_1 = "1";//未处理
         String TKM_FEEDBACK_STATUS_2 = "2";//已采纳
@@ -389,7 +390,7 @@ public class Constants {
     }
 
     //知识反馈信息 二阶段
-    public interface TKM_FDBK_INFO{
+    public interface TKM_FDBK_INFO {
         //反馈处理状态
         String TKM_FEEDBACK_STATUS_1 = "1";//待审核
         String TKM_FEEDBACK_STATUS_2 = "2";//未处理
@@ -420,19 +421,19 @@ public class Constants {
         String TKM_FEEDBACK_STATUS_UNFINISHED = "2";//查询未完成的反馈
         //班长审核信息查询，前台传入的值
         String TKM_FEEDBACK_STATUS_UNCHECKED = "3";//待审核
-        String TKM_FEEDBACK_STATUS_CHECKED  = "4";//已审核
+        String TKM_FEEDBACK_STATUS_CHECKED = "4";//已审核
 
     }
 
     //地市等级
-    public interface DISTRICT_HRCY_INFO{
+    public interface DISTRICT_HRCY_INFO {
         String CITY_LEVEL = "3"; //地市等级
         String PROV_LEVEL = "2"; //省份等级
         String COUNTRY_LEVEL = "1"; //国家等级
     }
 
     //转换数据表
-    public interface TKM_CFG_CODE_TRANS{
+    public interface TKM_CFG_CODE_TRANS {
         //发布状态
         String INVKDIRCTNCD_LOCAL = "1"; //本地调用远程
         String INVKDIRCTNCD_REMOTE = "2"; //远程调用本地
@@ -454,7 +455,7 @@ public class Constants {
     }
 
     //地市信息表
-    public interface TKM_DISTRICT_CFG{
+    public interface TKM_DISTRICT_CFG {
         //发布状态
         short HRCY_SEQNO_COUNTRY = 1; //地域级别 国家
         short HRCY_SEQNO_PROVINCE = 2; //地域级别 省
@@ -463,19 +464,19 @@ public class Constants {
     }
 
     //转换数据表
-    public interface TKM_SYS_PARAM{
+    public interface TKM_SYS_PARAM {
         //统一知识库在ngmtt中的code
         String NGKM_CODE = "245";
 
         //全网知识库配置
-        String SYS_ZSK_TYPE ="245001";//类型
-        String SYS_ZSK_TYPE_CHANNEL ="245001001";//本渠道
-        String SYS_ZSK_TYPE_CHANNEL_APP ="245001002";//应用渠道
-        String SYS_ZSK_TYPE_ATTACH_URL ="245001003";//附件URL
-        String SYS_ZSK_TYPE_SMS_URL ="245001003";//短信URL
+        String SYS_ZSK_TYPE = "245001";//类型
+        String SYS_ZSK_TYPE_CHANNEL = "245001001";//本渠道
+        String SYS_ZSK_TYPE_CHANNEL_APP = "245001002";//应用渠道
+        String SYS_ZSK_TYPE_ATTACH_URL = "245001003";//附件URL
+        String SYS_ZSK_TYPE_SMS_URL = "245001003";//短信URL
 
         //20180107 add for 2rd 全网知识库配置
-        String SYS_ZSK_TYPE_CHANNEL_SEC ="245004003";//二阶段本渠道
+        String SYS_ZSK_TYPE_CHANNEL_SEC = "245004003";//二阶段本渠道
 
 
     }
@@ -484,23 +485,22 @@ public class Constants {
      * 导出文件限制
      *
      * @author ZSL
-     *
      */
-    public interface EXPORT_FILE_LIMIT{
+    public interface EXPORT_FILE_LIMIT {
 
         /**
          * 最大导出记录数
          */
-        int MAX_RECORDS=50000;
+        int MAX_RECORDS = 50000;
         /**
          * 每页最多查询数据记录条数
          */
-        int PAGE_SIZE=5000;
+        int PAGE_SIZE = 5000;
 
     }
 
     //知识状态代码
-    public interface NGKM_KNOWLEDGE_STATE{
+    public interface NGKM_KNOWLEDGE_STATE {
         String KLG_STATE_NEW_EDIT = "1E";//新建待发布
         String KLG_STATE_NEW_APPROVE = "1A";//新建待审核
         String KLG_STATE_NEW_PUBLISH = "1P";//新建已发布
@@ -514,7 +514,7 @@ public class Constants {
         String KLG_STATE_PRE = "PR";//预采编知识
     }
 
-    public interface NGKM_APPROVETASK_STATE{
+    public interface NGKM_APPROVETASK_STATE {
         String TSK_STSCD_NOAPPROVE = "A1";
         String TSK_STSCD_APPROVE = "A2";
         String TSK_STSCD_HASAPPROVE = "A3";
@@ -525,7 +525,7 @@ public class Constants {
         String EMAPV_NODE_STSCD_REJECT = "2";
     }
 
-    public interface NGKM_KNOWLEDGE_RELATION_TYPE{
+    public interface NGKM_KNOWLEDGE_RELATION_TYPE {
         String KLG_RELATION_DOUBLE_CONNECT = "1";//双向关联知识
         String KLG_RELATION_SINGLE_CONNECT = "2";//单向关联知识
         String KLG_RELATION_DOUBLE_GROUP = "3";//双向关联系列
@@ -538,21 +538,22 @@ public class Constants {
     }
 
     //分组和原子关系类型
-    public interface NGKM_GROUP_ATOM_RELATION_TYPE{
+    public interface NGKM_GROUP_ATOM_RELATION_TYPE {
         String GROUP_ATOM_RELATION_TYPE = "1";//分组原子关系
     }
-    public interface NGKM_SUPR_GRPNG_LEVEL{
+
+    public interface NGKM_SUPR_GRPNG_LEVEL {
         Long LEVEL_FIRST = 0L;
     }
 
     //历史知识显示状态
-    public interface TKM_DOC_VERSION_ISDISPLAY{
+    public interface TKM_DOC_VERSION_ISDISPLAY {
         String HIDE = "0"; //隐藏
         String SHOW = "1"; //显示
     }
 
     //原子参数类型代码
-    public interface NGKM_ATOM_PARAM_TYPE{
+    public interface NGKM_ATOM_PARAM_TYPE {
         String STRING_TYPE = "1";//字符串
         String RADIO_TYPE = "2";//单选
         String CHECKBOX_TYPE = "3";//多选
@@ -572,7 +573,7 @@ public class Constants {
     }
 
     //参数价格时间类型单位
-    public interface 	NGKM_ATOM_PARAM_PRICEORTIMETYPE_WKUNIT{
+    public interface NGKM_ATOM_PARAM_PRICEORTIMETYPE_WKUNIT {
         String YUAN_MINUTE = "1"; //元/分钟
         String YUAN_HOUR = "2";   //元/小时
         String YUAN_DAY = "3";   //元/天
@@ -586,7 +587,7 @@ public class Constants {
     }
 
     //内存类型单位
-    public interface 	NGKM_ATOM_PARAM_RAMTYPE_WKUNIT{
+    public interface NGKM_ATOM_PARAM_RAMTYPE_WKUNIT {
         String KB = "1";//kb
         String MB = "2";//mb
         String GB = "3";//gb
@@ -594,34 +595,34 @@ public class Constants {
         String B = "5";//b
     }
 
-    public  interface  NGKM_FDBK_CFG_WKUNTT{
+    public interface NGKM_FDBK_CFG_WKUNTT {
         String HOUR = "1";
         String MINUTE = "2";
     }
 
 
     //操作状态代码
-    public interface NGKM_KNOWLEDGE_OPERSTATE{
+    public interface NGKM_KNOWLEDGE_OPERSTATE {
         String SUCCESS = "0";//成功
         String FAILED = "1";//失败
     }
 
     //操作类型类型代码
-    public interface NGKM_KNOWLEDGE_OPERTYPE{
+    public interface NGKM_KNOWLEDGE_OPERTYPE {
         String INSERT = "1";//新增
         String UPDATE = "2";//发起更新
         String DELETE = "3";//删除
         String REVERT = "4";//撤回
         String REJECT = "5";//驳回
         String PASS = "6";//审核通过
-        String REVISE="7";//修改草稿
-        String SUBMIT="8";//提交
-        String RESTORE="9";//还原
-        String COMPLETE_DELETE="10";//彻底删除
+        String REVISE = "7";//修改草稿
+        String SUBMIT = "8";//提交
+        String RESTORE = "9";//还原
+        String COMPLETE_DELETE = "10";//彻底删除
     }
 
     //工作组相关
-    public interface NGKM_STAFF_GROUPS{
+    public interface NGKM_STAFF_GROUPS {
         String PREFIX = "000245"; //前缀
         String COUNTRY_CODE = "000"; //国家代码
         String VIEW = "000";//查看组后缀
@@ -631,17 +632,18 @@ public class Constants {
     }
 
     //推荐知识相关
-    public interface  NGKM_RECOMMEND_KNLG_GROUPS{
+    public interface NGKM_RECOMMEND_KNLG_GROUPS {
         String KLG_STATE_RECOM__BUSINESS = "1";//推荐业务
         String KLG_STATE_RECOM_ACTIVITIES = "2";//推荐活动
     }
 
-    public interface NGKM_PRE_GATHR_KNWLG_TYPE{
+    public interface NGKM_PRE_GATHR_KNWLG_TYPE {
         String NGKM_NORMAL_KNWLG_TYPE = "1";//普通知识
         String NGKM_PRE_GATHR_KNWLG_TYPE = "2";//预采编知识
     }
+
     //时间类型单位
-    public interface   NGKM_ATOM_PARAM_TIMES_WKUNIT{
+    public interface NGKM_ATOM_PARAM_TIMES_WKUNIT {
         String SECOND = "1";//秒
         String MINUTE = "2";//分钟
         String HOUR = "3";//小时
@@ -654,7 +656,7 @@ public class Constants {
         String THREE_YEAR = "10";//三年
     }
 
-    public interface  NGKM_ATOM_ISSEARCH_FIELD{
+    public interface NGKM_ATOM_ISSEARCH_FIELD {
         String BOSSCODE = "bossCode";
         String BOSSNAME = "bossName";
         String ENDTIME = "endTime";
@@ -664,22 +666,24 @@ public class Constants {
         String CONTINENT = "continent";
     }
 
-    public interface  DATA_DICTIONARY{
-        String TEMPLET_CHNL ="NGKM.TEMPLET.CHNL";
+    public interface DATA_DICTIONARY {
+        String TEMPLET_CHNL = "NGKM.TEMPLET.CHNL";
     }
 
     //模板原子隐藏标志
-    public interface  NGKM_TMPLT_HIDE_FLAG{
+    public interface NGKM_TMPLT_HIDE_FLAG {
         String SHOW = "0";
         String HIDE = "1";
     }
+
     //模板状态
-    public interface NGKM_TMPLT_STS_CD{
+    public interface NGKM_TMPLT_STS_CD {
         String HIDE = "2";
         String NORMAL = "1";//正常
         String REMOVED = "0";//删除状态
     }
-    public interface NGKM_TMPLT_GRPNG_FILTER_STS_CD{
+
+    public interface NGKM_TMPLT_GRPNG_FILTER_STS_CD {
         String NORMAL = "1";//正常
         String REMOVED = "0";//删除状态
     }
@@ -687,47 +691,49 @@ public class Constants {
     /**
      * 模板分组、筛选条件与原子的对应关系表
      */
-    public interface NGKM_TMPLT_KEY_OBJ_REL{
+    public interface NGKM_TMPLT_KEY_OBJ_REL {
         //分组对应关系
         String GROUPS = "1";
         //筛选条件
         String FILTER = "2";
     }
 
-    public interface NGKM_TMPLT_KEYEXT_STS_CD{
+    public interface NGKM_TMPLT_KEYEXT_STS_CD {
         //正常
         String NORMAL = "1";
         //删除状态
         String REMOVED = "0";
     }
+
     //模板原子必填标志
-    public interface NGKM_TMPLT_REQUIRE_FLAG{
+    public interface NGKM_TMPLT_REQUIRE_FLAG {
         String NOT_REQUIRE = "0";
         String REQUIRE = "1";
     }
 
     //模板原子必填标志
-    public interface NGKM_TMPLT_KEYS_HIDE{
+    public interface NGKM_TMPLT_KEYS_HIDE {
         String NOT_HIDE = "0";
         String HIDE = "1";
     }
+
     //模板原子删除状态
-    public interface NGKM_TMPLT_ATOM_STS_CD{
+    public interface NGKM_TMPLT_ATOM_STS_CD {
         String NORMAL = "1";//正常
         String REMOVED = "0";//删除状态
     }
 
-    public interface NGKM_CHNL_CODE{
+    public interface NGKM_CHNL_CODE {
         String CUSTOMERSERVICE = "1";
     }
 
     //最新知识定义距离当前几天内为最新知识
-    public interface NGKM_NEWEST_KNOWLEDGE_DAY_CODE{
+    public interface NGKM_NEWEST_KNOWLEDGE_DAY_CODE {
         String KNOWLEDGE_DAYS = "245004001";
     }
 
     //个性化设置信息
-    public interface TKM_SEARCH_DESINGER{
+    public interface TKM_SEARCH_DESINGER {
         //状态
         String TKM_SEARCH_SCENE = "scene"; //场景
         String TKM_SEARCH_URTS = "urts"; //默认页签
@@ -741,7 +747,7 @@ public class Constants {
     }
 
     //原子索引
-    public interface NGKM_TASK_TYPE{
+    public interface NGKM_TASK_TYPE {
         String DELETE_CACHE = "1";//删除缓存
         String ALL_KNWLG_INDEX = "2";//全量知识索引
         String TMPLT_KNWLG_INDEX = "3";//模板知识索引
@@ -773,7 +779,7 @@ public class Constants {
     }
 
     //知识发布任务状态
-    public interface NGKM_PUS_TASK_TYPE{
+    public interface NGKM_PUS_TASK_TYPE {
         Byte KNWLG_ADD = 1;//新增
         Byte KNWLG_UPDATE = 2;//更新
         Byte KNWLG_DELETE = 3;//删除
@@ -783,13 +789,13 @@ public class Constants {
     }
 
     //任务关联对象类型
-    public interface NGKM_TASK_OBJ_TYPE_CD{
+    public interface NGKM_TASK_OBJ_TYPE_CD {
         Byte KNWLG = 1;//关联知识
         Byte TMPLT_KNWLG = 2;//关联模板
     }
 
     //任务状态
-    public interface NGKM_TASK_STATE{
+    public interface NGKM_TASK_STATE {
         Byte NOT_BEGIN = 0;//未开始
         Byte RUNNING = 1;//执行中
         Byte END_SUCCESS = 2;//成功结束
@@ -862,13 +868,13 @@ public class Constants {
 
 
     //任务接收人员类型
-    public interface NGKM_RCVPRSN_TYPE{
+    public interface NGKM_RCVPRSN_TYPE {
         String USER = "1";//人员类型
         String REGN = "2";//地区类型
     }
 
     //任务状态代码
-    public interface NGKM_TASK_STSCD{
+    public interface NGKM_TASK_STSCD {
         String NO_PUS = "0";//待发起
         String HAS_PUS = "1";//已发起
         String NO_ACCEPT = "2";//待接应
@@ -877,7 +883,7 @@ public class Constants {
     }
 
     //任务操作状态
-    public interface NGKM_TASK_PRSN_CD{
+    public interface NGKM_TASK_PRSN_CD {
         String PUS_TASK = "1";//发起
         String ACCEPT_TASK = "3";//接应
         String COMPILE_TASK = "4";//完成
@@ -892,13 +898,13 @@ public class Constants {
     }
 
     //咨询表字段是否必填
-    public interface NGKM_CONSULT_ISREQUIRED{
+    public interface NGKM_CONSULT_ISREQUIRED {
         String REQUIRED = "1";//必填
         String NO_REQUIRED = "0";//非必填
     }
 
     //咨询表查询运算符
-    public interface NGKM_CONSULT_OPERATION_TYPE{
+    public interface NGKM_CONSULT_OPERATION_TYPE {
         String EQUAL = "equal";//等于
         String NOT_EQUAL = "notEqual";//不等于
         String CONTAIN = "contain";///包含
@@ -908,7 +914,7 @@ public class Constants {
     }
 
     //咨询表字段类型
-    public interface NGKM_CONSULT_COLM_TYPE{
+    public interface NGKM_CONSULT_COLM_TYPE {
         String NUM = "num";//数字类型
         String DATE = "date";//日期类型
         String REL = "rel";//关联知识类型
@@ -917,7 +923,7 @@ public class Constants {
     }
 
     //任务计划类型代码
-    public interface NGKM_TASK_PLAN_TYLE_CD{
+    public interface NGKM_TASK_PLAN_TYLE_CD {
         String GATHR_TASK = "1";//采编任务
         String DOC_TASK = "2";//公文任务
     }
@@ -933,20 +939,20 @@ public class Constants {
 
 
     //强关联文件状态
-    public interface NGKM_SOURCE_STATE{
+    public interface NGKM_SOURCE_STATE {
         String SOURCE_NORMAL = "1";
         String SOURCE_DELETE = "2";
     }
 
 
-    public interface SERVICE_TYPE_ID{
+    public interface SERVICE_TYPE_ID {
         String XJH = "xjhytck";
 
 
     }
 
     //批量权限操作类型
-    public interface NGKM_BRWS_PRIV_TYPE{
+    public interface NGKM_BRWS_PRIV_TYPE {
         Byte ADD_KNWLG_BRWS = 1;//新增知识权限
         Byte DEL_KNWLG_BRWS = 2;//删除知识权限
         Byte ADD_ATOM_BRWS = 3;//新增原子权限
@@ -965,14 +971,15 @@ public class Constants {
 
     //各省地区编码
     public interface NGKM_PROVNCE_CODE {
-        String[] PROVNCE = {"100","200","210","220","230","240","250","270","280","290","311","351","371","431","451",
-                "471","531","551","571","591","731","771","791","851","871","891","898","931","951","971","991"};
+        String[] PROVNCE = {"100", "200", "210", "220", "230", "240", "250", "270", "280", "290", "311", "351", "371", "431", "451",
+                "471", "531", "551", "571", "591", "731", "771", "791", "851", "871", "891", "898", "931", "951", "971", "991"};
 
     }
 
     /**
      * 特殊字符编码
-     */public interface  NGKM_SEPCIAL_CODE {
+     */
+    public interface NGKM_SEPCIAL_CODE {
         String SPECIAL_CHARTER = "NGKM.SPECIAL.CHARTER";
     }
 
@@ -980,42 +987,43 @@ public class Constants {
      * 时限限制类型
      */
     public interface NGKM_TIMEBOUND_TYPE {
-        String NKNOWLEDGE_APPROVE="1";//知识审核
-        String NKNOWLEDGE_RELEASE="2";//知识发布
+        String NKNOWLEDGE_APPROVE = "1";//知识审核
+        String NKNOWLEDGE_RELEASE = "2";//知识发布
         String CUSTOMER_TASK_DISTRIBUTION = "3";//客户化任务分发
         String QUESTIONKNOWLEDGE_AND_MULTIMEDIA_DOC = "4";//问答知识及多媒体采编
     }
+
     /**
      * 时限限制类别
      */
-    public interface NGKM_TIMEBOUND_CLASSES{
-        String TIMEBOUND_GENERAL="1";//普通
-        String TIMEBOUND_URGENCY="2";//紧急
+    public interface NGKM_TIMEBOUND_CLASSES {
+        String TIMEBOUND_GENERAL = "1";//普通
+        String TIMEBOUND_URGENCY = "2";//紧急
     }
 
     /**
      * 回答评价
      */
-    public interface NGKM_ANSWER_GRADE{
-        String NO_EVALUATION="0";//未评价
-        String PRAISE="1";//赞
-        String TRAMPLE="2";//踩
+    public interface NGKM_ANSWER_GRADE {
+        String NO_EVALUATION = "0";//未评价
+        String PRAISE = "1";//赞
+        String TRAMPLE = "2";//踩
     }
 
     /**
      * 是否有回答
      */
-    public interface NGKM_IS_ANSWER{
-        String HAVE_NOT_ANSWER="0";//否
-        String HAVE_ANSWER="1";//是
+    public interface NGKM_IS_ANSWER {
+        String HAVE_NOT_ANSWER = "0";//否
+        String HAVE_ANSWER = "1";//是
     }
 
     /**
      * 处理状态
      */
-    public interface NGKM_HANDLE_STATE{
-        String UNTREATED="0";//待处理
-        String TREATED="1";//已处理
+    public interface NGKM_HANDLE_STATE {
+        String UNTREATED = "0";//待处理
+        String TREATED = "1";//已处理
     }
 
     /**
@@ -1029,12 +1037,28 @@ public class Constants {
     }
 
     /**
-     * 质检状态标志
+     * 质检池质检状态
      */
-    public interface QM_CHECK_RESULT {
+    public interface QM_CHECK_STATUS {
         String CHECKING = "0";   //待质检
         String RECHECKING = "1"; //待复检
         String CHECKED = "2";    //已质检
-        String RECHECKED = "3";  //已复检
+    }
+
+    /**
+     * 质检结果状态
+     */
+    public interface QM_CHECK_RESULT {
+        String NEW_BUILD = "0";     //质检新生成
+        String TEMP_SAVE = "1";     //临时保存
+        String ABANDON = "2";       //放弃
+        String RECHECK = "3";       //复检
+        String DEPART_CHECK = "4";  //分检
+        String CHECKED = "5";       //被检人确认
+        String SYS_CHECKED = "6";   //系统自确认
+        String APPEALING = "7";     //申诉中
+        String APPEAL_PASS = "8";   //申诉通过
+        String APPEAL_DENY = "9";   //申诉驳回
+        String SYS_DENY = "99";     //系统驳回
     }
 }
