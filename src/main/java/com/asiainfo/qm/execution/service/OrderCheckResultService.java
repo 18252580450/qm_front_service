@@ -21,12 +21,12 @@ public interface OrderCheckResultService {
     /**
      * 工单质检结果新增
      */
-    OrderCheckResultResponse addOrderCheckResult(OrderCheckResult orderCheckResult) throws Exception;
+    OrderCheckResultResponse addOrderCheckResult(List<OrderCheckResult> orderCheckResultList) throws Exception;
 
     /**
      * 工单质检结果修改
      */
-    OrderCheckResultResponse updateOrderCheckResult(OrderCheckResult orderCheckResult) throws Exception;
+    OrderCheckResultResponse updateOrderCheckResult(List<OrderCheckResult> orderCheckResultList) throws Exception;
 
     /**
      * 工单质检结果删除

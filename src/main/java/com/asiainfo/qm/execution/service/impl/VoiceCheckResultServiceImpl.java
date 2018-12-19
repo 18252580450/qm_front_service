@@ -38,7 +38,6 @@ public class VoiceCheckResultServiceImpl implements VoiceCheckResultService {
 
     @Override
     public VoiceCheckResultResponse queryVoiceCheckResult(Map params, int start, int limit) throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         VoiceCheckResultResponse voiceCheckResultResponse = null;
         VoiceCheckResultExample example = new VoiceCheckResultExample();
         try {
