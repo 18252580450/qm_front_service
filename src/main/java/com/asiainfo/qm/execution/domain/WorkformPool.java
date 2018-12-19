@@ -7,9 +7,9 @@ import java.util.Date;
 public class WorkformPool extends WorkformPoolKey {
     private String tenantId;
 
-    private QmPlan qmPlan;
-
     private String provinceId;
+
+    private QmPlan qmPlan;
 
     private Integer handleDuration;
 
@@ -54,6 +54,10 @@ public class WorkformPool extends WorkformPoolKey {
     private String checkStaffId;
 
     private String checkStaffName;
+
+    private String checkedStaffId;
+
+    private String checkedStaffName;
 
     private String recordPath;
 
@@ -297,6 +301,22 @@ public class WorkformPool extends WorkformPoolKey {
 
     public void setCheckStaffName(String checkStaffName) {
         this.checkStaffName = checkStaffName == null ? null : checkStaffName.trim();
+    }
+
+    public String getCheckedStaffId() {
+        return checkedStaffId;
+    }
+
+    public void setCheckedStaffId(String checkedStaffId) {
+        this.checkedStaffId = checkedStaffId == null ? null : checkedStaffId.trim();
+    }
+
+    public String getCheckedStaffName() {
+        return checkedStaffName;
+    }
+
+    public void setCheckedStaffName(String checkedStaffName) {
+        this.checkedStaffName = checkedStaffName == null ? null : checkedStaffName.trim();
     }
 
     public String getRecordPath() {

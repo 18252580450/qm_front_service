@@ -1865,6 +1865,146 @@ public class WorkformPoolExample {
             return (Criteria) this;
         }
 
+        public Criteria andCheckedStaffIdIsNull() {
+            addCriterion("CHECKED_STAFF_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdIsNotNull() {
+            addCriterion("CHECKED_STAFF_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_ID =", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdNotEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_ID <>", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdGreaterThan(String value) {
+            addCriterion("CHECKED_STAFF_ID >", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdGreaterThanOrEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_ID >=", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdLessThan(String value) {
+            addCriterion("CHECKED_STAFF_ID <", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdLessThanOrEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_ID <=", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdLike(String value) {
+            addCriterion("CHECKED_STAFF_ID like", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdNotLike(String value) {
+            addCriterion("CHECKED_STAFF_ID not like", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdIn(List<String> values) {
+            addCriterion("CHECKED_STAFF_ID in", values, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdNotIn(List<String> values) {
+            addCriterion("CHECKED_STAFF_ID not in", values, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdBetween(String value1, String value2) {
+            addCriterion("CHECKED_STAFF_ID between", value1, value2, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdNotBetween(String value1, String value2) {
+            addCriterion("CHECKED_STAFF_ID not between", value1, value2, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameIsNull() {
+            addCriterion("CHECKED_STAFF_NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameIsNotNull() {
+            addCriterion("CHECKED_STAFF_NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_NAME =", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameNotEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_NAME <>", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameGreaterThan(String value) {
+            addCriterion("CHECKED_STAFF_NAME >", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameGreaterThanOrEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_NAME >=", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameLessThan(String value) {
+            addCriterion("CHECKED_STAFF_NAME <", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameLessThanOrEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_NAME <=", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameLike(String value) {
+            addCriterion("CHECKED_STAFF_NAME like", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameNotLike(String value) {
+            addCriterion("CHECKED_STAFF_NAME not like", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameIn(List<String> values) {
+            addCriterion("CHECKED_STAFF_NAME in", values, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameNotIn(List<String> values) {
+            addCriterion("CHECKED_STAFF_NAME not in", values, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameBetween(String value1, String value2) {
+            addCriterion("CHECKED_STAFF_NAME between", value1, value2, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameNotBetween(String value1, String value2) {
+            addCriterion("CHECKED_STAFF_NAME not between", value1, value2, "checkedStaffName");
+            return (Criteria) this;
+        }
+
         public Criteria andRecordPathIsNull() {
             addCriterion("RECORD_PATH is null");
             return (Criteria) this;

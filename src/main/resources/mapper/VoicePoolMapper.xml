@@ -800,6 +800,11 @@
              separator=" " open="case TOUCH_ID" close="end">
       when #{item} then null
     </foreach>
+    ,IS_OPERATE =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TOUCH_ID" close="end">
+      when #{item} then  "0"
+    </foreach>
     where TOUCH_ID in
     <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
       #{item,jdbcType=VARCHAR}
@@ -811,7 +816,7 @@
     set  CHECK_STAFF_ID =
     <foreach collection="list" item="item" index="index"
              separator=" " open="case TOUCH_ID" close="end">
-      when #{item.touchId} then  #{item.checkStaffStaffId,jdbcType=VARCHAR}
+      when #{item.touchId} then  #{item.checkStaffId,jdbcType=VARCHAR}
     </foreach>
     ,CHECK_STAFF_NAME =
     <foreach collection="list" item="item" index="index"
@@ -822,6 +827,11 @@
     <foreach collection="list" item="item" index="index"
              separator=" " open="case TOUCH_ID" close="end">
       when #{item.touchId} then  now()
+    </foreach>
+    ,IS_OPERATE =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TOUCH_ID" close="end">
+      when #{item.touchId} then  "1"
     </foreach>
     where TOUCH_ID in
     <foreach collection="list" index="index" item="item" separator="," open="(" close=")">

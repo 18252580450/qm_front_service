@@ -12,4 +12,6 @@ public interface WorkformPoolService {
     WorkformPoolResponse deleteItems(List<String> idList) throws Exception;
 
     WorkformPoolResponse update(List<String> idList) throws Exception;
+
+    WorkformPoolResponse updateCheck(List<Map> list) throws Exception;
 }

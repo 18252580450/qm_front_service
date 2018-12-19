@@ -99,7 +99,7 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
         try {
             WorkformPoolExample example = new WorkformPoolExample();
             WorkformPoolExample.Criteria criteria= example.createCriteria();
-            criteria.andPlanIdIn(ids);
+            criteria.andTouchIdIn(ids);
             int result = workformPoolMapper.deleteByExample(example);
             if(result > 0){
                 workformPoolResponse.setRspcode(WebUtil.SUCCESS);
@@ -122,6 +122,27 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
         WorkformPoolResponse workformPoolResponse = new WorkformPoolResponse();
         try {
             int result = workformPoolMapper.update(list);
+            if (result > 0) {
+                workformPoolResponse.setRspcode(WebUtil.SUCCESS);
+                workformPoolResponse.setRspdesc("操作成功");
+            } else {
+                workformPoolResponse.setRspcode(WebUtil.FAIL);
+                workformPoolResponse.setRspdesc("操作失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("操作异常", e);
+            workformPoolResponse.setRspcode(WebUtil.EXCEPTION);
+            workformPoolResponse.setRspdesc("操作异常");
+        }
+        return workformPoolResponse;
+    }
+
+    @Override
+    public WorkformPoolResponse updateCheck(List<Map> list) throws Exception{
+        WorkformPoolResponse workformPoolResponse = new WorkformPoolResponse();
+        try {
+            int result = workformPoolMapper.updateCheck(list);
             if (result > 0) {
                 workformPoolResponse.setRspcode(WebUtil.SUCCESS);
                 workformPoolResponse.setRspdesc("操作成功");

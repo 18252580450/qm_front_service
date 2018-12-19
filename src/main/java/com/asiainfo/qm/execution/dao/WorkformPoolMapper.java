@@ -4,6 +4,8 @@ import com.asiainfo.qm.execution.domain.WorkformPool;
 import com.asiainfo.qm.execution.domain.WorkformPoolExample;
 import com.asiainfo.qm.execution.domain.WorkformPoolKey;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface WorkformPoolMapper {
@@ -30,4 +32,5 @@ public interface WorkformPoolMapper {
     int updateByPrimaryKey(WorkformPool record);
 
     int update(List<String> list);//新增
+    int updateCheck(List<Map> list);
 }

@@ -192,5 +192,29 @@ public class VoicePoolServiceImpl implements VoicePoolService {
         }
         return voicePoolResponse;
     }
+
+    @Override
+    public VoicePoolResponse deleteItems(List<String> ids) throws Exception {
+        VoicePoolResponse voicePoolResponse = new VoicePoolResponse();
+        try {
+            VoicePoolExample example = new VoicePoolExample();
+            VoicePoolExample.Criteria criteria= example.createCriteria();
+            criteria.andTouchIdIn(ids);
+            int result = voicePoolMapper.deleteByExample(example);
+            if(result > 0){
+                voicePoolResponse.setRspcode(WebUtil.SUCCESS);
+                voicePoolResponse.setRspdesc("删除质检池数据成功");
+            }else {
+                voicePoolResponse.setRspcode(WebUtil.FAIL);
+                voicePoolResponse.setRspdesc("删除质检池数据失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("删除质检池数据异常",e);
+            voicePoolResponse.setRspcode(WebUtil.EXCEPTION);
+            voicePoolResponse.setRspdesc("删除质检池数据异常");
+        }
+        return voicePoolResponse;
+    }
 }
 
