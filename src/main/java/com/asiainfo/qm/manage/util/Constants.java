@@ -1061,4 +1061,13 @@ public class Constants {
         String APPEAL_DENY = "9";   //申诉驳回
         String SYS_DENY = "99";     //系统驳回
     }
+
+    /**
+     * 质检结果状态
+     */
+    public interface QM_LAST_CHECK_RESULT {
+        String FALSE = "0";        //非最新质检结果
+        String TRUE = "1";         //最新质检结果
+    }
+
 }

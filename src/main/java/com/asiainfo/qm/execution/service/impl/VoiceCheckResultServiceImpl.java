@@ -37,7 +37,7 @@ public class VoiceCheckResultServiceImpl implements VoiceCheckResultService {
     private SequenceUtils sequenceUtils;
 
     @Override
-    public VoiceCheckResultResponse queryVoiceCheckResult(Map params, int start, int limit) throws Exception {
+    public VoiceCheckResultResponse queryVoiceSavedResult(Map params, int start, int limit) throws Exception {
         VoiceCheckResultResponse voiceCheckResultResponse = null;
         VoiceCheckResultExample example = new VoiceCheckResultExample();
         try {
@@ -45,9 +45,11 @@ public class VoiceCheckResultServiceImpl implements VoiceCheckResultService {
             if (null != params.get("tenantId") && !"".equals(params.get("tenantId"))) {
                 criteria.andTenantIdEqualTo((String) params.get("tenantId"));
             }
-            if (null != params.get("inspectionId") && !"".equals(params.get("inspectionId"))) {
-                criteria.andInspectionIdEqualTo((String) params.get("inspectionId"));
+            if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
+                criteria.andTouchIdEqualTo((String) params.get("touchId"));
             }
+            //筛选暂存质检结果
+            criteria.andResultStatusEqualTo(Constants.QM_CHECK_RESULT.TEMP_SAVE);
 
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
@@ -141,7 +143,7 @@ public class VoiceCheckResultServiceImpl implements VoiceCheckResultService {
     }
 
     @Override
-    public VoiceCheckResultResponse deleteCheckItem(List<String> idList) throws Exception {
+    public VoiceCheckResultResponse deleteVoiceCheckResult(List<String> idList) throws Exception {
         return null;
     }
 }

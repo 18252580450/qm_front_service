@@ -34,5 +34,5 @@ public interface WorkformPoolMapper {
     int update(List<String> list);//新增
     int updateCheck(List<Map> list);
 
-    int updateByInspectionId(WorkformPool record);  //根据质检流水号更新质检状态
+    int updateByWorkFormId(WorkformPool record);  //根据工单流水号更新质检状态
 }

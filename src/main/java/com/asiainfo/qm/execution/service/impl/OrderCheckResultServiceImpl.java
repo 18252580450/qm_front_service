@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.rmi.CORBA.Util;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class OrderCheckResultServiceImpl implements OrderCheckResultService {
     private SequenceUtils sequenceUtils;
 
     @Override
-    public OrderCheckResultResponse queryOrderCheckResult(Map params, int start, int limit) throws Exception {
+    public OrderCheckResultResponse queryOrderSavedResult(Map params, int start, int limit) throws Exception {
         OrderCheckResultResponse orderCheckResultResponse = null;
         OrderCheckResultExample example = new OrderCheckResultExample();
         try {
@@ -45,9 +46,11 @@ public class OrderCheckResultServiceImpl implements OrderCheckResultService {
             if (null != params.get("tenantId") && !"".equals(params.get("tenantId"))) {
                 criteria.andTenantIdEqualTo((String) params.get("tenantId"));
             }
-            if (null != params.get("inspectionId") && !"".equals(params.get("inspectionId"))) {
-                criteria.andInspectionIdEqualTo((String) params.get("inspectionId"));
+            if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
+                criteria.andTouchIdEqualTo((String) params.get("touchId"));
             }
+            //筛选暂存质检结果
+            criteria.andResultStatusEqualTo(Constants.QM_CHECK_RESULT.TEMP_SAVE);
 
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
@@ -155,7 +158,7 @@ public class OrderCheckResultServiceImpl implements OrderCheckResultService {
     }
 
     @Override
-    public OrderCheckResultResponse deleteCheckItem(List<String> idList) throws Exception {
+    public OrderCheckResultResponse deleteOrderCheckResult(List<String> idList) throws Exception {
         return null;
     }
 }

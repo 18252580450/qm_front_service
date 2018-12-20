@@ -680,8 +680,8 @@
     where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
   </update>
 
-  <!--根据质检流水号更新质检池-->
-  <update id="updateByInspectionId" parameterType="com.asiainfo.qm.execution.domain.VoicePool" >
+  <!--根据语音流水号更新质检池-->
+  <update id="updateByTouchId" parameterType="com.asiainfo.qm.execution.domain.VoicePool" >
     update t_qm_voice_pool
     <set >
       <if test="tenantId != null" >
@@ -784,7 +784,7 @@
         RESERVE_8 = #{reserve8,jdbcType=VARCHAR},
       </if>
     </set>
-    where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
+    where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
   </update>
 
   <!--新增批量更新-->

@@ -156,8 +156,8 @@
     </foreach>
   </update>
 
-  <!--根据质检流水号更新质检池-->
-  <update id="updateByInspectionId" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
+  <!--根据工单流水号更新质检池-->
+  <update id="updateByWorkFormId" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
     update t_qm_workform_pool
     <set >
       <if test="tenantId != null" >
@@ -305,7 +305,7 @@
         RESERVE_5 = #{reserve5,jdbcType=VARCHAR},
       </if>
     </set>
-    where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
+    where WORKFORM_ID = #{workformId,jdbcType=VARCHAR}
   </update>
 
   <update id="updateCheck" parameterType="java.util.List" >

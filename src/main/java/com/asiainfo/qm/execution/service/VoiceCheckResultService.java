@@ -14,9 +14,9 @@ import java.util.Map;
 public interface VoiceCheckResultService {
 
     /**
-     * 语音质检结果查询
+     * 语音质检暂存数据查询
      */
-    VoiceCheckResultResponse queryVoiceCheckResult(Map params, int start, int limit) throws Exception;
+    VoiceCheckResultResponse queryVoiceSavedResult(Map params, int start, int limit) throws Exception;
 
     /**
      * 语音质检结果新增
@@ -31,6 +31,6 @@ public interface VoiceCheckResultService {
     /**
      * 语音质检结果删除
      */
-    VoiceCheckResultResponse deleteCheckItem(List<String> idList) throws Exception;
+    VoiceCheckResultResponse deleteVoiceCheckResult(List<String> idList) throws Exception;
 
 }

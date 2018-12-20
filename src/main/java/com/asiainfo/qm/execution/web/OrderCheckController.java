@@ -66,25 +66,55 @@ public class OrderCheckController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public OrderCheckResultServiceResponse orderCheck(@RequestBody Map<String, Object> reqMap) throws Exception {
         OrderCheckResultResponse orderCheckResultResponse = new OrderCheckResultResponse();
+        OrderCheckResultDetailResponse orderCheckResultDetailResponse = new OrderCheckResultDetailResponse();
         OrderCheckResultServiceResponse orderCheckResultServiceResponse = new OrderCheckResultServiceResponse();
         @SuppressWarnings("unchecked")
         Map<String, Object> orderCheckInfo = (Map<String, Object>) reqMap.get("orderCheckInfo");
         @SuppressWarnings("unchecked")
-        List<Map> checkLinkData = (ArrayList<Map>) reqMap.get("checkLinkData");
-        List<OrderCheckResult> orderCheckResultList = new ArrayList<OrderCheckResult>();
-        List<OrderCheckResultDetail> orderCheckResultDetailList = new ArrayList<OrderCheckResultDetail>();
+        List<Map<String, Object>> checkLinkData = (ArrayList<Map<String, Object>>) reqMap.get("checkLinkData");
+        //工单质检结果更新列表
+        List<OrderCheckResult> orderCheckResultUpdateList = new ArrayList<OrderCheckResult>();
+        //工单质检结果新增列表
+        List<OrderCheckResult> orderCheckResultAddList = new ArrayList<OrderCheckResult>();
+        //工单质检结果详情更新列表
+        List<OrderCheckResultDetail> orderCheckResultDetailUpdateList = new ArrayList<OrderCheckResultDetail>();
+        //工单质检结果详情新增列表
+        List<OrderCheckResultDetail> orderCheckResultDetailAddList = new ArrayList<OrderCheckResultDetail>();
+        //质检流水
+        String inspectionId = String.valueOf(sequenceUtils.getSequence("t_qm_order_check_result"));
+        //质检结果状态（新增OR暂存）
         String checkStatus = orderCheckInfo.get("resultStatus").toString();
+        //质检开始时间
         Date currentTime = DateUtil.getCurrontTime();
         String tmpStr = orderCheckInfo.get("checkStartTime").toString();
         String checkStartTime = tmpStr.substring(0, 10) + " " + tmpStr.substring(11);
-        boolean updateFlag = false; //更新标志
         try {
-            //查询工单质检结果信息表，质检结果已存在（暂存数据）则更新质检结果，反之插入
-            orderCheckResultResponse = orderCheckResultService.queryOrderCheckResult(orderCheckInfo, 0, 0);
-            if (null != orderCheckResultResponse.getData() && orderCheckResultResponse.getData().size() > 0) {
-                updateFlag = true;
+            String rspCode = WebUtil.SUCCESS;
+            //查询工单质检结果信息表，存在暂存数据则更新质检结果，反之插入
+            orderCheckResultResponse = orderCheckResultService.queryOrderSavedResult(orderCheckInfo, 0, 0);
+            if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
+                rspCode = WebUtil.FAIL;
             }
-            //更新工单质检结果信息表
+            if (null != orderCheckResultResponse.getData() && orderCheckResultResponse.getData().size() > 0) {
+                //若有保存数据，则流水号为保存时生成的流水
+                inspectionId = orderCheckResultResponse.getData().get(0).getInspectionId();
+                for (OrderCheckResult orderCheckResult : orderCheckResultResponse.getData()
+                ) {
+                    for (Map<String, Object> checkLink : checkLinkData
+                    ) {
+                        if (checkLink.get("checkLink").toString().equals(orderCheckResult.getCheckLink())) {
+                            checkLink.put("updateFlag", "0");
+                            break;
+                        }
+                    }
+                }
+            }
+            //复检原质检流水
+            String originInspectionId = orderCheckInfo.get("originInspectionId").toString();
+            if (null == originInspectionId || "".equals(originInspectionId)) {
+                originInspectionId = inspectionId;
+            }
+            //工单质检结果
             for (Map checkLink : checkLinkData
             ) {
                 OrderCheckResult orderCheckResult = new OrderCheckResult();
@@ -92,8 +122,8 @@ public class OrderCheckController {
                 orderCheckResult.setTenantId(orderCheckInfo.get("tenantId").toString());
                 orderCheckResult.setCallingNumber(orderCheckInfo.get("callingNumber").toString());
                 orderCheckResult.setAcceptNumber(orderCheckInfo.get("acceptNumber").toString());
-                orderCheckResult.setInspectionId(orderCheckInfo.get("inspectionId").toString());
-                orderCheckResult.setOriginInspectionId(orderCheckInfo.get("originInspectionId").toString());
+                orderCheckResult.setInspectionId(inspectionId);
+                orderCheckResult.setOriginInspectionId(originInspectionId);
                 orderCheckResult.setTouchId(orderCheckInfo.get("touchId").toString());
                 orderCheckResult.setCheckLink(checkLink.get("checkLink").toString());
                 orderCheckResult.setPlanId(orderCheckInfo.get("planId").toString());
@@ -116,9 +146,13 @@ public class OrderCheckController {
                 orderCheckResult.setFinalScore(BigDecimal.valueOf(Double.parseDouble(checkLink.get("finalScore").toString())));
                 orderCheckResult.setCheckComment(checkLink.get("checkComment").toString());
 
-                orderCheckResultList.add(orderCheckResult);
+                if (checkLink.containsKey("updateFlag") && checkLink.get("updateFlag").toString().equals("0")) {
+                    orderCheckResultUpdateList.add(orderCheckResult);
+                } else {
+                    orderCheckResultAddList.add(orderCheckResult);
+                }
 
-                //考评环节详细信息表
+                //考评环节详细信息
                 @SuppressWarnings("unchecked")
                 List<Map> checkItemScoreList = (ArrayList<Map>) checkLink.get("checkItemScoreList");
                 for (Map checkItem : checkItemScoreList
@@ -130,7 +164,8 @@ public class OrderCheckController {
                     orderCheckResultDetail.setNodeId(checkItem.get("nodeId").toString());
                     orderCheckResultDetail.setNodeName(checkItem.get("nodeName").toString());
                     orderCheckResultDetail.setTenantId(orderCheckInfo.get("tenantId").toString());
-                    orderCheckResultDetail.setInspectionId(orderCheckInfo.get("inspectionId").toString());
+                    orderCheckResultDetail.setInspectionId(inspectionId);
+                    orderCheckResultDetail.setTouchId(orderCheckInfo.get("touchId").toString());
                     orderCheckResultDetail.setCheckStaffId(orderCheckInfo.get("checkStaffId").toString());
                     orderCheckResultDetail.setCheckStaffName(orderCheckInfo.get("checkStaffName").toString());
                     orderCheckResultDetail.setCheckDepartId(orderCheckInfo.get("checkDepartId").toString());
@@ -143,42 +178,57 @@ public class OrderCheckController {
                     orderCheckResultDetail.setMaxScore(Integer.parseInt(checkItem.get("maxScore").toString()));
                     orderCheckResultDetail.setRealScore(BigDecimal.valueOf(Double.parseDouble(checkItem.get("realScore").toString())));
 
-                    orderCheckResultDetailList.add(orderCheckResultDetail);
+                    if (checkLink.containsKey("updateFlag") && checkLink.get("updateFlag").toString().equals("0")) {
+                        orderCheckResultDetailUpdateList.add(orderCheckResultDetail);
+                    } else {
+                        orderCheckResultDetailAddList.add(orderCheckResultDetail);
+                    }
                 }
             }
 
-            if (updateFlag) {
-                orderCheckResultResponse = orderCheckResultService.updateOrderCheckResult(orderCheckResultList);
-            } else {
-                orderCheckResultResponse = orderCheckResultService.addOrderCheckResult(orderCheckResultList);
+            //工单质检结果更新
+            if (!orderCheckResultUpdateList.isEmpty() && rspCode.equals(WebUtil.SUCCESS)) {
+                orderCheckResultResponse = orderCheckResultService.updateOrderCheckResult(orderCheckResultUpdateList);
+                rspCode = orderCheckResultResponse.getRspcode();
             }
 
-            //更新工单质检结果详细信息表
-            if (orderCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
-                OrderCheckResultDetailResponse orderCheckResultDetailResponse = new OrderCheckResultDetailResponse();
-                if (updateFlag) {
-                    orderCheckResultDetailResponse = orderCheckResultDetailService.updateOrderCheckResultDetail(orderCheckResultDetailList);
-                } else {
-                    orderCheckResultDetailResponse = orderCheckResultDetailService.addOrderCheckResultDetail(orderCheckResultDetailList);
-                }
+            //工单质检结果新增
+            if (!orderCheckResultAddList.isEmpty() && rspCode.equals(WebUtil.SUCCESS)) {
+                orderCheckResultResponse = orderCheckResultService.addOrderCheckResult(orderCheckResultAddList);
+                rspCode = orderCheckResultResponse.getRspcode();
+            }
 
-                if (!orderCheckResultDetailResponse.getRspcode().equals(WebUtil.SUCCESS)) {
-                    orderCheckResultResponse.setRspcode(WebUtil.FAIL);
+            //工单质检结果详细信息更新
+            if (!orderCheckResultDetailUpdateList.isEmpty() && rspCode.equals(WebUtil.SUCCESS)) {
+                orderCheckResultDetailResponse = orderCheckResultDetailService.updateOrderCheckResultDetail(orderCheckResultDetailUpdateList);
+                rspCode = orderCheckResultDetailResponse.getRspcode();
+            }
+
+            //工单质检结果详细信息新增
+            if (!orderCheckResultDetailAddList.isEmpty() && rspCode.equals(WebUtil.SUCCESS)) {
+                orderCheckResultDetailResponse = orderCheckResultDetailService.addOrderCheckResultDetail(orderCheckResultDetailAddList);
+                rspCode = orderCheckResultDetailResponse.getRspcode();
+            }
+
+            //更新工单质检池（质检暂存不更新质检池）
+            if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) && rspCode.equals(WebUtil.SUCCESS)) {
+                WorkformPool workformPool = new WorkformPool();
+                workformPool.setWorkformId(orderCheckInfo.get("touchId").toString());
+                workformPool.setReserve1(Constants.QM_CHECK_STATUS.CHECKED);
+
+                WorkformPoolResponse workformPoolResponse = new WorkformPoolResponse();
+                workformPoolResponse = workformPoolService.updateWorkFormPool(workformPool);
+                rspCode = workformPoolResponse.getRspcode();
+            }
+
+            //质检失败
+            if (rspCode.equals(WebUtil.FAIL)) {
+                orderCheckResultResponse.setRspcode(WebUtil.FAIL);
+                if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
                     orderCheckResultResponse.setRspdesc("提交失败");
                 }
-
-                //更新工单质检池（质检暂存不更新质检池）
-                if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) && orderCheckResultDetailResponse.getRspcode().equals(WebUtil.SUCCESS)) {
-                    WorkformPool workformPool = new WorkformPool();
-                    workformPool.setTouchId(orderCheckInfo.get("inspectionId").toString());
-                    workformPool.setReserve1(Constants.QM_CHECK_STATUS.CHECKED);
-
-                    WorkformPoolResponse workformPoolResponse = new WorkformPoolResponse();
-                    workformPoolResponse = workformPoolService.updateWorkFormPool(workformPool);
-                    if (!workformPoolResponse.getRspcode().equals(WebUtil.SUCCESS)) {
-                        orderCheckResultResponse.setRspcode(WebUtil.FAIL);
-                        orderCheckResultResponse.setRspdesc("提交失败");
-                    }
+                if (checkStatus.equals(Constants.QM_CHECK_RESULT.TEMP_SAVE)) {
+                    orderCheckResultResponse.setRspdesc("保存失败");
                 }
             }
         } catch (Exception e) {

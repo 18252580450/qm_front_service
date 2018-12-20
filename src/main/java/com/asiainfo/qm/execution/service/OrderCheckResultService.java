@@ -14,9 +14,9 @@ import java.util.Map;
 public interface OrderCheckResultService {
 
     /**
-     * 工单质检结果查询
+     * 工单质检暂存数据查询
      */
-    OrderCheckResultResponse queryOrderCheckResult(Map params, int start, int limit) throws Exception;
+    OrderCheckResultResponse queryOrderSavedResult(Map params, int start, int limit) throws Exception;
 
     /**
      * 工单质检结果新增
@@ -31,6 +31,6 @@ public interface OrderCheckResultService {
     /**
      * 工单质检结果删除
      */
-    OrderCheckResultResponse deleteCheckItem(List<String> idList) throws Exception;
+    OrderCheckResultResponse deleteOrderCheckResult(List<String> idList) throws Exception;
 
 }

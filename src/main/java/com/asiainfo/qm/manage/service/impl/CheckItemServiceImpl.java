@@ -132,7 +132,7 @@ public class CheckItemServiceImpl implements CheckItemService {
         try {
             checkItem.setCreateTime(DateUtil.getCurrontTime());
             checkItem.setOperateTime(DateUtil.getCurrontTime());
-            checkItem.setCheckItemId(String.valueOf(sequenceUtils.getSequence("t_qm_checkitem")));
+            checkItem.setCheckItemId(String.valueOf(sequenceUtils.getSequence("t_qm_check_item")));
             int result = checkItemMapper.insertSelective(checkItem);
             if (result > 0) {
                 checkItemResponse.setRspcode(WebUtil.SUCCESS);

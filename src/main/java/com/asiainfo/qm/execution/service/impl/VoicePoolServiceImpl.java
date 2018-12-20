@@ -104,6 +104,10 @@ public class VoicePoolServiceImpl implements VoicePoolService {
             if (null != params.get("checkStatus") && !"".equals(params.get("checkStatus"))) {
                 criteria.andReserve1EqualTo((String) params.get("checkStatus"));
             }
+            //质检状态，区分已分配和未分配数据
+            if (null != params.get("poolStatus") && !"".equals(params.get("poolStatus"))) {
+                criteria.andIsOperateEqualTo((String) params.get("poolStatus"));
+            }
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
                 List<VoicePool> list = voicePoolMapper.selectByExample(example);
@@ -176,7 +180,7 @@ public class VoicePoolServiceImpl implements VoicePoolService {
     public VoicePoolResponse updateVoicePool(VoicePool voicePool) throws Exception {
         VoicePoolResponse voicePoolResponse = new VoicePoolResponse();
         try {
-            int result = voicePoolMapper.updateByInspectionId(voicePool);
+            int result = voicePoolMapper.updateByTouchId(voicePool);
             if (result > 0) {
                 voicePoolResponse.setRspcode(WebUtil.SUCCESS);
                 voicePoolResponse.setRspdesc("更新成功");

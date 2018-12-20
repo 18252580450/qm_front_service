@@ -66,6 +66,10 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             if (null != params.get("distStartTime") && !"".equals(params.get("distStartTime")) && null != params.get("distEndTime") && !"".equals(params.get("distEndTime"))) {
                 criteria.andOperateTimeBetween(sdf.parse((String) params.get("distStartTime")), sdf.parse((String) params.get("distEndTime")));
             }
+            //质检状态，区分已质检和未质检数据
+            if (null != params.get("checkStatus") && !"".equals(params.get("checkStatus"))) {
+                criteria.andReserve1EqualTo((String) params.get("checkStatus"));
+            }
 
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
@@ -163,7 +167,7 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
     public WorkformPoolResponse updateWorkFormPool(WorkformPool workformPool) throws Exception {
         WorkformPoolResponse workFormPoolResponse = new WorkformPoolResponse();
         try {
-            int result = workformPoolMapper.updateByInspectionId(workformPool);
+            int result = workformPoolMapper.updateByWorkFormId(workformPool);
             if (result > 0) {
                 workFormPoolResponse.setRspcode(WebUtil.SUCCESS);
                 workFormPoolResponse.setRspdesc("更新成功");
