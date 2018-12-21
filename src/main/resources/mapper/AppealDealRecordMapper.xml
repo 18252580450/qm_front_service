@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.asiainfo.qm.execution.dao.AppealDealProcessRecordMapper" >
-  <resultMap id="BaseResultMap" type="com.asiainfo.qm.execution.domain.AppealDealProcessRecord" >
+<mapper namespace="com.asiainfo.qm.execution.dao.AppealDealRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.asiainfo.qm.execution.domain.AppealDealRecord" >
     <id column="APPEAL_ID" property="appealId" jdbcType="VARCHAR" />
     <id column="PROCESS_ID" property="processId" jdbcType="VARCHAR" />
     <id column="NODE_ID" property="nodeId" jdbcType="INTEGER" />
@@ -89,7 +89,7 @@
     RESERVE_1, RESERVE_2, RESERVE_3, RESERVE_4, RESERVE_5, RESERVE_6, RESERVE_7, RESERVE_8, 
     RESERVE_9, RESERVE_10
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.execution.domain.AppealDealProcessRecordExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.execution.domain.AppealDealRecordExample" >
     select
     <if test="distinct" >
       distinct
@@ -103,7 +103,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.execution.domain.AppealDealProcessRecordKey" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.execution.domain.AppealDealRecordKey" >
     select 
     <include refid="Base_Column_List" />
     from t_qm_appeal_process_record
@@ -111,19 +111,19 @@
       and PROCESS_ID = #{processId,jdbcType=VARCHAR}
       and NODE_ID = #{nodeId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.asiainfo.qm.execution.domain.AppealDealProcessRecordKey" >
+  <delete id="deleteByPrimaryKey" parameterType="com.asiainfo.qm.execution.domain.AppealDealRecordKey" >
     delete from t_qm_appeal_process_record
     where APPEAL_ID = #{appealId,jdbcType=VARCHAR}
       and PROCESS_ID = #{processId,jdbcType=VARCHAR}
       and NODE_ID = #{nodeId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.asiainfo.qm.execution.domain.AppealDealProcessRecordExample" >
+  <delete id="deleteByExample" parameterType="com.asiainfo.qm.execution.domain.AppealDealRecordExample" >
     delete from t_qm_appeal_process_record
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.asiainfo.qm.execution.domain.AppealDealProcessRecord" >
+  <insert id="insert" parameterType="com.asiainfo.qm.execution.domain.AppealDealRecord" >
     insert into t_qm_appeal_process_record (APPEAL_ID, PROCESS_ID, NODE_ID, 
       CHECK_TYPE, TOUCH_ID, INSPECTION_ID, 
       PROCESS_NAME, NODE_NAME, APPROVE_STAFF_ID, 
@@ -141,7 +141,7 @@
       #{reserve7,jdbcType=VARCHAR}, #{reserve8,jdbcType=VARCHAR}, #{reserve9,jdbcType=VARCHAR}, 
       #{reserve10,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.asiainfo.qm.execution.domain.AppealDealProcessRecord" >
+  <insert id="insertSelective" parameterType="com.asiainfo.qm.execution.domain.AppealDealRecord" >
     insert into t_qm_appeal_process_record
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="appealId != null" >
@@ -280,7 +280,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.asiainfo.qm.execution.domain.AppealDealProcessRecordExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.asiainfo.qm.execution.domain.AppealDealRecordExample" resultType="java.lang.Integer" >
     select count(*) from t_qm_appeal_process_record
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -388,7 +388,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.qm.execution.domain.AppealDealProcessRecord" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.qm.execution.domain.AppealDealRecord" >
     update t_qm_appeal_process_record
     <set >
       <if test="checkType != null" >
@@ -453,7 +453,7 @@
       and PROCESS_ID = #{processId,jdbcType=VARCHAR}
       and NODE_ID = #{nodeId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.execution.domain.AppealDealProcessRecord" >
+  <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.execution.domain.AppealDealRecord" >
     update t_qm_appeal_process_record
     set CHECK_TYPE = #{checkType,jdbcType=VARCHAR},
       TOUCH_ID = #{touchId,jdbcType=VARCHAR},

@@ -1,6 +1,6 @@
 package com.asiainfo.qm.execution.domain;
 
-public class AppealDealProcessRecord extends AppealDealProcessRecordKey {
+public class AppealDealRecord extends AppealDealRecordKey {
     private String checkType;
 
     private String touchId;

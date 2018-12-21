@@ -1,6 +1,6 @@
 package com.asiainfo.qm.execution.domain;
 
-public class AppealDealProcessRecordKey {
+public class AppealDealRecordKey {
     private String appealId;
 
     private String processId;

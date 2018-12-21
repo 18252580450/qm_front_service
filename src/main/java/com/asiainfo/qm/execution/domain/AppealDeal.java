@@ -2,7 +2,7 @@ package com.asiainfo.qm.execution.domain;
 
 import java.util.Date;
 
-public class AppealDealProcess {
+public class AppealDeal {
     private String appealId;
 
     private String checkType;

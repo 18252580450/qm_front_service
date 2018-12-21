@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AppealDealProcessExample {
+public class AppealDealExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public AppealDealProcessExample() {
+    public AppealDealExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

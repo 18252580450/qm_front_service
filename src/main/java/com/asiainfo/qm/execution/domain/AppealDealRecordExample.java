@@ -3,14 +3,14 @@ package com.asiainfo.qm.execution.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppealDealProcessRecordExample {
+public class AppealDealRecordExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public AppealDealProcessRecordExample() {
+    public AppealDealRecordExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
