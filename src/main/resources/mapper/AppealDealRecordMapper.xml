@@ -12,6 +12,7 @@
     <result column="NODE_NAME" property="nodeName" jdbcType="INTEGER" />
     <result column="APPROVE_STAFF_ID" property="approveStaffId" jdbcType="VARCHAR" />
     <result column="APPROVE_STAFF_NAME" property="approveStaffName" jdbcType="VARCHAR" />
+    <result column="APPROVE_TIME" property="approveTime" jdbcType="TIMESTAMP" />
     <result column="APPROVE_STATUS" property="approveStatus" jdbcType="VARCHAR" />
     <result column="APPROVE_SUGGESTION" property="approveSuggestion" jdbcType="VARCHAR" />
     <result column="RESERVE_1" property="reserve1" jdbcType="VARCHAR" />
@@ -85,7 +86,7 @@
   </sql>
   <sql id="Base_Column_List" >
     APPEAL_ID, PROCESS_ID, NODE_ID, CHECK_TYPE, TOUCH_ID, INSPECTION_ID, PROCESS_NAME, 
-    NODE_NAME, APPROVE_STAFF_ID, APPROVE_STAFF_NAME, APPROVE_STATUS, APPROVE_SUGGESTION, 
+    NODE_NAME, APPROVE_STAFF_ID, APPROVE_STAFF_NAME, APPROVE_TIME, APPROVE_STATUS, APPROVE_SUGGESTION, 
     RESERVE_1, RESERVE_2, RESERVE_3, RESERVE_4, RESERVE_5, RESERVE_6, RESERVE_7, RESERVE_8, 
     RESERVE_9, RESERVE_10
   </sql>
@@ -127,19 +128,19 @@
     insert into t_qm_appeal_process_record (APPEAL_ID, PROCESS_ID, NODE_ID, 
       CHECK_TYPE, TOUCH_ID, INSPECTION_ID, 
       PROCESS_NAME, NODE_NAME, APPROVE_STAFF_ID, 
-      APPROVE_STAFF_NAME, APPROVE_STATUS, APPROVE_SUGGESTION, 
-      RESERVE_1, RESERVE_2, RESERVE_3, 
-      RESERVE_4, RESERVE_5, RESERVE_6, 
-      RESERVE_7, RESERVE_8, RESERVE_9, 
-      RESERVE_10)
+      APPROVE_STAFF_NAME, APPROVE_TIME, APPROVE_STATUS, 
+      APPROVE_SUGGESTION, RESERVE_1, RESERVE_2, 
+      RESERVE_3, RESERVE_4, RESERVE_5, 
+      RESERVE_6, RESERVE_7, RESERVE_8, 
+      RESERVE_9, RESERVE_10)
     values (#{appealId,jdbcType=VARCHAR}, #{processId,jdbcType=VARCHAR}, #{nodeId,jdbcType=INTEGER}, 
       #{checkType,jdbcType=VARCHAR}, #{touchId,jdbcType=VARCHAR}, #{inspectionId,jdbcType=VARCHAR}, 
       #{processName,jdbcType=VARCHAR}, #{nodeName,jdbcType=INTEGER}, #{approveStaffId,jdbcType=VARCHAR}, 
-      #{approveStaffName,jdbcType=VARCHAR}, #{approveStatus,jdbcType=VARCHAR}, #{approveSuggestion,jdbcType=VARCHAR}, 
-      #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR}, 
-      #{reserve4,jdbcType=VARCHAR}, #{reserve5,jdbcType=VARCHAR}, #{reserve6,jdbcType=VARCHAR}, 
-      #{reserve7,jdbcType=VARCHAR}, #{reserve8,jdbcType=VARCHAR}, #{reserve9,jdbcType=VARCHAR}, 
-      #{reserve10,jdbcType=VARCHAR})
+      #{approveStaffName,jdbcType=VARCHAR}, #{approveTime,jdbcType=TIMESTAMP}, #{approveStatus,jdbcType=VARCHAR}, 
+      #{approveSuggestion,jdbcType=VARCHAR}, #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, 
+      #{reserve3,jdbcType=VARCHAR}, #{reserve4,jdbcType=VARCHAR}, #{reserve5,jdbcType=VARCHAR}, 
+      #{reserve6,jdbcType=VARCHAR}, #{reserve7,jdbcType=VARCHAR}, #{reserve8,jdbcType=VARCHAR}, 
+      #{reserve9,jdbcType=VARCHAR}, #{reserve10,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.asiainfo.qm.execution.domain.AppealDealRecord" >
     insert into t_qm_appeal_process_record
@@ -173,6 +174,9 @@
       </if>
       <if test="approveStaffName != null" >
         APPROVE_STAFF_NAME,
+      </if>
+      <if test="approveTime != null" >
+        APPROVE_TIME,
       </if>
       <if test="approveStatus != null" >
         APPROVE_STATUS,
@@ -241,6 +245,9 @@
       </if>
       <if test="approveStaffName != null" >
         #{approveStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="approveTime != null" >
+        #{approveTime,jdbcType=TIMESTAMP},
       </if>
       <if test="approveStatus != null" >
         #{approveStatus,jdbcType=VARCHAR},
@@ -319,6 +326,9 @@
       <if test="record.approveStaffName != null" >
         APPROVE_STAFF_NAME = #{record.approveStaffName,jdbcType=VARCHAR},
       </if>
+      <if test="record.approveTime != null" >
+        APPROVE_TIME = #{record.approveTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.approveStatus != null" >
         APPROVE_STATUS = #{record.approveStatus,jdbcType=VARCHAR},
       </if>
@@ -372,6 +382,7 @@
       NODE_NAME = #{record.nodeName,jdbcType=INTEGER},
       APPROVE_STAFF_ID = #{record.approveStaffId,jdbcType=VARCHAR},
       APPROVE_STAFF_NAME = #{record.approveStaffName,jdbcType=VARCHAR},
+      APPROVE_TIME = #{record.approveTime,jdbcType=TIMESTAMP},
       APPROVE_STATUS = #{record.approveStatus,jdbcType=VARCHAR},
       APPROVE_SUGGESTION = #{record.approveSuggestion,jdbcType=VARCHAR},
       RESERVE_1 = #{record.reserve1,jdbcType=VARCHAR},
@@ -411,6 +422,9 @@
       </if>
       <if test="approveStaffName != null" >
         APPROVE_STAFF_NAME = #{approveStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="approveTime != null" >
+        APPROVE_TIME = #{approveTime,jdbcType=TIMESTAMP},
       </if>
       <if test="approveStatus != null" >
         APPROVE_STATUS = #{approveStatus,jdbcType=VARCHAR},
@@ -462,6 +476,7 @@
       NODE_NAME = #{nodeName,jdbcType=INTEGER},
       APPROVE_STAFF_ID = #{approveStaffId,jdbcType=VARCHAR},
       APPROVE_STAFF_NAME = #{approveStaffName,jdbcType=VARCHAR},
+      APPROVE_TIME = #{approveTime,jdbcType=TIMESTAMP},
       APPROVE_STATUS = #{approveStatus,jdbcType=VARCHAR},
       APPROVE_SUGGESTION = #{approveSuggestion,jdbcType=VARCHAR},
       RESERVE_1 = #{reserve1,jdbcType=VARCHAR},

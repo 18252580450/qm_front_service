@@ -1,5 +1,7 @@
 package com.asiainfo.qm.execution.domain;
 
+import java.util.Date;
+
 public class AppealDealRecord extends AppealDealRecordKey {
     private String checkType;
 
@@ -14,6 +16,8 @@ public class AppealDealRecord extends AppealDealRecordKey {
     private String approveStaffId;
 
     private String approveStaffName;
+
+    private Date approveTime;
 
     private String approveStatus;
 
@@ -93,6 +97,14 @@ public class AppealDealRecord extends AppealDealRecordKey {
 
     public void setApproveStaffName(String approveStaffName) {
         this.approveStaffName = approveStaffName == null ? null : approveStaffName.trim();
+    }
+
+    public Date getApproveTime() {
+        return approveTime;
+    }
+
+    public void setApproveTime(Date approveTime) {
+        this.approveTime = approveTime;
     }
 
     public String getApproveStatus() {

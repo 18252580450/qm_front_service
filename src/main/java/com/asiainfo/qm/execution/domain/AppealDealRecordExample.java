@@ -1,6 +1,7 @@
 package com.asiainfo.qm.execution.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AppealDealRecordExample {
@@ -781,6 +782,66 @@ public class AppealDealRecordExample {
 
         public Criteria andApproveStaffNameNotBetween(String value1, String value2) {
             addCriterion("APPROVE_STAFF_NAME not between", value1, value2, "approveStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andApproveTimeIsNull() {
+            addCriterion("APPROVE_TIME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApproveTimeIsNotNull() {
+            addCriterion("APPROVE_TIME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApproveTimeEqualTo(Date value) {
+            addCriterion("APPROVE_TIME =", value, "approveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApproveTimeNotEqualTo(Date value) {
+            addCriterion("APPROVE_TIME <>", value, "approveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApproveTimeGreaterThan(Date value) {
+            addCriterion("APPROVE_TIME >", value, "approveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApproveTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("APPROVE_TIME >=", value, "approveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApproveTimeLessThan(Date value) {
+            addCriterion("APPROVE_TIME <", value, "approveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApproveTimeLessThanOrEqualTo(Date value) {
+            addCriterion("APPROVE_TIME <=", value, "approveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApproveTimeIn(List<Date> values) {
+            addCriterion("APPROVE_TIME in", values, "approveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApproveTimeNotIn(List<Date> values) {
+            addCriterion("APPROVE_TIME not in", values, "approveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApproveTimeBetween(Date value1, Date value2) {
+            addCriterion("APPROVE_TIME between", value1, value2, "approveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andApproveTimeNotBetween(Date value1, Date value2) {
+            addCriterion("APPROVE_TIME not between", value1, value2, "approveTime");
             return (Criteria) this;
         }
 
