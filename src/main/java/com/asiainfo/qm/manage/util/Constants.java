@@ -1070,4 +1070,23 @@ public class Constants {
         String TRUE = "1";         //最新质检结果
     }
 
+    /**
+     * 申诉流程状态
+     */
+    public interface QM_APPEAL_PROCESS_STATUS {
+        String DISABLE = "0";      //未启动
+        String ENABLE = "1";       //启动
+        String PAUSE = "2";        //暂停
+    }
+
+    /**
+     * 质检申诉状态
+     */
+    public interface QM_APPEAL_STATUS {
+        String APPEALING = "0";    //提起申诉|申诉中
+        String PASS = "1";         //通过
+        String REJECT = "2";       //驳回
+        String SYS_REJECT = "3";   //系统自动驳回
+    }
+
 }

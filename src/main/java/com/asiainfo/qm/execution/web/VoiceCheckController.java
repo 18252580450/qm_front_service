@@ -85,7 +85,7 @@ public class VoiceCheckController {
             String rspCode = WebUtil.SUCCESS;
             //查询语音质检结果信息表，存在暂存数据则更新质检结果，反之插入
             voiceCheckResultResponse = voiceCheckResultService.queryVoiceSavedResult(checkResult, 0, 0);
-            if (voiceCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
+            if (!voiceCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
                 rspCode = WebUtil.FAIL;
             }
             if (null != voiceCheckResultResponse.getData() && voiceCheckResultResponse.getData().size() > 0) {
@@ -187,7 +187,7 @@ public class VoiceCheckController {
             }
 
             //质检失败
-            if (rspCode.equals(WebUtil.FAIL)) {
+            if (!rspCode.equals(WebUtil.SUCCESS)) {
                 voiceCheckResultResponse.setRspcode(WebUtil.FAIL);
                 if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
                     voiceCheckResultResponse.setRspdesc("提交失败");

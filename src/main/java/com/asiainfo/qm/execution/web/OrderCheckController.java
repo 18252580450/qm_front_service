@@ -92,7 +92,7 @@ public class OrderCheckController {
             String rspCode = WebUtil.SUCCESS;
             //查询工单质检结果信息表，存在暂存数据则更新质检结果，反之插入
             orderCheckResultResponse = orderCheckResultService.queryOrderSavedResult(orderCheckInfo, 0, 0);
-            if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
+            if (!orderCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
                 rspCode = WebUtil.FAIL;
             }
             if (null != orderCheckResultResponse.getData() && orderCheckResultResponse.getData().size() > 0) {
@@ -222,7 +222,7 @@ public class OrderCheckController {
             }
 
             //质检失败
-            if (rspCode.equals(WebUtil.FAIL)) {
+            if (!rspCode.equals(WebUtil.SUCCESS)) {
                 orderCheckResultResponse.setRspcode(WebUtil.FAIL);
                 if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
                     orderCheckResultResponse.setRspdesc("提交失败");
