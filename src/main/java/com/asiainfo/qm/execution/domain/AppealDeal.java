@@ -27,7 +27,7 @@ public class AppealDeal {
 
     private Integer currentNodeId;
 
-    private Integer currentNodeName;
+    private String currentNodeName;
 
     private String preProcessId;
 
@@ -155,12 +155,12 @@ public class AppealDeal {
         this.currentNodeId = currentNodeId;
     }
 
-    public Integer getCurrentNodeName() {
+    public String getCurrentNodeName() {
         return currentNodeName;
     }
 
-    public void setCurrentNodeName(Integer currentNodeName) {
-        this.currentNodeName = currentNodeName;
+    public void setCurrentNodeName(String currentNodeName) {
+        this.currentNodeName = currentNodeName == null ? null : currentNodeName.trim();
     }
 
     public String getPreProcessId() {

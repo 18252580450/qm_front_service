@@ -14,7 +14,7 @@
     <result column="MAIN_PROCESS_ID" property="mainProcessId" jdbcType="VARCHAR" />
     <result column="CURRENT_PROCESS_ID" property="currentProcessId" jdbcType="VARCHAR" />
     <result column="CURRENT_NODE_ID" property="currentNodeId" jdbcType="INTEGER" />
-    <result column="CURRENT_NODE_NAME" property="currentNodeName" jdbcType="INTEGER" />
+    <result column="CURRENT_NODE_NAME" property="currentNodeName" jdbcType="VARCHAR" />
     <result column="PRE_PROCESS_ID" property="preProcessId" jdbcType="VARCHAR" />
     <result column="PRE_NODE_ID" property="preNodeId" jdbcType="INTEGER" />
     <result column="PRE_NODE_DEAL_STAFF_ID" property="preNodeDealStaffId" jdbcType="VARCHAR" />
@@ -141,7 +141,7 @@
       #{inspectionId,jdbcType=VARCHAR}, #{appealStaffId,jdbcType=VARCHAR}, #{appealStaffName,jdbcType=VARCHAR}, 
       #{appealReason,jdbcType=VARCHAR}, #{appealTime,jdbcType=TIMESTAMP}, #{appealStatus,jdbcType=VARCHAR}, 
       #{mainProcessId,jdbcType=VARCHAR}, #{currentProcessId,jdbcType=VARCHAR}, #{currentNodeId,jdbcType=INTEGER}, 
-      #{currentNodeName,jdbcType=INTEGER}, #{preProcessId,jdbcType=VARCHAR}, #{preNodeId,jdbcType=INTEGER}, 
+      #{currentNodeName,jdbcType=VARCHAR}, #{preProcessId,jdbcType=VARCHAR}, #{preNodeId,jdbcType=INTEGER}, 
       #{preNodeDealStaffId,jdbcType=VARCHAR}, #{nextProcessId,jdbcType=VARCHAR}, #{nextNodeId,jdbcType=INTEGER}, 
       #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR}, 
       #{reserve4,jdbcType=VARCHAR}, #{reserve5,jdbcType=VARCHAR}, #{reserve6,jdbcType=VARCHAR}, 
@@ -274,7 +274,7 @@
         #{currentNodeId,jdbcType=INTEGER},
       </if>
       <if test="currentNodeName != null" >
-        #{currentNodeName,jdbcType=INTEGER},
+        #{currentNodeName,jdbcType=VARCHAR},
       </if>
       <if test="preProcessId != null" >
         #{preProcessId,jdbcType=VARCHAR},
@@ -369,7 +369,7 @@
         CURRENT_NODE_ID = #{record.currentNodeId,jdbcType=INTEGER},
       </if>
       <if test="record.currentNodeName != null" >
-        CURRENT_NODE_NAME = #{record.currentNodeName,jdbcType=INTEGER},
+        CURRENT_NODE_NAME = #{record.currentNodeName,jdbcType=VARCHAR},
       </if>
       <if test="record.preProcessId != null" >
         PRE_PROCESS_ID = #{record.preProcessId,jdbcType=VARCHAR},
@@ -435,7 +435,7 @@
       MAIN_PROCESS_ID = #{record.mainProcessId,jdbcType=VARCHAR},
       CURRENT_PROCESS_ID = #{record.currentProcessId,jdbcType=VARCHAR},
       CURRENT_NODE_ID = #{record.currentNodeId,jdbcType=INTEGER},
-      CURRENT_NODE_NAME = #{record.currentNodeName,jdbcType=INTEGER},
+      CURRENT_NODE_NAME = #{record.currentNodeName,jdbcType=VARCHAR},
       PRE_PROCESS_ID = #{record.preProcessId,jdbcType=VARCHAR},
       PRE_NODE_ID = #{record.preNodeId,jdbcType=INTEGER},
       PRE_NODE_DEAL_STAFF_ID = #{record.preNodeDealStaffId,jdbcType=VARCHAR},
@@ -492,7 +492,7 @@
         CURRENT_NODE_ID = #{currentNodeId,jdbcType=INTEGER},
       </if>
       <if test="currentNodeName != null" >
-        CURRENT_NODE_NAME = #{currentNodeName,jdbcType=INTEGER},
+        CURRENT_NODE_NAME = #{currentNodeName,jdbcType=VARCHAR},
       </if>
       <if test="preProcessId != null" >
         PRE_PROCESS_ID = #{preProcessId,jdbcType=VARCHAR},
@@ -555,7 +555,7 @@
       MAIN_PROCESS_ID = #{mainProcessId,jdbcType=VARCHAR},
       CURRENT_PROCESS_ID = #{currentProcessId,jdbcType=VARCHAR},
       CURRENT_NODE_ID = #{currentNodeId,jdbcType=INTEGER},
-      CURRENT_NODE_NAME = #{currentNodeName,jdbcType=INTEGER},
+      CURRENT_NODE_NAME = #{currentNodeName,jdbcType=VARCHAR},
       PRE_PROCESS_ID = #{preProcessId,jdbcType=VARCHAR},
       PRE_NODE_ID = #{preNodeId,jdbcType=INTEGER},
       PRE_NODE_DEAL_STAFF_ID = #{preNodeDealStaffId,jdbcType=VARCHAR},
