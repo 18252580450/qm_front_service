@@ -48,6 +48,9 @@ public class AppealProcessServiceImpl implements AppealProcessService {
         AppealProcessExample example = new AppealProcessExample();
         try {
             AppealProcessExample.Criteria criteria = example.createCriteria();
+            if (null != params.get("departmentId") && !"".equals(params.get("departmentId"))) {
+                criteria.andDepartmentIdEqualTo((String) params.get("departmentId"));
+            }
             if (null != params.get("mainProcessFlag") && !"".equals(params.get("mainProcessFlag"))) {
                 criteria.andMainProcessFlagEqualTo((String) params.get("mainProcessFlag"));
             }

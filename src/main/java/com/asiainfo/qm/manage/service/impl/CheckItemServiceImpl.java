@@ -66,7 +66,6 @@ public class CheckItemServiceImpl implements CheckItemService {
                     criteria.andParentCheckItemIdIn(catalogIdList);
                 }
 
-
                 List<CheckItem> list = checkItemMapper.selectByExample(example);
                 rawList.addAll(list);
                 //针对入参不包含parentCheckItemId的情况
