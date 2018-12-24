@@ -11,7 +11,7 @@ import java.util.Map;
 
 public interface AddCheckTemplateService {
 
-    List<CheckItem> queryCheckItem(Map params)throws Exception;
+//    List<CheckItem> queryCheckItem(Map params)throws Exception;
 
     TemplateDetailResponse deleteByIds(List<String> ids)throws Exception;
 

@@ -43,18 +43,18 @@ public class AddCheckTemplateServiceImpl implements AddCheckTemplateService {
     @Autowired
     private SequenceUtils sequenceUtils;
 
-    @Override
-    public List<CheckItem> queryCheckItem(Map params) throws Exception {
-        CheckItemExample example = new CheckItemExample();
-
-            CheckItemExample.Criteria criteria = example.createCriteria();
-            if(null != params.get("tenantId") && !"".equals(params.get("tenantId"))){
-                criteria.andTenantIdEqualTo((String)params.get("tenantId"));
-            }
-            List<CheckItem> list = checkItemMapper.selectByExample(example);
-
-        return list;
-    }
+//    @Override
+//    public List<CheckItem> queryCheckItem(Map params) throws Exception {
+//        CheckItemExample example = new CheckItemExample();
+//
+//            CheckItemExample.Criteria criteria = example.createCriteria();
+//            if(null != params.get("tenantId") && !"".equals(params.get("tenantId"))){
+//                criteria.andTenantIdEqualTo((String)params.get("tenantId"));
+//            }
+//            List<CheckItem> list = checkItemMapper.selectByExample(example);
+//
+//        return list;
+//    }
 
     @Override
     public TemplateDetailResponse insertTempDetail(List<TemplateDetail> list) throws Exception{

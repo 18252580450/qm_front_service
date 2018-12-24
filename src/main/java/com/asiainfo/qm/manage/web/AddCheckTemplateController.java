@@ -39,12 +39,12 @@ public class AddCheckTemplateController {
 	private SequenceUtils sequenceUtils;
 
 	//下拉框数据查询
-	@RequestMapping(value = "/queryCheckItem", method = RequestMethod.GET)
-	public List<CheckItem>  queryCheckItem(@RequestParam(name = "params")String params) throws Exception {
-		Map reqParams = JSONObject.parseObject(params);
-		List<CheckItem> list = addCheckTemplateService.queryCheckItem(reqParams);
-		return list;
-	}
+//	@RequestMapping(value = "/queryCheckItem", method = RequestMethod.GET)
+//	public List<CheckItem>  queryCheckItem(@RequestParam(name = "params")String params) throws Exception {
+//		Map reqParams = JSONObject.parseObject(params);
+//		List<CheckItem> list = addCheckTemplateService.queryCheckItem(reqParams);
+//		return list;
+//	}
 
 	//新增考评模板详细信息
 	@ApiOperation(value = "新增考评模板详细信息", notes = "qm_configservice新增考评模板详细信息", response = TemplateDetailServiceResponse.class)

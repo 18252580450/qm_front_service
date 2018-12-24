@@ -63,6 +63,8 @@ public class CheckTemplate {
 
     private String reserve10;
 
+    private Integer copyedTimes;
+
     public String getTemplateId() {
         return templateId;
     }
@@ -301,5 +303,13 @@ public class CheckTemplate {
 
     public void setReserve10(String reserve10) {
         this.reserve10 = reserve10 == null ? null : reserve10.trim();
+    }
+
+    public Integer getCopyedTimes() {
+        return copyedTimes;
+    }
+
+    public void setCopyedTimes(Integer copyedTimes) {
+        this.copyedTimes = copyedTimes;
     }
 }

@@ -7,6 +7,8 @@ import java.util.Date;
 public class WorkformPool extends WorkformPoolKey {
     private String tenantId;
 
+    private String planName;
+
     private String provinceId;
 
     private QmPlan qmPlan;
@@ -110,6 +112,15 @@ public class WorkformPool extends WorkformPoolKey {
     public void setTenantId(String tenantId) {
         this.tenantId = tenantId == null ? null : tenantId.trim();
     }
+
+    public String getPlanName() {
+        return planName;
+    }
+
+    public void setPlanName(String planName) {
+        this.planName = planName == null ? null : planName.trim();
+    }
+
 
     public QmPlan getQmPlan() {
         return qmPlan;

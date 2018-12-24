@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.execution.vo.OrderCheckResultResponse;
 import com.asiainfo.qm.execution.vo.OrderCheckResultServiceResponse;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
+import com.asiainfo.qm.manage.domain.OrderCheckResult;
 import com.asiainfo.qm.manage.service.OrderCheckResultService;
+import com.asiainfo.qm.manage.util.ExcelUtil;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -17,9 +19,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("/qm/configservice/workQmResult/")
@@ -67,4 +72,76 @@ public class OrderCheckResultController {
 		return orderCheckResultServiceResponse;
 	}
 
+	@ResponseBody
+	@RequestMapping(value="/export", method=RequestMethod.GET)
+	public void export(HttpServletResponse response, String params) throws Exception {
+		Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String formatTime = sdf.format(d);
+
+		String str= URLDecoder.decode(params, "UTF-8");
+		Map paramsMap = net.sf.json.JSONObject.fromObject(str);//转成Map
+		int start = (int) paramsMap.get("start");
+		int limit = (int) paramsMap.get("pageNum");
+		String param = (String) paramsMap.get("params");
+		Map reqParams = net.sf.json.JSONObject.fromObject(param);//转成Map
+		String fields = (String) paramsMap.get("fields");
+		JSONArray fieldsList = JSONArray.fromObject(fields);//转list
+		String titles = (String) paramsMap.get("titles");
+		JSONArray titlesList = JSONArray.fromObject(titles);//转list
+
+		OrderCheckResultResponse orderCheckResultResponse = orderCheckResultService.selectByParams(reqParams,start,limit);//查询方法
+		List<OrderCheckResult> list = orderCheckResultResponse.getData();
+		List<Map<String,Object>> listMap = new ArrayList<>();
+		Map<String, Object> m= new HashMap<String, Object>();
+		m.put("sheetName", "sheet1");
+		listMap.add(m);
+		if (list != null && list.size() > 0) {
+			Map<String, Object> map = null;
+			OrderCheckResult orderCheckResult = null;
+			for (int i = 0,size = list.size(); i < size; i++) {
+				orderCheckResult = list.get(i);
+				orderCheckResult.setPlanName(orderCheckResult.getQmPlan().getPlanName());
+				map = net.sf.json.JSONObject.fromObject(orderCheckResult);//实体类转换成Map类型
+				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				map.put("checkEndTime",sdf2.format(orderCheckResult.getCheckEndTime()));//转换时间格式
+				listMap.add(map);
+			}
+		}
+		String fileName="工单质检结果详情表-"+formatTime;//文件名称
+		//List转String数组
+		String[] columnNames= (String[]) titlesList.toArray(new String[titlesList.size()]);//中文列名
+		String[] keys= (String[]) fieldsList.toArray(new String[fieldsList.size()]);//英文列名
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		try {
+			ExcelUtil.createWorkBook(listMap,keys,columnNames).write(os);//创建excel文档
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		byte[] content = os.toByteArray();
+		InputStream is = new ByteArrayInputStream(content);
+		// 设置response参数，可以打开下载页面
+		response.reset();
+		response.setContentType("application/vnd.ms-excel;charset=utf-8");
+		response.setHeader("Content-Disposition", "attachment;filename="+ new String((fileName + ".xls").getBytes(), "iso-8859-1"));
+		ServletOutputStream out = response.getOutputStream();
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
+		try {
+			bis = new BufferedInputStream(is);
+			bos = new BufferedOutputStream(out);
+			byte[] buff = new byte[2048];
+			int bytesRead;
+			while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+				bos.write(buff, 0, bytesRead);
+			}
+		} catch (final IOException e) {
+			throw e;
+		} finally {
+			if (bis != null)
+				bis.close();
+			if (bos != null)
+				bos.close();
+		}
+	}
 }

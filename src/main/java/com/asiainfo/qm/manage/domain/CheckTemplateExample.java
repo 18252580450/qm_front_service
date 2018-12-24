@@ -2174,6 +2174,66 @@ public class CheckTemplateExample {
             addCriterion("RESERVE_10 not between", value1, value2, "reserve10");
             return (Criteria) this;
         }
+
+        public Criteria andCopyedTimesIsNull() {
+            addCriterion("COPYED_TIMES is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCopyedTimesIsNotNull() {
+            addCriterion("COPYED_TIMES is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCopyedTimesEqualTo(Integer value) {
+            addCriterion("COPYED_TIMES =", value, "copyedTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andCopyedTimesNotEqualTo(Integer value) {
+            addCriterion("COPYED_TIMES <>", value, "copyedTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andCopyedTimesGreaterThan(Integer value) {
+            addCriterion("COPYED_TIMES >", value, "copyedTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andCopyedTimesGreaterThanOrEqualTo(Integer value) {
+            addCriterion("COPYED_TIMES >=", value, "copyedTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andCopyedTimesLessThan(Integer value) {
+            addCriterion("COPYED_TIMES <", value, "copyedTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andCopyedTimesLessThanOrEqualTo(Integer value) {
+            addCriterion("COPYED_TIMES <=", value, "copyedTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andCopyedTimesIn(List<Integer> values) {
+            addCriterion("COPYED_TIMES in", values, "copyedTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andCopyedTimesNotIn(List<Integer> values) {
+            addCriterion("COPYED_TIMES not in", values, "copyedTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andCopyedTimesBetween(Integer value1, Integer value2) {
+            addCriterion("COPYED_TIMES between", value1, value2, "copyedTimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andCopyedTimesNotBetween(Integer value1, Integer value2) {
+            addCriterion("COPYED_TIMES not between", value1, value2, "copyedTimes");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
