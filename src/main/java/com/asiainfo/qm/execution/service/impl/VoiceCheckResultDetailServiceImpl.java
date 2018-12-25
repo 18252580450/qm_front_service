@@ -24,7 +24,7 @@ import java.util.Map;
 @Service
 public class VoiceCheckResultDetailServiceImpl implements VoiceCheckResultDetailService {
 
-    private static Logger logger = LoggerFactory.getLogger(CheckItemServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(VoiceCheckResultDetailServiceImpl.class);
     @Autowired
     private VoiceCheckResultDetailMapper voiceCheckResultDetailMapper;
 

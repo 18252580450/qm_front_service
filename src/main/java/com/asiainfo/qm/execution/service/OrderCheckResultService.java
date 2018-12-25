@@ -29,6 +29,11 @@ public interface OrderCheckResultService {
     OrderCheckResultResponse updateOrderCheckResult(List<OrderCheckResult> orderCheckResultList) throws Exception;
 
     /**
+     * 工单质检结果申诉信息更新
+     */
+    OrderCheckResultResponse updateAppealInfo(OrderCheckResult orderCheckResult) throws Exception;
+
+    /**
      * 工单质检结果删除
      */
     OrderCheckResultResponse deleteOrderCheckResult(List<String> idList) throws Exception;

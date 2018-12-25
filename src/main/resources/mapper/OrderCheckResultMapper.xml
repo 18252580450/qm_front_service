@@ -923,6 +923,27 @@
       and TOUCH_ID = #{touchId,jdbcType=VARCHAR}
       and CHECK_LINK = #{checkLink,jdbcType=VARCHAR}
   </update>
+
+  <!--根据质检流水更新申诉信息-->
+  <update id="updateAppealInfoByInspectionId" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResult" >
+    update t_qm_order_check_result
+      <set>
+          <if test="appealId != null">
+              APPEAL_ID = #{appealId,jdbcType=VARCHAR},
+          </if>
+          <if test="appealTime != null">
+              APPEAL_TIME = #{appealTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="appealNum != null">
+              APPEAL_NUM = #{appealNum,jdbcType=INTEGER},
+          </if>
+          <if test="resultStatus != null">
+              RESULT_STATUS = #{resultStatus,jdbcType=VARCHAR},
+          </if>
+      </set>
+    where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
+  </update>
+
   <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResult" >
     update t_qm_order_check_result
     set TENANT_ID = #{tenantId,jdbcType=VARCHAR},

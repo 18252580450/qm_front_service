@@ -23,7 +23,7 @@ import java.util.Map;
 @Service
 public class OrderCheckResultDetailServiceImpl implements OrderCheckResultDetailService {
 
-    private static Logger logger = LoggerFactory.getLogger(CheckItemServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(OrderCheckResultDetailServiceImpl.class);
     @Autowired
     private OrderCheckResultDetailMapper orderCheckResultDetailMapper;
 

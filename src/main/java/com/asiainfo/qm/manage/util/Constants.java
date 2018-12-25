@@ -1027,6 +1027,14 @@ public class Constants {
     }
 
     /**
+     * 质检类型
+     */
+    public interface QM_CHECK_TYPE {
+        String VOICE = "0";      //语音质检
+        String ORDER = "1";      //工单质检
+    }
+
+    /**
      * 考评模版节点类型
      */
     public interface QM_TEMPLATE_NODE_TYPE {

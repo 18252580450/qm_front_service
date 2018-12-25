@@ -27,5 +27,7 @@ public interface OrderCheckResultMapper {
 
     int updateByPrimaryKeySelective(OrderCheckResult record);
 
+    int updateAppealInfoByInspectionId(OrderCheckResult record);
+
     int updateByPrimaryKey(OrderCheckResult record);
 }

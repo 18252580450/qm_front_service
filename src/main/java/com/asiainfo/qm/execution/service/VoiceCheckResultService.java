@@ -29,6 +29,11 @@ public interface VoiceCheckResultService {
     VoiceCheckResultResponse updateVoiceCheckResult(VoiceCheckResult voiceCheckResult) throws Exception;
 
     /**
+     * 语音质检结果申诉信息更新
+     */
+    VoiceCheckResultResponse updateAppealInfo(VoiceCheckResult voiceCheckResult) throws Exception;
+
+    /**
      * 语音质检结果删除
      */
     VoiceCheckResultResponse deleteVoiceCheckResult(List<String> idList) throws Exception;

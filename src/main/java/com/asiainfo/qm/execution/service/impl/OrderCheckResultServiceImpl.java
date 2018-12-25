@@ -29,8 +29,7 @@ import java.util.Map;
 @Service
 public class OrderCheckResultServiceImpl implements OrderCheckResultService {
 
-
-    private static Logger logger = LoggerFactory.getLogger(CheckItemServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(OrderCheckResultServiceImpl.class);
     @Autowired
     private OrderCheckResultMapper orderCheckResultMapper;
 
@@ -153,6 +152,27 @@ public class OrderCheckResultServiceImpl implements OrderCheckResultService {
             logger.error("工单质检异常", e);
             orderCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
             orderCheckResultResponse.setRspdesc("工单质检异常");
+        }
+        return orderCheckResultResponse;
+    }
+
+    @Override
+    public OrderCheckResultResponse updateAppealInfo(OrderCheckResult orderCheckResult) throws Exception {
+        OrderCheckResultResponse orderCheckResultResponse = new OrderCheckResultResponse();
+        try {
+            int result = orderCheckResultMapper.updateAppealInfoByInspectionId(orderCheckResult);
+            if (result > 0) {
+                orderCheckResultResponse.setRspcode(WebUtil.SUCCESS);
+                orderCheckResultResponse.setRspdesc("申诉信息更新成功");
+            } else {
+                orderCheckResultResponse.setRspcode(WebUtil.FAIL);
+                orderCheckResultResponse.setRspdesc("申诉信息更新失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("申诉信息更新异常", e);
+            orderCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
+            orderCheckResultResponse.setRspdesc("申诉信息更新异常");
         }
         return orderCheckResultResponse;
     }

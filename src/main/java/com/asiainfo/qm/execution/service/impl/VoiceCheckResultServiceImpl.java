@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +28,7 @@ import java.util.Map;
 @Service
 public class VoiceCheckResultServiceImpl implements VoiceCheckResultService {
 
-    private static Logger logger = LoggerFactory.getLogger(CheckItemServiceImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(VoiceCheckResultServiceImpl.class);
     @Autowired
     private VoiceCheckResultMapper voiceCheckResultMapper;
 
@@ -138,6 +137,27 @@ public class VoiceCheckResultServiceImpl implements VoiceCheckResultService {
             logger.error("语音质检异常", e);
             voiceCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
             voiceCheckResultResponse.setRspdesc("语音质检异常");
+        }
+        return voiceCheckResultResponse;
+    }
+
+    @Override
+    public VoiceCheckResultResponse updateAppealInfo(VoiceCheckResult voiceCheckResult) throws Exception {
+        VoiceCheckResultResponse voiceCheckResultResponse = new VoiceCheckResultResponse();
+        try {
+            int result = voiceCheckResultMapper.updateByPrimaryKeySelective(voiceCheckResult);
+            if (result > 0) {
+                voiceCheckResultResponse.setRspcode(WebUtil.SUCCESS);
+                voiceCheckResultResponse.setRspdesc("申诉信息更新成功");
+            } else {
+                voiceCheckResultResponse.setRspcode(WebUtil.FAIL);
+                voiceCheckResultResponse.setRspdesc("申诉信息更新失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("申诉信息更新异常", e);
+            voiceCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
+            voiceCheckResultResponse.setRspdesc("申诉信息更新异常");
         }
         return voiceCheckResultResponse;
     }
