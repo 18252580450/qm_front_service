@@ -2,6 +2,7 @@ package com.asiainfo.qm.execution.service.impl;
 
 import com.asiainfo.qm.execution.dao.AppealDealMapper;
 import com.asiainfo.qm.execution.domain.AppealDeal;
+import com.asiainfo.qm.execution.domain.UnionAppealDeal;
 import com.asiainfo.qm.execution.service.AppealDealService;
 import com.asiainfo.qm.execution.vo.AppealDealResponse;
 import com.asiainfo.qm.execution.domain.AppealDealExample;
@@ -35,8 +36,15 @@ public class AppealDealServiceImpl implements AppealDealService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         AppealDealResponse appealDealResponse = null;
         AppealDealExample example = new AppealDealExample();
+        String staffId = "";
+        if (null != params.get("staffId") && !"".equals(params.get("staffId"))) {
+            staffId = (String) params.get("staffId");
+        }
         try {
             AppealDealExample.Criteria criteria = example.createCriteria();
+            if (null != params.get("checkType") && !"".equals(params.get("checkType"))) {
+                criteria.andCheckTypeEqualTo((String) params.get("checkType"));
+            }
             if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
                 criteria.andTouchIdEqualTo((String) params.get("touchId"));
             }
@@ -52,15 +60,23 @@ public class AppealDealServiceImpl implements AppealDealService {
             if (null != params.get("appealTimeBegin") && !"".equals(params.get("appealTimeBegin")) && null != params.get("appealTimeEnd") && !"".equals(params.get("appealTimeEnd"))) {
                 criteria.andAppealTimeBetween(sdf.parse((String) params.get("appealTimeBegin")), sdf.parse((String) params.get("appealTimeEnd")));
             }
+            List<UnionAppealDeal> list = appealDealMapper.unionSelectByExample(example);
+            //根据质检员id筛选
+            List<UnionAppealDeal> resultList = new Page<>();
+            for (UnionAppealDeal appealDeal : list
+            ) {
+                if (!staffId.equals("") && !appealDeal.getUserId().equals(staffId)) {
+                    continue;
+                }
+                resultList.add(appealDeal);
+            }
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
-                List<AppealDeal> list = appealDealMapper.selectByExample(example);
-                Page<AppealDeal> pagelist = (Page) list;
+                Page<UnionAppealDeal> pagelist = (Page) resultList;
                 appealDealResponse = new AppealDealResponse(pagelist);
             } else {
                 appealDealResponse = new AppealDealResponse();
-                List<AppealDeal> list = appealDealMapper.selectByExample(example);
-                appealDealResponse.setData(list);
+                appealDealResponse.setData(resultList);
             }
 
             if (null != appealDealResponse.getData() && appealDealResponse.getData().size() > 0) {

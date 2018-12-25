@@ -1,5 +1,8 @@
 package com.asiainfo.qm.execution.web;
 
+import com.alibaba.fastjson.JSONObject;
+import com.asiainfo.qm.execution.dao.AppealDealMapper;
+import com.asiainfo.qm.execution.domain.AppealDealExample;
 import com.asiainfo.qm.execution.vo.OrderCheckResultResponse;
 import com.asiainfo.qm.execution.vo.VoiceCheckResultResponse;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
@@ -28,10 +31,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -59,6 +59,8 @@ public class AppealDealController {
     private VoiceCheckResultService voiceCheckResultService;
     @Autowired
     private OrderCheckResultService orderCheckResultService;
+    @Autowired
+    private AppealDealMapper appealDealMapper;
 
     @Autowired
     private SequenceUtils sequenceUtils;
@@ -107,12 +109,10 @@ public class AppealDealController {
                 int maxAppealNum = appealProcessResponse.getData().get(0).getMaxAppealNum();
                 int appealNum = 0;  //已申诉次数
                 //根据接触流水查询已申诉次数（非质检流水，每次申诉之后重新质检时质检流水号会变化）
-                Map<String, String> appealDealParams = new HashMap<String, String>();
-                appealDealParams.put("touchId", reqMap.get("touchId").toString());
-                appealDealResponse = appealDealService.queryAppeal(appealDealParams, 0, 0);
-                if (null != appealDealResponse.getData()) {
-                    appealNum = appealDealResponse.getData().size();
-                }
+                AppealDealExample example = new AppealDealExample();
+                AppealDealExample.Criteria criteria = example.createCriteria();
+                criteria.andTouchIdEqualTo((String) reqMap.get("touchId"));
+                appealNum = appealDealMapper.countByExample(example);
                 if (appealNum >= maxAppealNum) {
                     rspCode = WebUtil.FAIL;
                     appealDealResponse.setRspcode(rspCode);
@@ -269,6 +269,37 @@ public class AppealDealController {
 
     public AppealDealServiceResponse fallbackCreateAppealDeal(@RequestBody Map<String, Object> reqMap) throws Exception {
         logger.info("申诉提交出错啦！");
+        logger.error("");
+        return new AppealDealServiceResponse();
+    }
+
+    @ApiOperation(value = "前端调用接口查询申诉待办", notes = "qm_configservice查询申诉待办", response = AppealDealServiceResponse.class)
+    @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误")})
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "queryAppealDeal", threadPoolKey = "queryAppealDealThread", fallbackMethod = "fallbackQueryAppealDeal", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200")})
+    @RequestMapping(value = "/queryAppealDeal", method = RequestMethod.GET)
+    public AppealDealServiceResponse queryAppealDeal(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        AppealDealResponse appealDealResponse = new AppealDealResponse();
+        AppealDealServiceResponse appealDealServiceResponse = new AppealDealServiceResponse();
+        Map reqParams = JSONObject.parseObject(params);
+        try {
+            appealDealResponse = appealDealService.queryAppeal(reqParams, start, limit);
+        } catch (Exception e) {
+            logger.error("申诉待办数据查询异常", e);
+            appealDealResponse.setRspcode(WebUtil.EXCEPTION);
+            appealDealResponse.setRspdesc("申诉待办数据查询异常!");
+        }
+        appealDealServiceResponse.setResponse(appealDealResponse);
+        return appealDealServiceResponse;
+    }
+
+    public AppealDealServiceResponse fallbackQueryAppealDeal(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        logger.info("申诉待办数据查询出错啦！");
         logger.error("");
         return new AppealDealServiceResponse();
     }

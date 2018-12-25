@@ -1,6 +1,6 @@
 package com.asiainfo.qm.execution.vo;
 
-import com.asiainfo.qm.execution.domain.AppealDeal;
+import com.asiainfo.qm.execution.domain.UnionAppealDeal;
 import com.asiainfo.qm.manage.vo.Attach;
 import com.asiainfo.qm.manage.vo.ResponseParent;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,20 +26,20 @@ public class AppealDealResponse extends ResponseParent {
 
     @ApiModelProperty(name = "DATA", value = "", required = true, example = "")
     @JsonProperty(value = "DATA")
-    private List<AppealDeal> data = new ArrayList<AppealDeal>();
+    private List<UnionAppealDeal> data = new ArrayList<UnionAppealDeal>();
 
     public AppealDealResponse() {
     }
 
-    public List<AppealDeal> getData() {
+    public List<UnionAppealDeal> getData() {
         return data;
     }
 
-    public void setData(List<AppealDeal> data) {
+    public void setData(List<UnionAppealDeal> data) {
         this.data = data;
     }
 
-    public AppealDealResponse(Page<AppealDeal> pageResult) {
+    public AppealDealResponse(Page<UnionAppealDeal> pageResult) {
         this.setData(pageResult != null ? pageResult.getResult() : null);
         this.setAttach(new Attach(pageResult != null ? pageResult.getTotal() : 0L));
     }

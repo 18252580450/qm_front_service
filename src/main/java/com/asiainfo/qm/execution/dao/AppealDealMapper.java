@@ -3,6 +3,8 @@ package com.asiainfo.qm.execution.dao;
 import com.asiainfo.qm.execution.domain.AppealDeal;
 import com.asiainfo.qm.execution.domain.AppealDealExample;
 import java.util.List;
+
+import com.asiainfo.qm.execution.domain.UnionAppealDeal;
 import org.apache.ibatis.annotations.Param;
 
 public interface AppealDealMapper {
@@ -17,6 +19,8 @@ public interface AppealDealMapper {
     int insertSelective(AppealDeal record);
 
     List<AppealDeal> selectByExample(AppealDealExample example);
+
+    List<UnionAppealDeal> unionSelectByExample(AppealDealExample example);  //和AppealNodeInfo联表查询
 
     AppealDeal selectByPrimaryKey(String appealId);
 
