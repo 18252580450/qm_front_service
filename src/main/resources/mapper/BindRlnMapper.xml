@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.asiainfo.qm.manage.dao.BindRlnMapper" >
-  <resultMap id="BaseResultMap" type="com.asiainfo.qm.task.domain.BindRln" >
+<mapper namespace="com.asiainfo.qm.task.dao.QmBindRlnMapper" >
+  <resultMap id="BaseResultMap" type="com.asiainfo.qm.task.domain.QmBindRln" >
     <id column="CHECKED_OBJECT_ID" property="checkedObjectId" jdbcType="VARCHAR" />
     <id column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
     <id column="CHECK_STAFF_ID" property="checkStaffId" jdbcType="VARCHAR" />
@@ -68,7 +68,7 @@
   <sql id="Base_Column_List" >
     CHECKED_OBJECT_ID, PLAN_ID, CHECK_STAFF_ID, user_type
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.task.domain.BindRlnExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.task.domain.QmBindRlnExample" >
     select
     <if test="distinct" >
       distinct
@@ -82,7 +82,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.task.domain.BindRlnKey" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.task.domain.QmBindRlnKey" >
     select 
     <include refid="Base_Column_List" />
     from t_qm_bind_rln
@@ -90,25 +90,25 @@
       and PLAN_ID = #{planId,jdbcType=VARCHAR}
       and CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.asiainfo.qm.task.domain.BindRlnKey" >
+  <delete id="deleteByPrimaryKey" parameterType="com.asiainfo.qm.task.domain.QmBindRlnKey" >
     delete from t_qm_bind_rln
     where CHECKED_OBJECT_ID = #{checkedObjectId,jdbcType=VARCHAR}
       and PLAN_ID = #{planId,jdbcType=VARCHAR}
       and CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.asiainfo.qm.task.domain.BindRlnExample" >
+  <delete id="deleteByExample" parameterType="com.asiainfo.qm.task.domain.QmBindRlnExample" >
     delete from t_qm_bind_rln
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.asiainfo.qm.task.domain.BindRln" >
+  <insert id="insert" parameterType="com.asiainfo.qm.task.domain.QmBindRln" >
     insert into t_qm_bind_rln (CHECKED_OBJECT_ID, PLAN_ID, CHECK_STAFF_ID, 
       user_type)
     values (#{checkedObjectId,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{checkStaffId,jdbcType=VARCHAR}, 
       #{userType,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.asiainfo.qm.task.domain.BindRln" >
+  <insert id="insertSelective" parameterType="com.asiainfo.qm.task.domain.QmBindRln" >
     insert into t_qm_bind_rln
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="checkedObjectId != null" >
@@ -139,7 +139,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.asiainfo.qm.task.domain.BindRlnExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.asiainfo.qm.task.domain.QmBindRlnExample" resultType="java.lang.Integer" >
     select count(*) from t_qm_bind_rln
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -175,7 +175,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.qm.task.domain.BindRln" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.qm.task.domain.QmBindRln" >
     update t_qm_bind_rln
     <set >
       <if test="userType != null" >
@@ -186,7 +186,7 @@
       and PLAN_ID = #{planId,jdbcType=VARCHAR}
       and CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.task.domain.BindRln" >
+  <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.task.domain.QmBindRln" >
     update t_qm_bind_rln
     set user_type = #{userType,jdbcType=CHAR}
     where CHECKED_OBJECT_ID = #{checkedObjectId,jdbcType=VARCHAR}
