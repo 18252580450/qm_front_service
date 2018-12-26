@@ -7,7 +7,6 @@ import com.asiainfo.qm.execution.vo.VoicePoolResponse;
 import com.asiainfo.qm.execution.vo.VoicePoolServiceResponse;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.util.ExcelUtil;
-import com.asiainfo.qm.manage.util.JDBCUtils;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -30,12 +29,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.rowset.serial.SerialBlob;
 import java.io.*;
 import java.net.URLDecoder;
-import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -271,9 +266,10 @@ public class VoicePoolController {
 //		}
 //		//关闭连接
 //		httpGet.releaseConnection();
-//
+
 //		HttpClient client = new HttpClient();
-//				HttpClient httpClient = HttpClients.createDefault();
+//		HttpClient httpClient = HttpClients.createDefault();
+//
 //		GetMethod get = new GetMethod("http://images.sohu.com/uiue/sohu_logo/beijing2008/2008sohu.gif");
 //		client.executeMethod(get);
 //		File storeFile = new File("c:/2008sohu.gif");
