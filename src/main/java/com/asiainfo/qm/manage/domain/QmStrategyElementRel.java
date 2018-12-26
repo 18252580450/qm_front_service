@@ -25,6 +25,10 @@ public class QmStrategyElementRel extends QmStrategyElementRelKey {
 
     private String isRegion;
 
+    private String rtype;
+
+    private String operator;
+
     private String isNeed;
 
     private String reserve1;
@@ -36,6 +40,22 @@ public class QmStrategyElementRel extends QmStrategyElementRelKey {
     private String reserve4;
 
     private String reserve5;
+
+    public String getRtype() {
+        return rtype;
+    }
+
+    public void setRtype(String rtype) {
+        this.rtype = rtype;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
 
     public String getParamsTypeId() {
         return paramsTypeId;

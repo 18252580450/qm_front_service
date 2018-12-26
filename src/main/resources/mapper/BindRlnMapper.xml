@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.asiainfo.qm.manage.dao.BindRlnMapper" >
+  <resultMap id="BaseResultMap" type="com.asiainfo.qm.manage.domain.BindRln" >
+    <id column="CHECKED_OBJECT_ID" property="checkedObjectId" jdbcType="VARCHAR" />
+    <id column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
+    <id column="CHECK_STAFF_ID" property="checkStaffId" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CHECKED_OBJECT_ID, PLAN_ID, CHECK_STAFF_ID, user_type
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.BindRlnExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_qm_bind_rln
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.BindRlnKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_qm_bind_rln
+    where CHECKED_OBJECT_ID = #{checkedObjectId,jdbcType=VARCHAR}
+      and PLAN_ID = #{planId,jdbcType=VARCHAR}
+      and CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.asiainfo.qm.manage.domain.BindRlnKey" >
+    delete from t_qm_bind_rln
+    where CHECKED_OBJECT_ID = #{checkedObjectId,jdbcType=VARCHAR}
+      and PLAN_ID = #{planId,jdbcType=VARCHAR}
+      and CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.asiainfo.qm.manage.domain.BindRlnExample" >
+    delete from t_qm_bind_rln
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.asiainfo.qm.manage.domain.BindRln" >
+    insert into t_qm_bind_rln (CHECKED_OBJECT_ID, PLAN_ID, CHECK_STAFF_ID, 
+      user_type)
+    values (#{checkedObjectId,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{checkStaffId,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.asiainfo.qm.manage.domain.BindRln" >
+    insert into t_qm_bind_rln
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="checkedObjectId != null" >
+        CHECKED_OBJECT_ID,
+      </if>
+      <if test="planId != null" >
+        PLAN_ID,
+      </if>
+      <if test="checkStaffId != null" >
+        CHECK_STAFF_ID,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="checkedObjectId != null" >
+        #{checkedObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="planId != null" >
+        #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStaffId != null" >
+        #{checkStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.asiainfo.qm.manage.domain.BindRlnExample" resultType="java.lang.Integer" >
+    select count(*) from t_qm_bind_rln
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_qm_bind_rln
+    <set >
+      <if test="record.checkedObjectId != null" >
+        CHECKED_OBJECT_ID = #{record.checkedObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planId != null" >
+        PLAN_ID = #{record.planId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkStaffId != null" >
+        CHECK_STAFF_ID = #{record.checkStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userType != null" >
+        user_type = #{record.userType,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_qm_bind_rln
+    set CHECKED_OBJECT_ID = #{record.checkedObjectId,jdbcType=VARCHAR},
+      PLAN_ID = #{record.planId,jdbcType=VARCHAR},
+      CHECK_STAFF_ID = #{record.checkStaffId,jdbcType=VARCHAR},
+      user_type = #{record.userType,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.qm.manage.domain.BindRln" >
+    update t_qm_bind_rln
+    <set >
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=CHAR},
+      </if>
+    </set>
+    where CHECKED_OBJECT_ID = #{checkedObjectId,jdbcType=VARCHAR}
+      and PLAN_ID = #{planId,jdbcType=VARCHAR}
+      and CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.manage.domain.BindRln" >
+    update t_qm_bind_rln
+    set user_type = #{userType,jdbcType=CHAR}
+    where CHECKED_OBJECT_ID = #{checkedObjectId,jdbcType=VARCHAR}
+      and PLAN_ID = #{planId,jdbcType=VARCHAR}
+      and CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR}
+  </update>
+</mapper>
