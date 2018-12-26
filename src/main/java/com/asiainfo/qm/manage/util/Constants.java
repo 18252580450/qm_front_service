@@ -1022,26 +1022,26 @@ public class Constants {
      * 处理状态
      */
     public interface NGKM_HANDLE_STATE {
-        String UNTREATED = "0";//待处理
-        String TREATED = "1";//已处理
+        String UNTREATED = "0";    //待处理
+        String TREATED = "1";      //已处理
     }
 
     /**
      * 质检类型
      */
     public interface QM_CHECK_TYPE {
-        String VOICE = "0";      //语音质检
-        String ORDER = "1";      //工单质检
+        String VOICE = "0";       //语音质检
+        String ORDER = "1";       //工单质检
     }
 
     /**
      * 考评模版节点类型
      */
     public interface QM_TEMPLATE_NODE_TYPE {
-        String ROOT_NODE = "0";  //根节点考评模板
-        String OBJECT = "1";     //考评对象
-        String CATEGORY = "2";   //考评类别
-        String CHECK_ITEM = "3"; //考评项
+        String ROOT_NODE = "0";   //根节点考评模板
+        String OBJECT = "1";      //考评对象
+        String CATEGORY = "2";    //考评类别
+        String CHECK_ITEM = "3";  //考评项
     }
 
     /**
@@ -1051,6 +1051,14 @@ public class Constants {
         String CHECKING = "0";   //待质检
         String RECHECKING = "1"; //待复检
         String CHECKED = "2";    //已质检
+    }
+
+    /**
+     * 质检池质检状态
+     */
+    public interface QM_DISTRIBUTE_STATUS {
+        String NO = "0";           //未分配
+        String TRUE = "1";         //已分配
     }
 
     /**
@@ -1095,6 +1103,22 @@ public class Constants {
         String PASS = "1";         //通过
         String REJECT = "2";       //驳回
         String SYS_REJECT = "3";   //系统自动驳回
+    }
+
+    /**
+     * 审批结果
+     */
+    public interface QM_APPROVE_STATUS {
+        String PASS = "0";         //通过
+        String DENY = "1";         //驳回
+    }
+
+    /**
+     * 审批结果
+     */
+    public interface QM_APPEAL_PROCESS_TYPE {
+        String MAIN = "0";        //主流程
+        String SUB = "1";         //子流程
     }
 
 }

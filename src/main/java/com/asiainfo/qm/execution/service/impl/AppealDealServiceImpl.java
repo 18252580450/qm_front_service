@@ -118,7 +118,23 @@ public class AppealDealServiceImpl implements AppealDealService {
 
     @Override
     public AppealDealResponse updateAppeal(AppealDeal appealDeal) throws Exception {
-        return null;
+        AppealDealResponse appealDealResponse = new AppealDealResponse();
+        try {
+            int result = appealDealMapper.updateByPrimaryKeySelective(appealDeal);
+            if (result > 0) {
+                appealDealResponse.setRspcode(WebUtil.SUCCESS);
+                appealDealResponse.setRspdesc("提交成功");
+            } else {
+                appealDealResponse.setRspcode(WebUtil.FAIL);
+                appealDealResponse.setRspdesc("提交失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("审批异常", e);
+            appealDealResponse.setRspcode(WebUtil.EXCEPTION);
+            appealDealResponse.setRspdesc("审批异常");
+        }
+        return appealDealResponse;
     }
 
     @Override

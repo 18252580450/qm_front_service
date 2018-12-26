@@ -96,7 +96,7 @@ public class VoicePoolServiceImpl implements VoicePoolService {
             }
             //质检状态，区分已质检和未质检数据
             if (null != params.get("checkStatus") && !"".equals(params.get("checkStatus"))) {
-                criteria.andReserve1EqualTo((String) params.get("checkStatus"));
+                criteria.andPoolStatusEqualTo(Integer.parseInt((String) params.get("checkStatus")));
             }
             //质检状态，区分已分配和未分配数据
             if (null != params.get("poolStatus") && !"".equals(params.get("poolStatus"))) {
@@ -175,6 +175,27 @@ public class VoicePoolServiceImpl implements VoicePoolService {
         VoicePoolResponse voicePoolResponse = new VoicePoolResponse();
         try {
             int result = voicePoolMapper.updateByTouchId(voicePool);
+            if (result > 0) {
+                voicePoolResponse.setRspcode(WebUtil.SUCCESS);
+                voicePoolResponse.setRspdesc("更新成功");
+            } else {
+                voicePoolResponse.setRspcode(WebUtil.FAIL);
+                voicePoolResponse.setRspdesc("更新失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("质检池更新异常", e);
+            voicePoolResponse.setRspcode(WebUtil.EXCEPTION);
+            voicePoolResponse.setRspdesc("质检池更新异常");
+        }
+        return voicePoolResponse;
+    }
+
+    @Override
+    public VoicePoolResponse recheckUpdate(VoicePool voicePool) throws Exception {
+        VoicePoolResponse voicePoolResponse = new VoicePoolResponse();
+        try {
+            int result = voicePoolMapper.recheckUpdate(voicePool);
             if (result > 0) {
                 voicePoolResponse.setRspcode(WebUtil.SUCCESS);
                 voicePoolResponse.setRspdesc("更新成功");

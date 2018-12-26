@@ -92,7 +92,7 @@ public class OrderCheckController {
             String rspCode = WebUtil.SUCCESS;
             //查询工单质检结果信息表，存在暂存数据则更新质检结果，反之插入
             orderCheckResultResponse = orderCheckResultService.queryOrderSavedResult(orderCheckInfo, 0, 0);
-            if (!orderCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+            if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
                 rspCode = WebUtil.FAIL;
             }
             if (null != orderCheckResultResponse.getData() && orderCheckResultResponse.getData().size() > 0) {
@@ -216,8 +216,7 @@ public class OrderCheckController {
                 workformPool.setWorkformId(orderCheckInfo.get("touchId").toString());
                 workformPool.setReserve1(Constants.QM_CHECK_STATUS.CHECKED);
 
-                WorkformPoolResponse workformPoolResponse = new WorkformPoolResponse();
-                workformPoolResponse = workformPoolService.updateWorkFormPool(workformPool);
+                WorkformPoolResponse workformPoolResponse = workformPoolService.updateWorkFormPool(workformPool);
                 rspCode = workformPoolResponse.getRspcode();
             }
 

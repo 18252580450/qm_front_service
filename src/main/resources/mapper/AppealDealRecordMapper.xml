@@ -9,7 +9,7 @@
     <result column="TOUCH_ID" property="touchId" jdbcType="VARCHAR" />
     <result column="INSPECTION_ID" property="inspectionId" jdbcType="VARCHAR" />
     <result column="PROCESS_NAME" property="processName" jdbcType="VARCHAR" />
-    <result column="NODE_NAME" property="nodeName" jdbcType="INTEGER" />
+    <result column="NODE_NAME" property="nodeName" jdbcType="VARCHAR" />
     <result column="APPROVE_STAFF_ID" property="approveStaffId" jdbcType="VARCHAR" />
     <result column="APPROVE_STAFF_NAME" property="approveStaffName" jdbcType="VARCHAR" />
     <result column="APPROVE_TIME" property="approveTime" jdbcType="TIMESTAMP" />
@@ -135,7 +135,7 @@
       RESERVE_9, RESERVE_10)
     values (#{appealId,jdbcType=VARCHAR}, #{processId,jdbcType=VARCHAR}, #{nodeId,jdbcType=INTEGER}, 
       #{checkType,jdbcType=VARCHAR}, #{touchId,jdbcType=VARCHAR}, #{inspectionId,jdbcType=VARCHAR}, 
-      #{processName,jdbcType=VARCHAR}, #{nodeName,jdbcType=INTEGER}, #{approveStaffId,jdbcType=VARCHAR}, 
+      #{processName,jdbcType=VARCHAR}, #{nodeName,jdbcType=VARCHAR}, #{approveStaffId,jdbcType=VARCHAR}, 
       #{approveStaffName,jdbcType=VARCHAR}, #{approveTime,jdbcType=TIMESTAMP}, #{approveStatus,jdbcType=VARCHAR}, 
       #{approveSuggestion,jdbcType=VARCHAR}, #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, 
       #{reserve3,jdbcType=VARCHAR}, #{reserve4,jdbcType=VARCHAR}, #{reserve5,jdbcType=VARCHAR}, 
@@ -238,7 +238,7 @@
         #{processName,jdbcType=VARCHAR},
       </if>
       <if test="nodeName != null" >
-        #{nodeName,jdbcType=INTEGER},
+        #{nodeName,jdbcType=VARCHAR},
       </if>
       <if test="approveStaffId != null" >
         #{approveStaffId,jdbcType=VARCHAR},
@@ -318,7 +318,7 @@
         PROCESS_NAME = #{record.processName,jdbcType=VARCHAR},
       </if>
       <if test="record.nodeName != null" >
-        NODE_NAME = #{record.nodeName,jdbcType=INTEGER},
+        NODE_NAME = #{record.nodeName,jdbcType=VARCHAR},
       </if>
       <if test="record.approveStaffId != null" >
         APPROVE_STAFF_ID = #{record.approveStaffId,jdbcType=VARCHAR},
@@ -379,7 +379,7 @@
       TOUCH_ID = #{record.touchId,jdbcType=VARCHAR},
       INSPECTION_ID = #{record.inspectionId,jdbcType=VARCHAR},
       PROCESS_NAME = #{record.processName,jdbcType=VARCHAR},
-      NODE_NAME = #{record.nodeName,jdbcType=INTEGER},
+      NODE_NAME = #{record.nodeName,jdbcType=VARCHAR},
       APPROVE_STAFF_ID = #{record.approveStaffId,jdbcType=VARCHAR},
       APPROVE_STAFF_NAME = #{record.approveStaffName,jdbcType=VARCHAR},
       APPROVE_TIME = #{record.approveTime,jdbcType=TIMESTAMP},
@@ -415,7 +415,7 @@
         PROCESS_NAME = #{processName,jdbcType=VARCHAR},
       </if>
       <if test="nodeName != null" >
-        NODE_NAME = #{nodeName,jdbcType=INTEGER},
+        NODE_NAME = #{nodeName,jdbcType=VARCHAR},
       </if>
       <if test="approveStaffId != null" >
         APPROVE_STAFF_ID = #{approveStaffId,jdbcType=VARCHAR},
@@ -473,7 +473,7 @@
       TOUCH_ID = #{touchId,jdbcType=VARCHAR},
       INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR},
       PROCESS_NAME = #{processName,jdbcType=VARCHAR},
-      NODE_NAME = #{nodeName,jdbcType=INTEGER},
+      NODE_NAME = #{nodeName,jdbcType=VARCHAR},
       APPROVE_STAFF_ID = #{approveStaffId,jdbcType=VARCHAR},
       APPROVE_STAFF_NAME = #{approveStaffName,jdbcType=VARCHAR},
       APPROVE_TIME = #{approveTime,jdbcType=TIMESTAMP},

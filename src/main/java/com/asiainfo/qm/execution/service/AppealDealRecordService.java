@@ -15,20 +15,20 @@ public interface AppealDealRecordService {
     /**
      * 质检申诉查询
      */
-    AppealDealRecordResponse queryAppeal(Map params, int start, int limit) throws Exception;
+    AppealDealRecordResponse queryAppealRecord(Map params, int start, int limit) throws Exception;
 
     /**
      * 质检申诉新增（提交）
      */
-    AppealDealRecordResponse createAppeal(AppealDealRecord appealDeal) throws Exception;
+    AppealDealRecordResponse createAppealRecord(AppealDealRecord appealDeal) throws Exception;
 
     /**
      * 质检申诉状态更新
      */
-    AppealDealRecordResponse updateAppeal(AppealDealRecord appealDeal) throws Exception;
+    AppealDealRecordResponse updateAppealRecord(AppealDealRecord appealDeal) throws Exception;
 
     /**
      * 质检申诉结果删除
      */
-    AppealDealRecordResponse deleteAppeal(List<String> idList) throws Exception;
+    AppealDealRecordResponse deleteAppealRecord(List<String> idList) throws Exception;
 }

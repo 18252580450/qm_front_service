@@ -85,7 +85,7 @@ public class VoiceCheckController {
             String rspCode = WebUtil.SUCCESS;
             //查询语音质检结果信息表，存在暂存数据则更新质检结果，反之插入
             voiceCheckResultResponse = voiceCheckResultService.queryVoiceSavedResult(checkResult, 0, 0);
-            if (!voiceCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+            if (voiceCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
                 rspCode = WebUtil.FAIL;
             }
             if (null != voiceCheckResultResponse.getData() && voiceCheckResultResponse.getData().size() > 0) {
@@ -100,7 +100,6 @@ public class VoiceCheckController {
             }
             //语音质检结果
             VoiceCheckResult voiceCheckResult = new VoiceCheckResult();
-
             voiceCheckResult.setTenantId(checkResult.get("tenantId").toString());
             voiceCheckResult.setCallingNumber(checkResult.get("callingNumber").toString());
             voiceCheckResult.setAcceptNumber(checkResult.get("acceptNumber").toString());
@@ -146,7 +145,6 @@ public class VoiceCheckController {
                 for (Map checkItem : checkItemList
                 ) {
                     VoiceCheckResultDetail voiceCheckResultDetail = new VoiceCheckResultDetail();
-
                     voiceCheckResultDetail.setNodeType(checkItem.get("nodeType").toString());
                     voiceCheckResultDetail.setNodeId(checkItem.get("nodeId").toString());
                     voiceCheckResultDetail.setNodeName(checkItem.get("nodeName").toString());
@@ -163,7 +161,6 @@ public class VoiceCheckController {
                     voiceCheckResultDetail.setMinScore(Integer.parseInt(checkItem.get("minScore").toString()));
                     voiceCheckResultDetail.setMaxScore(Integer.parseInt(checkItem.get("maxScore").toString()));
                     voiceCheckResultDetail.setRealScore(BigDecimal.valueOf(Double.parseDouble(checkItem.get("realScore").toString())));
-//                    voiceCheckResultDetail.setCheckComment(checkResult.get("checkComment").toString());  //具体考评项暂不作评语
 
                     voiceCheckResultDetailList.add(voiceCheckResultDetail);
                 }
@@ -180,9 +177,9 @@ public class VoiceCheckController {
             if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) && rspCode.equals(WebUtil.SUCCESS)) {
                 VoicePool voicePool = new VoicePool();
                 voicePool.setTouchId(checkResult.get("touchId").toString());
-                voicePool.setReserve1(Constants.QM_CHECK_STATUS.CHECKED);
-                VoicePoolResponse voicePoolResponse = new VoicePoolResponse();
-                voicePoolResponse = voicePoolService.updateVoicePool(voicePool);
+                voicePool.setPoolStatus(Integer.parseInt(Constants.QM_CHECK_STATUS.CHECKED));
+
+                VoicePoolResponse voicePoolResponse = voicePoolService.updateVoicePool(voicePool);
                 rspCode = voicePoolResponse.getRspcode();
             }
 

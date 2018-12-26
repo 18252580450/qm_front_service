@@ -11,7 +11,7 @@ public class AppealDealRecord extends AppealDealRecordKey {
 
     private String processName;
 
-    private Integer nodeName;
+    private String nodeName;
 
     private String approveStaffId;
 
@@ -75,12 +75,12 @@ public class AppealDealRecord extends AppealDealRecordKey {
         this.processName = processName == null ? null : processName.trim();
     }
 
-    public Integer getNodeName() {
+    public String getNodeName() {
         return nodeName;
     }
 
-    public void setNodeName(Integer nodeName) {
-        this.nodeName = nodeName;
+    public void setNodeName(String nodeName) {
+        this.nodeName = nodeName == null ? null : nodeName.trim();
     }
 
     public String getApproveStaffId() {

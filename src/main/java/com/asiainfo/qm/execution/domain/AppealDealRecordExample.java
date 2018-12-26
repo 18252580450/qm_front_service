@@ -595,52 +595,62 @@ public class AppealDealRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andNodeNameEqualTo(Integer value) {
+        public Criteria andNodeNameEqualTo(String value) {
             addCriterion("NODE_NAME =", value, "nodeName");
             return (Criteria) this;
         }
 
-        public Criteria andNodeNameNotEqualTo(Integer value) {
+        public Criteria andNodeNameNotEqualTo(String value) {
             addCriterion("NODE_NAME <>", value, "nodeName");
             return (Criteria) this;
         }
 
-        public Criteria andNodeNameGreaterThan(Integer value) {
+        public Criteria andNodeNameGreaterThan(String value) {
             addCriterion("NODE_NAME >", value, "nodeName");
             return (Criteria) this;
         }
 
-        public Criteria andNodeNameGreaterThanOrEqualTo(Integer value) {
+        public Criteria andNodeNameGreaterThanOrEqualTo(String value) {
             addCriterion("NODE_NAME >=", value, "nodeName");
             return (Criteria) this;
         }
 
-        public Criteria andNodeNameLessThan(Integer value) {
+        public Criteria andNodeNameLessThan(String value) {
             addCriterion("NODE_NAME <", value, "nodeName");
             return (Criteria) this;
         }
 
-        public Criteria andNodeNameLessThanOrEqualTo(Integer value) {
+        public Criteria andNodeNameLessThanOrEqualTo(String value) {
             addCriterion("NODE_NAME <=", value, "nodeName");
             return (Criteria) this;
         }
 
-        public Criteria andNodeNameIn(List<Integer> values) {
+        public Criteria andNodeNameLike(String value) {
+            addCriterion("NODE_NAME like", value, "nodeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andNodeNameNotLike(String value) {
+            addCriterion("NODE_NAME not like", value, "nodeName");
+            return (Criteria) this;
+        }
+
+        public Criteria andNodeNameIn(List<String> values) {
             addCriterion("NODE_NAME in", values, "nodeName");
             return (Criteria) this;
         }
 
-        public Criteria andNodeNameNotIn(List<Integer> values) {
+        public Criteria andNodeNameNotIn(List<String> values) {
             addCriterion("NODE_NAME not in", values, "nodeName");
             return (Criteria) this;
         }
 
-        public Criteria andNodeNameBetween(Integer value1, Integer value2) {
+        public Criteria andNodeNameBetween(String value1, String value2) {
             addCriterion("NODE_NAME between", value1, value2, "nodeName");
             return (Criteria) this;
         }
 
-        public Criteria andNodeNameNotBetween(Integer value1, Integer value2) {
+        public Criteria andNodeNameNotBetween(String value1, String value2) {
             addCriterion("NODE_NAME not between", value1, value2, "nodeName");
             return (Criteria) this;
         }
