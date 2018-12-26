@@ -5,5 +5,5 @@ package com.asiainfo.qm.task.service;
  */
 public interface IExtractVoiceInfoService {
 
-    public void extractVoice(String planId) throws Exception;
+    public void extract(String planId) throws Exception;
 }

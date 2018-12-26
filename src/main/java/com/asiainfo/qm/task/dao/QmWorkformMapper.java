@@ -2,8 +2,9 @@ package com.asiainfo.qm.task.dao;
 
 import com.asiainfo.qm.task.domain.QmWorkform;
 import com.asiainfo.qm.task.domain.QmWorkformExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface QmWorkformMapper {
     int countByExample(QmWorkformExample example);
@@ -17,6 +18,8 @@ public interface QmWorkformMapper {
     int insertSelective(QmWorkform record);
 
     List<QmWorkform> selectByExample(QmWorkformExample example);
+
+    List<QmWorkform> selectByExampleForAutoExract(@Param("tableName")String tableName,QmWorkformExample example,@Param("limit")String limit);
 
     QmWorkform selectByPrimaryKey(Long wrkfmId);
 

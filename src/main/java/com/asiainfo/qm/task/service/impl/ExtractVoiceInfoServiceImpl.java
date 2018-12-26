@@ -6,6 +6,7 @@ import com.asiainfo.qm.task.dao.QmBindRlnMapper;
 import com.asiainfo.qm.task.domain.QmBindRln;
 import com.asiainfo.qm.task.domain.QmBindRlnExample;
 import com.asiainfo.qm.task.domain.QmVoice;
+import com.asiainfo.qm.task.domain.QmWorkform;
 import com.asiainfo.qm.task.service.IAutoExtractCommonService;
 import com.asiainfo.qm.task.service.IExtractVoiceInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class ExtractVoiceInfoServiceImpl implements IExtractVoiceInfoService{
     @Autowired
     private IAutoExtractCommonService autoExtractCommonService;
 
-    public void extractVoice(String planId) throws Exception{
+    public void extract(String planId) throws Exception{
         QmPlan qmPlan = qmPlanMapper.selectByPrimaryKey(planId);
         QmBindRlnExample example = new QmBindRlnExample();
         QmBindRlnExample.Criteria criteria = example.createCriteria();
@@ -59,13 +60,22 @@ public class ExtractVoiceInfoServiceImpl implements IExtractVoiceInfoService{
             List<QmVoice> voices = autoExtractCommonService.autoExtractVoiceInfo(params);
             saveQmVoicePools(voices);
         }else{
-
+            List<QmWorkform> workforms = autoExtractCommonService.autoExtractWorkformInfo(params);
+            saveQmWorkformPools(workforms);
         }
     }
 
     private void saveQmVoicePools(List<QmVoice> voices){
         if(voices.size() > 0){
             for(int i = 0;i<voices.size();i++){
+
+            }
+        }
+    }
+
+    private void saveQmWorkformPools(List<QmWorkform> workforms){
+        if(workforms.size() > 0){
+            for(int i = 0;i<workforms.size();i++){
 
             }
         }
