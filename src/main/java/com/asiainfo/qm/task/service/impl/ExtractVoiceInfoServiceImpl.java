@@ -31,7 +31,7 @@ public class ExtractVoiceInfoServiceImpl implements IExtractVoiceInfoService{
     private IAutoExtractCommonService autoExtractCommonService;
 
     public void extract(String planId) throws Exception{
-//      步骤1、根据计划ID查询计划实例，根据计划ID查询计划与质检人和被质检人（班组）表，
+//      1、根据计划ID查询计划实例，根据计划ID查询计划与质检人和被质检人（班组）表
         QmPlan qmPlan = qmPlanMapper.selectByPrimaryKey(planId);
         QmBindRlnExample example = new QmBindRlnExample();
         QmBindRlnExample.Criteria criteria = example.createCriteria();
@@ -51,6 +51,7 @@ public class ExtractVoiceInfoServiceImpl implements IExtractVoiceInfoService{
                 }
             }
         }
+//     2、封装参数（计划ID，策略ID，抽取条数，被质检人工号、被质检班组ID）
         Map params = new HashMap<>();
         params.put("planId", planId);
         params.put("staffId", staffIds.toString());
@@ -58,10 +59,14 @@ public class ExtractVoiceInfoServiceImpl implements IExtractVoiceInfoService{
         params.put("pId",qmPlan.getpId());
         params.put("limit", qmPlan.getPlanCount());
         if(qmPlan.getPlanType().equals("0")){
+            //语音数据收取
             List<QmVoice> voices = autoExtractCommonService.autoExtractVoiceInfo(params);
+            //录入质检池
             saveQmVoicePools(voices);
         }else{
+            //工单数据抽取
             List<QmWorkform> workforms = autoExtractCommonService.autoExtractWorkformInfo(params);
+            //录入质检池
             saveQmWorkformPools(workforms);
         }
     }
