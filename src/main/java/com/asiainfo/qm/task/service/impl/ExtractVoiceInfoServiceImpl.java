@@ -31,6 +31,7 @@ public class ExtractVoiceInfoServiceImpl implements IExtractVoiceInfoService{
     private IAutoExtractCommonService autoExtractCommonService;
 
     public void extract(String planId) throws Exception{
+//      步骤1、根据计划ID查询计划实例，根据计划ID查询计划与质检人和被质检人（班组）表，
         QmPlan qmPlan = qmPlanMapper.selectByPrimaryKey(planId);
         QmBindRlnExample example = new QmBindRlnExample();
         QmBindRlnExample.Criteria criteria = example.createCriteria();

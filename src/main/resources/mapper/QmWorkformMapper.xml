@@ -166,6 +166,18 @@
     ARTF_REVST_SATIS_DGR_ID, RMDR_STAFF_NUM, RMDR_TIME, RMDR_TMS_CNT, URGE_FLAG, RETN_BL_FLAG, 
     URGFRM_FLAG, RESP_DEPT_ID, RESP_RSN_DESC, HANDLE_DURATION, ACTUAL_HANDLE_DURATION
   </sql>
+  <select id="selectByExampleForAutoExract" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.task.domain.QmWorkformExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ${tableName}
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    order by rand() limit ${limit}
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.task.domain.QmWorkformExample" >
     select
     <if test="distinct" >
