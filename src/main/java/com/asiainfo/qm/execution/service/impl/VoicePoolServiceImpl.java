@@ -76,20 +76,14 @@ public class VoicePoolServiceImpl implements VoicePoolService {
             if (null != params.get("voiceSatisfyExtent") && !"".equals(params.get("voiceSatisfyExtent"))) {
                 criteria.andVoiceSatisfyExtentEqualTo((String) params.get("voiceSatisfyExtent"));
             }
-            if (null != params.get("callingNumber") && !"".equals(params.get("callingNumber"))) {
-                criteria.andCallingNumberEqualTo((String) params.get("callingNumber"));
+            if (null != params.get("staffNumber") && !"".equals(params.get("staffNumber"))) {
+                criteria.andStaffNumberEqualTo((String) params.get("staffNumber"));
             }
-            if (null != params.get("calledNumber") && !"".equals(params.get("calledNumber"))) {
-                criteria.andCalledNumberEqualTo((String) params.get("calledNumber"));
+            if (null != params.get("customerNumber") && !"".equals(params.get("customerNumber"))) {
+                criteria.andCustomerNumberEqualTo((String) params.get("customerNumber"));
             }
             if (null != params.get("satisfyExtentType") && !"".equals(params.get("satisfyExtentType"))) {
                 criteria.andSatisfyExtentTypeEqualTo((String) params.get("satisfyExtentType"));
-            }
-            if (null != params.get("vipSatisfyExtent") && !"".equals(params.get("vipSatisfyExtent"))) {
-                criteria.andVipSatisfyExtentEqualTo((String) params.get("vipSatisfyExtent"));
-            }
-            if (null != params.get("mediaType") && !"".equals(params.get("mediaType"))) {
-                criteria.andMediaTypeEqualTo((String) params.get("mediaType"));
             }
             if (null != params.get("srvReqstTypeId") && !"".equals(params.get("srvReqstTypeId"))) {
                 criteria.andSrvReqstTypeIdEqualTo((String) params.get("srvReqstTypeId"));

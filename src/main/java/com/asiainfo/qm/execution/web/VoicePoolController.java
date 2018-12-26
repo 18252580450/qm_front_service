@@ -15,7 +15,14 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import net.sf.json.JSONArray;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.poi.util.IOUtils;
+import org.hibernate.validator.internal.util.privilegedactions.GetMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -246,33 +253,34 @@ public class VoicePoolController {
 		}
 	}
 
-	@RequestMapping(value = "/insertComment", method = RequestMethod.POST)
-	public void fun1() throws Exception {
-		/*
-		 * 1. 得到Connection
-		 * 2. 给出sql模板，创建pstmt
-		 * 3. 设置sql模板中的参数
-		 * 4. 调用pstmt的executeUpdate()执行
-		 */
-		Connection con = JDBCUtils.getConnection();
-		String sql = "insert into t_qm_voice_pool(RESERVE_2,RESERVE_3) values(?,?) where TOUCH_ID='1'";
-		PreparedStatement pstmt = con.prepareStatement(sql);
+	@RequestMapping(value = "/playVoice", method = RequestMethod.POST)
+	public void playVoice() throws Exception {
 
-		pstmt.setString(1, "流光飞舞.mp3");
-		/**
-		 * 需要得到Blob
-		 * 1. 我们有的是文件，目标是Blob
-		 * 2. 先把文件变成byte[]
-		 * 3. 再使用byte[]创建Blob
-		 */
-		// 把文件转换成byte[]
-		byte[] bytes = IOUtils.toByteArray(new FileInputStream("F:/流光飞舞.mp3"));
-		// 使用byte[]创建Blob
-		Blob blob = new SerialBlob(bytes);
-		// 设置参数
-		pstmt.setBlob(2, blob);
-
-		pstmt.executeUpdate();
+//		//相对于commons-httpclient 3.1这里采用接口的方式来获取httpclient了
+//		HttpClient httpClient = HttpClients.createDefault();
+//		//声明请求方式
+//		HttpGet httpGet = new HttpGet("http://images.sohu.com/uiue/sohu_logo/beijing2008/2008sohu.gif");
+//		//获取相应数据，这里可以获取相应的数据
+//		HttpResponse httpResponse = httpClient.execute(httpGet);
+//		//拿到实体
+//		HttpEntity httpEntity= httpResponse.getEntity();
+		//获取结果，这里可以正对相应的数据精细字符集的转码
+//		String result = "";
+//		if (httpEntity != null) {
+//			result = EntityUtils.toString(httpEntity,"utf-8");
+//		}
+//		//关闭连接
+//		httpGet.releaseConnection();
+//
+//		HttpClient client = new HttpClient();
+//				HttpClient httpClient = HttpClients.createDefault();
+//		GetMethod get = new GetMethod("http://images.sohu.com/uiue/sohu_logo/beijing2008/2008sohu.gif");
+//		client.executeMethod(get);
+//		File storeFile = new File("c:/2008sohu.gif");
+//		FileOutputStream output = new FileOutputStream(storeFile);
+//		//得到网络资源的字节数组,并写入文件
+//		output.write(get.getResponseBody());
+//		output.close();
 	}
 
 }
