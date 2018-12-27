@@ -193,7 +193,7 @@
         CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
         OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
         POOL_STATUS = #{poolStatus,jdbcType=INTEGER},
-        IS_OPERATE = #{isOperate,jdbcType=VARCHAR},
+        IS_OPERATE = #{isOperate,jdbcType=VARCHAR}
         where WRKFM_ID = #{wrkfmId,jdbcType=BIGINT}
   </update>
 

@@ -54,6 +54,9 @@ public class AppealDealServiceImpl implements AppealDealService {
             if (null != params.get("appealId") && !"".equals(params.get("appealId"))) {
                 criteria.andAppealIdEqualTo((String) params.get("appealId"));
             }
+            if (null != params.get("appealStatus") && !"".equals(params.get("appealStatus"))) {
+                criteria.andAppealStatusEqualTo((String) params.get("appealStatus"));
+            }
             if (null != params.get("appealStaffId") && !"".equals(params.get("appealStaffId"))) {
                 criteria.andAppealStaffIdEqualTo((String) params.get("appealStaffId"));
             }

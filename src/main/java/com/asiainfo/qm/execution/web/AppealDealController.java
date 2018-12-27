@@ -406,35 +406,35 @@ public class AppealDealController {
                         appealDealResponse.setRspdesc("质检结果申诉信息更新异常");
                     }
                 }
-//                //更新质检池状态（申诉通过重新质检）
-//                if (rspCode.equals(WebUtil.SUCCESS) && approveStatus.equals(Constants.QM_APPROVE_STATUS.PASS)) {
-//                    //更新语音质检池
-//                    if (Constants.QM_CHECK_TYPE.VOICE.equals(reqMap.get("checkType").toString())) {
-//                        VoicePool voicePool = new VoicePool();
-//                        voicePool.setTouchId(reqMap.get("touchId").toString());
-//                        voicePool.setCheckStaffId(null);
-//                        voicePool.setCheckStaffName(null);
-//                        voicePool.setPoolStatus(Integer.parseInt(Constants.QM_CHECK_STATUS.RECHECKING));  //待复检
-//                        voicePool.setIsOperate(Constants.QM_DISTRIBUTE_STATUS.NO);   //待分配
-//                        voicePool.setOperateTime(null);
-//
-//                        VoicePoolResponse voicePoolResponse = voicePoolService.recheckUpdate(voicePool);
-//                        rspCode = voicePoolResponse.getRspcode();
-//                    }
-//                    //更新工单质检池
-//                    if (Constants.QM_CHECK_TYPE.ORDER.equals(reqMap.get("checkType").toString())) {
-//                        WorkformPool workformPool = new WorkformPool();
-//                        workformPool.setWrkfmId(Long.parseLong(reqMap.get("touchId").toString()));
-//                        workformPool.setCheckStaffId(null);
-//                        workformPool.setCheckStaffName(null);
-//                        workformPool.setPoolStatus(Integer.parseInt(Constants.QM_CHECK_STATUS.RECHECKING));   //待复检
-//                        workformPool.setIsOperate(Constants.QM_DISTRIBUTE_STATUS.NO);  //待分配
-//                        workformPool.setOperateTime(null);
-//
-//                        WorkformPoolResponse workformPoolResponse = workformPoolService.recheckUpdate(workformPool);
-//                        rspCode = workformPoolResponse.getRspcode();
-//                    }
-//                }
+                //更新质检池状态（申诉通过重新质检）
+                if (rspCode.equals(WebUtil.SUCCESS) && approveStatus.equals(Constants.QM_APPROVE_STATUS.PASS)) {
+                    //更新语音质检池
+                    if (Constants.QM_CHECK_TYPE.VOICE.equals(reqMap.get("checkType").toString())) {
+                        VoicePool voicePool = new VoicePool();
+                        voicePool.setTouchId(reqMap.get("touchId").toString());
+                        voicePool.setCheckStaffId(null);
+                        voicePool.setCheckStaffName(null);
+                        voicePool.setPoolStatus(Integer.parseInt(Constants.QM_CHECK_STATUS.RECHECKING));  //待复检
+                        voicePool.setIsOperate(Constants.QM_DISTRIBUTE_STATUS.NO);   //待分配
+                        voicePool.setOperateTime(null);
+
+                        VoicePoolResponse voicePoolResponse = voicePoolService.recheckUpdate(voicePool);
+                        rspCode = voicePoolResponse.getRspcode();
+                    }
+                    //更新工单质检池
+                    if (Constants.QM_CHECK_TYPE.ORDER.equals(reqMap.get("checkType").toString())) {
+                        WorkformPool workformPool = new WorkformPool();
+                        workformPool.setWrkfmId(Long.parseLong(reqMap.get("touchId").toString()));
+                        workformPool.setCheckStaffId(null);
+                        workformPool.setCheckStaffName(null);
+                        workformPool.setPoolStatus(Integer.parseInt(Constants.QM_CHECK_STATUS.RECHECKING));   //待复检
+                        workformPool.setIsOperate(Constants.QM_DISTRIBUTE_STATUS.NO);  //待分配
+                        workformPool.setOperateTime(null);
+
+                        WorkformPoolResponse workformPoolResponse = workformPoolService.recheckUpdate(workformPool);
+                        rspCode = workformPoolResponse.getRspcode();
+                    }
+                }
             } else {  //非末子节点
                 int processNum = 1;             //子流程数
                 int currentProcessOrderNo = 1;  //当前流程序号
@@ -509,6 +509,7 @@ public class AppealDealController {
                 if (rspCode.equals(WebUtil.SUCCESS)) {
                     AppealDeal appealDeal = new AppealDeal();
                     appealDeal.setAppealId(appealId);
+                    appealDeal.setAppealStatus(approveStatus);
                     appealDeal.setPreNodeDealStaffId(reqMap.get("staffId").toString());
                     appealDeal.setPreProcessId(preProcessId);
                     appealDeal.setPreNodeId(preNodeId);
@@ -520,6 +521,38 @@ public class AppealDealController {
 
                     appealDealResponse = appealDealService.updateAppeal(appealDeal);
                     rspCode = appealDealResponse.getRspcode();
+                }
+
+                //驳回则更新质检结果（申诉状态）
+                if (rspCode.equals(WebUtil.SUCCESS)) {
+                    if (Constants.QM_CHECK_TYPE.VOICE.equals(reqMap.get("checkType").toString())) {
+                        VoiceCheckResult voiceCheckResult = new VoiceCheckResult();
+                        voiceCheckResult.setInspectionId(reqMap.get("inspectionId").toString());
+                        if (approveStatus.equals(Constants.QM_APPROVE_STATUS.PASS)) {
+                            voiceCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_PASS);
+                        } else {
+                            voiceCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_DENY);
+                        }
+
+                        VoiceCheckResultResponse voiceCheckResultResponse = voiceCheckResultService.updateAppealInfo(voiceCheckResult);
+                        rspCode = voiceCheckResultResponse.getRspcode();
+                    }
+                    if (Constants.QM_CHECK_TYPE.ORDER.equals(reqMap.get("checkType").toString())) {
+                        OrderCheckResult orderCheckResult = new OrderCheckResult();
+                        orderCheckResult.setInspectionId(reqMap.get("inspectionId").toString());
+                        if (approveStatus.equals(Constants.QM_APPROVE_STATUS.PASS)) {
+                            orderCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_PASS);
+                        } else {
+                            orderCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_DENY);
+                        }
+
+                        OrderCheckResultResponse orderCheckResultResponse = orderCheckResultService.updateAppealInfo(orderCheckResult);
+                        rspCode = orderCheckResultResponse.getRspcode();
+                    }
+                    if (!rspCode.equals(WebUtil.SUCCESS)) {
+                        appealDealResponse.setRspcode(WebUtil.FAIL);
+                        appealDealResponse.setRspdesc("质检结果申诉信息更新异常");
+                    }
                 }
 
                 //新增审批记录
