@@ -1054,7 +1054,7 @@ public class Constants {
     }
 
     /**
-     * 质检池质检状态
+     * 质检池分配状态
      */
     public interface QM_DISTRIBUTE_STATUS {
         String NO = "0";           //未分配

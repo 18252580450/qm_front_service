@@ -1,6 +1,8 @@
 package com.asiainfo.qm.execution.service;
 
+import com.asiainfo.qm.execution.domain.VoicePool;
 import com.asiainfo.qm.execution.domain.WorkformPool;
+import com.asiainfo.qm.execution.vo.VoicePoolResponse;
 import com.asiainfo.qm.execution.vo.WorkformPoolResponse;
 import java.util.List;
 import java.util.Map;
@@ -17,4 +19,9 @@ public interface WorkformPoolService {
     WorkformPoolResponse updateCheck(List<Map> list) throws Exception;
 
     WorkformPoolResponse updateWorkFormPool(WorkformPool workformPool) throws Exception;
+
+    /**
+     * 申诉通过重新质检
+     */
+    WorkformPoolResponse recheckUpdate(WorkformPool workformPool) throws Exception;
 }

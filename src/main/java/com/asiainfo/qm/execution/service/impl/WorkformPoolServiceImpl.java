@@ -2,8 +2,10 @@ package com.asiainfo.qm.execution.service.impl;
 
 import com.asiainfo.qm.execution.dao.WorkformPoolMapper;
 import com.asiainfo.qm.execution.domain.WorkformPool;
+import com.asiainfo.qm.execution.domain.WorkformPool;
 import com.asiainfo.qm.execution.domain.WorkformPoolExample;
 import com.asiainfo.qm.execution.service.WorkformPoolService;
+import com.asiainfo.qm.execution.vo.WorkformPoolResponse;
 import com.asiainfo.qm.execution.vo.WorkformPoolResponse;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.util.WebUtil;
@@ -182,6 +184,27 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             workFormPoolResponse.setRspdesc("质检池更新异常");
         }
         return workFormPoolResponse;
+    }
+
+    @Override
+    public WorkformPoolResponse recheckUpdate(WorkformPool workformPool) throws Exception {
+        WorkformPoolResponse workformPoolResponse = new WorkformPoolResponse();
+        try {
+            int result = workformPoolMapper.recheckUpdate(workformPool);
+            if (result > 0) {
+                workformPoolResponse.setRspcode(WebUtil.SUCCESS);
+                workformPoolResponse.setRspdesc("更新成功");
+            } else {
+                workformPoolResponse.setRspcode(WebUtil.FAIL);
+                workformPoolResponse.setRspdesc("更新失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("质检池更新异常", e);
+            workformPoolResponse.setRspcode(WebUtil.EXCEPTION);
+            workformPoolResponse.setRspdesc("质检池更新异常");
+        }
+        return workformPoolResponse;
     }
 }
 
