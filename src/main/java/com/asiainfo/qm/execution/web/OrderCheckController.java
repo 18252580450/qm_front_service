@@ -213,8 +213,8 @@ public class OrderCheckController {
             //更新工单质检池（质检暂存不更新质检池）
             if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) && rspCode.equals(WebUtil.SUCCESS)) {
                 WorkformPool workformPool = new WorkformPool();
-                workformPool.setWorkformId(orderCheckInfo.get("touchId").toString());
-                workformPool.setReserve1(Constants.QM_CHECK_STATUS.CHECKED);
+                workformPool.setWrkfmId(Long.parseLong(orderCheckInfo.get("touchId").toString()));
+                workformPool.setPoolStatus(Integer.parseInt(Constants.QM_CHECK_STATUS.CHECKED));
 
                 WorkformPoolResponse workformPoolResponse = workformPoolService.updateWorkFormPool(workformPool);
                 rspCode = workformPoolResponse.getRspcode();

@@ -69,9 +69,8 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             if (null != params.get("planStartTime") && !"".equals(params.get("planStartTime")) && null != params.get("planEndTime") && !"".equals(params.get("planEndTime"))) {
                 criteria.andArcTimeBetween(sdf.parse((String) params.get("planStartTime")), sdf.parse((String) params.get("planEndTime")));
             }
-            //质检状态，区分已质检和未质检数据
-            if (null != params.get("checkStatus") && !"".equals(params.get("checkStatus"))) {
-                criteria.andReserve1EqualTo((String) params.get("checkStatus"));
+            if (null != params.get("operateTimeBegin") && !"".equals(params.get("operateTimeBegin")) && null != params.get("operateTimeEnd") && !"".equals(params.get("operateTimeEnd"))) {
+                criteria.andOperateTimeBetween(sdf.parse((String) params.get("operateTimeBegin")), sdf.parse((String) params.get("operateTimeEnd")));
             }
 
             if (0 != limit) {

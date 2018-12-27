@@ -37,12 +37,12 @@ public class VoicePoolServiceImpl implements VoicePoolService {
     private SequenceUtils sequenceUtils;
 
     @Override
-    public VoicePoolResponse selectByParams(Map params, int start, int limit) throws Exception{
+    public VoicePoolResponse selectByParams(Map params, int start, int limit) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         VoicePoolResponse voicePoolResponse = null;
         VoicePoolExample example = new VoicePoolExample();
         try {
-            VoicePoolExample.Criteria criteria= example.createCriteria();//在运行时动态生成查询语句
+            VoicePoolExample.Criteria criteria = example.createCriteria();//在运行时动态生成查询语句
             if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
                 criteria.andTouchIdEqualTo((String) params.get("touchId"));
             }
@@ -92,20 +92,16 @@ public class VoicePoolServiceImpl implements VoicePoolService {
                 criteria.andStrategyNameEqualTo((String) params.get("strategyName"));
             }
             if (null != params.get("recordTimeMin") && !"".equals(params.get("recordTimeMin")) && null != params.get("recordTimeMax") && !"".equals(params.get("recordTimeMax"))) {
-                criteria.andRecordTimeBetween(Integer.parseInt((String) params.get("recordTimeMin")) , Integer.parseInt((String)  params.get("recordTimeMax")));
+                criteria.andRecordTimeBetween(Integer.parseInt((String) params.get("recordTimeMin")), Integer.parseInt((String) params.get("recordTimeMax")));
             }
             //质检状态，区分已质检和未质检数据
-            if (null != params.get("checkStatus") && !"".equals(params.get("checkStatus"))) {
-                criteria.andPoolStatusEqualTo(Integer.parseInt((String) params.get("checkStatus")));
-            }
-            //质检状态，区分已分配和未分配数据
             if (null != params.get("poolStatus") && !"".equals(params.get("poolStatus"))) {
-                criteria.andIsOperateEqualTo((String) params.get("poolStatus"));
+                criteria.andPoolStatusEqualTo(Integer.parseInt((String) params.get("poolStatus")));
             }
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
                 List<VoicePool> list = voicePoolMapper.selectByExample(example);
-                Page<VoicePool> pagelist = (Page)list;
+                Page<VoicePool> pagelist = (Page) list;
                 voicePoolResponse = new VoicePoolResponse(pagelist);
             } else {
                 voicePoolResponse = new VoicePoolResponse();
@@ -113,15 +109,15 @@ public class VoicePoolServiceImpl implements VoicePoolService {
                 voicePoolResponse.setData(list);
             }
 
-            if(null != voicePoolResponse.getData() && voicePoolResponse.getData().size() > 0){
+            if (null != voicePoolResponse.getData() && voicePoolResponse.getData().size() > 0) {
                 voicePoolResponse.setRspcode(WebUtil.SUCCESS);
                 voicePoolResponse.setRspdesc("查询成功");
-            }else {
+            } else {
                 voicePoolResponse.setRspcode(WebUtil.FAIL);
                 voicePoolResponse.setRspdesc("无数据");
             }
-        }catch (Exception e){
-            logger.error("查询异常",e);
+        } catch (Exception e) {
+            logger.error("查询异常", e);
             voicePoolResponse.setRspcode(WebUtil.EXCEPTION);
             voicePoolResponse.setRspdesc("查询异常");
         }
@@ -129,7 +125,7 @@ public class VoicePoolServiceImpl implements VoicePoolService {
     }
 
     @Override
-    public VoicePoolResponse update(@Param("list")List<String> list) throws Exception{
+    public VoicePoolResponse update(@Param("list") List<String> list) throws Exception {
         VoicePoolResponse voicePoolResponse = new VoicePoolResponse();
         try {
             int result = voicePoolMapper.update(list);
@@ -150,7 +146,7 @@ public class VoicePoolServiceImpl implements VoicePoolService {
     }
 
     @Override
-    public VoicePoolResponse updateCheck(List<Map> list) throws Exception{
+    public VoicePoolResponse updateCheck(List<Map> list) throws Exception {
         VoicePoolResponse voicePoolResponse = new VoicePoolResponse();
         try {
             int result = voicePoolMapper.updateCheck(list);
@@ -217,19 +213,19 @@ public class VoicePoolServiceImpl implements VoicePoolService {
         VoicePoolResponse voicePoolResponse = new VoicePoolResponse();
         try {
             VoicePoolExample example = new VoicePoolExample();
-            VoicePoolExample.Criteria criteria= example.createCriteria();
+            VoicePoolExample.Criteria criteria = example.createCriteria();
             criteria.andTouchIdIn(ids);
             int result = voicePoolMapper.deleteByExample(example);
-            if(result > 0){
+            if (result > 0) {
                 voicePoolResponse.setRspcode(WebUtil.SUCCESS);
                 voicePoolResponse.setRspdesc("删除质检池数据成功");
-            }else {
+            } else {
                 voicePoolResponse.setRspcode(WebUtil.FAIL);
                 voicePoolResponse.setRspdesc("删除质检池数据失败");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            logger.error("删除质检池数据异常",e);
+            logger.error("删除质检池数据异常", e);
             voicePoolResponse.setRspcode(WebUtil.EXCEPTION);
             voicePoolResponse.setRspdesc("删除质检池数据异常");
         }
