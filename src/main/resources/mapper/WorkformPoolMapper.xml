@@ -163,76 +163,15 @@
     </foreach>
   </update>
 
-
   <!--根据工单流水号更新质检池-->
   <update id="updateByWorkFormId" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
     update t_qm_workform_pool
     <set >
-      <if test="tenantId != null" >
-        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
-      </if>
-      <if test="provinceId != null" >
-        PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
-      </if>
-      <if test="handleDuration != null" >
-        HANDLE_DURATION = #{handleDuration,jdbcType=INTEGER},
-      </if>
-      <if test="actualHandleDuration != null" >
-        ACTUAL_HANDLE_DURATION = #{actualHandleDuration,jdbcType=INTEGER},
-      </if>
       <if test="poolStatus != null" >
-        POOL_STATUS = #{poolStatus,jdbcType=CHAR},
-      </if>
-      <if test="operateStaffId != null" >
-        OPERATE_STAFF_ID = #{operateStaffId,jdbcType=VARCHAR},
+        POOL_STATUS = #{poolStatus,jdbcType=INTEGER},
       </if>
       <if test="operateTime != null" >
         OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="staffId != null" >
-        STAFF_ID = #{staffId,jdbcType=VARCHAR},
-      </if>
-      <if test="departId != null" >
-        DEPART_ID = #{departId,jdbcType=VARCHAR},
-      </if>
-      <if test="beginTime != null" >
-        BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null" >
-        END_TIME = #{endTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="callType != null" >
-        CALL_TYPE = #{callType,jdbcType=VARCHAR},
-      </if>
-      <if test="recordTime != null" >
-        RECORD_TIME = #{recordTime,jdbcType=INTEGER},
-      </if>
-      <if test="callingNumber != null" >
-        CALLING_NUMBER = #{callingNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="acceptNumber != null" >
-        ACCEPT_NUMBER = #{acceptNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="calledNumber != null" >
-        CALLED_NUMBER = #{calledNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="customerCity != null" >
-        CUSTOMER_CITY = #{customerCity,jdbcType=VARCHAR},
-      </if>
-      <if test="customerLevel != null" >
-        CUSTOMER_LEVEL = #{customerLevel,jdbcType=VARCHAR},
-      </if>
-      <if test="hangupSide != null" >
-        HANGUP_SIDE = #{hangupSide,jdbcType=VARCHAR},
-      </if>
-      <if test="businessType != null" >
-        BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
-      </if>
-      <if test="workformId != null" >
-        WORKFORM_ID = #{workformId,jdbcType=VARCHAR},
-      </if>
-      <if test="customerBrand != null" >
-        CUSTOMER_BRAND = #{customerBrand,jdbcType=VARCHAR},
       </if>
       <if test="checkStaffId != null" >
         CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
@@ -240,80 +179,22 @@
       <if test="checkStaffName != null" >
         CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
       </if>
-      <if test="checkedStaffId != null" >
-        CHECKED_STAFF_ID = #{checkedStaffId,jdbcType=VARCHAR},
-      </if>
-      <if test="checkedStaffName != null" >
-        CHECKED_STAFF_NAME = #{checkedStaffName,jdbcType=VARCHAR},
-      </if>
-      <if test="recordPath != null" >
-        RECORD_PATH = #{recordPath,jdbcType=VARCHAR},
-      </if>
-      <if test="templateId != null" >
-        TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
-      </if>
-      <if test="satisfyExtent != null" >
-        SATISFY_EXTENT = #{satisfyExtent,jdbcType=VARCHAR},
-      </if>
-      <if test="discontentReason != null" >
-        DISCONTENT_REASON = #{discontentReason,jdbcType=VARCHAR},
-      </if>
-      <if test="callReason != null" >
-        CALL_REASON = #{callReason,jdbcType=VARCHAR},
-      </if>
-      <if test="taskId != null" >
-        TASK_ID = #{taskId,jdbcType=VARCHAR},
-      </if>
-      <if test="taskName != null" >
-        TASK_NAME = #{taskName,jdbcType=VARCHAR},
-      </if>
-      <if test="projectType != null" >
-        PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
-      </if>
-      <if test="marketingResult != null" >
-        MARKETING_RESULT = #{marketingResult,jdbcType=VARCHAR},
-      </if>
-      <if test="customerName != null" >
-        CUSTOMER_NAME = #{customerName,jdbcType=VARCHAR},
-      </if>
-      <if test="repeatCalls != null" >
-        REPEAT_CALLS = #{repeatCalls,jdbcType=TINYINT},
-      </if>
-      <if test="crtTime != null" >
-        CRT_TIME = #{crtTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modfTime != null" >
-        MODF_TIME = #{modfTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="srvReqstTypeId != null" >
-        SRV_REQST_TYPE_ID = #{srvReqstTypeId,jdbcType=VARCHAR},
-      </if>
-      <if test="srvReqstTypeNm != null" >
-        SRV_REQST_TYPE_NM = #{srvReqstTypeNm,jdbcType=VARCHAR},
-      </if>
-      <if test="srvReqstTypeFullNm != null" >
-        SRV_REQST_TYPE_FULL_NM = #{srvReqstTypeFullNm,jdbcType=VARCHAR},
-      </if>
-      <if test="checkLink != null" >
-        CHECK_LINK = #{checkLink,jdbcType=VARCHAR},
-      </if>
-      <if test="reserve1 != null" >
-        RESERVE_1 = #{reserve1,jdbcType=VARCHAR},
-      </if>
-      <if test="reserve2 != null" >
-        RESERVE_2 = #{reserve2,jdbcType=VARCHAR},
-      </if>
-      <if test="reserve3 != null" >
-        RESERVE_3 = #{reserve3,jdbcType=VARCHAR},
-      </if>
-      <if test="reserve4 != null" >
-        RESERVE_4 = #{reserve4,jdbcType=VARCHAR},
-      </if>
-      <if test="reserve5 != null" >
-        RESERVE_5 = #{reserve5,jdbcType=VARCHAR},
+      <if test="isOperate != null" >
+        IS_OPERATE = #{isOperate,jdbcType=VARCHAR},
       </if>
     </set>
-    where WORKFORM_ID = #{workformId,jdbcType=VARCHAR}
+    where WRKFM_ID = #{wrkfmId,jdbcType=BIGINT}
+  </update>
+
+  <!--申诉复检更新质检池状态-->
+  <update id="recheckUpdate" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
+    update t_qm_workform_pool
+    set CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
+        CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
+        OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+        POOL_STATUS = #{poolStatus,jdbcType=INTEGER},
+        IS_OPERATE = #{isOperate,jdbcType=VARCHAR},
+        where WRKFM_ID = #{wrkfmId,jdbcType=BIGINT}
   </update>
 
   <update id="updateCheck" parameterType="java.util.List" >
