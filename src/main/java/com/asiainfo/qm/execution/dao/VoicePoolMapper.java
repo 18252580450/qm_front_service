@@ -32,6 +32,6 @@ public interface VoicePoolMapper {
 
     int update(List<String> list);//新增方法
     int updateCheck(List<Map> list);//新增方法
-    int updateByTouchId(VoicePool record); //根据语音流水号更新质检状态（质检之后）
-    int recheckUpdate(VoicePool record); //申诉通过重新质检
+    int updateByTouchId(VoicePool record); //根据语音流水号更新质检状态
+
 }

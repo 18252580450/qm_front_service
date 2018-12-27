@@ -2,10 +2,8 @@ package com.asiainfo.qm.execution.service.impl;
 
 import com.asiainfo.qm.execution.dao.WorkformPoolMapper;
 import com.asiainfo.qm.execution.domain.WorkformPool;
-import com.asiainfo.qm.execution.domain.WorkformPool;
 import com.asiainfo.qm.execution.domain.WorkformPoolExample;
 import com.asiainfo.qm.execution.service.WorkformPoolService;
-import com.asiainfo.qm.execution.vo.WorkformPoolResponse;
 import com.asiainfo.qm.execution.vo.WorkformPoolResponse;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.util.WebUtil;
@@ -44,8 +42,8 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
         WorkformPoolExample workformPoolExample = new WorkformPoolExample();
         try {
             WorkformPoolExample.Criteria criteria= workformPoolExample.createCriteria();//在运行时动态生成查询语句
-            if (null != params.get("workformId") && !"".equals(params.get("workformId"))) {
-                criteria.andWorkformIdEqualTo((String) params.get("workformId"));
+            if (null != params.get("wrkfmShowSwftno") && !"".equals(params.get("wrkfmShowSwftno"))) {
+                criteria.andWrkfmShowSwftnoEqualTo((String) params.get("wrkfmShowSwftno"));
             }
             if (null != params.get("planId") && !"".equals(params.get("planId"))) {
                 criteria.andPlanIdEqualTo((String) params.get("planId"));
@@ -54,7 +52,10 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
                 criteria.andSrvReqstTypeIdEqualTo((String) params.get("srvReqstTypeId"));
             }
             if (null != params.get("poolStatus") && !"".equals(params.get("poolStatus"))) {
-                criteria.andPoolStatusEqualTo((String) params.get("poolStatus"));
+                criteria.andPoolStatusEqualTo(Integer.parseInt((String) params.get("poolStatus")));
+            }
+            if (null != params.get("isOperate") && !"".equals(params.get("isOperate"))) {
+                criteria.andIsOperateEqualTo((String) params.get("isOperate"));
             }
             if (null != params.get("checkLink") && !"".equals(params.get("checkLink"))) {
                 criteria.andCheckLinkEqualTo((String) params.get("checkLink"));
@@ -65,8 +66,8 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             if (null != params.get("planStartTime") && !"".equals(params.get("planStartTime")) && null != params.get("planEndTime") && !"".equals(params.get("planEndTime"))) {
                 criteria.andCrtTimeBetween(sdf.parse((String) params.get("planStartTime")), sdf.parse((String) params.get("planEndTime")));
             }
-            if (null != params.get("distStartTime") && !"".equals(params.get("distStartTime")) && null != params.get("distEndTime") && !"".equals(params.get("distEndTime"))) {
-                criteria.andOperateTimeBetween(sdf.parse((String) params.get("distStartTime")), sdf.parse((String) params.get("distEndTime")));
+            if (null != params.get("planStartTime") && !"".equals(params.get("planStartTime")) && null != params.get("planEndTime") && !"".equals(params.get("planEndTime"))) {
+                criteria.andArcTimeBetween(sdf.parse((String) params.get("planStartTime")), sdf.parse((String) params.get("planEndTime")));
             }
             //质检状态，区分已质检和未质检数据
             if (null != params.get("checkStatus") && !"".equals(params.get("checkStatus"))) {
@@ -105,7 +106,7 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
         try {
             WorkformPoolExample example = new WorkformPoolExample();
             WorkformPoolExample.Criteria criteria= example.createCriteria();
-            criteria.andTouchIdIn(ids);
+            criteria.andWrkfmShowSwftnoNotIn(ids);
             int result = workformPoolMapper.deleteByExample(example);
             if(result > 0){
                 workformPoolResponse.setRspcode(WebUtil.SUCCESS);
@@ -184,27 +185,6 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             workFormPoolResponse.setRspdesc("质检池更新异常");
         }
         return workFormPoolResponse;
-    }
-
-    @Override
-    public WorkformPoolResponse recheckUpdate(WorkformPool workformPool) throws Exception {
-        WorkformPoolResponse workformPoolResponse = new WorkformPoolResponse();
-        try {
-            int result = workformPoolMapper.recheckUpdate(workformPool);
-            if (result > 0) {
-                workformPoolResponse.setRspcode(WebUtil.SUCCESS);
-                workformPoolResponse.setRspdesc("更新成功");
-            } else {
-                workformPoolResponse.setRspcode(WebUtil.FAIL);
-                workformPoolResponse.setRspdesc("更新失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("质检池更新异常", e);
-            workformPoolResponse.setRspcode(WebUtil.EXCEPTION);
-            workformPoolResponse.setRspdesc("质检池更新异常");
-        }
-        return workformPoolResponse;
     }
 }
 

@@ -52,10 +52,12 @@
     <result column="DEPART_NAME" property="departName" jdbcType="VARCHAR" />
     <result column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
     <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
 
     <!--联合元素用来处理“一对一”的关系 ,返回一个qmPlan实体-->
     <association property="qmPlan" column="PLAN_ID" javaType="com.asiainfo.qm.manage.domain.QmPlan" select="queryPool">
     </association>
+
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -123,7 +125,7 @@
     RESERVE_4, RESERVE_5, RESERVE_6, RESERVE_7, RESERVE_8, POOL_STATUS, STAFF_ID, DEPART_ID, 
     IVR_DURATION, ALERT_DURATION, QUEUE_DURATION, TALK_DURATION, ACW_DURATION, STAFF_NUMBER, 
     CUSTOMER_NUMBER, RECORD_PATH, SATISFY_EXTENT, DISCON_REASON, CALL_REASON, NOT_ONE_SLT, 
-    BUSINESS_TYPE, END_TYPE, STAFF_NAME, DEPART_NAME, BEGIN_TIME, END_TIME
+    BUSINESS_TYPE, END_TYPE, STAFF_NAME, DEPART_NAME, BEGIN_TIME, END_TIME, CITY_ID
   </sql>
 
   <!--新增查询方法-->
@@ -134,34 +136,107 @@
   <update id="updateByTouchId" parameterType="com.asiainfo.qm.execution.domain.VoicePool" >
     update t_qm_voice_pool
     <set >
+      <if test="tenantId != null" >
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionId != null" >
+        INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR},
+      </if>
+      <if test="planId != null" >
+        PLAN_ID = #{planId,jdbcType=VARCHAR},
+      </if>
       <if test="checkStaffId != null" >
         CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
       </if>
       <if test="checkStaffName != null" >
         CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
       </if>
+      <if test="checkedStaffId != null" >
+        CHECKED_STAFF_ID = #{checkedStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedStaffName != null" >
+        CHECKED_STAFF_NAME = #{checkedStaffName,jdbcType=VARCHAR},
+      </if>
       <if test="isOperate != null" >
         IS_OPERATE = #{isOperate,jdbcType=VARCHAR},
+      </if>
+      <if test="hungupType != null" >
+        HUNGUP_TYPE = #{hungupType,jdbcType=VARCHAR},
+      </if>
+      <if test="callType != null" >
+        CALL_TYPE = #{callType,jdbcType=VARCHAR},
+      </if>
+      <if test="voiceSatisfyExtent != null" >
+        VOICE_SATISFY_EXTENT = #{voiceSatisfyExtent,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null" >
+        RECORD_TIME = #{recordTime,jdbcType=INTEGER},
+      </if>
+      <if test="callingNumber != null" >
+        CALLING_NUMBER = #{callingNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="calledNumber != null" >
+        CALLED_NUMBER = #{calledNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="satisfyExtentType != null" >
+        SATISFY_EXTENT_TYPE = #{satisfyExtentType,jdbcType=VARCHAR},
+      </if>
+      <if test="vipSatisfyExtent != null" >
+        VIP_SATISFY_EXTENT = #{vipSatisfyExtent,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaType != null" >
+        MEDIA_TYPE = #{mediaType,jdbcType=VARCHAR},
+      </if>
+      <if test="srvReqstTypeId != null" >
+        SRV_REQST_TYPE_ID = #{srvReqstTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="srvReqstTypeNm != null" >
+        SRV_REQST_TYPE_NM = #{srvReqstTypeNm,jdbcType=VARCHAR},
+      </if>
+      <if test="srvReqstTypeFullNm != null" >
+        SRV_REQST_TYPE_FULL_NM = #{srvReqstTypeFullNm,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedTime != null" >
+        CHECKED_TIME = #{checkedTime,jdbcType=TIMESTAMP},
       </if>
       <if test="operateTime != null" >
         OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="poolStatus != null" >
-        POOL_STATUS = #{poolStatus,jdbcType=INTEGER},
+      <if test="strategyName != null" >
+        STRATEGY_NAME = #{strategyName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgType != null" >
+        ORG_TYPE = #{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve1 != null" >
+        RESERVE_1 = #{reserve1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve2 != null" >
+        RESERVE_2 = #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve3 != null" >
+        RESERVE_3 = #{reserve3,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve4 != null" >
+        RESERVE_4 = #{reserve4,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve5 != null" >
+        RESERVE_5 = #{reserve5,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve6 != null" >
+        RESERVE_6 = #{reserve6,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve7 != null" >
+        RESERVE_7 = #{reserve7,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve8 != null" >
+        RESERVE_8 = #{reserve8,jdbcType=VARCHAR},
       </if>
     </set>
     where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
-  </update>
-
-  <!--申诉复检更新质检池状态-->
-  <update id="recheckUpdate" parameterType="com.asiainfo.qm.execution.domain.VoicePool" >
-    update t_qm_voice_pool
-    set CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
-        CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
-        OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
-        IS_OPERATE = #{isOperate,jdbcType=VARCHAR},
-        POOL_STATUS = #{poolStatus,jdbcType=INTEGER},
-        where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
   </update>
 
   <!--新增批量更新-->
@@ -185,7 +260,7 @@
     ,OPERATE_TIME =
     <foreach collection="list" item="item" index="index"
              separator=" " open="case TOUCH_ID" close="end">
-    when #{item.touchId} then  null
+      when #{item.touchId} then  null
     </foreach>
     where TOUCH_ID in
     <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
@@ -268,7 +343,8 @@
       RECORD_PATH, SATISFY_EXTENT, DISCON_REASON, 
       CALL_REASON, NOT_ONE_SLT, BUSINESS_TYPE, 
       END_TYPE, STAFF_NAME, DEPART_NAME, 
-      BEGIN_TIME, END_TIME)
+      BEGIN_TIME, END_TIME, CITY_ID
+      )
     values (#{touchId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, 
       #{planId,jdbcType=VARCHAR}, #{checkStaffId,jdbcType=VARCHAR}, #{checkStaffName,jdbcType=VARCHAR}, 
       #{checkedStaffId,jdbcType=VARCHAR}, #{checkedStaffName,jdbcType=VARCHAR}, #{isOperate,jdbcType=VARCHAR}, 
@@ -285,7 +361,8 @@
       #{recordPath,jdbcType=VARCHAR}, #{satisfyExtent,jdbcType=VARCHAR}, #{disconReason,jdbcType=VARCHAR}, 
       #{callReason,jdbcType=VARCHAR}, #{notOneSlt,jdbcType=VARCHAR}, #{businessType,jdbcType=VARCHAR}, 
       #{endType,jdbcType=VARCHAR}, #{staffName,jdbcType=VARCHAR}, #{departName,jdbcType=VARCHAR}, 
-      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP})
+      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{cityId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.asiainfo.qm.execution.domain.VoicePool" >
     insert into t_qm_voice_pool
@@ -440,6 +517,9 @@
       <if test="endTime != null" >
         END_TIME,
       </if>
+      <if test="cityId != null" >
+        CITY_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="touchId != null" >
@@ -591,6 +671,9 @@
       </if>
       <if test="endTime != null" >
         #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -753,6 +836,9 @@
       <if test="record.endTime != null" >
         END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.cityId != null" >
+        CITY_ID = #{record.cityId,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -809,7 +895,8 @@
       STAFF_NAME = #{record.staffName,jdbcType=VARCHAR},
       DEPART_NAME = #{record.departName,jdbcType=VARCHAR},
       BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
-      END_TIME = #{record.endTime,jdbcType=TIMESTAMP}
+      END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      CITY_ID = #{record.cityId,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -964,6 +1051,9 @@
       <if test="endTime != null" >
         END_TIME = #{endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="cityId != null" >
+        CITY_ID = #{cityId,jdbcType=VARCHAR},
+      </if>
     </set>
     where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
   </update>
@@ -1017,7 +1107,8 @@
       STAFF_NAME = #{staffName,jdbcType=VARCHAR},
       DEPART_NAME = #{departName,jdbcType=VARCHAR},
       BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
-      END_TIME = #{endTime,jdbcType=TIMESTAMP}
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      CITY_ID = #{cityId,jdbcType=VARCHAR}
     where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
   </update>
 </mapper>

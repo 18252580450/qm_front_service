@@ -9,15 +9,15 @@ public class WorkformPool extends WorkformPoolKey {
 
     private String planName;
 
-    private String provinceId;
-
     private QmPlan qmPlan;
+
+    private String provinceId;
 
     private Integer handleDuration;
 
     private Integer actualHandleDuration;
 
-    private String poolStatus;
+    private Integer poolStatus;
 
     private String operateStaffId;
 
@@ -31,57 +31,21 @@ public class WorkformPool extends WorkformPoolKey {
 
     private Date endTime;
 
-    private String callType;
-
-    private Integer recordTime;
-
-    private String callingNumber;
-
-    private String acceptNumber;
-
-    private String calledNumber;
-
     private String customerCity;
 
     private String customerLevel;
 
-    private String hangupSide;
-
     private String businessType;
-
-    private String workformId;
 
     private String customerBrand;
 
-    private String checkStaffId;
-
     private String checkStaffName;
 
-    private String checkedStaffId;
-
-    private String checkedStaffName;
-
-    private String recordPath;
-
     private String templateId;
-
-    private String satisfyExtent;
-
-    private String discontentReason;
-
-    private String callReason;
-
-    private String taskId;
-
-    private String taskName;
 
     private String projectType;
 
     private String marketingResult;
-
-    private String customerName;
-
-    private Byte repeatCalls;
 
     private Date crtTime;
 
@@ -105,6 +69,36 @@ public class WorkformPool extends WorkformPoolKey {
 
     private String reserve5;
 
+    private String wrkfmShowSwftno;
+
+    private String bizCntt;
+
+    private String bizTitle;
+
+    private String custEmail;
+
+    private String custName;
+
+    private String custNum;
+
+    private Date arcTime;
+
+    private String acptStaffId;
+
+    private String acptStaffNum;
+
+    private String dspsComplteStaffId;
+
+    private String isOperate;
+
+    private String checkStaffId;
+
+    private String checkedStaffId;
+
+    private String checkedStaffName;
+
+    private String cityId;
+
     public String getTenantId() {
         return tenantId;
     }
@@ -120,7 +114,6 @@ public class WorkformPool extends WorkformPoolKey {
     public void setPlanName(String planName) {
         this.planName = planName == null ? null : planName.trim();
     }
-
 
     public QmPlan getQmPlan() {
         return qmPlan;
@@ -154,12 +147,12 @@ public class WorkformPool extends WorkformPoolKey {
         this.actualHandleDuration = actualHandleDuration;
     }
 
-    public String getPoolStatus() {
+    public Integer getPoolStatus() {
         return poolStatus;
     }
 
-    public void setPoolStatus(String poolStatus) {
-        this.poolStatus = poolStatus == null ? null : poolStatus.trim();
+    public void setPoolStatus(Integer poolStatus) {
+        this.poolStatus = poolStatus;
     }
 
     public String getOperateStaffId() {
@@ -210,46 +203,6 @@ public class WorkformPool extends WorkformPoolKey {
         this.endTime = endTime;
     }
 
-    public String getCallType() {
-        return callType;
-    }
-
-    public void setCallType(String callType) {
-        this.callType = callType == null ? null : callType.trim();
-    }
-
-    public Integer getRecordTime() {
-        return recordTime;
-    }
-
-    public void setRecordTime(Integer recordTime) {
-        this.recordTime = recordTime;
-    }
-
-    public String getCallingNumber() {
-        return callingNumber;
-    }
-
-    public void setCallingNumber(String callingNumber) {
-        this.callingNumber = callingNumber == null ? null : callingNumber.trim();
-    }
-
-    public String getAcceptNumber() {
-        return acceptNumber;
-    }
-
-    public void setAcceptNumber(String acceptNumber) {
-        this.acceptNumber = acceptNumber == null ? null : acceptNumber.trim();
-    }
-
-    public String getCalledNumber() {
-        return calledNumber;
-    }
-
-    public void setCalledNumber(String calledNumber) {
-        this.calledNumber = calledNumber == null ? null : calledNumber.trim();
-    }
-
     public String getCustomerCity() {
         return customerCity;
     }
@@ -266,28 +219,12 @@ public class WorkformPool extends WorkformPoolKey {
         this.customerLevel = customerLevel == null ? null : customerLevel.trim();
     }
 
-    public String getHangupSide() {
-        return hangupSide;
-    }
-
-    public void setHangupSide(String hangupSide) {
-        this.hangupSide = hangupSide == null ? null : hangupSide.trim();
-    }
-
     public String getBusinessType() {
         return businessType;
     }
 
     public void setBusinessType(String businessType) {
         this.businessType = businessType == null ? null : businessType.trim();
-    }
-
-    public String getWorkformId() {
-        return workformId;
-    }
-
-    public void setWorkformId(String workformId) {
-        this.workformId = workformId == null ? null : workformId.trim();
     }
 
     public String getCustomerBrand() {
@@ -298,14 +235,6 @@ public class WorkformPool extends WorkformPoolKey {
         this.customerBrand = customerBrand == null ? null : customerBrand.trim();
     }
 
-    public String getCheckStaffId() {
-        return checkStaffId;
-    }
-
-    public void setCheckStaffId(String checkStaffId) {
-        this.checkStaffId = checkStaffId == null ? null : checkStaffId.trim();
-    }
-
     public String getCheckStaffName() {
         return checkStaffName;
     }
@@ -314,76 +243,12 @@ public class WorkformPool extends WorkformPoolKey {
         this.checkStaffName = checkStaffName == null ? null : checkStaffName.trim();
     }
 
-    public String getCheckedStaffId() {
-        return checkedStaffId;
-    }
-
-    public void setCheckedStaffId(String checkedStaffId) {
-        this.checkedStaffId = checkedStaffId == null ? null : checkedStaffId.trim();
-    }
-
-    public String getCheckedStaffName() {
-        return checkedStaffName;
-    }
-
-    public void setCheckedStaffName(String checkedStaffName) {
-        this.checkedStaffName = checkedStaffName == null ? null : checkedStaffName.trim();
-    }
-
-    public String getRecordPath() {
-        return recordPath;
-    }
-
-    public void setRecordPath(String recordPath) {
-        this.recordPath = recordPath == null ? null : recordPath.trim();
-    }
-
     public String getTemplateId() {
         return templateId;
     }
 
     public void setTemplateId(String templateId) {
         this.templateId = templateId == null ? null : templateId.trim();
-    }
-
-    public String getSatisfyExtent() {
-        return satisfyExtent;
-    }
-
-    public void setSatisfyExtent(String satisfyExtent) {
-        this.satisfyExtent = satisfyExtent == null ? null : satisfyExtent.trim();
-    }
-
-    public String getDiscontentReason() {
-        return discontentReason;
-    }
-
-    public void setDiscontentReason(String discontentReason) {
-        this.discontentReason = discontentReason == null ? null : discontentReason.trim();
-    }
-
-    public String getCallReason() {
-        return callReason;
-    }
-
-    public void setCallReason(String callReason) {
-        this.callReason = callReason == null ? null : callReason.trim();
-    }
-
-    public String getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(String taskId) {
-        this.taskId = taskId == null ? null : taskId.trim();
-    }
-
-    public String getTaskName() {
-        return taskName;
-    }
-
-    public void setTaskName(String taskName) {
-        this.taskName = taskName == null ? null : taskName.trim();
     }
 
     public String getProjectType() {
@@ -400,22 +265,6 @@ public class WorkformPool extends WorkformPoolKey {
 
     public void setMarketingResult(String marketingResult) {
         this.marketingResult = marketingResult == null ? null : marketingResult.trim();
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName == null ? null : customerName.trim();
-    }
-
-    public Byte getRepeatCalls() {
-        return repeatCalls;
-    }
-
-    public void setRepeatCalls(Byte repeatCalls) {
-        this.repeatCalls = repeatCalls;
     }
 
     public Date getCrtTime() {
@@ -504,5 +353,125 @@ public class WorkformPool extends WorkformPoolKey {
 
     public void setReserve5(String reserve5) {
         this.reserve5 = reserve5 == null ? null : reserve5.trim();
+    }
+
+    public String getWrkfmShowSwftno() {
+        return wrkfmShowSwftno;
+    }
+
+    public void setWrkfmShowSwftno(String wrkfmShowSwftno) {
+        this.wrkfmShowSwftno = wrkfmShowSwftno == null ? null : wrkfmShowSwftno.trim();
+    }
+
+    public String getBizCntt() {
+        return bizCntt;
+    }
+
+    public void setBizCntt(String bizCntt) {
+        this.bizCntt = bizCntt == null ? null : bizCntt.trim();
+    }
+
+    public String getBizTitle() {
+        return bizTitle;
+    }
+
+    public void setBizTitle(String bizTitle) {
+        this.bizTitle = bizTitle == null ? null : bizTitle.trim();
+    }
+
+    public String getCustEmail() {
+        return custEmail;
+    }
+
+    public void setCustEmail(String custEmail) {
+        this.custEmail = custEmail == null ? null : custEmail.trim();
+    }
+
+    public String getCustName() {
+        return custName;
+    }
+
+    public void setCustName(String custName) {
+        this.custName = custName == null ? null : custName.trim();
+    }
+
+    public String getCustNum() {
+        return custNum;
+    }
+
+    public void setCustNum(String custNum) {
+        this.custNum = custNum == null ? null : custNum.trim();
+    }
+
+    public Date getArcTime() {
+        return arcTime;
+    }
+
+    public void setArcTime(Date arcTime) {
+        this.arcTime = arcTime;
+    }
+
+    public String getAcptStaffId() {
+        return acptStaffId;
+    }
+
+    public void setAcptStaffId(String acptStaffId) {
+        this.acptStaffId = acptStaffId == null ? null : acptStaffId.trim();
+    }
+
+    public String getAcptStaffNum() {
+        return acptStaffNum;
+    }
+
+    public void setAcptStaffNum(String acptStaffNum) {
+        this.acptStaffNum = acptStaffNum == null ? null : acptStaffNum.trim();
+    }
+
+    public String getDspsComplteStaffId() {
+        return dspsComplteStaffId;
+    }
+
+    public void setDspsComplteStaffId(String dspsComplteStaffId) {
+        this.dspsComplteStaffId = dspsComplteStaffId == null ? null : dspsComplteStaffId.trim();
+    }
+
+    public String getIsOperate() {
+        return isOperate;
+    }
+
+    public void setIsOperate(String isOperate) {
+        this.isOperate = isOperate == null ? null : isOperate.trim();
+    }
+
+    public String getCheckStaffId() {
+        return checkStaffId;
+    }
+
+    public void setCheckStaffId(String checkStaffId) {
+        this.checkStaffId = checkStaffId == null ? null : checkStaffId.trim();
+    }
+
+    public String getCheckedStaffId() {
+        return checkedStaffId;
+    }
+
+    public void setCheckedStaffId(String checkedStaffId) {
+        this.checkedStaffId = checkedStaffId == null ? null : checkedStaffId.trim();
+    }
+
+    public String getCheckedStaffName() {
+        return checkedStaffName;
+    }
+
+    public void setCheckedStaffName(String checkedStaffName) {
+        this.checkedStaffName = checkedStaffName == null ? null : checkedStaffName.trim();
+    }
+
+    public String getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(String cityId) {
+        this.cityId = cityId == null ? null : cityId.trim();
     }
 }

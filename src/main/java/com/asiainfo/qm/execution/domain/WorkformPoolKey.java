@@ -1,16 +1,17 @@
 package com.asiainfo.qm.execution.domain;
 
 public class WorkformPoolKey {
-    private String touchId;
+    private Long wrkfmId;
 
     private String planId;
 
-    public String getTouchId() {
-        return touchId;
+
+    public Long getWrkfmId() {
+        return wrkfmId;
     }
 
-    public void setTouchId(String touchId) {
-        this.touchId = touchId == null ? null : touchId.trim();
+    public void setWrkfmId(Long wrkfmId) {
+        this.wrkfmId = wrkfmId;
     }
 
     public String getPlanId() {

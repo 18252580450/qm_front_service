@@ -107,6 +107,8 @@ public class VoicePool {
 
     private Date endTime;
 
+    private String cityId;
+
     public String getTouchId() {
         return touchId;
     }
@@ -115,19 +117,19 @@ public class VoicePool {
         this.touchId = touchId == null ? null : touchId.trim();
     }
 
+    public QmPlan getQmPlan() {
+        return qmPlan;
+    }
+    public void setQmPlan(QmPlan qmPlan) {
+        this.qmPlan = qmPlan;
+    }
+
     public String getTenantId() {
         return tenantId;
     }
 
     public void setTenantId(String tenantId) {
         this.tenantId = tenantId == null ? null : tenantId.trim();
-    }
-
-    public QmPlan getQmPlan() {
-        return qmPlan;
-    }
-    public void setQmPlan(QmPlan qmPlan) {
-        this.qmPlan = qmPlan;
     }
 
     public String getProvinceId() {
@@ -512,5 +514,13 @@ public class VoicePool {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public String getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(String cityId) {
+        this.cityId = cityId == null ? null : cityId.trim();
     }
 }
