@@ -95,6 +95,7 @@ public class AppealDealController {
             Map<String, String> mainProcessParams = new HashMap<String, String>();
             mainProcessParams.put("departmentId", departmentId);
             mainProcessParams.put("mainProcessFlag", "0");
+            mainProcessParams.put("checkType", reqMap.get("checkType").toString());
             mainProcessParams.put("processStatus", Constants.QM_APPEAL_PROCESS_STATUS.ENABLE);
             //查询主流程
             AppealProcessResponse appealProcessResponse = appealProcessService.queryAppealProcess(mainProcessParams, 0, 0);

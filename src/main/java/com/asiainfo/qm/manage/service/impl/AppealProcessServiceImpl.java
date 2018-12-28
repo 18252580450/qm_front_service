@@ -69,6 +69,9 @@ public class AppealProcessServiceImpl implements AppealProcessService {
             if (null != params.get("tenantId") && !"".equals(params.get("tenantId"))) {
                 criteria.andTenantIdEqualTo((String) params.get("tenantId"));
             }
+            if (null != params.get("checkType") && !"".equals(params.get("checkType"))) {
+                criteria.andCheckTypeEqualTo((String) params.get("checkType"));
+            }
             if (null != params.get("processStatus") && !"".equals(params.get("processStatus"))) {
                 criteria.andProcessStatusEqualTo((String) params.get("processStatus"));
             }

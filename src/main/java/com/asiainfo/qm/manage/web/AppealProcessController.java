@@ -109,6 +109,7 @@ public class AppealProcessController {
                 appealProcess.setDepartmentName(appealProcessList.get(i).get("departmentName").toString());
                 appealProcess.setCheckType(appealProcessList.get(i).get("checkType").toString());
                 appealProcess.setMainProcessFlag(appealProcessList.get(i).get("mainProcessFlag").toString());
+                appealProcess.setMaxAppealNum(Integer.parseInt(appealProcessList.get(i).get("maxAppealNum").toString()));
                 appealProcess.setOrderNo(Integer.parseInt(appealProcessList.get(i).get("orderNo").toString()));
                 appealProcess.setSubProcessNum(Integer.parseInt(appealProcessList.get(i).get("subProcessNum").toString()));
                 appealProcess.setSubNodeNum(Integer.parseInt(appealProcessList.get(i).get("subNodeNum").toString()));
