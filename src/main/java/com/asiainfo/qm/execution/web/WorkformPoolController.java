@@ -1,6 +1,6 @@
 package com.asiainfo.qm.execution.web;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.execution.domain.WorkformPool;
 import com.asiainfo.qm.execution.service.WorkformPoolService;
 import com.asiainfo.qm.execution.vo.WorkformPoolResponse;
@@ -53,7 +53,7 @@ public class WorkformPoolController {
 	public WorkformPoolServiceResponse selectByParams(@RequestParam(name = "params")String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
 		WorkformPoolResponse workformPoolResponse = new WorkformPoolResponse();
 		WorkformPoolServiceResponse workformPoolServiceResponse = new WorkformPoolServiceResponse();
-		Map reqParams = JSONObject.fromObject(params);
+		Map reqParams = JSONObject.parseObject(params);
 		try {
 			workformPoolResponse = workformPoolService.selectByParams(reqParams,start,limit);//查询方法
 		}catch (Exception e){
@@ -178,11 +178,11 @@ public class WorkformPoolController {
 		String formatTime = sdf.format(d);
 
 		String str= URLDecoder.decode(params, "UTF-8");
-		Map paramsMap = JSONObject.fromObject(str);//转成Map
+		Map paramsMap = net.sf.json.JSONObject.fromObject(str);//转成Map
 		int start = (int) paramsMap.get("start");
 		int limit = (int) paramsMap.get("pageNum");
 		String param = (String) paramsMap.get("params");
-		Map reqParams = JSONObject.fromObject(param);//转成Map
+		Map reqParams = net.sf.json.JSONObject.fromObject(param);//转成Map
 		String fields = (String) paramsMap.get("fields");
 		JSONArray fieldsList = JSONArray.fromObject(fields);//转list
 		String titles = (String) paramsMap.get("titles");
@@ -200,10 +200,11 @@ public class WorkformPoolController {
 			for (int i = 0,size = list.size(); i < size; i++) {
 				workformPool = list.get(i);
 				workformPool.setPlanName(workformPool.getQmPlan().getPlanName());
-				map = JSONObject.fromObject(workformPool);//实体类转换成Map类型
+				map = net.sf.json.JSONObject.fromObject(workformPool);//实体类转换成Map类型
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				map.put("crtTime",sdf2.format(workformPool.getCrtTime()));//转换时间格式
 				map.put("operateTime",sdf2.format(workformPool.getOperateTime()));//转换时间格式
+				map.put("arcTime",sdf2.format(workformPool.getArcTime()));//转换时间格式
 				listMap.add(map);
 			}
 		}

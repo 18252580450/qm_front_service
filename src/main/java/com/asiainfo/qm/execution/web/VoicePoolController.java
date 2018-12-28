@@ -14,14 +14,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import net.sf.json.JSONArray;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.apache.poi.util.IOUtils;
-import org.hibernate.validator.internal.util.privilegedactions.GetMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -205,6 +197,8 @@ public class VoicePoolController {
 			for (int i = 0,size = list.size(); i < size; i++) {
 				voicePool = list.get(i);
 				map = net.sf.json.JSONObject.fromObject(voicePool);//实体类转换成Map类型
+				Map qmPlanMap = net.sf.json.JSONObject.fromObject(map.get("qmPlan"));//转成Map
+				map.put("planName",qmPlanMap.get("planName"));
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				map.put("checkedTime",sdf2.format(voicePool.getCheckedTime()));//转换时间格式
 				map.put("operateTime",sdf2.format(voicePool.getOperateTime()));//转换时间格式
@@ -246,37 +240,6 @@ public class VoicePoolController {
 			if (bos != null)
 				bos.close();
 		}
-	}
-
-	@RequestMapping(value = "/playVoice", method = RequestMethod.POST)
-	public void playVoice() throws Exception {
-
-//		//相对于commons-httpclient 3.1这里采用接口的方式来获取httpclient了
-//		HttpClient httpClient = HttpClients.createDefault();
-//		//声明请求方式
-//		HttpGet httpGet = new HttpGet("http://images.sohu.com/uiue/sohu_logo/beijing2008/2008sohu.gif");
-//		//获取相应数据，这里可以获取相应的数据
-//		HttpResponse httpResponse = httpClient.execute(httpGet);
-//		//拿到实体
-//		HttpEntity httpEntity= httpResponse.getEntity();
-		//获取结果，这里可以正对相应的数据精细字符集的转码
-//		String result = "";
-//		if (httpEntity != null) {
-//			result = EntityUtils.toString(httpEntity,"utf-8");
-//		}
-//		//关闭连接
-//		httpGet.releaseConnection();
-
-//		HttpClient client = new HttpClient();
-//		HttpClient httpClient = HttpClients.createDefault();
-//
-//		GetMethod get = new GetMethod("http://images.sohu.com/uiue/sohu_logo/beijing2008/2008sohu.gif");
-//		client.executeMethod(get);
-//		File storeFile = new File("c:/2008sohu.gif");
-//		FileOutputStream output = new FileOutputStream(storeFile);
-//		//得到网络资源的字节数组,并写入文件
-//		output.write(get.getResponseBody());
-//		output.close();
 	}
 
 }

@@ -126,8 +126,8 @@
 
   <!--新增查询方法-->
   <select id="queryPool" resultType="com.asiainfo.qm.manage.domain.QmPlan" parameterType="String">
-    select PLAN_NAME planName from t_qm_plan where PLAN_ID is not null and PLAN_ID = #{planId,jdbcType=VARCHAR}
-  </select>
+   select PLAN_NAME planName from t_qm_plan where PLAN_ID is not null and PLAN_ID = #{planId,jdbcType=VARCHAR}
+</select>
 
   <!--批量更新-->
   <update id="update" parameterType="java.util.List" >
@@ -150,7 +150,7 @@
     ,OPERATE_TIME =
     <foreach collection="list" item="item" index="index"
              separator=" " open="case WRKFM_SHOW_SWFTNO" close="end">
-    when #{item.wrkfmShowSwftno} then  null
+    when #{item} then  null
     </foreach>
     ,POOL_STATUS =
     <foreach collection="list" item="item" index="index"
