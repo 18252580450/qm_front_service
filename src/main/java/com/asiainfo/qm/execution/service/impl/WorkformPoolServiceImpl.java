@@ -72,7 +72,6 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             if (null != params.get("operateTimeBegin") && !"".equals(params.get("operateTimeBegin")) && null != params.get("operateTimeEnd") && !"".equals(params.get("operateTimeEnd"))) {
                 criteria.andOperateTimeBetween(sdf.parse((String) params.get("operateTimeBegin")), sdf.parse((String) params.get("operateTimeEnd")));
             }
-
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
                 List<WorkformPool> list = workformPoolMapper.selectByExample(workformPoolExample);

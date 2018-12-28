@@ -108,7 +108,6 @@ public class VoicePoolServiceImpl implements VoicePoolService {
                 List<VoicePool> list = voicePoolMapper.selectByExample(example);
                 voicePoolResponse.setData(list);
             }
-
             if (null != voicePoolResponse.getData() && voicePoolResponse.getData().size() > 0) {
                 voicePoolResponse.setRspcode(WebUtil.SUCCESS);
                 voicePoolResponse.setRspdesc("查询成功");

@@ -160,7 +160,6 @@ public class VoicePoolController {
 		voicePoolServiceResponse.setResponse(voicePoolResponse);
 		return voicePoolServiceResponse;
 	}
-
 	public VoicePoolServiceResponse fallbackDeleteItems(@RequestParam(name = "delArr") String delArr) throws Exception {
 		logger.info("质检池数据删除出错啦！");
 		logger.error("");
