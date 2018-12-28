@@ -162,7 +162,7 @@
         CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
         OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
         IS_OPERATE = #{isOperate,jdbcType=VARCHAR},
-        POOL_STATUS = #{poolStatus,jdbcType=INTEGER},
+        POOL_STATUS = #{poolStatus,jdbcType=INTEGER}
         where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
   </update>
 
