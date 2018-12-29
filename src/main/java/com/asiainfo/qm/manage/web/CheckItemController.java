@@ -17,9 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ Author     ：dingzc.
@@ -143,7 +141,36 @@ public class CheckItemController {
         CheckItemServiceResponse checkItemServiceResponse = new CheckItemServiceResponse();
         List<String> idlList = Arrays.asList(delArr.split(","));
         try {
-            checkItemResponse = checkItemService.deleteCheckItem(idlList);
+            String rspCode = WebUtil.SUCCESS;
+            List<String> realDelIdList = new ArrayList<>();   //实际需要删除的所有考评项ID集合
+            //查询所有要删除的考评项id
+            for (String checkItemId : idlList
+            ) {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("parentCheckItemId", checkItemId);
+
+                checkItemResponse = checkItemService.queryCheckItem(params, 0, 0);
+
+                rspCode = checkItemResponse.getRspcode();
+                if (null != checkItemResponse.getData() && checkItemResponse.getData().size() > 0) {
+                    for (CheckItem checkItem : checkItemResponse.getData()
+                    ) {
+                        realDelIdList.add(checkItem.getCheckItemId());
+                    }
+                }
+                if (rspCode.equals(WebUtil.EXCEPTION)) {
+                    checkItemResponse.setRspcode(WebUtil.FAIL);
+                    checkItemResponse.setRspdesc("删除失败");
+                    break;
+                }
+            }
+            realDelIdList.addAll(idlList);
+            HashSet<String> set = new HashSet<>(realDelIdList);
+            realDelIdList.clear();
+            realDelIdList.addAll(set);
+            if (!rspCode.equals(WebUtil.EXCEPTION)) {
+                checkItemResponse = checkItemService.deleteCheckItem(realDelIdList);
+            }
         } catch (Exception e) {
             logger.error("考评项数据删除异常", e);
             checkItemResponse.setRspcode(WebUtil.EXCEPTION);
