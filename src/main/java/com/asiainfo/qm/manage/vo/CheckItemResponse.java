@@ -1,6 +1,5 @@
 package com.asiainfo.qm.manage.vo;
 
-import com.asiainfo.qm.manage.domain.CheckItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.pagehelper.Page;
 import io.swagger.annotations.ApiModel;

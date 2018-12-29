@@ -31,6 +31,8 @@ public class CheckItem {
 
     private String checkItemVitalType;
 
+    private String nodeTypeCode;
+
     private String isOrNoTscore;
 
     private Integer topLimit;
@@ -171,6 +173,14 @@ public class CheckItem {
 
     public void setCheckItemVitalType(String checkItemVitalType) {
         this.checkItemVitalType = checkItemVitalType == null ? null : checkItemVitalType.trim();
+    }
+
+    public String getNodeTypeCode() {
+        return nodeTypeCode;
+    }
+
+    public void setNodeTypeCode(String nodeTypeCode) {
+        this.nodeTypeCode = nodeTypeCode == null ? null : nodeTypeCode.trim();
     }
 
     public String getIsOrNoTscore() {
