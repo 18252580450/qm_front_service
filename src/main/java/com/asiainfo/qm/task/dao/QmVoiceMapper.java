@@ -19,7 +19,7 @@ public interface QmVoiceMapper {
 
     List<QmVoice> selectByExample(QmVoiceExample example);
 
-    List<QmVoice> selectByExampleForAutoExract(@Param("tableName")String tableName,QmVoiceExample example,@Param("limit")String limit);
+    List<QmVoice> selectByExampleForAutoExract(@Param("tableName")String tableName,@Param("example") QmVoiceExample example,@Param("limit")Integer limit);
 
     QmVoice selectByPrimaryKey(String touchId);
 

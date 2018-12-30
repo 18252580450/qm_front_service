@@ -3,10 +3,7 @@ package com.asiainfo.qm.manage.service.impl;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.QmStrategyElementRelMapper;
 import com.asiainfo.qm.manage.dao.QmStrategyMapper;
-import com.asiainfo.qm.manage.domain.QmStrategy;
-import com.asiainfo.qm.manage.domain.QmStrategyElementRel;
-import com.asiainfo.qm.manage.domain.QmStrategyElementRelExample;
-import com.asiainfo.qm.manage.domain.QmStrategyExample;
+import com.asiainfo.qm.manage.domain.*;
 import com.asiainfo.qm.manage.service.QmStrategyService;
 import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.WebUtil;
@@ -91,6 +88,12 @@ public class QmStrategyServiceImpl implements QmStrategyService {
 			criteria.andPIdIn(ids);
 			int result = qmStrategyMapper.deleteByExample(example);
 			if(result > 0){
+				for(int i = 0;i<ids.size();i++){
+					QmStrategyElementRelExample elementRelExample = new QmStrategyElementRelExample();
+					QmStrategyElementRelExample.Criteria eleCriteria = elementRelExample.createCriteria();
+					eleCriteria.andPIdEqualTo(ids.get(i));
+					qmStrategyElementRelMapper.deleteByExample(elementRelExample);
+				}
 				qmStrategyResponse.setRspcode(WebUtil.SUCCESS);
 				qmStrategyResponse.setRspdesc("删除成功");
 			}else {

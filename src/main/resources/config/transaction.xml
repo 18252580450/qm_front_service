@@ -21,7 +21,7 @@
     </tx:advice>
     <aop:config>
     <aop:pointcut id="allManagerMethod"
-                  expression="execution (* com.asiainfo.qm.manage.service.*.*(..))"/>
+                  expression="execution (* com.asiainfo.qm.*.service.*.*(..))"/>
     <aop:advisor advice-ref="txAdvice" pointcut-ref="allManagerMethod" order="0"/>
     </aop:config>
 

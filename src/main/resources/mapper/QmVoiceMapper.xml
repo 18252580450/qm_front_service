@@ -40,7 +40,7 @@
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
         <if test="criteria.valid" >
           <trim prefix="(" suffix=")" prefixOverrides="and" >
             <foreach collection="criteria.criteria" item="criterion" >
@@ -105,9 +105,9 @@
   </sql>
 
   <!-- 自动抽取 -->
-  <select id="selectByExampleForAutoExract" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.task.domain.QmVoiceExample" >
+  <select id="selectByExampleForAutoExract" resultMap="BaseResultMap" parameterType="map" >
     select
-    <if test="distinct" >
+    <if test="example.distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
