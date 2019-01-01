@@ -595,4 +595,35 @@ public class AppealDealController {
         logger.error("");
         return new AppealDealServiceResponse();
     }
+
+    @ApiOperation(value = "前端调用接口查询审批记录", notes = "qm_configservice查询审批记录", response = AppealDealRecordServiceResponse.class)
+    @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误")})
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "queryAppealDealRecord", threadPoolKey = "queryAppealDealRecordThread", fallbackMethod = "fallbackQueryAppealDealRecord", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200")})
+    @RequestMapping(value = "/queryDealRecord", method = RequestMethod.GET)
+    public AppealDealRecordServiceResponse queryDealRecord(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        AppealDealRecordResponse appealDealRecordResponse = new AppealDealRecordResponse();
+        AppealDealRecordServiceResponse appealDealRecordServiceResponse = new AppealDealRecordServiceResponse();
+        Map reqParams = JSONObject.parseObject(params);
+        try {
+            appealDealRecordResponse = appealDealRecordService.queryAppealRecord(reqParams, start, limit);
+        } catch (Exception e) {
+            logger.error("审批记录数据查询异常", e);
+            appealDealRecordResponse.setRspcode(WebUtil.EXCEPTION);
+            appealDealRecordResponse.setRspdesc("审批记录数据查询异常!");
+        }
+        appealDealRecordServiceResponse.setResponse(appealDealRecordResponse);
+        return appealDealRecordServiceResponse;
+    }
+
+    public AppealDealRecordServiceResponse fallbackQueryAppealDealRecord(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        logger.info("审批记录数据查询出错啦！");
+        logger.error("");
+        return new AppealDealRecordServiceResponse();
+    }
 }

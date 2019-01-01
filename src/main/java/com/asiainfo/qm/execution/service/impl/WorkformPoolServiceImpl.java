@@ -77,6 +77,9 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             if (null != params.get("checkStaffName") && !"".equals(params.get("checkStaffName"))) {
                 criteria.andCheckStaffNameEqualTo((String) params.get("checkStaffName"));
             }
+            if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
+                criteria.andCheckStaffIdEqualTo((String) params.get("checkStaffId"));
+            }
             if (null != params.get("planStartTime") && !"".equals(params.get("planStartTime")) && null != params.get("planEndTime") && !"".equals(params.get("planEndTime"))) {
                 criteria.andCrtTimeBetween(sdf.parse((String) params.get("planStartTime")), sdf.parse((String) params.get("planEndTime")));
             }
