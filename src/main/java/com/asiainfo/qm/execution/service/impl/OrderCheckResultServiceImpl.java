@@ -37,7 +37,7 @@ public class OrderCheckResultServiceImpl implements OrderCheckResultService {
     private SequenceUtils sequenceUtils;
 
     @Override
-    public OrderCheckResultResponse queryOrderSavedResult(Map params, int start, int limit) throws Exception {
+    public OrderCheckResultResponse queryOrderCheckResult(Map params, int start, int limit) throws Exception {
         OrderCheckResultResponse orderCheckResultResponse = null;
         OrderCheckResultExample example = new OrderCheckResultExample();
         try {
@@ -48,8 +48,9 @@ public class OrderCheckResultServiceImpl implements OrderCheckResultService {
             if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
                 criteria.andTouchIdEqualTo((String) params.get("touchId"));
             }
-            //筛选暂存质检结果
-            criteria.andResultStatusEqualTo(Constants.QM_CHECK_RESULT.TEMP_SAVE);
+            if (null != params.get("resultStatus") && !"".equals(params.get("resultStatus"))) {
+                criteria.andResultStatusEqualTo((String) params.get("resultStatus"));
+            }
 
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);

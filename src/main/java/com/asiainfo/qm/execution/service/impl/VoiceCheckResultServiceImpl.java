@@ -36,7 +36,7 @@ public class VoiceCheckResultServiceImpl implements VoiceCheckResultService {
     private SequenceUtils sequenceUtils;
 
     @Override
-    public VoiceCheckResultResponse queryVoiceSavedResult(Map params, int start, int limit) throws Exception {
+    public VoiceCheckResultResponse queryVoiceCheckResult(Map params, int start, int limit) throws Exception {
         VoiceCheckResultResponse voiceCheckResultResponse = null;
         VoiceCheckResultExample example = new VoiceCheckResultExample();
         try {
@@ -47,8 +47,9 @@ public class VoiceCheckResultServiceImpl implements VoiceCheckResultService {
             if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
                 criteria.andTouchIdEqualTo((String) params.get("touchId"));
             }
-            //筛选暂存质检结果
-            criteria.andResultStatusEqualTo(Constants.QM_CHECK_RESULT.TEMP_SAVE);
+            if (null != params.get("resultStatus") && !"".equals(params.get("resultStatus"))) {
+                criteria.andResultStatusEqualTo((String) params.get("resultStatus"));
+            }
 
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);

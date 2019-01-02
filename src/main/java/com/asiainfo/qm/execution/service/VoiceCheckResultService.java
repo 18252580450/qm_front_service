@@ -14,9 +14,9 @@ import java.util.Map;
 public interface VoiceCheckResultService {
 
     /**
-     * 语音质检暂存数据查询
+     * 语音质检结果查询
      */
-    VoiceCheckResultResponse queryVoiceSavedResult(Map params, int start, int limit) throws Exception;
+    VoiceCheckResultResponse queryVoiceCheckResult(Map params, int start, int limit) throws Exception;
 
     /**
      * 查询原质检（首次质检）流水号

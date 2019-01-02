@@ -1,13 +1,11 @@
 package com.asiainfo.qm.execution.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.execution.domain.WorkformPool;
 import com.asiainfo.qm.execution.service.OrderCheckResultDetailService;
 import com.asiainfo.qm.execution.service.OrderCheckResultService;
 import com.asiainfo.qm.execution.service.WorkformPoolService;
-import com.asiainfo.qm.execution.vo.OrderCheckResultDetailResponse;
-import com.asiainfo.qm.execution.vo.OrderCheckResultResponse;
-import com.asiainfo.qm.execution.vo.OrderCheckResultServiceResponse;
-import com.asiainfo.qm.execution.vo.WorkformPoolResponse;
+import com.asiainfo.qm.execution.vo.*;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.domain.OrderCheckResult;
 import com.asiainfo.qm.manage.domain.OrderCheckResultDetail;
@@ -22,10 +20,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -91,7 +86,7 @@ public class OrderCheckController {
         try {
             String rspCode = WebUtil.SUCCESS;
             //查询工单质检结果信息表，存在暂存数据则更新质检结果，反之插入
-            orderCheckResultResponse = orderCheckResultService.queryOrderSavedResult(orderCheckInfo, 0, 0);
+            orderCheckResultResponse = orderCheckResultService.queryOrderCheckResult(orderCheckInfo, 0, 0);
             if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
                 rspCode = WebUtil.FAIL;
             }
@@ -262,4 +257,67 @@ public class OrderCheckController {
         logger.error("");
         return new OrderCheckResultServiceResponse();
     }
+
+    @ApiOperation(value = "前端调用接口查询工单质检结果", notes = "qm_configservice查询工单质检结果", response = OrderCheckResultServiceResponse.class)
+    @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误")})
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "queryOrderCheckResult", threadPoolKey = "queryOrderCheckResultThread", fallbackMethod = "fallbackQueryOrderCheckResult", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200")})
+    @RequestMapping(value = "/queryOrderCheckResult", method = RequestMethod.GET)
+    public OrderCheckResultServiceResponse queryOrderCheckResult(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        OrderCheckResultResponse orderCheckResultResponse = new OrderCheckResultResponse();
+        OrderCheckResultServiceResponse orderCheckResultServiceResponse = new OrderCheckResultServiceResponse();
+        Map reqParams = JSONObject.parseObject(params);
+        try {
+            orderCheckResultResponse = orderCheckResultService.queryOrderCheckResult(reqParams, start, limit);
+        } catch (Exception e) {
+            logger.error("工单质检结果数据查询异常", e);
+            orderCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
+            orderCheckResultResponse.setRspdesc("工单质检结果数据查询异常!");
+        }
+        orderCheckResultServiceResponse.setResponse(orderCheckResultResponse);
+        return orderCheckResultServiceResponse;
+    }
+
+    public OrderCheckResultServiceResponse fallbackQueryOrderCheckResult(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        logger.info("工单质检结果数据查询出错啦！");
+        logger.error("");
+        return new OrderCheckResultServiceResponse();
+    }
+
+    @ApiOperation(value = "前端调用接口查询工单质检结果详情", notes = "qm_configservice查询工单质检结果详情", response = OrderCheckResultDetailServiceResponse.class)
+    @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误")})
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "queryOrderCheckResultDetail", threadPoolKey = "queryOrderCheckResultDetailThread", fallbackMethod = "fallbackQueryOrderCheckResultDetail", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200")})
+    @RequestMapping(value = "/queryOrderCheckResultDetail", method = RequestMethod.GET)
+    public OrderCheckResultDetailServiceResponse queryOrderCheckResultDetail(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        OrderCheckResultDetailResponse orderCheckResultDetailResponse = new OrderCheckResultDetailResponse();
+        OrderCheckResultDetailServiceResponse orderCheckResultDetailServiceResponse = new OrderCheckResultDetailServiceResponse();
+        Map reqParams = JSONObject.parseObject(params);
+        try {
+            orderCheckResultDetailResponse = orderCheckResultDetailService.queryOrderCheckResultDetail(reqParams, start, limit);
+        } catch (Exception e) {
+            logger.error("工单质检结果详情数据查询异常", e);
+            orderCheckResultDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            orderCheckResultDetailResponse.setRspdesc("工单质检结果详情数据查询异常!");
+        }
+        orderCheckResultDetailServiceResponse.setResponse(orderCheckResultDetailResponse);
+        return orderCheckResultDetailServiceResponse;
+    }
+
+    public OrderCheckResultDetailServiceResponse fallbackQueryOrderCheckResultDetail(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        logger.info("工单质检结果详情数据查询出错啦！");
+        logger.error("");
+        return new OrderCheckResultDetailServiceResponse();
+    }
+
 }
