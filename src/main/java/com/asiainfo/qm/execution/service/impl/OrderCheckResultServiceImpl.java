@@ -37,7 +37,7 @@ public class OrderCheckResultServiceImpl implements OrderCheckResultService {
     private SequenceUtils sequenceUtils;
 
     @Override
-    public OrderCheckResultResponse queryOrderSavedResult(Map params, int start, int limit) throws Exception {
+    public OrderCheckResultResponse queryOrderCheckResult(Map params, int start, int limit) throws Exception {
         OrderCheckResultResponse orderCheckResultResponse = null;
         OrderCheckResultExample example = new OrderCheckResultExample();
         try {
@@ -48,8 +48,9 @@ public class OrderCheckResultServiceImpl implements OrderCheckResultService {
             if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
                 criteria.andTouchIdEqualTo((String) params.get("touchId"));
             }
-            //筛选暂存质检结果
-            criteria.andResultStatusEqualTo(Constants.QM_CHECK_RESULT.TEMP_SAVE);
+            if (null != params.get("resultStatus") && !"".equals(params.get("resultStatus"))) {
+                criteria.andResultStatusEqualTo((String) params.get("resultStatus"));
+            }
 
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
@@ -61,6 +62,35 @@ public class OrderCheckResultServiceImpl implements OrderCheckResultService {
                 List<OrderCheckResult> list = orderCheckResultMapper.selectByExample(example);
                 orderCheckResultResponse.setData(list);
             }
+
+            if (null != orderCheckResultResponse.getData() && orderCheckResultResponse.getData().size() > 0) {
+                orderCheckResultResponse.setRspcode(WebUtil.SUCCESS);
+                orderCheckResultResponse.setRspdesc("查询成功");
+            } else {
+                orderCheckResultResponse.setRspcode(WebUtil.FAIL);
+                orderCheckResultResponse.setRspdesc("无数据");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("质检结果查询异常", e);
+            orderCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
+            orderCheckResultResponse.setRspdesc("质检结果查询异常");
+        }
+        return orderCheckResultResponse;
+    }
+
+    @Override
+    public OrderCheckResultResponse queryOriginInspectionId(Map params) throws Exception {
+        OrderCheckResultResponse orderCheckResultResponse = null;
+        OrderCheckResult orderCheckResult = new OrderCheckResult();
+        try {
+            if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
+                orderCheckResult.setTouchId(params.get("touchId").toString());
+            }
+            orderCheckResultResponse = new OrderCheckResultResponse();
+
+            List<OrderCheckResult> list = orderCheckResultMapper.queryFirstInspectionId(orderCheckResult);
+            orderCheckResultResponse.setData(list);
 
             if (null != orderCheckResultResponse.getData() && orderCheckResultResponse.getData().size() > 0) {
                 orderCheckResultResponse.setRspcode(WebUtil.SUCCESS);
@@ -152,6 +182,27 @@ public class OrderCheckResultServiceImpl implements OrderCheckResultService {
             logger.error("工单质检异常", e);
             orderCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
             orderCheckResultResponse.setRspdesc("工单质检异常");
+        }
+        return orderCheckResultResponse;
+    }
+
+    @Override
+    public OrderCheckResultResponse resetLastResultFlag(OrderCheckResult orderCheckResult) throws Exception {
+        OrderCheckResultResponse orderCheckResultResponse = new OrderCheckResultResponse();
+        try {
+            int result = orderCheckResultMapper.resetLastResultFlag(orderCheckResult);
+            if (result > 0) {
+                orderCheckResultResponse.setRspcode(WebUtil.SUCCESS);
+                orderCheckResultResponse.setRspdesc("最新质检结果标识重置成功");
+            } else {
+                orderCheckResultResponse.setRspcode(WebUtil.FAIL);
+                orderCheckResultResponse.setRspdesc("最新质检结果标识重置失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("最新质检结果标识重置异常", e);
+            orderCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
+            orderCheckResultResponse.setRspdesc("最新质检结果标识重置异常");
         }
         return orderCheckResultResponse;
     }

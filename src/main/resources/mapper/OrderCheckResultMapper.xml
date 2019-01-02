@@ -136,6 +136,15 @@
      select PLAN_NAME planName from t_qm_plan where PLAN_ID is not null and PLAN_ID = #{planId,jdbcType=VARCHAR}
   </select>
 
+  <!--查询第一质检的质检流水号-->
+  <select id="queryFirstInspectionId" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResult" >
+    select
+    <include refid="Base_Column_List" />
+    from t_qm_order_check_result
+    where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
+      and INSPECTION_ID = ORIGIN_INSPECTION_ID
+  </select>
+
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultExample" >
     select
     <if test="distinct" >
@@ -922,6 +931,18 @@
     where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
       and TOUCH_ID = #{touchId,jdbcType=VARCHAR}
       and CHECK_LINK = #{checkLink,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--重置上一次质检的最新质检结果标志-->
+  <update id="resetLastResultFlag" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResult" >
+    update t_qm_order_check_result
+    <set>
+      <if test="lastResultFlag != null">
+        LAST_RESULT_FLAG = #{lastResultFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
   </update>
 
   <!--根据质检流水更新申诉信息-->
