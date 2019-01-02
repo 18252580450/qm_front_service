@@ -13,15 +13,15 @@
         </commentGenerator>
         <!--数据库链接URL，用户名、密码 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/quality" userId="root"
-                        password="Ngbusi_gs!@#" />
+                        connectionURL="jdbc:mysql://203.57.228.52:3306/ctc_qm" userId="root"
+                        password="ctcqm@WSX1qaz" />
 
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
         <!-- 生成模型的包名和位置-->
-        <javaModelGenerator targetPackage="com.asiainfo.qm.manage.domain" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.asiainfo.qm.task.domain" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -32,14 +32,21 @@
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
         <!-- 生成DAO的包名和位置-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.asiainfo.qm.manage.dao" targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.asiainfo.qm.task.dao" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- ****************要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名*****************-->
 
 
-        <!--<table schema="" tableName="t_qm_checktype" domainObjectName="Checktype"></table> -->
+        <!--<table schema="" tableName="t_qm_checktype" domainObjectName="Checktype"></table>
         <table schema="" tableName="t_qm_static_params" domainObjectName="StaticParams"/>
-
+        <table schema="" tableName="t_qm_bind_rln" domainObjectName="BindRln"></table>
+        <table schema="" tableName="t_qm_plan_log" domainObjectName="QmPlanLog"></table>
+        <table schema="" tableName="t_qm_plan" domainObjectName="QmPlan"></table>
+        <table schema="" tableName="t_qm_strategy" domainObjectName="QmStrategy"></table>
+        <table schema="" tableName="t_qm_strategy_element" domainObjectName="QmStrategyElement"></table>
+        <table schema="" tableName="t_qm_strategy_element_rel" domainObjectName="QmStrategyElementRel"></table>
+        <table schema="" tableName="t_qm_voice" domainObjectName="QmVoice"></table>-->
+        <table schema="" tableName="t_qm_workform" domainObjectName="QmWorkform"></table>
     </context>
 </generatorConfiguration>
