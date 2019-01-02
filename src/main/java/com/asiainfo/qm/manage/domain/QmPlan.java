@@ -1,9 +1,14 @@
 package com.asiainfo.qm.manage.domain;
 
+import com.asiainfo.qm.task.domain.QmBindRln;
+
 import java.util.Date;
+import java.util.List;
 
 public class QmPlan {
     private String planId;
+
+    private List<QmBindRln> qmBindRlnList;
 
     private String tenantId;
 
@@ -59,6 +64,14 @@ public class QmPlan {
 
     public void setPlanId(String planId) {
         this.planId = planId == null ? null : planId.trim();
+    }
+
+    public List<QmBindRln> getQmBindRlnList() {
+        return qmBindRlnList;
+    }
+
+    public void setQmBindRlnList(List<QmBindRln> qmBindRlnList) {
+        this.qmBindRlnList = qmBindRlnList;
     }
 
     public String getTenantId() {

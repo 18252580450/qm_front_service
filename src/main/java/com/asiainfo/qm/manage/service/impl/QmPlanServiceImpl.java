@@ -9,6 +9,9 @@ import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.DateUtils;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.manage.vo.QmPlanResponse;
+import com.asiainfo.qm.task.dao.QmBindRlnMapper;
+import com.asiainfo.qm.task.domain.QmBindRln;
+import com.asiainfo.qm.task.domain.QmBindRlnExample;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
@@ -31,6 +34,9 @@ public class QmPlanServiceImpl implements QmPlanService {
 
 	@Autowired
 	private QmPlanMapper qmPlanMapper;
+
+	@Autowired
+	private QmBindRlnMapper qmBindRlnMapper;
 
 	@Autowired
 	private SequenceUtils sequenceUtils;
@@ -105,6 +111,12 @@ public class QmPlanServiceImpl implements QmPlanService {
 			criteria.andPlanIdIn(ids);
 			int result = qmPlanMapper.deleteByExample(example);
 			if(result > 0){
+				for(int i = 0;i<ids.size();i++){
+					QmBindRlnExample qmBindRlnExample = new QmBindRlnExample();
+					QmBindRlnExample.Criteria qmBindRlnExampleCriteria = qmBindRlnExample.createCriteria();
+					qmBindRlnExampleCriteria.andPlanIdEqualTo(ids.get(i));
+					qmBindRlnMapper.deleteByExample(qmBindRlnExample);
+				}
 				qmPlanResponse.setRspcode(WebUtil.SUCCESS);
 				qmPlanResponse.setRspdesc("删除成功");
 			}else {
@@ -128,6 +140,13 @@ public class QmPlanServiceImpl implements QmPlanService {
 			qmPlan.setPlanId(String.valueOf(sequenceUtils.getSequence("t_qm_plan")));
 			int result = qmPlanMapper.insertSelective(qmPlan);
 			if(result > 0){
+				List<QmBindRln> qmBindRlns = qmPlan.getQmBindRlnList();
+				if(qmBindRlns.size() > 0){
+					for(int i = 0;i<qmBindRlns.size();i++){
+						QmBindRln bindRln = qmBindRlns.get(i);
+						qmBindRlnMapper.insertSelective(bindRln);
+					}
+				}
 				qmPlanResponse.setRspcode(WebUtil.SUCCESS);
 				qmPlanResponse.setRspdesc("新增成功");
 			}else {
@@ -150,6 +169,19 @@ public class QmPlanServiceImpl implements QmPlanService {
 			qmPlan.setModifiedTime(DateUtil.getCurrontTime());
 			int result = qmPlanMapper.updateByPrimaryKey(qmPlan);
 			if(result > 0){
+				//删除原有的
+				QmBindRlnExample example = new QmBindRlnExample();
+				QmBindRlnExample.Criteria criteria = example.createCriteria();
+				criteria.andPlanIdEqualTo(qmPlan.getPlanId());
+				qmBindRlnMapper.deleteByExample(example);
+				//新增最新的
+				List<QmBindRln> qmBindRlns = qmPlan.getQmBindRlnList();
+				if(qmBindRlns.size() > 0){
+					for(int i = 0;i<qmBindRlns.size();i++){
+						QmBindRln bindRln = qmBindRlns.get(i);
+						qmBindRlnMapper.insertSelective(bindRln);
+					}
+				}
 				qmPlanResponse.setRspcode(WebUtil.SUCCESS);
 				qmPlanResponse.setRspdesc("更新成功");
 			}else {
@@ -199,7 +231,12 @@ public class QmPlanServiceImpl implements QmPlanService {
 		try {
 			QmPlan qmPlan = qmPlanMapper.selectByPrimaryKey(id);
 			if(null != qmPlan){
-				List<QmPlan> list = new ArrayList<QmPlan>();
+				QmBindRlnExample example = new QmBindRlnExample();
+				QmBindRlnExample.Criteria criteria = example.createCriteria();
+				criteria.andPlanIdEqualTo(id);
+				List<QmBindRln> qmBindRlns = qmBindRlnMapper.selectByExample(example);
+				qmPlan.setQmBindRlnList(qmBindRlns);
+				List<QmPlan> list = new ArrayList<>();
 				list.add(qmPlan);
 				qmPlanResponse.setData(list);
 				qmPlanResponse.setRspcode(WebUtil.SUCCESS);
