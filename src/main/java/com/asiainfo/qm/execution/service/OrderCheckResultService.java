@@ -19,6 +19,11 @@ public interface OrderCheckResultService {
     OrderCheckResultResponse queryOrderSavedResult(Map params, int start, int limit) throws Exception;
 
     /**
+     * 查询原质检（首次质检）流水号
+     */
+    OrderCheckResultResponse queryOriginInspectionId(Map params) throws Exception;
+
+    /**
      * 工单质检结果新增
      */
     OrderCheckResultResponse addOrderCheckResult(List<OrderCheckResult> orderCheckResultList) throws Exception;
@@ -27,6 +32,11 @@ public interface OrderCheckResultService {
      * 工单质检结果修改
      */
     OrderCheckResultResponse updateOrderCheckResult(List<OrderCheckResult> orderCheckResultList) throws Exception;
+
+    /**
+     * 重置之前次质检的最新质检结果标志
+     */
+    OrderCheckResultResponse resetLastResultFlag(OrderCheckResult orderCheckResult) throws Exception;
 
     /**
      * 工单质检结果申诉信息更新

@@ -82,7 +82,7 @@ public class OrderCheckController {
         List<OrderCheckResultDetail> orderCheckResultDetailAddList = new ArrayList<OrderCheckResultDetail>();
         //质检流水
         String inspectionId = String.valueOf(sequenceUtils.getSequence("t_qm_order_check_result"));
-        //质检结果状态（新增OR暂存）
+        //质检结果状态（新增、暂存、复检）
         String checkStatus = orderCheckInfo.get("resultStatus").toString();
         //质检开始时间
         Date currentTime = DateUtil.getCurrontTime();
@@ -109,11 +109,20 @@ public class OrderCheckController {
                     }
                 }
             }
-            //复检原质检流水
-            String originInspectionId = orderCheckInfo.get("originInspectionId").toString();
-            if (null == originInspectionId || "".equals(originInspectionId)) {
-                originInspectionId = inspectionId;
+            //原质检流水
+            String originInspectionId = inspectionId;
+            //复检
+            if (checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
+                //查询原质检流水号
+                orderCheckResultResponse = orderCheckResultService.queryOriginInspectionId(orderCheckInfo);
+                if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
+                    rspCode = WebUtil.FAIL;
+                }
+                if (null != orderCheckResultResponse.getData() && orderCheckResultResponse.getData().size() > 0) {
+                    originInspectionId = orderCheckResultResponse.getData().get(0).getInspectionId();
+                }
             }
+
             //工单质检结果
             for (Map checkLink : checkLinkData
             ) {
@@ -186,6 +195,15 @@ public class OrderCheckController {
                 }
             }
 
+            //重置之前质检的最新质检结果标志
+            if (rspCode.equals(WebUtil.SUCCESS)) {
+                OrderCheckResult orderCheckResult = new OrderCheckResult();
+                orderCheckResult.setTouchId(orderCheckInfo.get("touchId").toString());
+                orderCheckResult.setLastResultFlag("0");
+                orderCheckResultResponse = orderCheckResultService.resetLastResultFlag(orderCheckResult);
+                rspCode = orderCheckResultResponse.getRspcode();
+            }
+
             //工单质检结果更新
             if (!orderCheckResultUpdateList.isEmpty() && rspCode.equals(WebUtil.SUCCESS)) {
                 orderCheckResultResponse = orderCheckResultService.updateOrderCheckResult(orderCheckResultUpdateList);
@@ -211,7 +229,7 @@ public class OrderCheckController {
             }
 
             //更新工单质检池（质检暂存不更新质检池）
-            if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) && rspCode.equals(WebUtil.SUCCESS)) {
+            if (rspCode.equals(WebUtil.SUCCESS) && (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK))) {
                 WorkformPool workformPool = new WorkformPool();
                 workformPool.setWrkfmId(Long.parseLong(orderCheckInfo.get("touchId").toString()));
                 workformPool.setPoolStatus(Integer.parseInt(Constants.QM_CHECK_STATUS.CHECKED));

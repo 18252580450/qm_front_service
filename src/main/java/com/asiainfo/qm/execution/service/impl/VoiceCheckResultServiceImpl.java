@@ -78,6 +78,35 @@ public class VoiceCheckResultServiceImpl implements VoiceCheckResultService {
     }
 
     @Override
+    public VoiceCheckResultResponse queryOriginInspectionId(Map params) throws Exception {
+        VoiceCheckResultResponse voiceCheckResultResponse = null;
+        VoiceCheckResult voiceCheckResult = new VoiceCheckResult();
+        try {
+            if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
+                voiceCheckResult.setTouchId(params.get("touchId").toString());
+            }
+            voiceCheckResultResponse = new VoiceCheckResultResponse();
+
+            List<VoiceCheckResult> list = voiceCheckResultMapper.queryFirstInspectionId(voiceCheckResult);
+            voiceCheckResultResponse.setData(list);
+
+            if (null != voiceCheckResultResponse.getData() && voiceCheckResultResponse.getData().size() > 0) {
+                voiceCheckResultResponse.setRspcode(WebUtil.SUCCESS);
+                voiceCheckResultResponse.setRspdesc("查询成功");
+            } else {
+                voiceCheckResultResponse.setRspcode(WebUtil.FAIL);
+                voiceCheckResultResponse.setRspdesc("无数据");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("质检结果查询异常", e);
+            voiceCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
+            voiceCheckResultResponse.setRspdesc("质检结果查询异常");
+        }
+        return voiceCheckResultResponse;
+    }
+
+    @Override
     public VoiceCheckResultResponse addVoiceCheckResult(VoiceCheckResult voiceCheckResult) throws Exception {
         VoiceCheckResultResponse voiceCheckResultResponse = new VoiceCheckResultResponse();
         String resultStatus = voiceCheckResult.getResultStatus();
@@ -137,6 +166,27 @@ public class VoiceCheckResultServiceImpl implements VoiceCheckResultService {
             logger.error("语音质检异常", e);
             voiceCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
             voiceCheckResultResponse.setRspdesc("语音质检异常");
+        }
+        return voiceCheckResultResponse;
+    }
+
+    @Override
+    public VoiceCheckResultResponse resetLastResultFlag(VoiceCheckResult voiceCheckResult) throws Exception {
+        VoiceCheckResultResponse voiceCheckResultResponse = new VoiceCheckResultResponse();
+        try {
+            int result = voiceCheckResultMapper.resetLastResultFlag(voiceCheckResult);
+            if (result > 0) {
+                voiceCheckResultResponse.setRspcode(WebUtil.SUCCESS);
+                voiceCheckResultResponse.setRspdesc("最新质检结果标识重置成功");
+            } else {
+                voiceCheckResultResponse.setRspcode(WebUtil.FAIL);
+                voiceCheckResultResponse.setRspdesc("最新质检结果标识重置失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("最新质检结果标识重置异常", e);
+            voiceCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
+            voiceCheckResultResponse.setRspdesc("最新质检结果标识重置异常");
         }
         return voiceCheckResultResponse;
     }

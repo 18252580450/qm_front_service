@@ -74,7 +74,7 @@ public class VoiceCheckController {
         List<Map> checkItemList = (ArrayList<Map>) reqMap.get("checkItemList");
         //质检流水
         String inspectionId = String.valueOf(sequenceUtils.getSequence("t_qm_voice_check_result"));
-        //质检结果状态（新增OR暂存）
+        //质检结果状态（新增、暂存、复检）
         String checkStatus = checkResult.get("resultStatus").toString();
         //质检开始时间
         Date currentTime = DateUtil.getCurrontTime();
@@ -93,11 +93,20 @@ public class VoiceCheckController {
                 updateFlag = true;
             }
 
-            //复检原质检流水
-            String originInspectionId = checkResult.get("originInspectionId").toString();
-            if (null == originInspectionId || "".equals(originInspectionId)) {
-                originInspectionId = inspectionId;
+            //原质检流水
+            String originInspectionId = inspectionId;
+            //复检
+            if (checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
+                //查询原质检流水号
+                voiceCheckResultResponse = voiceCheckResultService.queryOriginInspectionId(checkResult);
+                if (voiceCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
+                    rspCode = WebUtil.FAIL;
+                }
+                if (null != voiceCheckResultResponse.getData() && voiceCheckResultResponse.getData().size() > 0) {
+                    originInspectionId = voiceCheckResultResponse.getData().get(0).getInspectionId();
+                }
             }
+
             //语音质检结果
             VoiceCheckResult voiceCheckResult = new VoiceCheckResult();
             voiceCheckResult.setTenantId(checkResult.get("tenantId").toString());
@@ -127,6 +136,15 @@ public class VoiceCheckController {
             voiceCheckResult.setLastResultFlag("1");      //最新质检结果
             voiceCheckResult.setFinalScore(BigDecimal.valueOf(Double.parseDouble(checkResult.get("finalScore").toString())));
             voiceCheckResult.setCheckComment(checkResult.get("checkComment").toString());
+
+            //重置之前质检的最新质检结果标志
+            if (rspCode.equals(WebUtil.SUCCESS)) {
+                VoiceCheckResult result = new VoiceCheckResult();
+                result.setTouchId(checkResult.get("touchId").toString());
+                result.setLastResultFlag("0");
+                voiceCheckResultResponse = voiceCheckResultService.resetLastResultFlag(result);
+                rspCode = voiceCheckResultResponse.getRspcode();
+            }
 
             //更新语音质检结果
             if (rspCode.equals(WebUtil.SUCCESS)) {
@@ -174,7 +192,7 @@ public class VoiceCheckController {
             }
 
             //更新语音质检池（质检暂存不更新质检池）
-            if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) && rspCode.equals(WebUtil.SUCCESS)) {
+            if (rspCode.equals(WebUtil.SUCCESS) && (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK))) {
                 VoicePool voicePool = new VoicePool();
                 voicePool.setTouchId(checkResult.get("touchId").toString());
                 voicePool.setPoolStatus(Integer.parseInt(Constants.QM_CHECK_STATUS.CHECKED));
