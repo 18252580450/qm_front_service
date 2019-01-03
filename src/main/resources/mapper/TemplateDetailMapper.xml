@@ -648,6 +648,11 @@
              separator=" " open="case NODE_ID" close="end">
       when #{item.nodeId} then  #{item.nodeScore,jdbcType=TIMESTAMP}
     </foreach>
+    ,MODF_TIME =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case NODE_ID" close="end">
+      when #{item.nodeId} then  now()
+    </foreach>
     where NODE_ID in
     <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
       #{item.nodeId,jdbcType=VARCHAR}
