@@ -92,7 +92,7 @@ public class RestClient {
 		return o;
 	}
 	
-//	//带参数get请求
+	//带参数get请求
 //	@SuppressWarnings({ "rawtypes" })
 //	public  Object getForObjectWithHeader(String serviceUrl, Class respcalzz, Map<String, Object> params,
 //										  Map<String, String> headers) throws NoTokenException {
@@ -145,6 +145,7 @@ public class RestClient {
 		org.springframework.http.HttpEntity<String> requestEntity = new org.springframework.http.HttpEntity(reqobj,
 				requestHeaders);
 		ResponseEntity<String> response = null;
+		restTemplate = new RestTemplate();
 		response = restTemplate.exchange(serviceUrl, httpMethod, requestEntity, String.class);
 		String sttr = response.getBody();
 		Object o = JSONObject.parseObject(sttr, respcalzz);
@@ -171,8 +172,8 @@ public class RestClient {
 //		String token = TokenUtils.getInstance().getToken();//获取token
 //		if(token == null || token.equals("")) {
 //			throw new NoTokenException("获取不到Token");
-//		}else 		
-//		
+//		}else
+//
 //		return callRemoteServicetWithHeader( serviceUrl,  httpMethod,  reqobj,
 //				 respcalzz, headers, token);
 //	}
@@ -289,5 +290,12 @@ public class RestClient {
 		return reqHeaders;
 	}
 
+	public static void main(String[] args){
+		String url = "http://203.57.227.53:8082/tcwf/detail/getDetailMess?provCode=00030000&wrkfmId=1812041617580000045";
+		RestClient restClient = new RestClient();
+		Map params = new HashMap<>();
+		JSONObject  rsp =  (JSONObject)restClient.callRemoteServicetWithHeader(url,HttpMethod.POST,params,JSONObject.class,null,"1");
+		System.out.println(rsp.toJSONString());
+	}
 
 }

@@ -18,6 +18,8 @@ public interface VoiceCheckResultMapper {
 
     List<VoiceCheckResult> selectByExample(VoiceCheckResultExample example);
 
+    List<VoiceCheckResult> queryFirstInspectionId(VoiceCheckResult voiceCheckResult);  //查询首次质检流水号
+
     VoiceCheckResult selectByPrimaryKey(String inspectionId);
 
     int updateByExampleSelective(@Param("record") VoiceCheckResult record, @Param("example") VoiceCheckResultExample example);
@@ -27,4 +29,6 @@ public interface VoiceCheckResultMapper {
     int updateByPrimaryKeySelective(VoiceCheckResult record);
 
     int updateByPrimaryKey(VoiceCheckResult record);
+
+    int resetLastResultFlag(VoiceCheckResult record);   //重置之前质检的最新质检结果标志
 }
