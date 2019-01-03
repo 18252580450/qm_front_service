@@ -31,5 +31,5 @@ public interface TemplateDetailMapper {
 
     int updateByPrimaryKey(TemplateDetail record);
 
-    int update(List<Map> list);//新增方法
+    int update(Map map);//新增方法
 }

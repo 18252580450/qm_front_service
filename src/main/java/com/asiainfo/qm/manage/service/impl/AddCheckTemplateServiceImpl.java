@@ -146,8 +146,12 @@ public class AddCheckTemplateServiceImpl implements AddCheckTemplateService {
     @Override
     public TemplateDetailResponse update(List<Map> list) throws Exception{
         TemplateDetailResponse templateDetailResponse = new TemplateDetailResponse();
+        int result = 0;
         try {
-            int result = templateDetailMapper.update(list);
+            for(Map map : list) {//循环更新
+                result = templateDetailMapper.update(map);
+            }
+//            int result = templateDetailMapper.update(list);
             if (result > 0) {
                 templateDetailResponse.setRspcode(WebUtil.SUCCESS);
                 templateDetailResponse.setRspdesc("操作成功");
