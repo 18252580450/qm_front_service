@@ -36,10 +36,6 @@ public class AppealDealServiceImpl implements AppealDealService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         AppealDealResponse appealDealResponse = null;
         AppealDealExample example = new AppealDealExample();
-        String staffId = "";
-        if (null != params.get("staffId") && !"".equals(params.get("staffId"))) {
-            staffId = (String) params.get("staffId");
-        }
         try {
             AppealDealExample.Criteria criteria = example.createCriteria();
             if (null != params.get("checkType") && !"".equals(params.get("checkType"))) {
@@ -63,23 +59,19 @@ public class AppealDealServiceImpl implements AppealDealService {
             if (null != params.get("appealTimeBegin") && !"".equals(params.get("appealTimeBegin")) && null != params.get("appealTimeEnd") && !"".equals(params.get("appealTimeEnd"))) {
                 criteria.andAppealTimeBetween(sdf.parse((String) params.get("appealTimeBegin")), sdf.parse((String) params.get("appealTimeEnd")));
             }
-            List<UnionAppealDeal> list = appealDealMapper.unionSelectByExample(example);
-            //根据质检员id筛选
-            List<UnionAppealDeal> resultList = new Page<>();
-            for (UnionAppealDeal appealDeal : list
-            ) {
-                if (!staffId.equals("") && !appealDeal.getUserId().equals(staffId)) {
-                    continue;
-                }
-                resultList.add(appealDeal);
+            if (null != params.get("staffId") && !"".equals(params.get("staffId"))) {
+                criteria.andUserIdEqualTo((String) params.get("staffId"));
             }
+
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
-                Page<UnionAppealDeal> pagelist = (Page) resultList;
+                List<UnionAppealDeal> list = appealDealMapper.unionSelectByExample(example);
+                Page<UnionAppealDeal> pagelist = (Page) list;
                 appealDealResponse = new AppealDealResponse(pagelist);
             } else {
                 appealDealResponse = new AppealDealResponse();
-                appealDealResponse.setData(resultList);
+                List<UnionAppealDeal> list = appealDealMapper.unionSelectByExample(example);
+                appealDealResponse.setData(list);
             }
 
             if (null != appealDealResponse.getData() && appealDealResponse.getData().size() > 0) {

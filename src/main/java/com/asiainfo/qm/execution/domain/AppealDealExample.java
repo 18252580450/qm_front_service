@@ -105,6 +105,11 @@ public class AppealDealExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
+        public Criteria andUserIdEqualTo(String value) {
+            addCriterion("USER_ID =", value, "userId");
+            return (Criteria) this;
+        }
+
         public Criteria andAppealIdIsNull() {
             addCriterion("APPEAL_ID is null");
             return (Criteria) this;
