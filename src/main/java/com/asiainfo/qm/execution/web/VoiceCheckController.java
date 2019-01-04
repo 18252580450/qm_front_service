@@ -138,7 +138,9 @@ public class VoiceCheckController {
                 result.setTouchId(checkResult.get("touchId").toString());
                 result.setLastResultFlag("0");
                 voiceCheckResultResponse = voiceCheckResultService.resetLastResultFlag(result);
-                rspCode = voiceCheckResultResponse.getRspcode();
+                if (voiceCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
+                    rspCode = WebUtil.FAIL;
+                }
             }
 
             //更新语音质检结果

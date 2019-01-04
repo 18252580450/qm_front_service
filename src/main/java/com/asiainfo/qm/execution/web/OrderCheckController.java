@@ -196,7 +196,9 @@ public class OrderCheckController {
                 orderCheckResult.setTouchId(orderCheckInfo.get("touchId").toString());
                 orderCheckResult.setLastResultFlag("0");
                 orderCheckResultResponse = orderCheckResultService.resetLastResultFlag(orderCheckResult);
-                rspCode = orderCheckResultResponse.getRspcode();
+                if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
+                    rspCode = WebUtil.FAIL;
+                }
             }
 
             //工单质检结果更新
