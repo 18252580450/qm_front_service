@@ -510,7 +510,9 @@ public class AppealDealController {
                 if (rspCode.equals(WebUtil.SUCCESS)) {
                     AppealDeal appealDeal = new AppealDeal();
                     appealDeal.setAppealId(appealId);
-                    appealDeal.setAppealStatus(approveStatus);
+                    if (approveStatus.equals(Constants.QM_APPROVE_STATUS.DENY)) {
+                        appealDeal.setAppealStatus(Constants.QM_APPEAL_STATUS.REJECT);  //申诉过程中驳回则更新申诉状态
+                    }
                     appealDeal.setPreNodeDealStaffId(reqMap.get("staffId").toString());
                     appealDeal.setPreProcessId(preProcessId);
                     appealDeal.setPreNodeId(preNodeId);
