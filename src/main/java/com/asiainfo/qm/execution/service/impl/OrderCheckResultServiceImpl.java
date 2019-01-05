@@ -6,8 +6,6 @@ import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.OrderCheckResultMapper;
 import com.asiainfo.qm.manage.domain.OrderCheckResult;
 import com.asiainfo.qm.manage.domain.OrderCheckResultExample;
-import com.asiainfo.qm.manage.service.impl.CheckItemServiceImpl;
-import com.asiainfo.qm.manage.util.Constants;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -16,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.rmi.CORBA.Util;
 import java.util.List;
 import java.util.Map;
 
@@ -101,108 +98,9 @@ public class OrderCheckResultServiceImpl implements OrderCheckResultService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("质检结果查询异常", e);
+            logger.error("原质检流水查询异常", e);
             orderCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
-            orderCheckResultResponse.setRspdesc("质检结果查询异常");
-        }
-        return orderCheckResultResponse;
-    }
-
-    @Override
-    public OrderCheckResultResponse addOrderCheckResult(List<OrderCheckResult> orderCheckResultList) throws Exception {
-        OrderCheckResultResponse orderCheckResultResponse = new OrderCheckResultResponse();
-        String resultStatus = orderCheckResultList.get(0).getResultStatus();
-        try {
-            int result = 0;
-            for (OrderCheckResult orderCheckResult : orderCheckResultList
-            ) {
-                result = orderCheckResultMapper.insertSelective(orderCheckResult);
-                if (result == 0) {
-                    break;
-                }
-            }
-            if (result > 0) {
-                orderCheckResultResponse.setRspcode(WebUtil.SUCCESS);
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || resultStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
-                    orderCheckResultResponse.setRspdesc("提交成功");
-                }
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.TEMP_SAVE)) {
-                    orderCheckResultResponse.setRspdesc("保存成功");
-                }
-            } else {
-                orderCheckResultResponse.setRspcode(WebUtil.FAIL);
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || resultStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
-                    orderCheckResultResponse.setRspdesc("提交失败");
-                }
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.TEMP_SAVE)) {
-                    orderCheckResultResponse.setRspdesc("保存失败");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("工单质检异常", e);
-            orderCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
-            orderCheckResultResponse.setRspdesc("工单质检异常");
-        }
-        return orderCheckResultResponse;
-    }
-
-    @Override
-    public OrderCheckResultResponse updateOrderCheckResult(List<OrderCheckResult> orderCheckResultList) throws Exception {
-        OrderCheckResultResponse orderCheckResultResponse = new OrderCheckResultResponse();
-        String resultStatus = orderCheckResultList.get(0).getResultStatus();
-        try {
-            int result = 0;
-            for (OrderCheckResult orderCheckResult : orderCheckResultList
-            ) {
-                result = orderCheckResultMapper.updateByPrimaryKeySelective(orderCheckResult);
-                if (result == 0) {
-                    break;
-                }
-            }
-            if (result > 0) {
-                orderCheckResultResponse.setRspcode(WebUtil.SUCCESS);
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || resultStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
-                    orderCheckResultResponse.setRspdesc("提交成功");
-                }
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.TEMP_SAVE)) {
-                    orderCheckResultResponse.setRspdesc("保存成功");
-                }
-            } else {
-                orderCheckResultResponse.setRspcode(WebUtil.FAIL);
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || resultStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
-                    orderCheckResultResponse.setRspdesc("提交失败");
-                }
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.TEMP_SAVE)) {
-                    orderCheckResultResponse.setRspdesc("保存失败");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("工单质检异常", e);
-            orderCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
-            orderCheckResultResponse.setRspdesc("工单质检异常");
-        }
-        return orderCheckResultResponse;
-    }
-
-    @Override
-    public OrderCheckResultResponse resetLastResultFlag(OrderCheckResult orderCheckResult) throws Exception {
-        OrderCheckResultResponse orderCheckResultResponse = new OrderCheckResultResponse();
-        try {
-            int result = orderCheckResultMapper.resetLastResultFlag(orderCheckResult);
-            if (result > 0) {
-                orderCheckResultResponse.setRspcode(WebUtil.SUCCESS);
-                orderCheckResultResponse.setRspdesc("最新质检结果标识重置成功");
-            } else {
-                orderCheckResultResponse.setRspcode(WebUtil.FAIL);
-                orderCheckResultResponse.setRspdesc("最新质检结果标识重置失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("最新质检结果标识重置异常", e);
-            orderCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
-            orderCheckResultResponse.setRspdesc("最新质检结果标识重置异常");
+            orderCheckResultResponse.setRspdesc("原质检流水查询异常");
         }
         return orderCheckResultResponse;
     }
