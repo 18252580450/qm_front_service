@@ -1,6 +1,5 @@
 package com.asiainfo.qm.execution.service;
 
-import com.asiainfo.qm.execution.domain.VoicePool;
 import com.asiainfo.qm.execution.vo.VoicePoolResponse;
 import java.util.List;
 import java.util.Map;

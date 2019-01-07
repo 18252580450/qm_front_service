@@ -1,9 +1,7 @@
 package com.asiainfo.qm.execution.service;
 
-import com.asiainfo.qm.execution.domain.AppealDealRecord;
 import com.asiainfo.qm.execution.vo.AppealDealRecordResponse;
 
-import java.util.List;
 import java.util.Map;
 
 /**
