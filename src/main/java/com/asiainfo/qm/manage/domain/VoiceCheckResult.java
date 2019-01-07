@@ -6,6 +6,8 @@ import java.util.Date;
 public class VoiceCheckResult {
     private String inspectionId;
 
+    private QmPlan qmPlan;
+
     private String tenantId;
 
     private String acceptMonth;
@@ -114,6 +116,14 @@ public class VoiceCheckResult {
 
     public void setInspectionId(String inspectionId) {
         this.inspectionId = inspectionId == null ? null : inspectionId.trim();
+    }
+
+    public QmPlan getQmPlan() {
+        return qmPlan;
+    }
+
+    public void setQmPlan(QmPlan qmPlan) {
+        this.qmPlan = qmPlan;
     }
 
     public String getTenantId() {
