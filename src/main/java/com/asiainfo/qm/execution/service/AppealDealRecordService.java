@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public interface AppealDealRecordService {
     /**
-     * 质检申诉查询
+     * 申诉审批记录查询
      */
     AppealDealRecordResponse queryAppealRecord(Map params, int start, int limit) throws Exception;
 

@@ -1,17 +1,10 @@
 package com.asiainfo.qm.execution.web;
 
 import com.alibaba.fastjson.JSONObject;
-import com.asiainfo.qm.execution.domain.VoicePool;
 import com.asiainfo.qm.execution.service.VoiceCheckResultDetailService;
 import com.asiainfo.qm.execution.service.VoiceCheckService;
-import com.asiainfo.qm.execution.service.VoicePoolService;
 import com.asiainfo.qm.execution.vo.*;
-import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.execution.service.VoiceCheckResultService;
-import com.asiainfo.qm.manage.domain.VoiceCheckResult;
-import com.asiainfo.qm.manage.domain.VoiceCheckResultDetail;
-import com.asiainfo.qm.manage.util.Constants;
-import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -23,10 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,11 +35,6 @@ public class VoiceCheckController {
     private VoiceCheckResultService voiceCheckResultService;
     @Autowired
     private VoiceCheckResultDetailService voiceCheckResultDetailService;
-    @Autowired
-    private VoicePoolService voicePoolService;
-
-    @Autowired
-    private SequenceUtils sequenceUtils;
 
     @ApiOperation(value = "前端调用接口进行语音质检", notes = "qm_configservice语音质检", response = VoiceCheckServiceResponse.class)
     @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
