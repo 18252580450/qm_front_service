@@ -18,8 +18,6 @@ public interface WorkformPoolService {
 
     WorkformPoolResponse updateCheck(List<Map> list) throws Exception;
 
-    WorkformPoolResponse updateWorkFormPool(WorkformPool workformPool) throws Exception;
-
     /**
      * 申诉通过重新质检
      */

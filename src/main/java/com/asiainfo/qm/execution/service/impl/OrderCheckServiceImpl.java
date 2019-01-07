@@ -386,13 +386,13 @@ public class OrderCheckServiceImpl implements OrderCheckService {
                 workFormPoolResponse.setRspcode(WebUtil.SUCCESS);
             } else {
                 workFormPoolResponse.setRspcode(WebUtil.FAIL);
-                workFormPoolResponse.setRspdesc("质检池更新失败");
+                workFormPoolResponse.setRspdesc("工单质检池更新失败");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("质检池更新异常", e);
+            logger.error("工单质检池更新异常", e);
             workFormPoolResponse.setRspcode(WebUtil.EXCEPTION);
-            workFormPoolResponse.setRspdesc("质检池更新异常");
+            workFormPoolResponse.setRspdesc("工单质检池更新异常");
         }
         return workFormPoolResponse;
     }

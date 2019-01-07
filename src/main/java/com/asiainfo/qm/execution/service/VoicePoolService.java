@@ -17,11 +17,6 @@ public interface VoicePoolService {
     VoicePoolResponse deleteItems(List<String> idList) throws Exception;
 
     /**
-     * 语音质检池更新（质检之后）
-     */
-    VoicePoolResponse updateVoicePool(VoicePool voicePool) throws Exception;
-
-    /**
      * 申诉通过重新质检
      */
     VoicePoolResponse recheckUpdate(VoicePool voicePool) throws Exception;

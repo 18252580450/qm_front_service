@@ -6,8 +6,6 @@ import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.VoiceCheckResultMapper;
 import com.asiainfo.qm.manage.domain.VoiceCheckResult;
 import com.asiainfo.qm.manage.domain.VoiceCheckResultExample;
-import com.asiainfo.qm.manage.service.impl.CheckItemServiceImpl;
-import com.asiainfo.qm.manage.util.Constants;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -100,94 +98,9 @@ public class VoiceCheckResultServiceImpl implements VoiceCheckResultService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("质检结果查询异常", e);
+            logger.error("原质检流水查询异常", e);
             voiceCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
-            voiceCheckResultResponse.setRspdesc("质检结果查询异常");
-        }
-        return voiceCheckResultResponse;
-    }
-
-    @Override
-    public VoiceCheckResultResponse addVoiceCheckResult(VoiceCheckResult voiceCheckResult) throws Exception {
-        VoiceCheckResultResponse voiceCheckResultResponse = new VoiceCheckResultResponse();
-        String resultStatus = voiceCheckResult.getResultStatus();
-        try {
-            int result = voiceCheckResultMapper.insertSelective(voiceCheckResult);
-            if (result > 0) {
-                voiceCheckResultResponse.setRspcode(WebUtil.SUCCESS);
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || resultStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
-                    voiceCheckResultResponse.setRspdesc("提交成功");
-                }
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.TEMP_SAVE)) {
-                    voiceCheckResultResponse.setRspdesc("保存成功");
-                }
-            } else {
-                voiceCheckResultResponse.setRspcode(WebUtil.FAIL);
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || resultStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
-                    voiceCheckResultResponse.setRspdesc("提交失败");
-                }
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.TEMP_SAVE)) {
-                    voiceCheckResultResponse.setRspdesc("保存失败");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("语音质检异常", e);
-            voiceCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
-            voiceCheckResultResponse.setRspdesc("语音质检异常");
-        }
-        return voiceCheckResultResponse;
-    }
-
-    @Override
-    public VoiceCheckResultResponse updateVoiceCheckResult(VoiceCheckResult voiceCheckResult) throws Exception {
-        VoiceCheckResultResponse voiceCheckResultResponse = new VoiceCheckResultResponse();
-        String resultStatus = voiceCheckResult.getResultStatus();
-        try {
-            int result = voiceCheckResultMapper.updateByPrimaryKeySelective(voiceCheckResult);
-            if (result > 0) {
-                voiceCheckResultResponse.setRspcode(WebUtil.SUCCESS);
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || resultStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
-                    voiceCheckResultResponse.setRspdesc("提交成功");
-                }
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.TEMP_SAVE)) {
-                    voiceCheckResultResponse.setRspdesc("保存成功");
-                }
-            } else {
-                voiceCheckResultResponse.setRspcode(WebUtil.FAIL);
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || resultStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
-                    voiceCheckResultResponse.setRspdesc("提交失败");
-                }
-                if (resultStatus.equals(Constants.QM_CHECK_RESULT.TEMP_SAVE)) {
-                    voiceCheckResultResponse.setRspdesc("保存失败");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("语音质检异常", e);
-            voiceCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
-            voiceCheckResultResponse.setRspdesc("语音质检异常");
-        }
-        return voiceCheckResultResponse;
-    }
-
-    @Override
-    public VoiceCheckResultResponse resetLastResultFlag(VoiceCheckResult voiceCheckResult) throws Exception {
-        VoiceCheckResultResponse voiceCheckResultResponse = new VoiceCheckResultResponse();
-        try {
-            int result = voiceCheckResultMapper.resetLastResultFlag(voiceCheckResult);
-            if (result > 0) {
-                voiceCheckResultResponse.setRspcode(WebUtil.SUCCESS);
-                voiceCheckResultResponse.setRspdesc("最新质检结果标识重置成功");
-            } else {
-                voiceCheckResultResponse.setRspcode(WebUtil.FAIL);
-                voiceCheckResultResponse.setRspdesc("最新质检结果标识重置失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("最新质检结果标识重置异常", e);
-            voiceCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
-            voiceCheckResultResponse.setRspdesc("最新质检结果标识重置异常");
+            voiceCheckResultResponse.setRspdesc("原质检流水查询异常");
         }
         return voiceCheckResultResponse;
     }

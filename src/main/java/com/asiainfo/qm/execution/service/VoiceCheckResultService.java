@@ -24,21 +24,6 @@ public interface VoiceCheckResultService {
     VoiceCheckResultResponse queryOriginInspectionId(Map params) throws Exception;
 
     /**
-     * 语音质检结果新增
-     */
-    VoiceCheckResultResponse addVoiceCheckResult(VoiceCheckResult voiceCheckResult) throws Exception;
-
-    /**
-     * 语音质检结果修改
-     */
-    VoiceCheckResultResponse updateVoiceCheckResult(VoiceCheckResult voiceCheckResult) throws Exception;
-
-    /**
-     * 重置之前质检的最新质检结果标志
-     */
-    VoiceCheckResultResponse resetLastResultFlag(VoiceCheckResult voiceCheckResult) throws Exception;
-
-    /**
      * 语音质检结果申诉信息更新
      */
     VoiceCheckResultResponse updateAppealInfo(VoiceCheckResult voiceCheckResult) throws Exception;
