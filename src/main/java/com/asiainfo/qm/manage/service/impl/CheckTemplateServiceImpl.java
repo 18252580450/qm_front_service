@@ -166,12 +166,26 @@ public class CheckTemplateServiceImpl implements CheckTemplateService {
 			list.get(0).setTemplateName(checkTemplate.getTemplateName());
 			String id= String.valueOf(sequenceUtils.getSequence("t_qm_checktemplate"));
 			list.get(0).setTemplateId(id);
-			list.get(0).setCopyedTimes(0);//复制出来的考评信息不能被复制
+			list.get(0).setCopyedTimes(0);//复制出来的考评信息不能被复制,因此拷贝次数应该都为0
 			list.get(0).setTemplateName(checkTemplate.getTemplateName()+"(复制"+String.valueOf(checkTemplate.getCopyedTimes()+1)+")");//模板名称后面加（复制+次数）
 			//已复制次数加1,并更新到被复制模板信息中
 			checkTemplate.setCopyedTimes(checkTemplate.getCopyedTimes()+1);
-			checkTemplateMapper.updateByPrimaryKey(checkTemplate);
+			int result = checkTemplateMapper.updateByPrimaryKey(checkTemplate);
+			if(result > 0){
+				checkTemplateResponse.setRspcode(WebUtil.SUCCESS);
+				checkTemplateResponse.setRspdesc("更新拷贝模版次数成功");
+			}else {
+				checkTemplateResponse.setRspcode(WebUtil.FAIL);
+				checkTemplateResponse.setRspdesc("更新拷贝模版次数出错");
+			}
 			int resultNew = checkTemplateMapper.insertSelective(list.get(0));
+			if(resultNew > 0){
+				checkTemplateResponse.setRspcode(WebUtil.SUCCESS);
+				checkTemplateResponse.setRspdesc("插入复制模版信息成功");
+			}else {
+				checkTemplateResponse.setRspcode(WebUtil.FAIL);
+				checkTemplateResponse.setRspdesc("插入复制模版信息出错");
+			}
 
 			Map mapNew =new HashMap();
 			mapNew.put("templateId",checkTemplate.getTemplateId());
@@ -184,7 +198,7 @@ public class CheckTemplateServiceImpl implements CheckTemplateService {
 			}
 
 			TemplateDetailResponse detailResponse = addCheckTemplateService.insertTempDetail(listNew);
-			if(resultNew > 0&&detailResponse.getRspdesc().equals("新增成功")){
+			if(detailResponse.getRspdesc().equals("新增成功")){
 				checkTemplateResponse.setRspcode(WebUtil.SUCCESS);
 				checkTemplateResponse.setRspdesc("复制成功");
 			}else {
