@@ -78,7 +78,6 @@ public class AppealDealServiceImpl implements AppealDealService {
         int nextNodeId = 0;             //下一子节点编码
         Date currentTime = DateUtil.getCurrontTime();
         try {
-            String rspCode = WebUtil.SUCCESS;
             //根据申诉人部门id绑定申诉流程
             Map<String, String> mainProcessParams = new HashMap<String, String>();
             mainProcessParams.put("departmentId", departmentId);
@@ -88,12 +87,12 @@ public class AppealDealServiceImpl implements AppealDealService {
             //查询主流程
             AppealProcessResponse appealProcessResponse = appealProcessService.queryAppealProcess(mainProcessParams, 0, 0);
             if (appealProcessResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
-                rspCode = WebUtil.FAIL;
                 appealDealResponse.setRspdesc("申诉流程查询异常！");
+                return appealDealResponse;
             }
             if (appealProcessResponse.getRspcode().equals(WebUtil.FAIL)) {
-                rspCode = WebUtil.FAIL;
                 appealDealResponse.setRspdesc("请联系管理员添加申诉流程！");
+                return appealDealResponse;
             }
             if (null != appealProcessResponse.getData() && appealProcessResponse.getData().size() > 0) {
                 int processNum = 1;  //主流程的子流程数
@@ -109,20 +108,20 @@ public class AppealDealServiceImpl implements AppealDealService {
                 criteria.andTouchIdEqualTo((String) reqMap.get("touchId"));
                 appealNum = appealDealMapper.countByExample(example);
                 if (appealNum >= maxAppealNum) {
-                    rspCode = WebUtil.FAIL;
                     appealDealResponse.setRspdesc("超过最大申诉次数！");
+                    return appealDealResponse;
                 } else {
                     //查询子流程
                     Map<String, String> subProcessParams = new HashMap<String, String>();
                     subProcessParams.put("parentProcessId", mainProcessId);
                     appealProcessResponse = appealProcessService.queryAppealProcess(subProcessParams, 0, 0);
                     if (appealProcessResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
-                        rspCode = WebUtil.FAIL;
                         appealDealResponse.setRspdesc("子流程查询异常");
+                        return appealDealResponse;
                     }
                     if (appealProcessResponse.getRspcode().equals(WebUtil.FAIL)) {
-                        rspCode = WebUtil.FAIL;
                         appealDealResponse.setRspdesc("请联系管理员添加子流程");
+                        return appealDealResponse;
                     }
                     if (null != appealProcessResponse.getData() && appealProcessResponse.getData().size() > 0) {
                         int nodeNum = 1;   //第一子流程的节点数
@@ -158,12 +157,12 @@ public class AppealDealServiceImpl implements AppealDealService {
                         nodeParams.put("processId", currentProcessId);
                         AppealNodeResponse appealNodeResponse = appealNodeService.queryAppealNode(nodeParams, 0, 0);
                         if (appealNodeResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
-                            rspCode = WebUtil.FAIL;
                             appealDealResponse.setRspdesc("申诉节点查询异常");
+                            return appealDealResponse;
                         }
                         if (appealNodeResponse.getRspcode().equals(WebUtil.FAIL)) {
-                            rspCode = WebUtil.FAIL;
                             appealDealResponse.setRspdesc("请联系管理员添加申诉节点");
+                            return appealDealResponse;
                         }
                         if (null != appealNodeResponse.getData() && appealNodeResponse.getData().size() > 0) {
                             for (AppealNode appealNode : appealNodeResponse.getData()
@@ -189,12 +188,12 @@ public class AppealDealServiceImpl implements AppealDealService {
                                     nodeParams.put("processId", nextProcessId);
                                     appealNodeResponse = appealNodeService.queryAppealNode(nodeParams, 0, 0);
                                     if (appealNodeResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
-                                        rspCode = WebUtil.FAIL;
                                         appealDealResponse.setRspdesc("申诉节点查询异常");
+                                        return appealDealResponse;
                                     }
                                     if (appealNodeResponse.getRspcode().equals(WebUtil.FAIL)) {
-                                        rspCode = WebUtil.FAIL;
                                         appealDealResponse.setRspdesc("请联系管理员添加申诉节点");
+                                        return appealDealResponse;
                                     }
                                     if (null != appealNodeResponse.getData() && appealNodeResponse.getData().size() > 0) {
                                         for (AppealNode appealNode : appealNodeResponse.getData()
@@ -216,63 +215,62 @@ public class AppealDealServiceImpl implements AppealDealService {
             }
 
             //新增申诉数据
-            if (rspCode.equals(WebUtil.SUCCESS)) {
-                AppealDeal appealDeal = new AppealDeal();
-                appealDeal.setCheckType(reqMap.get("checkType").toString());
-                appealDeal.setTouchId(reqMap.get("touchId").toString());
-                appealDeal.setInspectionId(reqMap.get("inspectionId").toString());
-                appealDeal.setAppealId(appealId);
-                appealDeal.setAppealStaffId(reqMap.get("appealStaffId").toString());
-                appealDeal.setAppealStaffName(reqMap.get("appealStaffName").toString());
-                appealDeal.setAppealReason(reqMap.get("appealReason").toString());
-                appealDeal.setAppealTime(currentTime);
-                appealDeal.setAppealStatus(Constants.QM_APPEAL_STATUS.APPEALING);
-                appealDeal.setMainProcessId(mainProcessId);
-                appealDeal.setCurrentProcessId(currentProcessId);
-                appealDeal.setCurrentNodeId(currentNodeId);
-                appealDeal.setCurrentNodeName(currentNodeName);
-                appealDeal.setNextProcessId(nextProcessId);
-                appealDeal.setNextNodeId(nextNodeId);
+            AppealDeal appealDeal = new AppealDeal();
+            appealDeal.setCheckType(reqMap.get("checkType").toString());
+            appealDeal.setTouchId(reqMap.get("touchId").toString());
+            appealDeal.setInspectionId(reqMap.get("inspectionId").toString());
+            appealDeal.setAppealId(appealId);
+            appealDeal.setAppealStaffId(reqMap.get("appealStaffId").toString());
+            appealDeal.setAppealStaffName(reqMap.get("appealStaffName").toString());
+            appealDeal.setAppealReason(reqMap.get("appealReason").toString());
+            appealDeal.setAppealTime(currentTime);
+            appealDeal.setAppealStatus(Constants.QM_APPEAL_STATUS.APPEALING);
+            appealDeal.setMainProcessId(mainProcessId);
+            appealDeal.setCurrentProcessId(currentProcessId);
+            appealDeal.setCurrentNodeId(currentNodeId);
+            appealDeal.setCurrentNodeName(currentNodeName);
+            appealDeal.setNextProcessId(nextProcessId);
+            appealDeal.setNextNodeId(nextNodeId);
 
-                appealDealResponse = createAppeal(appealDeal);
-                rspCode = appealDealResponse.getRspcode();
+            appealDealResponse = createAppeal(appealDeal);
+            if (!appealDealResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                return appealDealResponse;
             }
 
             //更新质检结果（申诉信息、质检状态）
-            if (rspCode.equals(WebUtil.SUCCESS)) {
-                if (Constants.QM_CHECK_TYPE.VOICE.equals(reqMap.get("checkType").toString())) {
-                    VoiceCheckResult voiceCheckResult = new VoiceCheckResult();
-                    voiceCheckResult.setInspectionId(reqMap.get("inspectionId").toString());
-                    voiceCheckResult.setAppealId(appealId);
-                    voiceCheckResult.setAppealNum(1);
-                    voiceCheckResult.setAppealTime(currentTime);
-                    voiceCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEALING);
+            if (Constants.QM_CHECK_TYPE.VOICE.equals(reqMap.get("checkType").toString())) {
+                VoiceCheckResult voiceCheckResult = new VoiceCheckResult();
+                voiceCheckResult.setInspectionId(reqMap.get("inspectionId").toString());
+                voiceCheckResult.setAppealId(appealId);
+                voiceCheckResult.setAppealNum(1);
+                voiceCheckResult.setAppealTime(currentTime);
+                voiceCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEALING);
 
-                    VoiceCheckResultResponse voiceCheckResultResponse = updateVoiceAppealInfo(voiceCheckResult);
-                    rspCode = voiceCheckResultResponse.getRspcode();
-                    if (!rspCode.equals(WebUtil.SUCCESS)) {
-                        appealDealResponse.setRspdesc(voiceCheckResultResponse.getRspdesc());
-                    }
-                }
-                if (Constants.QM_CHECK_TYPE.ORDER.equals(reqMap.get("checkType").toString())) {
-                    OrderCheckResult orderCheckResult = new OrderCheckResult();
-                    orderCheckResult.setInspectionId(reqMap.get("inspectionId").toString());
-                    orderCheckResult.setAppealId(appealId);
-                    orderCheckResult.setAppealNum(1);
-                    orderCheckResult.setAppealTime(currentTime);
-                    orderCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEALING);
-
-                    OrderCheckResultResponse orderCheckResultResponse = updateOrderAppealInfo(orderCheckResult);
-                    rspCode = orderCheckResultResponse.getRspcode();
-                    if (!rspCode.equals(WebUtil.SUCCESS)) {
-                        appealDealResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
-                    }
+                VoiceCheckResultResponse voiceCheckResultResponse = updateVoiceAppealInfo(voiceCheckResult);
+                if (!voiceCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    appealDealResponse.setRspcode(voiceCheckResultResponse.getRspcode());
+                    appealDealResponse.setRspdesc(voiceCheckResultResponse.getRspdesc());
+                    return appealDealResponse;
                 }
             }
-            appealDealResponse.setRspcode(rspCode);
-            if (rspCode.equals(WebUtil.SUCCESS)) {
-                appealDealResponse.setRspdesc("提交成功");
+            if (Constants.QM_CHECK_TYPE.ORDER.equals(reqMap.get("checkType").toString())) {
+                OrderCheckResult orderCheckResult = new OrderCheckResult();
+                orderCheckResult.setInspectionId(reqMap.get("inspectionId").toString());
+                orderCheckResult.setAppealId(appealId);
+                orderCheckResult.setAppealNum(1);
+                orderCheckResult.setAppealTime(currentTime);
+                orderCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEALING);
+
+                OrderCheckResultResponse orderCheckResultResponse = updateOrderAppealInfo(orderCheckResult);
+                if (!orderCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    appealDealResponse.setRspcode(orderCheckResultResponse.getRspcode());
+                    appealDealResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
+                    return appealDealResponse;
+                }
             }
+            //提交成功
+            appealDealResponse.setRspcode(WebUtil.SUCCESS);
+            appealDealResponse.setRspdesc("提交成功");
         } catch (Exception e) {
             logger.error("申诉提交异常", e);
             appealDealResponse.setRspcode(WebUtil.EXCEPTION);
@@ -356,7 +354,6 @@ public class AppealDealServiceImpl implements AppealDealService {
         int nextNodeId = 0;                                                             //下一子节点编码
         Date currentTime = DateUtil.getCurrontTime();
         try {
-            String rspCode = WebUtil.SUCCESS;
             if (preProcessId.equals(currentProcessId) && preNodeId == currentNodeId) {  //申诉末节点
                 //更新申诉流程状态
                 AppealDeal appealDeal = new AppealDeal();
@@ -367,76 +364,79 @@ public class AppealDealServiceImpl implements AppealDealService {
                     appealDeal.setAppealStatus(Constants.QM_APPEAL_STATUS.REJECT);
                 }
                 appealDealResponse = updateAppeal(appealDeal);
-                rspCode = appealDealResponse.getRspcode();
-
+                if (!appealDealResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    return appealDealResponse;
+                }
+                //查询当前子流程名称
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("processId", preProcessId);
+                AppealProcessResponse appealProcessResponse = appealProcessService.queryAppealProcess(params, 0, 0);
+                if (!appealProcessResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    appealDealResponse.setRspcode(appealProcessResponse.getRspcode());
+                    appealDealResponse.setRspdesc(appealProcessResponse.getRspdesc());
+                    return appealDealResponse;
+                }
                 //新增审批记录
-                if (rspCode.equals(WebUtil.SUCCESS)) {
-                    //查询当前子流程名称
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("processId", preProcessId);
-                    AppealProcessResponse appealProcessResponse = appealProcessService.queryAppealProcess(params, 0, 0);
-                    if (!appealProcessResponse.getRspcode().equals(WebUtil.SUCCESS)) {
-                        rspCode = WebUtil.FAIL;
-                    }
-                    if (null != appealProcessResponse.getData() && appealProcessResponse.getData().size() > 0) {
-                        String currentProcessName = appealProcessResponse.getData().get(0).getProcessName();
-                        AppealDealRecord appealDealRecord = new AppealDealRecord();
-                        appealDealRecord.setCheckType(reqMap.get("checkType").toString());
-                        appealDealRecord.setTouchId(reqMap.get("touchId").toString());
-                        appealDealRecord.setInspectionId(reqMap.get("inspectionId").toString());
-                        appealDealRecord.setAppealId(appealId);
-                        appealDealRecord.setProcessId(preProcessId);
-                        appealDealRecord.setProcessName(currentProcessName);
-                        appealDealRecord.setNodeId(preNodeId);
-                        appealDealRecord.setNodeName(preNodeName);
-                        appealDealRecord.setApproveStaffId(reqMap.get("staffId").toString());
-                        appealDealRecord.setApproveStaffName(reqMap.get("staffName").toString());
-                        appealDealRecord.setApproveTime(currentTime);
-                        appealDealRecord.setApproveStatus(approveStatus);
-                        appealDealRecord.setApproveSuggestion(reqMap.get("approveSuggestion").toString());
+                if (null != appealProcessResponse.getData() && appealProcessResponse.getData().size() > 0) {
+                    String currentProcessName = appealProcessResponse.getData().get(0).getProcessName();
+                    AppealDealRecord appealDealRecord = new AppealDealRecord();
+                    appealDealRecord.setCheckType(reqMap.get("checkType").toString());
+                    appealDealRecord.setTouchId(reqMap.get("touchId").toString());
+                    appealDealRecord.setInspectionId(reqMap.get("inspectionId").toString());
+                    appealDealRecord.setAppealId(appealId);
+                    appealDealRecord.setProcessId(preProcessId);
+                    appealDealRecord.setProcessName(currentProcessName);
+                    appealDealRecord.setNodeId(preNodeId);
+                    appealDealRecord.setNodeName(preNodeName);
+                    appealDealRecord.setApproveStaffId(reqMap.get("staffId").toString());
+                    appealDealRecord.setApproveStaffName(reqMap.get("staffName").toString());
+                    appealDealRecord.setApproveTime(currentTime);
+                    appealDealRecord.setApproveStatus(approveStatus);
+                    appealDealRecord.setApproveSuggestion(reqMap.get("approveSuggestion").toString());
 
-                        AppealDealRecordResponse appealDealRecordResponse = createAppealRecord(appealDealRecord);
-                        rspCode = appealDealRecordResponse.getRspcode();
-                        if (!rspCode.equals(WebUtil.SUCCESS)) {
-                            appealDealResponse.setRspdesc(appealDealRecordResponse.getRspdesc());
-                        }
+                    AppealDealRecordResponse appealDealRecordResponse = createAppealRecord(appealDealRecord);
+                    if (!appealDealRecordResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                        appealDealResponse.setRspcode(appealDealRecordResponse.getRspcode());
+                        appealDealResponse.setRspdesc(appealDealRecordResponse.getRspdesc());
+                        return appealDealResponse;
                     }
                 }
+
                 //更新质检结果（质检状态）
-                if (rspCode.equals(WebUtil.SUCCESS)) {
-                    if (Constants.QM_CHECK_TYPE.VOICE.equals(reqMap.get("checkType").toString())) {
-                        VoiceCheckResult voiceCheckResult = new VoiceCheckResult();
-                        voiceCheckResult.setInspectionId(reqMap.get("inspectionId").toString());
-                        if (approveStatus.equals(Constants.QM_APPROVE_STATUS.PASS)) {
-                            voiceCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_PASS);
-                        } else {
-                            voiceCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_DENY);
-                        }
-
-                        VoiceCheckResultResponse voiceCheckResultResponse = updateVoiceAppealInfo(voiceCheckResult);
-                        rspCode = voiceCheckResultResponse.getRspcode();
-                        if (!rspCode.equals(WebUtil.SUCCESS)) {
-                            appealDealResponse.setRspdesc(voiceCheckResultResponse.getRspdesc());
-                        }
+                if (Constants.QM_CHECK_TYPE.VOICE.equals(reqMap.get("checkType").toString())) {
+                    VoiceCheckResult voiceCheckResult = new VoiceCheckResult();
+                    voiceCheckResult.setInspectionId(reqMap.get("inspectionId").toString());
+                    if (approveStatus.equals(Constants.QM_APPROVE_STATUS.PASS)) {
+                        voiceCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_PASS);
+                    } else {
+                        voiceCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_DENY);
                     }
-                    if (Constants.QM_CHECK_TYPE.ORDER.equals(reqMap.get("checkType").toString())) {
-                        OrderCheckResult orderCheckResult = new OrderCheckResult();
-                        orderCheckResult.setInspectionId(reqMap.get("inspectionId").toString());
-                        if (approveStatus.equals(Constants.QM_APPROVE_STATUS.PASS)) {
-                            orderCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_PASS);
-                        } else {
-                            orderCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_DENY);
-                        }
 
-                        OrderCheckResultResponse orderCheckResultResponse = updateOrderAppealInfo(orderCheckResult);
-                        rspCode = orderCheckResultResponse.getRspcode();
-                        if (!rspCode.equals(WebUtil.SUCCESS)) {
-                            appealDealResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
-                        }
+                    VoiceCheckResultResponse voiceCheckResultResponse = updateVoiceAppealInfo(voiceCheckResult);
+                    if (!voiceCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                        appealDealResponse.setRspcode(voiceCheckResultResponse.getRspcode());
+                        appealDealResponse.setRspdesc(voiceCheckResultResponse.getRspdesc());
+                        return appealDealResponse;
+                    }
+                }
+                if (Constants.QM_CHECK_TYPE.ORDER.equals(reqMap.get("checkType").toString())) {
+                    OrderCheckResult orderCheckResult = new OrderCheckResult();
+                    orderCheckResult.setInspectionId(reqMap.get("inspectionId").toString());
+                    if (approveStatus.equals(Constants.QM_APPROVE_STATUS.PASS)) {
+                        orderCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_PASS);
+                    } else {
+                        orderCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_DENY);
+                    }
+
+                    OrderCheckResultResponse orderCheckResultResponse = updateOrderAppealInfo(orderCheckResult);
+                    if (!orderCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                        appealDealResponse.setRspcode(orderCheckResultResponse.getRspcode());
+                        appealDealResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
+                        return appealDealResponse;
                     }
                 }
                 //更新质检池状态（申诉通过重新质检）
-                if (rspCode.equals(WebUtil.SUCCESS) && approveStatus.equals(Constants.QM_APPROVE_STATUS.PASS)) {
+                if (approveStatus.equals(Constants.QM_APPROVE_STATUS.PASS)) {
                     //更新语音质检池
                     if (Constants.QM_CHECK_TYPE.VOICE.equals(reqMap.get("checkType").toString())) {
                         VoicePool voicePool = new VoicePool();
@@ -448,9 +448,10 @@ public class AppealDealServiceImpl implements AppealDealService {
                         voicePool.setOperateTime(null);
 
                         VoicePoolResponse voicePoolResponse = voicePoolRecheckUpdate(voicePool);
-                        rspCode = voicePoolResponse.getRspcode();
-                        if (!rspCode.equals(WebUtil.SUCCESS)) {
+                        if (!voicePoolResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                            appealDealResponse.setRspcode(voicePoolResponse.getRspcode());
                             appealDealResponse.setRspdesc(voicePoolResponse.getRspdesc());
+                            return appealDealResponse;
                         }
                     }
                     //更新工单质检池
@@ -464,9 +465,10 @@ public class AppealDealServiceImpl implements AppealDealService {
                         workformPool.setOperateTime(null);
 
                         WorkformPoolResponse workformPoolResponse = orderPoolRecheckUpdate(workformPool);
-                        rspCode = workformPoolResponse.getRspcode();
-                        if (!rspCode.equals(WebUtil.SUCCESS)) {
+                        if (!workformPoolResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                            appealDealResponse.setRspcode(workformPoolResponse.getRspcode());
                             appealDealResponse.setRspdesc(workformPoolResponse.getRspdesc());
+                            return appealDealResponse;
                         }
                     }
                 }
@@ -475,13 +477,15 @@ public class AppealDealServiceImpl implements AppealDealService {
                 int currentProcessOrderNo = 1;  //当前流程序号
                 int currentProcessNodeNum = 1;  //当前流程子节点数
                 int currentNodeOrderNo = 1;     //当前节点序号
-                //查询所有子流程
+                //查询子流程
                 Map<String, String> mainProcessParams = new HashMap<String, String>();
                 mainProcessParams.put("parentProcessId", reqMap.get("mainProcessId").toString());
                 mainProcessParams.put("mainProcessFlag", Constants.QM_APPEAL_PROCESS_TYPE.SUB);
                 AppealProcessResponse appealProcessResponse = appealProcessService.queryAppealProcess(mainProcessParams, 0, 0);
                 if (!appealProcessResponse.getRspcode().equals(WebUtil.SUCCESS)) {
-                    rspCode = WebUtil.FAIL;
+                    appealDealResponse.setRspcode(appealProcessResponse.getRspcode());
+                    appealDealResponse.setRspdesc(appealProcessResponse.getRspdesc());
+                    return appealDealResponse;
                 }
                 if (null != appealProcessResponse.getData() && appealProcessResponse.getData().size() > 0) {
                     List<AppealProcess> appealProcesses = appealProcessResponse.getData();
@@ -501,7 +505,9 @@ public class AppealDealServiceImpl implements AppealDealService {
                     nodeParams.put("processId", currentProcessId);
                     AppealNodeResponse appealNodeResponse = appealNodeService.queryAppealNode(nodeParams, 0, 0);
                     if (!appealNodeResponse.getRspcode().equals(WebUtil.SUCCESS)) {
-                        rspCode = WebUtil.FAIL;
+                        appealDealResponse.setRspcode(appealNodeResponse.getRspcode());
+                        appealDealResponse.setRspdesc(appealNodeResponse.getRspdesc());
+                        return appealDealResponse;
                     }
                     if (null != appealNodeResponse.getData() && appealNodeResponse.getData().size() > 0) {
                         List<AppealNode> appealNodes = appealNodeResponse.getData();
@@ -540,92 +546,79 @@ public class AppealDealServiceImpl implements AppealDealService {
                     }
                 }
 
-                //更新申诉流程状态
-                if (rspCode.equals(WebUtil.SUCCESS)) {
-                    AppealDeal appealDeal = new AppealDeal();
-                    appealDeal.setAppealId(appealId);
-                    if (approveStatus.equals(Constants.QM_APPROVE_STATUS.DENY)) {
-                        appealDeal.setAppealStatus(Constants.QM_APPEAL_STATUS.REJECT);  //申诉过程中驳回则更新申诉状态
-                    }
-                    appealDeal.setPreNodeDealStaffId(reqMap.get("staffId").toString());
-                    appealDeal.setPreProcessId(preProcessId);
-                    appealDeal.setPreNodeId(preNodeId);
-                    appealDeal.setCurrentProcessId(currentProcessId);
-                    appealDeal.setCurrentNodeId(currentNodeId);
-                    appealDeal.setCurrentNodeName(currentNodeName);
-                    appealDeal.setNextProcessId(nextProcessId);
-                    appealDeal.setNextNodeId(nextNodeId);
+                //更新申诉流程
+                AppealDeal appealDeal = new AppealDeal();
+                appealDeal.setAppealId(appealId);
+                if (approveStatus.equals(Constants.QM_APPROVE_STATUS.DENY)) {
+                    appealDeal.setAppealStatus(Constants.QM_APPEAL_STATUS.REJECT);  //申诉过程中驳回则更新申诉状态
+                }
+                appealDeal.setPreNodeDealStaffId(reqMap.get("staffId").toString());
+                appealDeal.setPreProcessId(preProcessId);
+                appealDeal.setPreNodeId(preNodeId);
+                appealDeal.setCurrentProcessId(currentProcessId);
+                appealDeal.setCurrentNodeId(currentNodeId);
+                appealDeal.setCurrentNodeName(currentNodeName);
+                appealDeal.setNextProcessId(nextProcessId);
+                appealDeal.setNextNodeId(nextNodeId);
 
-                    appealDealResponse = updateAppeal(appealDeal);
-                    rspCode = appealDealResponse.getRspcode();
+                appealDealResponse = updateAppeal(appealDeal);
+                if (!appealDealResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    return appealDealResponse;
                 }
 
                 //驳回则更新质检结果（申诉状态）
-                if (rspCode.equals(WebUtil.SUCCESS)) {
+                if (approveStatus.equals(Constants.QM_APPROVE_STATUS.DENY)) {
                     if (Constants.QM_CHECK_TYPE.VOICE.equals(reqMap.get("checkType").toString())) {
                         VoiceCheckResult voiceCheckResult = new VoiceCheckResult();
                         voiceCheckResult.setInspectionId(reqMap.get("inspectionId").toString());
-                        if (approveStatus.equals(Constants.QM_APPROVE_STATUS.PASS)) {
-                            voiceCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_PASS);
-                        } else {
-                            voiceCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_DENY);
-                        }
+                        voiceCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_DENY);
 
                         VoiceCheckResultResponse voiceCheckResultResponse = updateVoiceAppealInfo(voiceCheckResult);
-                        rspCode = voiceCheckResultResponse.getRspcode();
-                        if (!rspCode.equals(WebUtil.SUCCESS)) {
+                        if (!voiceCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                            appealDealResponse.setRspcode(voiceCheckResultResponse.getRspcode());
                             appealDealResponse.setRspdesc(voiceCheckResultResponse.getRspdesc());
+                            return appealDealResponse;
                         }
                     }
                     if (Constants.QM_CHECK_TYPE.ORDER.equals(reqMap.get("checkType").toString())) {
                         OrderCheckResult orderCheckResult = new OrderCheckResult();
                         orderCheckResult.setInspectionId(reqMap.get("inspectionId").toString());
-                        if (approveStatus.equals(Constants.QM_APPROVE_STATUS.PASS)) {
-                            orderCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_PASS);
-                        } else {
-                            orderCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_DENY);
-                        }
+                        orderCheckResult.setResultStatus(Constants.QM_CHECK_RESULT.APPEAL_DENY);
 
                         OrderCheckResultResponse orderCheckResultResponse = updateOrderAppealInfo(orderCheckResult);
-                        rspCode = orderCheckResultResponse.getRspcode();
-                        if (!rspCode.equals(WebUtil.SUCCESS)) {
+                        if (!orderCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                            appealDealResponse.setRspcode(orderCheckResultResponse.getRspcode());
                             appealDealResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
+                            return appealDealResponse;
                         }
-                    }
-                    if (!rspCode.equals(WebUtil.SUCCESS)) {
-                        appealDealResponse.setRspcode(WebUtil.FAIL);
-                        appealDealResponse.setRspdesc("质检结果申诉信息更新异常");
                     }
                 }
 
                 //新增审批记录
-                if (rspCode.equals(WebUtil.SUCCESS)) {
-                    AppealDealRecord appealDealRecord = new AppealDealRecord();
-                    appealDealRecord.setCheckType(reqMap.get("checkType").toString());
-                    appealDealRecord.setTouchId(reqMap.get("touchId").toString());
-                    appealDealRecord.setInspectionId(reqMap.get("inspectionId").toString());
-                    appealDealRecord.setAppealId(appealId);
-                    appealDealRecord.setProcessId(preProcessId);
-                    appealDealRecord.setProcessName(preProcessName);
-                    appealDealRecord.setNodeId(preNodeId);
-                    appealDealRecord.setNodeName(preNodeName);
-                    appealDealRecord.setApproveStaffId(reqMap.get("staffId").toString());
-                    appealDealRecord.setApproveStaffName(reqMap.get("staffName").toString());
-                    appealDealRecord.setApproveTime(currentTime);
-                    appealDealRecord.setApproveStatus(approveStatus);
-                    appealDealRecord.setApproveSuggestion(reqMap.get("approveSuggestion").toString());
+                AppealDealRecord appealDealRecord = new AppealDealRecord();
+                appealDealRecord.setCheckType(reqMap.get("checkType").toString());
+                appealDealRecord.setTouchId(reqMap.get("touchId").toString());
+                appealDealRecord.setInspectionId(reqMap.get("inspectionId").toString());
+                appealDealRecord.setAppealId(appealId);
+                appealDealRecord.setProcessId(preProcessId);
+                appealDealRecord.setProcessName(preProcessName);
+                appealDealRecord.setNodeId(preNodeId);
+                appealDealRecord.setNodeName(preNodeName);
+                appealDealRecord.setApproveStaffId(reqMap.get("staffId").toString());
+                appealDealRecord.setApproveStaffName(reqMap.get("staffName").toString());
+                appealDealRecord.setApproveTime(currentTime);
+                appealDealRecord.setApproveStatus(approveStatus);
+                appealDealRecord.setApproveSuggestion(reqMap.get("approveSuggestion").toString());
 
-                    AppealDealRecordResponse appealDealRecordResponse = createAppealRecord(appealDealRecord);
-                    rspCode = appealDealRecordResponse.getRspcode();
-                    if (!rspCode.equals(WebUtil.SUCCESS)) {
-                        appealDealResponse.setRspdesc(appealDealRecordResponse.getRspdesc());
-                    }
+                AppealDealRecordResponse appealDealRecordResponse = createAppealRecord(appealDealRecord);
+                if (!appealDealRecordResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    appealDealResponse.setRspcode(appealDealRecordResponse.getRspcode());
+                    appealDealResponse.setRspdesc(appealDealRecordResponse.getRspdesc());
+                    return appealDealResponse;
                 }
             }
-            appealDealResponse.setRspcode(rspCode);
-            if (rspCode.equals(WebUtil.SUCCESS)) {
-                appealDealResponse.setRspdesc("审批成功");
-            }
+            appealDealResponse.setRspcode(WebUtil.SUCCESS);
+            appealDealResponse.setRspdesc("审批成功");
         } catch (Exception e) {
             logger.error("审批异常", e);
             appealDealResponse.setRspcode(WebUtil.EXCEPTION);

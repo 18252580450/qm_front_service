@@ -70,7 +70,6 @@ public class OrderCheckServiceImpl implements OrderCheckService {
         String tmpStr = orderCheckInfo.get("checkStartTime").toString();
         String checkStartTime = tmpStr.substring(0, 10) + " " + tmpStr.substring(11);
         try {
-            String rspCode = WebUtil.SUCCESS;
             //查询工单质检结果信息表，存在暂存数据则更新质检结果，反之插入
             Map<String, Object> params = new HashMap<>();
             params.put("tenantId", orderCheckInfo.get("tenantId"));
@@ -78,8 +77,9 @@ public class OrderCheckServiceImpl implements OrderCheckService {
             params.put("resultStatus", Constants.QM_CHECK_RESULT.TEMP_SAVE);
             OrderCheckResultResponse orderCheckResultResponse = orderCheckResultService.queryOrderCheckResult(params, 0, 0);
             if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
-                rspCode = WebUtil.FAIL;
+                orderCheckResponse.setRspcode(orderCheckResultResponse.getRspcode());
                 orderCheckResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
+                return orderCheckResponse;
             }
             if (null != orderCheckResultResponse.getData() && orderCheckResultResponse.getData().size() > 0) {
                 //若有保存数据，则流水号为保存时生成的流水
@@ -102,8 +102,9 @@ public class OrderCheckServiceImpl implements OrderCheckService {
                 //查询原质检流水号
                 orderCheckResultResponse = orderCheckResultService.queryOriginInspectionId(orderCheckInfo);
                 if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
-                    rspCode = WebUtil.FAIL;
+                    orderCheckResponse.setRspcode(orderCheckResultResponse.getRspcode());
                     orderCheckResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
+                    return orderCheckResponse;
                 }
                 if (null != orderCheckResultResponse.getData() && orderCheckResultResponse.getData().size() > 0) {
                     originInspectionId = orderCheckResultResponse.getData().get(0).getInspectionId();
@@ -183,74 +184,76 @@ public class OrderCheckServiceImpl implements OrderCheckService {
             }
 
             //重置之前质检的最新质检结果标志
-            if (rspCode.equals(WebUtil.SUCCESS)) {
-                OrderCheckResult orderCheckResult = new OrderCheckResult();
-                orderCheckResult.setTouchId(orderCheckInfo.get("touchId").toString());
-                orderCheckResult.setLastResultFlag("0");
-                orderCheckResultResponse = resetLastResultFlag(orderCheckResult);
-                if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
-                    rspCode = WebUtil.FAIL;
-                    orderCheckResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
-                }
+            OrderCheckResult orderCheckResult = new OrderCheckResult();
+            orderCheckResult.setTouchId(orderCheckInfo.get("touchId").toString());
+            orderCheckResult.setLastResultFlag("0");
+            orderCheckResultResponse = resetLastResultFlag(orderCheckResult);
+            if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
+                orderCheckResponse.setRspcode(orderCheckResultResponse.getRspcode());
+                orderCheckResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
+                return orderCheckResponse;
             }
 
             //工单质检结果更新
-            if (!orderCheckResultUpdateList.isEmpty() && rspCode.equals(WebUtil.SUCCESS)) {
+            if (!orderCheckResultUpdateList.isEmpty()) {
                 orderCheckResultResponse = updateOrderCheckResult(orderCheckResultUpdateList);
-                rspCode = orderCheckResultResponse.getRspcode();
-                if (!rspCode.equals(WebUtil.SUCCESS)) {
+                if (!orderCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    orderCheckResponse.setRspcode(orderCheckResultResponse.getRspcode());
                     orderCheckResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
+                    return orderCheckResponse;
                 }
             }
 
             //工单质检结果新增
-            if (!orderCheckResultAddList.isEmpty() && rspCode.equals(WebUtil.SUCCESS)) {
+            if (!orderCheckResultAddList.isEmpty()) {
                 orderCheckResultResponse = addOrderCheckResult(orderCheckResultAddList);
-                rspCode = orderCheckResultResponse.getRspcode();
-                if (!rspCode.equals(WebUtil.SUCCESS)) {
+                if (!orderCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    orderCheckResponse.setRspcode(orderCheckResultResponse.getRspcode());
                     orderCheckResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
+                    return orderCheckResponse;
                 }
             }
 
             //工单质检结果详细信息更新
-            if (!orderCheckResultDetailUpdateList.isEmpty() && rspCode.equals(WebUtil.SUCCESS)) {
+            if (!orderCheckResultDetailUpdateList.isEmpty()) {
                 OrderCheckResultDetailResponse orderCheckResultDetailResponse = updateOrderCheckResultDetail(orderCheckResultDetailUpdateList);
-                rspCode = orderCheckResultDetailResponse.getRspcode();
-                if (!rspCode.equals(WebUtil.SUCCESS)) {
+                if (!orderCheckResultDetailResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    orderCheckResponse.setRspcode(orderCheckResultDetailResponse.getRspcode());
                     orderCheckResponse.setRspdesc(orderCheckResultDetailResponse.getRspdesc());
+                    return orderCheckResponse;
                 }
             }
 
             //工单质检结果详细信息新增
-            if (!orderCheckResultDetailAddList.isEmpty() && rspCode.equals(WebUtil.SUCCESS)) {
+            if (!orderCheckResultDetailAddList.isEmpty()) {
                 OrderCheckResultDetailResponse orderCheckResultDetailResponse = addOrderCheckResultDetail(orderCheckResultDetailAddList);
-                rspCode = orderCheckResultDetailResponse.getRspcode();
-                if (!rspCode.equals(WebUtil.SUCCESS)) {
+                if (!orderCheckResultDetailResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    orderCheckResponse.setRspcode(orderCheckResultDetailResponse.getRspcode());
                     orderCheckResponse.setRspdesc(orderCheckResultDetailResponse.getRspdesc());
+                    return orderCheckResponse;
                 }
             }
 
             //更新工单质检池（质检暂存不更新质检池）
-            if (rspCode.equals(WebUtil.SUCCESS) && (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK))) {
+            if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
                 WorkformPool workformPool = new WorkformPool();
                 workformPool.setWrkfmId(Long.parseLong(orderCheckInfo.get("touchId").toString()));
                 workformPool.setPoolStatus(Integer.parseInt(Constants.QM_CHECK_STATUS.CHECKED));
 
                 WorkformPoolResponse workformPoolResponse = updateWorkFormPool(workformPool);
-                rspCode = workformPoolResponse.getRspcode();
-                if (!rspCode.equals(WebUtil.SUCCESS)) {
+                if (!workformPoolResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    orderCheckResponse.setRspcode(workformPoolResponse.getRspcode());
                     orderCheckResponse.setRspdesc(workformPoolResponse.getRspdesc());
+                    return orderCheckResponse;
                 }
             }
 
-            orderCheckResponse.setRspcode(rspCode);
-            if (rspCode.equals(WebUtil.SUCCESS)) {
-                if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
-                    orderCheckResponse.setRspdesc("提交成功");
-                }
-                if (checkStatus.equals(Constants.QM_CHECK_RESULT.TEMP_SAVE)) {
-                    orderCheckResponse.setRspdesc("保存成功");
-                }
+            orderCheckResponse.setRspcode(WebUtil.SUCCESS);
+            if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
+                orderCheckResponse.setRspdesc("提交成功");
+            }
+            if (checkStatus.equals(Constants.QM_CHECK_RESULT.TEMP_SAVE)) {
+                orderCheckResponse.setRspdesc("保存成功");
             }
         } catch (Exception e) {
             logger.error("工单质检异常", e);

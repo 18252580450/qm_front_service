@@ -65,7 +65,7 @@ public class VoiceCheckServiceImpl implements VoiceCheckService {
         String checkStartTime = tmpStr.substring(0, 10) + " " + tmpStr.substring(11);
         boolean updateFlag = false; //更新标志
         try {
-            String rspCode = WebUtil.SUCCESS;
+//            String rspCode = WebUtil.SUCCESS;
             //查询语音质检结果信息表，存在暂存数据则更新质检结果，反之插入
             Map<String, Object> params = new HashMap<>();
             params.put("tenantId", checkResult.get("tenantId"));
@@ -73,8 +73,9 @@ public class VoiceCheckServiceImpl implements VoiceCheckService {
             params.put("resultStatus", Constants.QM_CHECK_RESULT.TEMP_SAVE);
             voiceCheckResultResponse = voiceCheckResultService.queryVoiceCheckResult(params, 0, 0);
             if (voiceCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
-                rspCode = WebUtil.FAIL;
+                voiceCheckResponse.setRspcode(voiceCheckResultResponse.getRspcode());
                 voiceCheckResponse.setRspdesc(voiceCheckResultResponse.getRspdesc());
+                return voiceCheckResponse;
             }
             if (null != voiceCheckResultResponse.getData() && voiceCheckResultResponse.getData().size() > 0) {
                 inspectionId = voiceCheckResultResponse.getData().get(0).getInspectionId();
@@ -88,8 +89,9 @@ public class VoiceCheckServiceImpl implements VoiceCheckService {
                 //查询原质检流水号
                 voiceCheckResultResponse = voiceCheckResultService.queryOriginInspectionId(checkResult);
                 if (voiceCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
-                    rspCode = WebUtil.FAIL;
+                    voiceCheckResponse.setRspcode(voiceCheckResultResponse.getRspcode());
                     voiceCheckResponse.setRspdesc(voiceCheckResultResponse.getRspdesc());
+                    return voiceCheckResponse;
                 }
                 if (null != voiceCheckResultResponse.getData() && voiceCheckResultResponse.getData().size() > 0) {
                     originInspectionId = voiceCheckResultResponse.getData().get(0).getInspectionId();
@@ -127,95 +129,93 @@ public class VoiceCheckServiceImpl implements VoiceCheckService {
             voiceCheckResult.setCheckComment(checkResult.get("checkComment").toString());
 
             //重置之前质检的最新质检结果标志
-            if (rspCode.equals(WebUtil.SUCCESS)) {
-                VoiceCheckResult result = new VoiceCheckResult();
-                result.setTouchId(checkResult.get("touchId").toString());
-                result.setLastResultFlag("0");
-                voiceCheckResultResponse = resetLastResultFlag(result);
-                if (voiceCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
-                    rspCode = WebUtil.FAIL;
-                    voiceCheckResponse.setRspdesc(voiceCheckResultResponse.getRspdesc());
-                }
+            VoiceCheckResult result = new VoiceCheckResult();
+            result.setTouchId(checkResult.get("touchId").toString());
+            result.setLastResultFlag("0");
+            voiceCheckResultResponse = resetLastResultFlag(result);
+            if (voiceCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
+                voiceCheckResponse.setRspcode(voiceCheckResultResponse.getRspcode());
+                voiceCheckResponse.setRspdesc(voiceCheckResultResponse.getRspdesc());
+                return voiceCheckResponse;
             }
 
             //更新语音质检结果
-            if (rspCode.equals(WebUtil.SUCCESS)) {
-                if (updateFlag) {
-                    voiceCheckResultResponse = updateVoiceCheckResult(voiceCheckResult);
-                    rspCode = voiceCheckResultResponse.getRspcode();
-                    if (!rspCode.equals(WebUtil.SUCCESS)) {
-                        voiceCheckResponse.setRspdesc(voiceCheckResultResponse.getRspdesc());
-                    }
-                } else {
-                    voiceCheckResultResponse = addVoiceCheckResult(voiceCheckResult);
-                    rspCode = voiceCheckResultResponse.getRspcode();
-                    if (!rspCode.equals(WebUtil.SUCCESS)) {
-                        voiceCheckResponse.setRspdesc(voiceCheckResultResponse.getRspdesc());
-                    }
+            if (updateFlag) {
+                voiceCheckResultResponse = updateVoiceCheckResult(voiceCheckResult);
+                if (!voiceCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    voiceCheckResponse.setRspcode(voiceCheckResultResponse.getRspcode());
+                    voiceCheckResponse.setRspdesc(voiceCheckResultResponse.getRspdesc());
+                    return voiceCheckResponse;
+                }
+            } else {
+                voiceCheckResultResponse = addVoiceCheckResult(voiceCheckResult);
+                if (!voiceCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    voiceCheckResponse.setRspcode(voiceCheckResultResponse.getRspcode());
+                    voiceCheckResponse.setRspdesc(voiceCheckResultResponse.getRspdesc());
+                    return voiceCheckResponse;
                 }
             }
 
             //更新语音质检结果详细信息
-            if (rspCode.equals(WebUtil.SUCCESS)) {
-                List<VoiceCheckResultDetail> voiceCheckResultDetailList = new ArrayList<>();
-                for (Map checkItem : checkItemList
-                ) {
-                    VoiceCheckResultDetail voiceCheckResultDetail = new VoiceCheckResultDetail();
-                    voiceCheckResultDetail.setNodeType(checkItem.get("nodeType").toString());
-                    voiceCheckResultDetail.setNodeId(checkItem.get("nodeId").toString());
-                    voiceCheckResultDetail.setNodeName(checkItem.get("nodeName").toString());
-                    voiceCheckResultDetail.setTenantId(checkResult.get("tenantId").toString());
-                    voiceCheckResultDetail.setInspectionId(inspectionId);
-                    voiceCheckResultDetail.setCheckStaffId(checkResult.get("checkStaffId").toString());
-                    voiceCheckResultDetail.setCheckStaffName(checkResult.get("checkStaffName").toString());
-                    voiceCheckResultDetail.setCheckDepartId(checkResult.get("checkDepartId").toString());
-                    voiceCheckResultDetail.setCheckDepartName(checkResult.get("checkDepartName").toString());
-                    voiceCheckResultDetail.setCheckStartTime(DateUtil.string2Date(checkStartTime));
-                    voiceCheckResultDetail.setCheckEndTime(currentTime);
-                    voiceCheckResultDetail.setScoreType(checkResult.get("scoreType").toString());
-                    voiceCheckResultDetail.setScoreScope(Integer.parseInt(checkItem.get("scoreScope").toString()));
-                    voiceCheckResultDetail.setMinScore(Integer.parseInt(checkItem.get("minScore").toString()));
-                    voiceCheckResultDetail.setMaxScore(Integer.parseInt(checkItem.get("maxScore").toString()));
-                    voiceCheckResultDetail.setRealScore(BigDecimal.valueOf(Double.parseDouble(checkItem.get("realScore").toString())));
+            List<VoiceCheckResultDetail> voiceCheckResultDetailList = new ArrayList<>();
+            for (Map checkItem : checkItemList
+            ) {
+                VoiceCheckResultDetail voiceCheckResultDetail = new VoiceCheckResultDetail();
+                voiceCheckResultDetail.setNodeType(checkItem.get("nodeType").toString());
+                voiceCheckResultDetail.setNodeId(checkItem.get("nodeId").toString());
+                voiceCheckResultDetail.setNodeName(checkItem.get("nodeName").toString());
+                voiceCheckResultDetail.setTenantId(checkResult.get("tenantId").toString());
+                voiceCheckResultDetail.setInspectionId(inspectionId);
+                voiceCheckResultDetail.setCheckStaffId(checkResult.get("checkStaffId").toString());
+                voiceCheckResultDetail.setCheckStaffName(checkResult.get("checkStaffName").toString());
+                voiceCheckResultDetail.setCheckDepartId(checkResult.get("checkDepartId").toString());
+                voiceCheckResultDetail.setCheckDepartName(checkResult.get("checkDepartName").toString());
+                voiceCheckResultDetail.setCheckStartTime(DateUtil.string2Date(checkStartTime));
+                voiceCheckResultDetail.setCheckEndTime(currentTime);
+                voiceCheckResultDetail.setScoreType(checkResult.get("scoreType").toString());
+                voiceCheckResultDetail.setScoreScope(Integer.parseInt(checkItem.get("scoreScope").toString()));
+                voiceCheckResultDetail.setMinScore(Integer.parseInt(checkItem.get("minScore").toString()));
+                voiceCheckResultDetail.setMaxScore(Integer.parseInt(checkItem.get("maxScore").toString()));
+                voiceCheckResultDetail.setRealScore(BigDecimal.valueOf(Double.parseDouble(checkItem.get("realScore").toString())));
 
-                    voiceCheckResultDetailList.add(voiceCheckResultDetail);
+                voiceCheckResultDetailList.add(voiceCheckResultDetail);
+            }
+            if (updateFlag) {
+                voiceCheckResultDetailResponse = updateVoiceCheckResultDetail(voiceCheckResultDetailList);
+                if (!voiceCheckResultDetailResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    voiceCheckResponse.setRspcode(voiceCheckResultDetailResponse.getRspcode());
+                    voiceCheckResponse.setRspdesc(voiceCheckResultDetailResponse.getRspdesc());
+                    return voiceCheckResponse;
                 }
-                if (updateFlag) {
-                    voiceCheckResultDetailResponse = updateVoiceCheckResultDetail(voiceCheckResultDetailList);
-                    rspCode = voiceCheckResultDetailResponse.getRspcode();
-                    if (!rspCode.equals(WebUtil.SUCCESS)) {
-                        voiceCheckResponse.setRspdesc(voiceCheckResultDetailResponse.getRspdesc());
-                    }
-                } else {
-                    voiceCheckResultDetailResponse = addVoiceCheckResultDetail(voiceCheckResultDetailList);
-                    rspCode = voiceCheckResultDetailResponse.getRspcode();
-                    if (!rspCode.equals(WebUtil.SUCCESS)) {
-                        voiceCheckResponse.setRspdesc(voiceCheckResultDetailResponse.getRspdesc());
-                    }
+            } else {
+                voiceCheckResultDetailResponse = addVoiceCheckResultDetail(voiceCheckResultDetailList);
+                if (!voiceCheckResultDetailResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    voiceCheckResponse.setRspcode(voiceCheckResultDetailResponse.getRspcode());
+                    voiceCheckResponse.setRspdesc(voiceCheckResultDetailResponse.getRspdesc());
+                    return voiceCheckResponse;
                 }
             }
 
             //更新语音质检池（质检暂存不更新质检池）
-            if (rspCode.equals(WebUtil.SUCCESS) && (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK))) {
+            if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
                 VoicePool voicePool = new VoicePool();
                 voicePool.setTouchId(checkResult.get("touchId").toString());
                 voicePool.setPoolStatus(Integer.parseInt(Constants.QM_CHECK_STATUS.CHECKED));
 
                 VoicePoolResponse voicePoolResponse = updateVoicePool(voicePool);
-                rspCode = voicePoolResponse.getRspcode();
-                if (!rspCode.equals(WebUtil.SUCCESS)) {
+                if (!voicePoolResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    voiceCheckResponse.setRspcode(voicePoolResponse.getRspcode());
                     voiceCheckResponse.setRspdesc(voicePoolResponse.getRspdesc());
+                    return voiceCheckResponse;
                 }
             }
 
-            voiceCheckResponse.setRspcode(rspCode);
-            if (rspCode.equals(WebUtil.SUCCESS)) {
-                if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
-                    voiceCheckResponse.setRspdesc("提交成功");
-                }
-                if (checkStatus.equals(Constants.QM_CHECK_RESULT.TEMP_SAVE)) {
-                    voiceCheckResponse.setRspdesc("保存成功");
-                }
+            voiceCheckResponse.setRspcode(WebUtil.SUCCESS);
+            if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
+                voiceCheckResponse.setRspdesc("提交成功");
+            }
+            if (checkStatus.equals(Constants.QM_CHECK_RESULT.TEMP_SAVE)) {
+                voiceCheckResponse.setRspdesc("保存成功");
             }
         } catch (Exception e) {
             logger.error("语音质检异常", e);
