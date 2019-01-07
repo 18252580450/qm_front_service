@@ -17,9 +17,4 @@ public interface WorkformPoolService {
     WorkformPoolResponse update(List<String> idList) throws Exception;
 
     WorkformPoolResponse updateCheck(List<Map> list) throws Exception;
-
-    /**
-     * 申诉通过重新质检
-     */
-    WorkformPoolResponse recheckUpdate(WorkformPool workformPool) throws Exception;
 }

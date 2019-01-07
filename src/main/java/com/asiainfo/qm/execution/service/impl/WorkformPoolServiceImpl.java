@@ -208,25 +208,4 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
         }
         return workformPoolResponse;
     }
-
-    @Override
-    public WorkformPoolResponse recheckUpdate(WorkformPool workformPool) throws Exception {
-        WorkformPoolResponse workformPoolResponse = new WorkformPoolResponse();
-        try {
-            int result = workformPoolMapper.recheckUpdate(workformPool);
-            if (result > 0) {
-                workformPoolResponse.setRspcode(WebUtil.SUCCESS);
-                workformPoolResponse.setRspdesc("更新成功");
-            } else {
-                workformPoolResponse.setRspcode(WebUtil.FAIL);
-                workformPoolResponse.setRspdesc("更新失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("质检池更新异常", e);
-            workformPoolResponse.setRspcode(WebUtil.EXCEPTION);
-            workformPoolResponse.setRspdesc("质检池更新异常");
-        }
-        return workformPoolResponse;
-    }
 }

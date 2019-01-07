@@ -104,30 +104,4 @@ public class VoiceCheckResultServiceImpl implements VoiceCheckResultService {
         }
         return voiceCheckResultResponse;
     }
-
-    @Override
-    public VoiceCheckResultResponse updateAppealInfo(VoiceCheckResult voiceCheckResult) throws Exception {
-        VoiceCheckResultResponse voiceCheckResultResponse = new VoiceCheckResultResponse();
-        try {
-            int result = voiceCheckResultMapper.updateByPrimaryKeySelective(voiceCheckResult);
-            if (result > 0) {
-                voiceCheckResultResponse.setRspcode(WebUtil.SUCCESS);
-                voiceCheckResultResponse.setRspdesc("申诉信息更新成功");
-            } else {
-                voiceCheckResultResponse.setRspcode(WebUtil.FAIL);
-                voiceCheckResultResponse.setRspdesc("申诉信息更新失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("申诉信息更新异常", e);
-            voiceCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
-            voiceCheckResultResponse.setRspdesc("申诉信息更新异常");
-        }
-        return voiceCheckResultResponse;
-    }
-
-    @Override
-    public VoiceCheckResultResponse deleteVoiceCheckResult(List<String> idList) throws Exception {
-        return null;
-    }
 }

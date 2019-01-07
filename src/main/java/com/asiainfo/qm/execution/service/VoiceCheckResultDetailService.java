@@ -18,13 +18,4 @@ public interface VoiceCheckResultDetailService {
      */
     VoiceCheckResultDetailResponse queryVoiceCheckResultDetail(Map params, int start, int limit) throws Exception;
 
-    /**
-     * 语音质检结果详细信息新增
-     */
-    VoiceCheckResultDetailResponse addVoiceCheckResultDetail(List<VoiceCheckResultDetail> voiceCheckResultDetailList) throws Exception;
-
-    /**
-     * 语音质检结果详细信息更新
-     */
-    VoiceCheckResultDetailResponse updateVoiceCheckResultDetail(List<VoiceCheckResultDetail> voiceCheckResultDetailList) throws Exception;
 }

@@ -29,9 +29,6 @@ public class OrderCheckResultDetailServiceImpl implements OrderCheckResultDetail
     @Autowired
     private OrderCheckResultDetailMapper orderCheckResultDetailMapper;
 
-    @Autowired
-    private SequenceUtils sequenceUtils;
-
     @Override
     public OrderCheckResultDetailResponse queryOrderCheckResultDetail(Map params, int start, int limit) throws Exception {
         OrderCheckResultDetailResponse orderCheckResultDetailResponse = null;
@@ -78,59 +75,4 @@ public class OrderCheckResultDetailServiceImpl implements OrderCheckResultDetail
         return orderCheckResultDetailResponse;
     }
 
-    @Override
-    public OrderCheckResultDetailResponse addOrderCheckResultDetail(List<OrderCheckResultDetail> orderCheckResultDetailList) throws Exception {
-        OrderCheckResultDetailResponse orderCheckResultDetailResponse = new OrderCheckResultDetailResponse();
-        try {
-            int result = 0;
-            for (OrderCheckResultDetail orderCheckResultDetail : orderCheckResultDetailList
-            ) {
-                result = orderCheckResultDetailMapper.insertSelective(orderCheckResultDetail);
-                if (result == 0) {
-                    break;
-                }
-            }
-            if (result > 0) {
-                orderCheckResultDetailResponse.setRspcode(WebUtil.SUCCESS);
-                orderCheckResultDetailResponse.setRspdesc("工单质检结果详细信息新增成功");
-            } else {
-                orderCheckResultDetailResponse.setRspcode(WebUtil.FAIL);
-                orderCheckResultDetailResponse.setRspdesc("工单质检结果详细信息新增失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("工单质检结果详细信息新增异常", e);
-            orderCheckResultDetailResponse.setRspcode(WebUtil.EXCEPTION);
-            orderCheckResultDetailResponse.setRspdesc("工单质检结果详细信息新增异常");
-        }
-        return orderCheckResultDetailResponse;
-    }
-
-    @Override
-    public OrderCheckResultDetailResponse updateOrderCheckResultDetail(List<OrderCheckResultDetail> orderCheckResultDetailList) throws Exception {
-        OrderCheckResultDetailResponse orderCheckResultDetailResponse = new OrderCheckResultDetailResponse();
-        try {
-            int result = 0;
-            for (OrderCheckResultDetail orderCheckResultDetail : orderCheckResultDetailList
-            ) {
-                result = orderCheckResultDetailMapper.updateByPrimaryKeySelective(orderCheckResultDetail);
-                if (result == 0) {
-                    break;
-                }
-            }
-            if (result > 0) {
-                orderCheckResultDetailResponse.setRspcode(WebUtil.SUCCESS);
-                orderCheckResultDetailResponse.setRspdesc("工单质检结果详细信息更新成功");
-            } else {
-                orderCheckResultDetailResponse.setRspcode(WebUtil.FAIL);
-                orderCheckResultDetailResponse.setRspdesc("工单质检结果详细信息更新失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("工单质检结果详细信息更新异常", e);
-            orderCheckResultDetailResponse.setRspcode(WebUtil.EXCEPTION);
-            orderCheckResultDetailResponse.setRspdesc("工单质检结果详细信息更新异常");
-        }
-        return orderCheckResultDetailResponse;
-    }
 }

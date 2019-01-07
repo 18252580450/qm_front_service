@@ -14,4 +14,5 @@ public interface VoiceCheckService {
      * 语音质检
      */
     VoiceCheckResponse voiceCheck(Map<String, Object> params) throws Exception;
+
 }

@@ -18,13 +18,4 @@ public interface OrderCheckResultDetailService {
      */
     OrderCheckResultDetailResponse queryOrderCheckResultDetail(Map params, int start, int limit) throws Exception;
 
-    /**
-     * 工单质检结果详细信息新增
-     */
-    OrderCheckResultDetailResponse addOrderCheckResultDetail(List<OrderCheckResultDetail> voiceCheckResultDetailList) throws Exception;
-
-    /**
-     * 工单质检结果详细信息更新
-     */
-    OrderCheckResultDetailResponse updateOrderCheckResultDetail(List<OrderCheckResultDetail> voiceCheckResultDetailList) throws Exception;
 }

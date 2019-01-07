@@ -2,7 +2,6 @@ package com.asiainfo.qm.execution.service.impl;
 
 import com.asiainfo.qm.execution.service.OrderCheckResultService;
 import com.asiainfo.qm.execution.vo.OrderCheckResultResponse;
-import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.OrderCheckResultMapper;
 import com.asiainfo.qm.manage.domain.OrderCheckResult;
 import com.asiainfo.qm.manage.domain.OrderCheckResultExample;
@@ -29,9 +28,6 @@ public class OrderCheckResultServiceImpl implements OrderCheckResultService {
     private static Logger logger = LoggerFactory.getLogger(OrderCheckResultServiceImpl.class);
     @Autowired
     private OrderCheckResultMapper orderCheckResultMapper;
-
-    @Autowired
-    private SequenceUtils sequenceUtils;
 
     @Override
     public OrderCheckResultResponse queryOrderCheckResult(Map params, int start, int limit) throws Exception {
@@ -103,31 +99,5 @@ public class OrderCheckResultServiceImpl implements OrderCheckResultService {
             orderCheckResultResponse.setRspdesc("原质检流水查询异常");
         }
         return orderCheckResultResponse;
-    }
-
-    @Override
-    public OrderCheckResultResponse updateAppealInfo(OrderCheckResult orderCheckResult) throws Exception {
-        OrderCheckResultResponse orderCheckResultResponse = new OrderCheckResultResponse();
-        try {
-            int result = orderCheckResultMapper.updateAppealInfoByInspectionId(orderCheckResult);
-            if (result > 0) {
-                orderCheckResultResponse.setRspcode(WebUtil.SUCCESS);
-                orderCheckResultResponse.setRspdesc("申诉信息更新成功");
-            } else {
-                orderCheckResultResponse.setRspcode(WebUtil.FAIL);
-                orderCheckResultResponse.setRspdesc("申诉信息更新失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("申诉信息更新异常", e);
-            orderCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
-            orderCheckResultResponse.setRspdesc("申诉信息更新异常");
-        }
-        return orderCheckResultResponse;
-    }
-
-    @Override
-    public OrderCheckResultResponse deleteOrderCheckResult(List<String> idList) throws Exception {
-        return null;
     }
 }

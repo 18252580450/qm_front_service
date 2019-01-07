@@ -17,18 +17,4 @@ public interface AppealDealRecordService {
      */
     AppealDealRecordResponse queryAppealRecord(Map params, int start, int limit) throws Exception;
 
-    /**
-     * 质检申诉新增（提交）
-     */
-    AppealDealRecordResponse createAppealRecord(AppealDealRecord appealDeal) throws Exception;
-
-    /**
-     * 质检申诉状态更新
-     */
-    AppealDealRecordResponse updateAppealRecord(AppealDealRecord appealDeal) throws Exception;
-
-    /**
-     * 质检申诉结果删除
-     */
-    AppealDealRecordResponse deleteAppealRecord(List<String> idList) throws Exception;
 }

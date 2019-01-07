@@ -2,7 +2,6 @@ package com.asiainfo.qm.execution.service.impl;
 
 import com.asiainfo.qm.execution.service.VoiceCheckResultDetailService;
 import com.asiainfo.qm.execution.vo.VoiceCheckResultDetailResponse;
-import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.VoiceCheckResultDetailMapper;
 import com.asiainfo.qm.manage.domain.VoiceCheckResultDetail;
 import com.asiainfo.qm.manage.domain.VoiceCheckResultDetailExample;
@@ -29,9 +28,6 @@ public class VoiceCheckResultDetailServiceImpl implements VoiceCheckResultDetail
     private static Logger logger = LoggerFactory.getLogger(VoiceCheckResultDetailServiceImpl.class);
     @Autowired
     private VoiceCheckResultDetailMapper voiceCheckResultDetailMapper;
-
-    @Autowired
-    private SequenceUtils sequenceUtils;
 
     @Override
     public VoiceCheckResultDetailResponse queryVoiceCheckResultDetail(Map params, int start, int limit) throws Exception {
@@ -69,62 +65,6 @@ public class VoiceCheckResultDetailServiceImpl implements VoiceCheckResultDetail
             logger.error("质检结果详情查询异常", e);
             voiceCheckResultDetailResponse.setRspcode(WebUtil.EXCEPTION);
             voiceCheckResultDetailResponse.setRspdesc("质检结果详情查询异常");
-        }
-        return voiceCheckResultDetailResponse;
-    }
-
-    @Override
-    public VoiceCheckResultDetailResponse addVoiceCheckResultDetail(List<VoiceCheckResultDetail> voiceCheckResultDetailList) throws Exception {
-        VoiceCheckResultDetailResponse voiceCheckResultDetailResponse = new VoiceCheckResultDetailResponse();
-        try {
-            int result = 0;
-            for (VoiceCheckResultDetail voiceCheckResultDetail : voiceCheckResultDetailList
-            ) {
-                result = voiceCheckResultDetailMapper.insertSelective(voiceCheckResultDetail);
-                if (result == 0) {
-                    break;
-                }
-            }
-            if (result > 0) {
-                voiceCheckResultDetailResponse.setRspcode(WebUtil.SUCCESS);
-                voiceCheckResultDetailResponse.setRspdesc("语音质检结果详细信息新增成功");
-            } else {
-                voiceCheckResultDetailResponse.setRspcode(WebUtil.FAIL);
-                voiceCheckResultDetailResponse.setRspdesc("语音质检结果详细信息新增失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("语音质检结果详细信息新增异常", e);
-            voiceCheckResultDetailResponse.setRspcode(WebUtil.EXCEPTION);
-            voiceCheckResultDetailResponse.setRspdesc("语音质检结果详细信息新增异常");
-        }
-        return voiceCheckResultDetailResponse;
-    }
-
-    @Override
-    public VoiceCheckResultDetailResponse updateVoiceCheckResultDetail(List<VoiceCheckResultDetail> voiceCheckResultDetailList) throws Exception {
-        VoiceCheckResultDetailResponse voiceCheckResultDetailResponse = new VoiceCheckResultDetailResponse();
-        try {
-            int result = 0;
-            for (VoiceCheckResultDetail voiceCheckResultDetail : voiceCheckResultDetailList
-            ) {
-                result = voiceCheckResultDetailMapper.updateByPrimaryKeySelective(voiceCheckResultDetail);
-                if (result == 0) {
-                    break;
-                }
-            }
-            if (result > 0) {
-                voiceCheckResultDetailResponse.setRspcode(WebUtil.SUCCESS);
-                voiceCheckResultDetailResponse.setRspdesc("语音质检结果详细信息更新成功");
-            } else {
-                voiceCheckResultDetailResponse.setRspcode(WebUtil.FAIL);
-                voiceCheckResultDetailResponse.setRspdesc("语音质检结果详细信息更新失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("语音质检结果详细信息更新异常", e);
-            voiceCheckResultDetailResponse.setRspcode(WebUtil.EXCEPTION);
-            voiceCheckResultDetailResponse.setRspdesc("语音质检结果详细信息更新异常");
         }
         return voiceCheckResultDetailResponse;
     }

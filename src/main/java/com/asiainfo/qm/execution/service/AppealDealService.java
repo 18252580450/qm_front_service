@@ -12,23 +12,20 @@ import java.util.Map;
  * @ Description：${description}
  */
 public interface AppealDealService {
+
     /**
-     * 质检申诉查询
+     * 申诉提交
+     */
+    AppealDealResponse submitAppeal(Map<String, Object> reqMap) throws Exception;
+
+    /**
+     * 申诉查询
      */
     AppealDealResponse queryAppeal(Map params, int start, int limit) throws Exception;
 
     /**
-     * 质检申诉新增（提交）
+     * 申诉处理
      */
-    AppealDealResponse createAppeal(AppealDeal appealDeal) throws Exception;
+    AppealDealResponse dealAppeal(Map<String, Object> reqMap) throws Exception;
 
-    /**
-     * 质检申诉状态更新
-     */
-    AppealDealResponse updateAppeal(AppealDeal appealDeal) throws Exception;
-
-    /**
-     * 质检申诉结果删除
-     */
-    AppealDealResponse deleteAppeal(List<String> idList) throws Exception;
 }
