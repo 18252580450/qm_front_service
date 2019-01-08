@@ -65,7 +65,6 @@ public class VoiceCheckServiceImpl implements VoiceCheckService {
         String checkStartTime = tmpStr.substring(0, 10) + " " + tmpStr.substring(11);
         boolean updateFlag = false; //更新标志
         try {
-//            String rspCode = WebUtil.SUCCESS;
             //查询语音质检结果信息表，存在暂存数据则更新质检结果，反之插入
             Map<String, Object> params = new HashMap<>();
             params.put("tenantId", checkResult.get("tenantId"));
