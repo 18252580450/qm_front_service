@@ -94,7 +94,7 @@ public class CheckItemServiceImpl implements CheckItemService {
             example.setOrderByClause("CHECK_ITEM_ID DESC");
             List<CheckItem> list = checkItemMapper.selectByExample(example);
             if (!list.isEmpty()) {
-                checkItemId = String.valueOf((Integer.parseInt(list.get(0).getCheckItemId()) + 1));
+                checkItemId = String.valueOf((Long.parseLong(list.get(0).getCheckItemId()) + 1));
             }
             checkItem.setCreateTime(DateUtil.getCurrontTime());
             checkItem.setCheckItemId(checkItemId);
