@@ -105,6 +105,7 @@ public class AppealDealServiceImpl implements AppealDealService {
                 //根据接触流水查询已申诉次数
                 AppealDealExample example = new AppealDealExample();
                 AppealDealExample.Criteria criteria = example.createCriteria();
+                criteria.andCheckTypeEqualTo((String) reqMap.get("checkType"));
                 criteria.andTouchIdEqualTo((String) reqMap.get("touchId"));
                 appealNum = appealDealMapper.countByExample(example);
                 if (appealNum >= maxAppealNum) {
