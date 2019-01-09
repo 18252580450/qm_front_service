@@ -152,11 +152,6 @@
              separator=" " open="case WRKFM_SHOW_SWFTNO" close="end">
     when #{item} then  null
     </foreach>
-    ,POOL_STATUS =
-    <foreach collection="list" item="item" index="index"
-             separator=" " open="case WRKFM_SHOW_SWFTNO" close="end">
-      when #{item} then  0
-    </foreach>
     where WRKFM_SHOW_SWFTNO in
     <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
       #{item,jdbcType=VARCHAR}
@@ -213,11 +208,6 @@
     <foreach collection="list" item="item" index="index"
              separator=" " open="case WRKFM_SHOW_SWFTNO" close="end">
       when #{item.wrkfmShowSwftno} then  now()
-    </foreach>
-    ,POOL_STATUS =
-    <foreach collection="list" item="item" index="index"
-             separator=" " open="case WRKFM_SHOW_SWFTNO" close="end">
-      when #{item.wrkfmShowSwftno} then  0
     </foreach>
     ,IS_OPERATE =
     <foreach collection="list" item="item" index="index"
