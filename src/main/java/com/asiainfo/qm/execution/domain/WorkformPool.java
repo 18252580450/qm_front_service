@@ -109,6 +109,11 @@ public class WorkformPool extends WorkformPoolKey {
         this.tenantId = tenantId == null ? null : tenantId.trim();
     }
 
+    public String getWorkFormId() {
+        return workFormId;
+    }
+
+
     public void setWorkFormId(String workFormId) {
         this.workFormId = workFormId == null ? null : workFormId.trim();
     }
