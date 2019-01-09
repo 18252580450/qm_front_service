@@ -94,17 +94,22 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
                 PageHelper.offsetPage(start, limit);
                 List<WorkformPool> list = workformPoolMapper.selectByExample(workformPoolExample);
 
-                List<WorkformPool> listNew = permiFilter(permission,staffId,list);//过滤
+//                List<WorkformPool> listNew = permiFilter(permission,staffId,list);//过滤
+                for (WorkformPool workformPool:list) {
+                    workformPool.setWorkFormId(String.valueOf(workformPool.getWrkfmId()));
+                }
 
-                Page<WorkformPool> pagelist = (Page)listNew;
+                Page<WorkformPool> pagelist = (Page)list;
                 workformPoolResponse = new WorkformPoolResponse(pagelist);
             } else {
                 workformPoolResponse = new WorkformPoolResponse();
                 List<WorkformPool> list = workformPoolMapper.selectByExample(workformPoolExample);
 
-                List<WorkformPool> listNew = permiFilter(permission,staffId,list);//过滤
-
-                workformPoolResponse.setData(listNew);
+//                List<WorkformPool> listNew = permiFilter(permission,staffId,list);//过滤
+                for (WorkformPool workformPool:list) {
+                    workformPool.setWorkFormId(String.valueOf(workformPool.getWrkfmId()));
+                }
+                workformPoolResponse.setData(list);
             }
 
             if(null != workformPoolResponse.getData() && workformPoolResponse.getData().size() > 0){

@@ -11,6 +11,8 @@ public class WorkformPool extends WorkformPoolKey {
 
     private QmPlan qmPlan;
 
+    private String workFormId;
+
     private String provinceId;
 
     private Integer handleDuration;
@@ -105,6 +107,10 @@ public class WorkformPool extends WorkformPoolKey {
 
     public void setTenantId(String tenantId) {
         this.tenantId = tenantId == null ? null : tenantId.trim();
+    }
+
+    public void setWorkFormId(String workFormId) {
+        this.workFormId = workFormId == null ? null : workFormId.trim();
     }
 
     public String getPlanName() {
