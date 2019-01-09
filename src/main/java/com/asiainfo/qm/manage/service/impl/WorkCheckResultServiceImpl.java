@@ -48,6 +48,9 @@ public class WorkCheckResultServiceImpl implements OrderCheckResultService {
             if (null != params.get("planId") && !"".equals(params.get("planId"))) {
                 criteria.andPlanIdEqualTo((String) params.get("planId"));
             }
+            if (null != params.get("lastResultFlag") && !"".equals(params.get("lastResultFlag"))) {
+                criteria.andLastResultFlagEqualTo((String) params.get("lastResultFlag"));
+            }
             if (null != params.get("acceptNumber") && !"".equals(params.get("acceptNumber"))) {
                 criteria.andAcceptNumberEqualTo((String) params.get("acceptNumber"));
             }
