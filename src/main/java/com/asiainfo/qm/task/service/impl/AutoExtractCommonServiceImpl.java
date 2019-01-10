@@ -5,6 +5,8 @@ import com.asiainfo.qm.manage.dao.QmStrategyMapper;
 import com.asiainfo.qm.manage.domain.QmStrategy;
 import com.asiainfo.qm.manage.domain.QmStrategyElementRel;
 import com.asiainfo.qm.manage.domain.QmStrategyElementRelExample;
+import com.asiainfo.qm.manage.util.DateUtil;
+import com.asiainfo.qm.manage.util.DateUtils;
 import com.asiainfo.qm.task.dao.QmVoiceMapper;
 import com.asiainfo.qm.task.dao.QmWorkformMapper;
 import com.asiainfo.qm.task.domain.QmVoice;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -112,8 +115,24 @@ public class AutoExtractCommonServiceImpl implements IAutoExtractCommonService {
             sql.append(" " + rel.getRtype() + " ");
             //是否区间值  0：否 1：是
             if(rel.getOperator().equals("between")){
-                sql.append(rel.getElementCode()).append(" between ").append(rel.getElementValue1());
-                sql.append(" and ").append(rel.getElementValue2());
+                int value1Index = rel.getElementValue1().indexOf("@");
+                if(value1Index >= 0){
+                    String d = rel.getElementValue1().substring(0,value1Index).equals("")?"0":rel.getElementValue1().substring(0,value1Index);
+                    String cur = DateUtils.getCurrentDateString("YYYY-MM-DD") + rel.getElementValue1().substring(value1Index);
+                    Date currentDate = DateUtil.getBeforeAfterDate(cur, Integer.parseInt(d));
+                    sql.append(rel.getElementCode()).append(" between ").append(DateUtil.date2String(currentDate));
+                }else{
+                    sql.append(rel.getElementCode()).append(" between ").append(rel.getElementValue1());
+                }
+                int value2Index = rel.getElementValue2().indexOf("@");
+                if(value2Index >= 0){
+                    String d = rel.getElementValue2().substring(0,value2Index).equals("")?"0":rel.getElementValue2().substring(0,value2Index);
+                    String cur = DateUtils.getCurrentDateString("YYYY-MM-DD") + rel.getElementValue2().substring(value2Index);
+                    Date currentDate = DateUtil.getBeforeAfterDate(cur, Integer.parseInt(d));
+                    sql.append(" and ").append(DateUtil.date2String(currentDate));
+                }else{
+                    sql.append(" and ").append(rel.getElementValue2());
+                }
             }else if(rel.getOperator().equals("in")){
                 sql.append(rel.getElementCode()).append(" in(");
                 sql.append(rel.getElementValue1()).append(") ");

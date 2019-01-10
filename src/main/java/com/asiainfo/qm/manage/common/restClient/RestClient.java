@@ -148,6 +148,7 @@ public class RestClient {
 		restTemplate = new RestTemplate();
 		response = restTemplate.exchange(serviceUrl, httpMethod, requestEntity, String.class);
 		String sttr = response.getBody();
+//		System.out.println("返回结果："+sttr);
 		Object o = JSONObject.parseObject(sttr, respcalzz);
 		return o;
 	}
@@ -187,85 +188,87 @@ public class RestClient {
 	public  HttpHeaders buildGrayHeaders(Map<String, String> headers,String token) {
 		Map<String, String> newheaders = new HashMap<String, String>();
 		if (headers != null) {
-			String staffid = headers.get("staffid");
-			staffid = staffid == null ? "" : staffid;
-			newheaders.put("staffid", staffid);
-
-			String departid = headers.get("departid");
-			departid = departid == null ? "" : departid;
-			newheaders.put("departid", departid);
-
-			String provincecode = headers.get("provincecode");
-			provincecode = provincecode == null ? "" : provincecode;
-			newheaders.put("provincecode", provincecode);
-
-			String eparchycode = headers.get("eparchycode");
-			eparchycode = eparchycode == null ? "" : eparchycode;
-			newheaders.put("eparchycode", eparchycode);
-
-			String citycode = headers.get("citycode");
-			citycode = citycode == null ? "" : citycode;
-			newheaders.put("citycode", citycode);
-
-			String serialnumber = headers.get("serialnumber");
-			serialnumber = serialnumber == null ? "" : serialnumber;
-			newheaders.put("serialnumber", serialnumber);
-
-			String userid = headers.get("userid");
-			userid = userid == null ? "" : userid;
-			newheaders.put("userid", userid);
-
-			String custid = headers.get("custid");
-			custid = custid == null ? "" : custid;
-			newheaders.put("custid", custid);
-
-			String acctid = headers.get("acctid");
-			acctid = acctid == null ? "" : acctid;
-			newheaders.put("acctid", acctid);
-
-			String psptid = headers.get("psptid");
-			psptid = psptid == null ? "" : psptid;
-			newheaders.put("psptid", psptid);
-
-			String ip = headers.get("ip");
-			ip = ip == null ? "" : ip;
-			newheaders.put("ip", ip);
-
-			String origdomain = headers.get("origdomain");
-			origdomain = origdomain == null ? "" : origdomain;
-			newheaders.put("origdomain", origdomain);
-
-			String osnduns = headers.get("osnduns");
-			osnduns = osnduns == null ? "" : osnduns;
-			newheaders.put("osnduns", osnduns);
-
-			String routetype = headers.get("routetype");
-			routetype = routetype == null ? "" : routetype;
-			newheaders.put("routetype", routetype);
-
-			String routevalue = headers.get("routevalue");
-			routevalue = routevalue == null ? "" : routevalue;
-			newheaders.put("routevalue", routevalue);
-
-			String transido = headers.get("transido");
-			transido = transido == null ? "" : transido;
-			newheaders.put("transido", transido);
-
-			String channelid = headers.get("channelid");
-			channelid = channelid == null ? "" : channelid;
-			newheaders.put("channelid", channelid);
-
-			String channeltype = headers.get("channeltype");
-			channeltype = channeltype == null ? "" : channeltype;
-			newheaders.put("channeltype", channeltype);
-
-			String accesstype = headers.get("accesstype");
-			accesstype = accesstype == null ? "" : accesstype;
-			newheaders.put("accesstype", accesstype);
-
-			String processtime = headers.get("processtime");
-			processtime = processtime == null ? "" : processtime;
-			newheaders.put("processtime", processtime);
+			String ipAddress = "211.1.1.23";
+			newheaders.put("ipAddress",ipAddress);
+//			String staffid = headers.get("staffid");
+//			staffid = staffid == null ? "" : staffid;
+//			newheaders.put("staffid", staffid);
+//
+//			String departid = headers.get("departid");
+//			departid = departid == null ? "" : departid;
+//			newheaders.put("departid", departid);
+//
+//			String provincecode = headers.get("provincecode");
+//			provincecode = provincecode == null ? "" : provincecode;
+//			newheaders.put("provincecode", provincecode);
+//
+//			String eparchycode = headers.get("eparchycode");
+//			eparchycode = eparchycode == null ? "" : eparchycode;
+//			newheaders.put("eparchycode", eparchycode);
+//
+//			String citycode = headers.get("citycode");
+//			citycode = citycode == null ? "" : citycode;
+//			newheaders.put("citycode", citycode);
+//
+//			String serialnumber = headers.get("serialnumber");
+//			serialnumber = serialnumber == null ? "" : serialnumber;
+//			newheaders.put("serialnumber", serialnumber);
+//
+//			String userid = headers.get("userid");
+//			userid = userid == null ? "" : userid;
+//			newheaders.put("userid", userid);
+//
+//			String custid = headers.get("custid");
+//			custid = custid == null ? "" : custid;
+//			newheaders.put("custid", custid);
+//
+//			String acctid = headers.get("acctid");
+//			acctid = acctid == null ? "" : acctid;
+//			newheaders.put("acctid", acctid);
+//
+//			String psptid = headers.get("psptid");
+//			psptid = psptid == null ? "" : psptid;
+//			newheaders.put("psptid", psptid);
+//
+//			String ip = headers.get("ip");
+//			ip = ip == null ? "" : ip;
+//			newheaders.put("ip", ip);
+//
+//			String origdomain = headers.get("origdomain");
+//			origdomain = origdomain == null ? "" : origdomain;
+//			newheaders.put("origdomain", origdomain);
+//
+//			String osnduns = headers.get("osnduns");
+//			osnduns = osnduns == null ? "" : osnduns;
+//			newheaders.put("osnduns", osnduns);
+//
+//			String routetype = headers.get("routetype");
+//			routetype = routetype == null ? "" : routetype;
+//			newheaders.put("routetype", routetype);
+//
+//			String routevalue = headers.get("routevalue");
+//			routevalue = routevalue == null ? "" : routevalue;
+//			newheaders.put("routevalue", routevalue);
+//
+//			String transido = headers.get("transido");
+//			transido = transido == null ? "" : transido;
+//			newheaders.put("transido", transido);
+//
+//			String channelid = headers.get("channelid");
+//			channelid = channelid == null ? "" : channelid;
+//			newheaders.put("channelid", channelid);
+//
+//			String channeltype = headers.get("channeltype");
+//			channeltype = channeltype == null ? "" : channeltype;
+//			newheaders.put("channeltype", channeltype);
+//
+//			String accesstype = headers.get("accesstype");
+//			accesstype = accesstype == null ? "" : accesstype;
+//			newheaders.put("accesstype", accesstype);
+//
+//			String processtime = headers.get("processtime");
+//			processtime = processtime == null ? "" : processtime;
+//			newheaders.put("processtime", processtime);
 		}
 		return buildHeaders(newheaders,token);
 	}
@@ -275,7 +278,10 @@ public class RestClient {
 		HttpHeaders reqHeaders = new HttpHeaders();
 		reqHeaders.add("Content-Type", "application/json; charset=UTF-8");
 		reqHeaders.add("Accept", "application/json");
-		reqHeaders.add("Accept-Encoding", "gzip");
+		//内部接口
+//		reqHeaders.add("Accept-Encoding", "gzip");
+		//外部接口
+		reqHeaders.add("Accept-Encoding", "UTF-8");
 		reqHeaders.add("Authorization", "Bearer "+token);
 		if (headers != null) {
 			StringBuffer sb = new StringBuffer();
@@ -287,15 +293,19 @@ public class RestClient {
 			String newsbstr = sbstr.substring(0, len - 1);
 			reqHeaders.add("ACBSS-MS-GRAY", newsbstr);
 		}
+		String ipAddress = "211.1.1.23";
+		reqHeaders.add("ipAddress", ipAddress);
 		return reqHeaders;
 	}
 
 	public static void main(String[] args){
-		String url = "http://203.57.227.53:8082/tcwf/detail/getDetailMess?provCode=00030000&wrkfmId=1812041617580000045";
+//		String url = "http://203.57.227.53:8082/tcwf/detail/getDetailMess?provCode=00030000&wrkfmId=1812041617580000045";
+		String url = "http://183.78.183.156:9990/vmservice/selectPublicIpByIdOrIp";
 		RestClient restClient = new RestClient();
 		Map params = new HashMap<>();
-		JSONObject  rsp =  (JSONObject)restClient.callRemoteServicetWithHeader(url,HttpMethod.POST,params,JSONObject.class,null,"1");
+		JSONObject  rsp =  (JSONObject)restClient.callRemoteServicetWithHeader(url,HttpMethod.GET,params,JSONObject.class,null,"1");
 		System.out.println(rsp.toJSONString());
+
 	}
 
 }

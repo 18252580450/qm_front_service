@@ -104,76 +104,6 @@ public class QmBindRlnExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andCheckedObjectIdIsNull() {
-            addCriterion("CHECKED_OBJECT_ID is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckedObjectIdIsNotNull() {
-            addCriterion("CHECKED_OBJECT_ID is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckedObjectIdEqualTo(String value) {
-            addCriterion("CHECKED_OBJECT_ID =", value, "checkedObjectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckedObjectIdNotEqualTo(String value) {
-            addCriterion("CHECKED_OBJECT_ID <>", value, "checkedObjectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckedObjectIdGreaterThan(String value) {
-            addCriterion("CHECKED_OBJECT_ID >", value, "checkedObjectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckedObjectIdGreaterThanOrEqualTo(String value) {
-            addCriterion("CHECKED_OBJECT_ID >=", value, "checkedObjectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckedObjectIdLessThan(String value) {
-            addCriterion("CHECKED_OBJECT_ID <", value, "checkedObjectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckedObjectIdLessThanOrEqualTo(String value) {
-            addCriterion("CHECKED_OBJECT_ID <=", value, "checkedObjectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckedObjectIdLike(String value) {
-            addCriterion("CHECKED_OBJECT_ID like", value, "checkedObjectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckedObjectIdNotLike(String value) {
-            addCriterion("CHECKED_OBJECT_ID not like", value, "checkedObjectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckedObjectIdIn(List<String> values) {
-            addCriterion("CHECKED_OBJECT_ID in", values, "checkedObjectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckedObjectIdNotIn(List<String> values) {
-            addCriterion("CHECKED_OBJECT_ID not in", values, "checkedObjectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckedObjectIdBetween(String value1, String value2) {
-            addCriterion("CHECKED_OBJECT_ID between", value1, value2, "checkedObjectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckedObjectIdNotBetween(String value1, String value2) {
-            addCriterion("CHECKED_OBJECT_ID not between", value1, value2, "checkedObjectId");
-            return (Criteria) this;
-        }
-
         public Criteria andPlanIdIsNull() {
             addCriterion("PLAN_ID is null");
             return (Criteria) this;
@@ -311,6 +241,76 @@ public class QmBindRlnExample {
 
         public Criteria andCheckStaffIdNotBetween(String value1, String value2) {
             addCriterion("CHECK_STAFF_ID not between", value1, value2, "checkStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedObjectIdIsNull() {
+            addCriterion("CHECKED_OBJECT_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedObjectIdIsNotNull() {
+            addCriterion("CHECKED_OBJECT_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedObjectIdEqualTo(String value) {
+            addCriterion("CHECKED_OBJECT_ID =", value, "checkedObjectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedObjectIdNotEqualTo(String value) {
+            addCriterion("CHECKED_OBJECT_ID <>", value, "checkedObjectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedObjectIdGreaterThan(String value) {
+            addCriterion("CHECKED_OBJECT_ID >", value, "checkedObjectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedObjectIdGreaterThanOrEqualTo(String value) {
+            addCriterion("CHECKED_OBJECT_ID >=", value, "checkedObjectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedObjectIdLessThan(String value) {
+            addCriterion("CHECKED_OBJECT_ID <", value, "checkedObjectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedObjectIdLessThanOrEqualTo(String value) {
+            addCriterion("CHECKED_OBJECT_ID <=", value, "checkedObjectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedObjectIdLike(String value) {
+            addCriterion("CHECKED_OBJECT_ID like", value, "checkedObjectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedObjectIdNotLike(String value) {
+            addCriterion("CHECKED_OBJECT_ID not like", value, "checkedObjectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedObjectIdIn(List<String> values) {
+            addCriterion("CHECKED_OBJECT_ID in", values, "checkedObjectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedObjectIdNotIn(List<String> values) {
+            addCriterion("CHECKED_OBJECT_ID not in", values, "checkedObjectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedObjectIdBetween(String value1, String value2) {
+            addCriterion("CHECKED_OBJECT_ID between", value1, value2, "checkedObjectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedObjectIdNotBetween(String value1, String value2) {
+            addCriterion("CHECKED_OBJECT_ID not between", value1, value2, "checkedObjectId");
             return (Criteria) this;
         }
 

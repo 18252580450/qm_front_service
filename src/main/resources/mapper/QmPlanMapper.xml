@@ -169,7 +169,7 @@
     insert into t_qm_plan (PLAN_ID, TENANT_ID, PROVINCE_ID, 
       PLAN_NAME, CREATE_TIME, CREATE_STAFF_ID, 
       MODIFIED_TIME, MODIFIED_STAFF_ID, PLAN_STARTTIME, 
-      PLAN_ENDTIME, PLAN_TYPE, TEMPLATE_NAME, 
+      PLAN_ENDTIME, PLAN_TYPE,
       TEMPLATE_ID, P_NAME, P_ID, 
       MAN_OR_AUTO, BIND_RELATION, HALT_FLAG, 
       PLAN_STATUS, DELETE_FLAG, REMARK, 
@@ -178,7 +178,7 @@
     values (#{planId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, 
       #{planName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createStaffId,jdbcType=VARCHAR}, 
       #{modifiedTime,jdbcType=TIMESTAMP}, #{modifiedStaffId,jdbcType=VARCHAR}, #{planStarttime,jdbcType=TIMESTAMP}, 
-      #{planEndtime,jdbcType=TIMESTAMP}, #{planType,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR}, 
+      #{planEndtime,jdbcType=TIMESTAMP}, #{planType,jdbcType=VARCHAR},
       #{templateId,jdbcType=VARCHAR}, #{pName,jdbcType=VARCHAR}, #{pId,jdbcType=VARCHAR}, 
       #{manOrAuto,jdbcType=CHAR}, #{bindRelation,jdbcType=CHAR}, #{haltFlag,jdbcType=CHAR}, 
       #{planStatus,jdbcType=CHAR}, #{deleteFlag,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
@@ -220,9 +220,6 @@
       </if>
       <if test="planType != null" >
         PLAN_TYPE,
-      </if>
-      <if test="templateName != null" >
-        TEMPLATE_NAME,
       </if>
       <if test="templateId != null" >
         TEMPLATE_ID,
@@ -297,9 +294,6 @@
       </if>
       <if test="planType != null" >
         #{planType,jdbcType=VARCHAR},
-      </if>
-      <if test="templateName != null" >
-        #{templateName,jdbcType=VARCHAR},
       </if>
       <if test="templateId != null" >
         #{templateId,jdbcType=VARCHAR},
@@ -384,9 +378,6 @@
       <if test="record.planType != null" >
         PLAN_TYPE = #{record.planType,jdbcType=VARCHAR},
       </if>
-      <if test="record.templateName != null" >
-        TEMPLATE_NAME = #{record.templateName,jdbcType=VARCHAR},
-      </if>
       <if test="record.templateId != null" >
         TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
       </if>
@@ -444,7 +435,6 @@
       PLAN_STARTTIME = #{record.planStarttime,jdbcType=TIMESTAMP},
       PLAN_ENDTIME = #{record.planEndtime,jdbcType=TIMESTAMP},
       PLAN_TYPE = #{record.planType,jdbcType=VARCHAR},
-      TEMPLATE_NAME = #{record.templateName,jdbcType=VARCHAR},
       TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
       P_NAME = #{record.pName,jdbcType=VARCHAR},
       P_ID = #{record.pId,jdbcType=VARCHAR},
@@ -494,9 +484,6 @@
       </if>
       <if test="planType != null" >
         PLAN_TYPE = #{planType,jdbcType=VARCHAR},
-      </if>
-      <if test="templateName != null" >
-        TEMPLATE_NAME = #{templateName,jdbcType=VARCHAR},
       </if>
       <if test="templateId != null" >
         TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
@@ -552,7 +539,6 @@
       PLAN_STARTTIME = #{planStarttime,jdbcType=TIMESTAMP},
       PLAN_ENDTIME = #{planEndtime,jdbcType=TIMESTAMP},
       PLAN_TYPE = #{planType,jdbcType=VARCHAR},
-      TEMPLATE_NAME = #{templateName,jdbcType=VARCHAR},
       TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
       P_NAME = #{pName,jdbcType=VARCHAR},
       P_ID = #{pId,jdbcType=VARCHAR},

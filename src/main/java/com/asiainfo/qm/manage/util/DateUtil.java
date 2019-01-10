@@ -250,7 +250,7 @@ public class DateUtil {
 
     public static void main(String[] args) throws Exception {
         getStartTimeStamp("2017-10-10");
-        System.out.println(DateUtil.date2String(getBeforeAfterDate(DateUtil.date2String(new Date()), 90)));
+        System.out.println(DateUtil.date2String(getBeforeAfterDate(DateUtil.date2String(new Date()), -1)));
     }
 
     /**

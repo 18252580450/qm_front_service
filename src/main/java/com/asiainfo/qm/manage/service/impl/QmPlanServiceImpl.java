@@ -235,6 +235,18 @@ public class QmPlanServiceImpl implements QmPlanService {
 				QmBindRlnExample.Criteria criteria = example.createCriteria();
 				criteria.andPlanIdEqualTo(id);
 				List<QmBindRln> qmBindRlns = qmBindRlnMapper.selectByExample(example);
+				if(qmBindRlns.size() > 0){
+					//TODO 需调查询虚拟组接口
+					for(int i = 0;i<qmBindRlns.size();i++){
+						if(!qmBindRlns.get(i).getCheckStaffId().isEmpty()){
+							qmBindRlns.get(i).setCheckStaffName("质检人"+i);
+						}
+						if(!qmBindRlns.get(i).getCheckedObjectId().isEmpty()){
+							qmBindRlns.get(i).setCheckedObjectName("被质检人"+i);
+							qmBindRlns.get(i).setCheckedDepartName("话务组"+i);
+						}
+					}
+				}
 				qmPlan.setQmBindRlnList(qmBindRlns);
 				List<QmPlan> list = new ArrayList<>();
 				list.add(qmPlan);
