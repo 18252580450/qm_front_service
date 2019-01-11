@@ -3,7 +3,6 @@ package com.asiainfo.qm.manage.web;
 import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.domain.CheckTemplate;
-import com.asiainfo.qm.manage.domain.TemplateDetail;
 import com.asiainfo.qm.manage.service.CheckTemplateService;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.manage.vo.*;
@@ -12,6 +11,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import net.sf.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,11 +103,41 @@ public class CheckTemplateController {
 			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
 			@HystrixProperty(name = "coreSize", value = "200") })
 	@RequestMapping(value = "/action", method = RequestMethod.PUT)
-	public CheckTemplateServiceResponse action(@RequestBody CheckTemplate checkTemplate) throws Exception {
+	public CheckTemplateServiceResponse action(@RequestBody String params) throws Exception {
 		CheckTemplateResponse checkTemplateResponse = new CheckTemplateResponse();
 		CheckTemplateServiceResponse checkTemplateServiceResponse = new CheckTemplateServiceResponse();
+		//String 转 List
+		JSONArray jsonArray = JSONArray.fromObject(params);
+		List<String> list = (List<String>)jsonArray;
 		try {
-			checkTemplateResponse = checkTemplateService.action(checkTemplate);
+			checkTemplateResponse = checkTemplateService.update(list);
+		}catch (Exception e){
+			logger.error("数据修改异常");
+			checkTemplateResponse.setRspcode(WebUtil.EXCEPTION);
+			checkTemplateResponse.setRspdesc("数据修改异常!");
+		}
+		checkTemplateServiceResponse.setResponse(checkTemplateResponse);
+		return checkTemplateServiceResponse;
+	}
+
+	@ApiOperation(value = "前端调用接口修改考评模板", notes = "qm_configservice修改考评模板", response = CheckTemplateResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+			@ApiResponse(code = 403, message = "资源不存在"),
+			@ApiResponse(code = 404, message = "传入的参数无效"),
+			@ApiResponse(code = 500, message = "服务器出现异常错误") })
+	@HystrixCommand(groupKey = "qm_configservice ", commandKey = "updateTemplate", threadPoolKey = "updateTemplateThread", fallbackMethod = "fallbackUpdateTemplate",commandProperties = {
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
+			@HystrixProperty(name = "coreSize", value = "200") })
+	@RequestMapping(value = "/updateTemplate", method = RequestMethod.PUT)
+	public CheckTemplateServiceResponse updateTemplate(@RequestBody String params) throws Exception {
+		CheckTemplateResponse checkTemplateResponse = new CheckTemplateResponse();
+		CheckTemplateServiceResponse checkTemplateServiceResponse = new CheckTemplateServiceResponse();
+		//String 转 List
+		JSONArray jsonArray = JSONArray.fromObject(params);
+		List<String> list = (List<String>)jsonArray;
+		try {
+			checkTemplateResponse = checkTemplateService.updateTemplate(list);
 		}catch (Exception e){
 			logger.error("数据修改异常");
 			checkTemplateResponse.setRspcode(WebUtil.EXCEPTION);
@@ -175,8 +205,15 @@ public class CheckTemplateController {
 		return checkTemplateServiceResponse;
 	}
 //
-	public CheckTemplateServiceResponse fallbackAction(@RequestBody CheckTemplate checkTemplate) throws Exception {
+	public CheckTemplateServiceResponse fallbackAction(@RequestBody String params) throws Exception {
 		logger.info("修改模板状态出错啦！");
+		logger.error("");
+		CheckTemplateServiceResponse checkTemplateServiceResponse = new CheckTemplateServiceResponse();
+		return checkTemplateServiceResponse;
+	}
+
+	public CheckTemplateServiceResponse fallbackUpdateTemplate(@RequestBody String params) throws Exception {
+		logger.info("修改模板出错啦！");
 		logger.error("");
 		CheckTemplateServiceResponse checkTemplateServiceResponse = new CheckTemplateServiceResponse();
 		return checkTemplateServiceResponse;

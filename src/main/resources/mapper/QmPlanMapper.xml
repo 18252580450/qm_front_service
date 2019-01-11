@@ -554,4 +554,14 @@
       PLAN_RUNTYPE = #{planRuntype,jdbcType=CHAR}
     where PLAN_ID = #{planId,jdbcType=VARCHAR}
   </update>
+
+  <!--新建-->
+  <select id="selectByTemplateId" parameterType="java.util.List" resultType="java.lang.Integer">
+    select count(*)
+    from t_qm_plan t
+    WHERE t.TEMPLATE_ID in
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+      #{item,jdbcType=VARCHAR}
+    </foreach>
+  </select>
 </mapper>

@@ -27,4 +27,6 @@ public interface QmPlanMapper {
     int updateByPrimaryKeySelective(QmPlan record);
 
     int updateByPrimaryKey(QmPlan record);
+
+    int selectByTemplateId(List<String> templateId);//新建
 }

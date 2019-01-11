@@ -70,16 +70,16 @@ public class TplOPLogServiceImpl implements TplOpLogService {
 			int result = tplOpLogMapper.insertSelective(tplOpLog);
 			if(result > 0){
 				tplOpLogResponse.setRspcode(WebUtil.SUCCESS);
-				tplOpLogResponse.setRspdesc("新增操作日志成功");
+//				tplOpLogResponse.setRspdesc("新增操作日志成功");
 			}else {
 				tplOpLogResponse.setRspcode(WebUtil.FAIL);
-				tplOpLogResponse.setRspdesc("新增操作日志失败");
+//				tplOpLogResponse.setRspdesc("新增操作日志失败");
 			}
 		}catch (Exception e){
 			e.printStackTrace();
-			logger.error("新增操作日志异常",e);
+//			logger.error("新增操作日志异常",e);
 			tplOpLogResponse.setRspcode(WebUtil.EXCEPTION);
-			tplOpLogResponse.setRspdesc("新增操作日志异常");
+//			tplOpLogResponse.setRspdesc("新增操作日志异常");
 		}
 		return  tplOpLogResponse;
 	}

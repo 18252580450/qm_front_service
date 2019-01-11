@@ -27,4 +27,7 @@ public interface CheckTemplateMapper {
     int updateByPrimaryKeySelective(CheckTemplate record);
 
     int updateByPrimaryKey(CheckTemplate record);
+
+    int update(List<String> list);//新增
+    int updateTemplate(List<String> list);//新增
 }

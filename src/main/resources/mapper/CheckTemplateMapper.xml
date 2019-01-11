@@ -99,6 +99,55 @@
     OPERATE_TIME, REMARK, RESERVE_1, RESERVE_2, RESERVE_3, RESERVE_4, RESERVE_5, RESERVE_6, 
     RESERVE_7, RESERVE_8, RESERVE_9, RESERVE_10, COPYED_TIMES
   </sql>
+
+  <!--批量更新-->
+  <update id="update" parameterType="java.util.List" >
+    update t_qm_checktemplate
+    set  TEMPLATE_STATUS =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TEMPLATE_ID" close="end">
+      when #{item.templateId} then  #{item.templateStatus,jdbcType=VARCHAR}
+    </foreach>
+    where TEMPLATE_ID in
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item.templateId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+
+  <!--批量更新-->
+  <update id="updateTemplate" parameterType="java.util.List" >
+    update t_qm_checktemplate
+    set  TEMPLATE_NAME =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TEMPLATE_ID" close="end">
+      when #{item.templateId} then  #{item.templateName,jdbcType=VARCHAR}
+    </foreach>
+    ,TEMPLATE_TYPE =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TEMPLATE_ID" close="end">
+      when #{item.templateId} then  #{item.templateType,jdbcType=VARCHAR}
+    </foreach>
+    ,TEMPLATE_STATUS =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TEMPLATE_ID" close="end">
+      when #{item.templateId} then  #{item.templateStatus,jdbcType=VARCHAR}
+    </foreach>
+    ,OPERATE_TYPE =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TEMPLATE_ID" close="end">
+      when #{item.templateId} then  #{item.operateType,jdbcType=VARCHAR}
+    </foreach>
+    ,REMARK =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TEMPLATE_ID" close="end">
+      when #{item.templateId} then  #{item.remark,jdbcType=VARCHAR}
+    </foreach>
+    where TEMPLATE_ID in
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item.templateId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.CheckTemplateExample" >
     select
     <if test="distinct" >

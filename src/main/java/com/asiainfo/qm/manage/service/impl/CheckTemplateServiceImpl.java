@@ -2,6 +2,7 @@ package com.asiainfo.qm.manage.service.impl;
 
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.CheckTemplateMapper;
+import com.asiainfo.qm.manage.dao.QmPlanMapper;
 import com.asiainfo.qm.manage.domain.CheckTemplate;
 import com.asiainfo.qm.manage.domain.CheckTemplateExample;
 import com.asiainfo.qm.manage.domain.TemplateDetail;
@@ -13,6 +14,7 @@ import com.asiainfo.qm.manage.vo.CheckTemplateResponse;
 import com.asiainfo.qm.manage.vo.TemplateDetailResponse;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,8 @@ public class CheckTemplateServiceImpl implements CheckTemplateService {
 	private AddCheckTemplateService addCheckTemplateService;
 	@Autowired
 	private CheckTemplateMapper checkTemplateMapper;
+	@Autowired
+	private QmPlanMapper qmPlanMapper;
 	@Autowired
 	private SequenceUtils sequenceUtils;
 
@@ -89,13 +93,21 @@ public class CheckTemplateServiceImpl implements CheckTemplateService {
 			CheckTemplateExample example = new CheckTemplateExample();
 			CheckTemplateExample.Criteria criteria= example.createCriteria();
 			criteria.andTemplateIdIn(ids);
-			int result = checkTemplateMapper.deleteByExample(example);
-			if(result > 0){
-				checkTemplateResponse.setRspcode(WebUtil.SUCCESS);
-				checkTemplateResponse.setRspdesc("删除考评模板基本信息成功");
-			}else {
+
+			//如果该考评模版被考评计划绑定，则不可删除
+            int size = qmPlanMapper.selectByTemplateId(ids);
+			if(size > 0){
 				checkTemplateResponse.setRspcode(WebUtil.FAIL);
-				checkTemplateResponse.setRspdesc("删除考评模板基本信息失败");
+				checkTemplateResponse.setRspdesc("考评模版已经被绑定，无法删除");
+			}else{
+				int result = checkTemplateMapper.deleteByExample(example);
+				if(result > 0){
+					checkTemplateResponse.setRspcode(WebUtil.SUCCESS);
+					checkTemplateResponse.setRspdesc("删除考评模板基本信息成功");
+				}else {
+					checkTemplateResponse.setRspcode(WebUtil.FAIL);
+					checkTemplateResponse.setRspdesc("删除考评模板基本信息失败");
+				}
 			}
 		}catch (Exception e){
 			e.printStackTrace();
@@ -107,25 +119,47 @@ public class CheckTemplateServiceImpl implements CheckTemplateService {
 	}
 
 	@Override
-	public CheckTemplateResponse action(CheckTemplate checkTemplate) throws Exception {
+	public CheckTemplateResponse update(@Param("list")List<String> list) throws Exception{
 		CheckTemplateResponse checkTemplateResponse = new CheckTemplateResponse();
 		try {
-			int result = checkTemplateMapper.updateByPrimaryKey(checkTemplate);
-			if(result > 0){
+			int result = checkTemplateMapper.update(list);
+			if (result > 0) {
 				checkTemplateResponse.setRspcode(WebUtil.SUCCESS);
-				checkTemplateResponse.setRspdesc("修改模板成功");
-			}else {
+				checkTemplateResponse.setRspdesc("操作成功");
+			} else {
 				checkTemplateResponse.setRspcode(WebUtil.FAIL);
-				checkTemplateResponse.setRspdesc("修改模板失败");
+				checkTemplateResponse.setRspdesc("操作失败");
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("修改模板异常",e);
+			logger.error("操作异常", e);
 			checkTemplateResponse.setRspcode(WebUtil.EXCEPTION);
-			checkTemplateResponse.setRspdesc("修改模板异常");
+			checkTemplateResponse.setRspdesc("操作异常");
 		}
 		return checkTemplateResponse;
 	}
+
+	@Override
+	public CheckTemplateResponse updateTemplate(@Param("list")List<String> list) throws Exception{
+		CheckTemplateResponse checkTemplateResponse = new CheckTemplateResponse();
+		try {
+			int result = checkTemplateMapper.updateTemplate(list);
+			if (result > 0) {
+				checkTemplateResponse.setRspcode(WebUtil.SUCCESS);
+				checkTemplateResponse.setRspdesc("操作成功");
+			} else {
+				checkTemplateResponse.setRspcode(WebUtil.FAIL);
+				checkTemplateResponse.setRspdesc("操作失败");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("操作异常", e);
+			checkTemplateResponse.setRspcode(WebUtil.EXCEPTION);
+			checkTemplateResponse.setRspdesc("操作异常");
+		}
+		return checkTemplateResponse;
+	}
+
 
 //	@Override
 //	public CheckTemplateResponse copyTemplate(CheckTemplate checkTemplate) throws Exception{

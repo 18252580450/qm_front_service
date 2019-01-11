@@ -3,7 +3,7 @@
 <generatorConfiguration>
     <!-- 数据库驱动包位置,要使用本地绝对路径 -->
     <classPathEntry
-            location="D:/setting/busi_yn_setting/maven/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar" />
+            location="/Users/libracheng/eclipse-workspace/workspace/repository/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar" />
     <context id="MySQL2DominModel">
         <commentGenerator>
             <!-- suppressDate是去掉生成日期那行注释 -->
@@ -11,9 +11,11 @@
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
-        <!--数据库链接URL，用户名、密码 -->
+
+        <!--&lt;!&ndash;数据库链接URL，用户名、密码 &ndash;&gt;-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://203.57.228.52:3306/ctc_qm" userId="root"
+                        connectionURL="jdbc:mysql://203.57.228.52:3306/ctc_qm"
+                        userId="root"
                         password="ctcqm@WSX1qaz" />
 
         <javaTypeResolver>
@@ -21,7 +23,7 @@
         </javaTypeResolver>
 
         <!-- 生成模型的包名和位置-->
-        <javaModelGenerator targetPackage="com.asiainfo.qm.task.domain" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.asiainfo.qm.manage.domain" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -32,21 +34,14 @@
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
         <!-- 生成DAO的包名和位置-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.asiainfo.qm.task.dao" targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.asiainfo.qm.manage.dao" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- ****************要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名*****************-->
 
 
-        <!--<table schema="" tableName="t_qm_checktype" domainObjectName="Checktype"></table>
+        <!--<table schema="" tableName="t_qm_checktype" domainObjectName="Checktype"></table> -->
         <table schema="" tableName="t_qm_static_params" domainObjectName="StaticParams"/>
-        <table schema="" tableName="t_qm_bind_rln" domainObjectName="BindRln"></table>
-        <table schema="" tableName="t_qm_plan_log" domainObjectName="QmPlanLog"></table>
-        <table schema="" tableName="t_qm_plan" domainObjectName="QmPlan"></table>
-        <table schema="" tableName="t_qm_strategy" domainObjectName="QmStrategy"></table>
-        <table schema="" tableName="t_qm_strategy_element" domainObjectName="QmStrategyElement"></table>
-        <table schema="" tableName="t_qm_strategy_element_rel" domainObjectName="QmStrategyElementRel"></table>
-        <table schema="" tableName="t_qm_voice" domainObjectName="QmVoice"></table>-->
-        <table schema="" tableName="t_qm_workform" domainObjectName="QmWorkform"></table>
+
     </context>
 </generatorConfiguration>

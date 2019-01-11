@@ -9,6 +9,8 @@ public class TemplateDetail extends TemplateDetailKey {
 
     private String cityId;
 
+    private CheckItem checkItem;
+
     private String nodeName;
 
     private String pNodeId;
@@ -67,6 +69,14 @@ public class TemplateDetail extends TemplateDetailKey {
 
     public void setTenantId(String tenantId) {
         this.tenantId = tenantId == null ? null : tenantId.trim();
+    }
+
+    public CheckItem getCheckItem() {
+        return checkItem;
+    }
+
+    public void setCheckItem(CheckItem checkItem) {
+        this.checkItem = checkItem;
     }
 
     public String getProvinceId() {
