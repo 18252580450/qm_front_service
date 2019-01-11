@@ -44,6 +44,11 @@ public class CheckTemplateDetailServiceImpl implements CheckTemplateDetailServic
             if (null != params.get("templateId") && !"".equals(params.get("templateId"))) {
                 criteria.andTemplateIdEqualTo((String) params.get("templateId"));
             }
+            if (null != params.get("nodeIdList") && !"".equals(params.get("nodeIdList"))) {
+                @SuppressWarnings("unchecked")
+                List<String> nodeIdList = (List<String>) params.get("nodeIdList");
+                criteria.andNodeIdIn(nodeIdList);
+            }
 
             templateDetailResponse = new TemplateDetailResponse();
             List<TemplateDetail> list = templateDetailMapper.selectByExample(example);

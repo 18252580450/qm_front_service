@@ -1,13 +1,15 @@
 package com.asiainfo.qm.manage.service.impl;
 
-import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.CheckItemMapper;
 import com.asiainfo.qm.manage.domain.CheckItem;
 import com.asiainfo.qm.manage.domain.CheckItemExample;
 import com.asiainfo.qm.manage.service.CheckItemService;
+import com.asiainfo.qm.manage.service.CheckTemplateDetailService;
+import com.asiainfo.qm.manage.service.CheckTemplateService;
 import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.manage.vo.CheckItemResponse;
+import com.asiainfo.qm.manage.vo.TemplateDetailResponse;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
@@ -15,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,9 +33,8 @@ public class CheckItemServiceImpl implements CheckItemService {
 
     @Autowired
     private CheckItemMapper checkItemMapper;
-
     @Autowired
-    private SequenceUtils sequenceUtils;
+    private CheckTemplateDetailService checkTemplateDetailService;
 
     @Override
     public CheckItemResponse queryCheckItem(Map params, int start, int limit) throws Exception {
@@ -141,6 +143,21 @@ public class CheckItemServiceImpl implements CheckItemService {
     public CheckItemResponse deleteCheckItem(List<String> idList) throws Exception {
         CheckItemResponse checkItemResponse = new CheckItemResponse();
         try {
+            //查询考评模版有无绑定考评项
+            Map<String, List<String>> params = new HashMap<String, List<String>>();
+            params.put("nodeIdList", idList);
+            TemplateDetailResponse templateDetailResponse = checkTemplateDetailService.queryTemplateDetail(params, 0, 0);
+            if (templateDetailResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
+                checkItemResponse.setRspcode(WebUtil.FAIL);
+                checkItemResponse.setRspdesc("查询考评模版异常");
+                return checkItemResponse;
+            } else {
+                if (templateDetailResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                    checkItemResponse.setRspcode(WebUtil.FAIL);
+                    checkItemResponse.setRspdesc("考评项已被绑定，无法删除");
+                    return checkItemResponse;
+                }
+            }
             CheckItemExample example = new CheckItemExample();
             CheckItemExample.Criteria criteria = example.createCriteria();
             criteria.andCheckItemIdIn(idList);
