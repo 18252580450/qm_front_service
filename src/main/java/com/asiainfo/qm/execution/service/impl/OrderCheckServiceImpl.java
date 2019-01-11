@@ -53,10 +53,6 @@ public class OrderCheckServiceImpl implements OrderCheckService {
         Map<String, Object> orderCheckInfo = (Map<String, Object>) reqMap.get("orderCheckInfo");
         @SuppressWarnings("unchecked")
         List<Map<String, Object>> checkLinkData = (ArrayList<Map<String, Object>>) reqMap.get("checkLinkData");
-        //工单质检结果更新列表
-        List<OrderCheckResult> orderCheckResultUpdateList = new ArrayList<OrderCheckResult>();
-        //工单质检结果新增列表
-        List<OrderCheckResult> orderCheckResultAddList = new ArrayList<OrderCheckResult>();
         //工单质检结果详情更新列表
         List<OrderCheckResultDetail> orderCheckResultDetailUpdateList = new ArrayList<OrderCheckResultDetail>();
         //工单质检结果详情新增列表
@@ -69,6 +65,7 @@ public class OrderCheckServiceImpl implements OrderCheckService {
         Date currentTime = DateUtil.getCurrontTime();
         String tmpStr = orderCheckInfo.get("checkStartTime").toString();
         String checkStartTime = tmpStr.substring(0, 10) + " " + tmpStr.substring(11);
+        boolean updateFlag = false; //质检结果更新标志
         try {
             //查询工单质检结果信息表，存在暂存数据则更新质检结果，反之插入
             Map<String, Object> params = new HashMap<>();
@@ -84,6 +81,7 @@ public class OrderCheckServiceImpl implements OrderCheckService {
             if (null != orderCheckResultResponse.getData() && orderCheckResultResponse.getData().size() > 0) {
                 //若有保存数据，则流水号为保存时生成的流水
                 inspectionId = orderCheckResultResponse.getData().get(0).getInspectionId();
+                updateFlag = true;
                 for (OrderCheckResult orderCheckResult : orderCheckResultResponse.getData()
                 ) {
                     for (Map<String, Object> checkLink : checkLinkData
@@ -111,45 +109,28 @@ public class OrderCheckServiceImpl implements OrderCheckService {
                 }
             }
 
-            //工单质检结果
+            //重置之前质检的最新质检结果标志
+            OrderCheckResult resetResult = new OrderCheckResult();
+            resetResult.setTouchId(orderCheckInfo.get("touchId").toString());
+            resetResult.setLastResultFlag("0");
+            orderCheckResultResponse = resetLastResultFlag(resetResult);
+            if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
+                orderCheckResponse.setRspcode(orderCheckResultResponse.getRspcode());
+                orderCheckResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
+                return orderCheckResponse;
+            }
+
+            //工单质检结果更新or新增
+            orderCheckResultResponse = updateOrAddOrderResult(orderCheckInfo, inspectionId, originInspectionId, updateFlag);
+            if (!orderCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                orderCheckResponse.setRspcode(orderCheckResultResponse.getRspcode());
+                orderCheckResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
+                return orderCheckResponse;
+            }
+
+            //考评环节详细信息
             for (Map checkLink : checkLinkData
             ) {
-                OrderCheckResult orderCheckResult = new OrderCheckResult();
-
-                orderCheckResult.setTenantId(orderCheckInfo.get("tenantId").toString());
-                orderCheckResult.setCallingNumber(orderCheckInfo.get("callingNumber").toString());
-                orderCheckResult.setAcceptNumber(orderCheckInfo.get("acceptNumber").toString());
-                orderCheckResult.setInspectionId(inspectionId);
-                orderCheckResult.setOriginInspectionId(originInspectionId);
-                orderCheckResult.setTouchId(orderCheckInfo.get("touchId").toString());
-                orderCheckResult.setCheckLink(checkLink.get("checkLink").toString());
-                orderCheckResult.setPlanId(orderCheckInfo.get("planId").toString());
-                orderCheckResult.setTemplateId(orderCheckInfo.get("templateId").toString());
-                orderCheckResult.setCheckModel(orderCheckInfo.get("checkModel").toString());        //默认计划内质检
-                orderCheckResult.setCheckedStaffId(orderCheckInfo.get("checkedStaffId").toString());
-                orderCheckResult.setCheckedStaffName(orderCheckInfo.get("checkedStaffName").toString());
-                orderCheckResult.setCheckedDepartId(orderCheckInfo.get("checkedDepartId").toString());
-                orderCheckResult.setCheckedDepartName(orderCheckInfo.get("checkedDepartName").toString());
-                orderCheckResult.setCheckStaffId(orderCheckInfo.get("checkStaffId").toString());
-                orderCheckResult.setCheckStaffName(orderCheckInfo.get("checkStaffName").toString());
-                orderCheckResult.setCheckDepartId(orderCheckInfo.get("checkDepartId").toString());
-                orderCheckResult.setCheckDepartName(orderCheckInfo.get("checkDepartName").toString());
-                orderCheckResult.setCheckStartTime(DateUtil.string2Date(checkStartTime));
-                orderCheckResult.setCheckEndTime(currentTime);
-                orderCheckResult.setCheckTime(Integer.parseInt(orderCheckInfo.get("checkTime").toString()));
-                orderCheckResult.setScoreType(orderCheckInfo.get("scoreType").toString());
-                orderCheckResult.setResultStatus(checkStatus);
-                orderCheckResult.setLastResultFlag("1");      //最新质检结果
-                orderCheckResult.setFinalScore(BigDecimal.valueOf(Double.parseDouble(checkLink.get("finalScore").toString())));
-                orderCheckResult.setCheckComment(checkLink.get("checkComment").toString());
-
-                if (checkLink.containsKey("updateFlag") && checkLink.get("updateFlag").toString().equals("0")) {
-                    orderCheckResultUpdateList.add(orderCheckResult);
-                } else {
-                    orderCheckResultAddList.add(orderCheckResult);
-                }
-
-                //考评环节详细信息
                 @SuppressWarnings("unchecked")
                 List<Map> checkItemScoreList = (ArrayList<Map>) checkLink.get("checkItemScoreList");
                 for (Map checkItem : checkItemScoreList
@@ -183,40 +164,9 @@ public class OrderCheckServiceImpl implements OrderCheckService {
                 }
             }
 
-            //重置之前质检的最新质检结果标志
-            OrderCheckResult orderCheckResult = new OrderCheckResult();
-            orderCheckResult.setTouchId(orderCheckInfo.get("touchId").toString());
-            orderCheckResult.setLastResultFlag("0");
-            orderCheckResultResponse = resetLastResultFlag(orderCheckResult);
-            if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
-                orderCheckResponse.setRspcode(orderCheckResultResponse.getRspcode());
-                orderCheckResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
-                return orderCheckResponse;
-            }
-
-            //工单质检结果更新
-            if (!orderCheckResultUpdateList.isEmpty()) {
-                orderCheckResultResponse = updateOrderCheckResult(orderCheckResultUpdateList);
-                if (!orderCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
-                    orderCheckResponse.setRspcode(orderCheckResultResponse.getRspcode());
-                    orderCheckResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
-                    return orderCheckResponse;
-                }
-            }
-
-            //工单质检结果新增
-            if (!orderCheckResultAddList.isEmpty()) {
-                orderCheckResultResponse = addOrderCheckResult(orderCheckResultAddList);
-                if (!orderCheckResultResponse.getRspcode().equals(WebUtil.SUCCESS)) {
-                    orderCheckResponse.setRspcode(orderCheckResultResponse.getRspcode());
-                    orderCheckResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
-                    return orderCheckResponse;
-                }
-            }
-
             //工单质检结果详细信息更新
             if (!orderCheckResultDetailUpdateList.isEmpty()) {
-                OrderCheckResultDetailResponse orderCheckResultDetailResponse = updateOrderCheckResultDetail(orderCheckResultDetailUpdateList);
+                OrderCheckResultDetailResponse orderCheckResultDetailResponse = updateOrderDetail(orderCheckResultDetailUpdateList);
                 if (!orderCheckResultDetailResponse.getRspcode().equals(WebUtil.SUCCESS)) {
                     orderCheckResponse.setRspcode(orderCheckResultDetailResponse.getRspcode());
                     orderCheckResponse.setRspdesc(orderCheckResultDetailResponse.getRspdesc());
@@ -226,7 +176,7 @@ public class OrderCheckServiceImpl implements OrderCheckService {
 
             //工单质检结果详细信息新增
             if (!orderCheckResultDetailAddList.isEmpty()) {
-                OrderCheckResultDetailResponse orderCheckResultDetailResponse = addOrderCheckResultDetail(orderCheckResultDetailAddList);
+                OrderCheckResultDetailResponse orderCheckResultDetailResponse = addOrderDetail(orderCheckResultDetailAddList);
                 if (!orderCheckResultDetailResponse.getRspcode().equals(WebUtil.SUCCESS)) {
                     orderCheckResponse.setRspcode(orderCheckResultDetailResponse.getRspcode());
                     orderCheckResponse.setRspdesc(orderCheckResultDetailResponse.getRspdesc());
@@ -277,59 +227,85 @@ public class OrderCheckServiceImpl implements OrderCheckService {
         return orderCheckResultResponse;
     }
 
-    private OrderCheckResultResponse updateOrderCheckResult(List<OrderCheckResult> orderCheckResultList) throws Exception {
+    /*
+     * 更新工单质检结果
+     * orderCheckInfo 工单考评项基本信息
+     * inspectionId 质检流水
+     * originInspectionId 原质检流水
+     * isUpdate true：更新 false：新增
+     */
+    private OrderCheckResultResponse updateOrAddOrderResult(Map<String, Object> orderCheckInfo, String inspectionId, String originInspectionId, Boolean isUpdate) throws Exception {
         OrderCheckResultResponse orderCheckResultResponse = new OrderCheckResultResponse();
+        //质检开始时间
+        Date currentTime = DateUtil.getCurrontTime();
+        String tmpStr = orderCheckInfo.get("checkStartTime").toString();
+        String checkStartTime = tmpStr.substring(0, 10) + " " + tmpStr.substring(11);
+        //质检结果状态（新增、暂存、复检）
+        String checkStatus = orderCheckInfo.get("resultStatus").toString();
         try {
             int result = 0;
-            for (OrderCheckResult orderCheckResult : orderCheckResultList
-            ) {
+            OrderCheckResult orderCheckResult = new OrderCheckResult();
+            orderCheckResult.setTenantId(orderCheckInfo.get("tenantId").toString());
+            orderCheckResult.setCallingNumber(orderCheckInfo.get("callingNumber").toString());
+            orderCheckResult.setAcceptNumber(orderCheckInfo.get("acceptNumber").toString());
+            orderCheckResult.setInspectionId(inspectionId);
+            orderCheckResult.setOriginInspectionId(originInspectionId);
+            orderCheckResult.setTouchId(orderCheckInfo.get("touchId").toString());
+            orderCheckResult.setCheckLink("1001");   //待删除字段
+            orderCheckResult.setPlanId(orderCheckInfo.get("planId").toString());
+            orderCheckResult.setTemplateId(orderCheckInfo.get("templateId").toString());
+            orderCheckResult.setCheckModel(orderCheckInfo.get("checkModel").toString());        //默认计划内质检
+            orderCheckResult.setCheckedStaffId(orderCheckInfo.get("checkedStaffId").toString());
+            orderCheckResult.setCheckedStaffName(orderCheckInfo.get("checkedStaffName").toString());
+            orderCheckResult.setCheckedDepartId(orderCheckInfo.get("checkedDepartId").toString());
+            orderCheckResult.setCheckedDepartName(orderCheckInfo.get("checkedDepartName").toString());
+            orderCheckResult.setCheckStaffId(orderCheckInfo.get("checkStaffId").toString());
+            orderCheckResult.setCheckStaffName(orderCheckInfo.get("checkStaffName").toString());
+            orderCheckResult.setCheckDepartId(orderCheckInfo.get("checkDepartId").toString());
+            orderCheckResult.setCheckDepartName(orderCheckInfo.get("checkDepartName").toString());
+            orderCheckResult.setCheckStartTime(DateUtil.string2Date(checkStartTime));
+            orderCheckResult.setCheckEndTime(currentTime);
+            orderCheckResult.setCheckTime(Integer.parseInt(orderCheckInfo.get("checkTime").toString()));
+            orderCheckResult.setScoreType(orderCheckInfo.get("scoreType").toString());
+            orderCheckResult.setResultStatus(checkStatus);
+            orderCheckResult.setLastResultFlag("1");      //最新质检结果
+            orderCheckResult.setFinalScore(BigDecimal.valueOf(Double.parseDouble(orderCheckInfo.get("finalScore").toString())));
+            orderCheckResult.setCheckComment(orderCheckInfo.get("checkComment").toString());
+
+            if (isUpdate) {
                 result = orderCheckResultMapper.updateByPrimaryKeySelective(orderCheckResult);
-                if (result == 0) {
-                    break;
-                }
-            }
-            if (result > 0) {
-                orderCheckResultResponse.setRspcode(WebUtil.SUCCESS);
             } else {
-                orderCheckResultResponse.setRspcode(WebUtil.FAIL);
-                orderCheckResultResponse.setRspdesc("工单质检结果更新失败");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("工单质检结果更新异常", e);
-            orderCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
-            orderCheckResultResponse.setRspdesc("工单质检结果更新异常");
-        }
-        return orderCheckResultResponse;
-    }
-
-    private OrderCheckResultResponse addOrderCheckResult(List<OrderCheckResult> orderCheckResultList) throws Exception {
-        OrderCheckResultResponse orderCheckResultResponse = new OrderCheckResultResponse();
-        try {
-            int result = 0;
-            for (OrderCheckResult orderCheckResult : orderCheckResultList
-            ) {
                 result = orderCheckResultMapper.insertSelective(orderCheckResult);
-                if (result == 0) {
-                    break;
-                }
             }
+
             if (result > 0) {
                 orderCheckResultResponse.setRspcode(WebUtil.SUCCESS);
             } else {
                 orderCheckResultResponse.setRspcode(WebUtil.FAIL);
-                orderCheckResultResponse.setRspdesc("工单质检结果新增失败");
+                if (isUpdate) {
+                    orderCheckResultResponse.setRspdesc("工单质检结果更新失败");
+                } else {
+                    orderCheckResultResponse.setRspdesc("工单质检结果新增失败");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("工单质检结果新增异常", e);
             orderCheckResultResponse.setRspcode(WebUtil.EXCEPTION);
-            orderCheckResultResponse.setRspdesc("工单质检结果新增异常");
+            if (isUpdate) {
+                logger.error("工单质检结果更新异常", e);
+                orderCheckResultResponse.setRspdesc("工单质检结果更新异常");
+            } else {
+                logger.error("工单质检结果新增异常", e);
+                orderCheckResultResponse.setRspdesc("工单质检结果新增异常");
+            }
         }
         return orderCheckResultResponse;
     }
 
-    private OrderCheckResultDetailResponse updateOrderCheckResultDetail(List<OrderCheckResultDetail> orderCheckResultDetailList) throws Exception {
+    /*
+     * 更新工单质检详情
+     */
+    private OrderCheckResultDetailResponse updateOrderDetail(List<OrderCheckResultDetail> orderCheckResultDetailList) throws Exception {
         OrderCheckResultDetailResponse orderCheckResultDetailResponse = new OrderCheckResultDetailResponse();
         try {
             int result = 0;
@@ -355,7 +331,10 @@ public class OrderCheckServiceImpl implements OrderCheckService {
         return orderCheckResultDetailResponse;
     }
 
-    private OrderCheckResultDetailResponse addOrderCheckResultDetail(List<OrderCheckResultDetail> orderCheckResultDetailList) throws Exception {
+    /*
+     * 新增工单质检详情
+     */
+    private OrderCheckResultDetailResponse addOrderDetail(List<OrderCheckResultDetail> orderCheckResultDetailList) throws Exception {
         OrderCheckResultDetailResponse orderCheckResultDetailResponse = new OrderCheckResultDetailResponse();
         try {
             int result = 0;
