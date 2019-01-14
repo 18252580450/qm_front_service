@@ -6,6 +6,7 @@ import com.asiainfo.qm.manage.domain.TemplateDetailKey;
 import java.util.List;
 import java.util.Map;
 
+import com.asiainfo.qm.manage.domain.CheckItemDetail;
 import org.apache.ibatis.annotations.Param;
 
 public interface TemplateDetailMapper {
@@ -20,6 +21,8 @@ public interface TemplateDetailMapper {
     int insertSelective(TemplateDetail record);
 
     List<TemplateDetail> selectByExample(TemplateDetailExample example);
+
+    List<CheckItemDetail> unionSelectByExample(CheckItemDetail checkItemDetail);
 
     TemplateDetail selectByPrimaryKey(TemplateDetailKey key);
 

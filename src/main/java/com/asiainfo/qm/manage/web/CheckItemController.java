@@ -1,10 +1,12 @@
 package com.asiainfo.qm.manage.web;
 
 import com.alibaba.fastjson.JSONObject;
-import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.domain.CheckItem;
+import com.asiainfo.qm.manage.service.CheckItemDetailService;
 import com.asiainfo.qm.manage.service.CheckItemService;
 import com.asiainfo.qm.manage.util.WebUtil;
+import com.asiainfo.qm.manage.vo.CheckItemDetailResponse;
+import com.asiainfo.qm.manage.vo.CheckItemDetailServiceResponse;
 import com.asiainfo.qm.manage.vo.CheckItemResponse;
 import com.asiainfo.qm.manage.vo.CheckItemServiceResponse;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -33,7 +35,7 @@ public class CheckItemController {
     @Autowired
     private CheckItemService checkItemService;
     @Autowired
-    private SequenceUtils sequenceUtils;
+    private CheckItemDetailService checkItemDetailService;
 
     @ApiOperation(value = "前端调用接口查询考评项", notes = "qm_configservice查询考评项", response = CheckItemServiceResponse.class)
     @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
@@ -184,5 +186,36 @@ public class CheckItemController {
         logger.info("考评项数据删除出错啦！");
         logger.error("");
         return new CheckItemServiceResponse();
+    }
+
+    @ApiOperation(value = "前端调用接口查询考评项详情", notes = "qm_configservice查询考评项详情", response = CheckItemDetailServiceResponse.class)
+    @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误")})
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "queryCheckItemDetail", threadPoolKey = "queryCheckItemDetailThread", fallbackMethod = "fallbackQueryCheckItemDetail", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200")})
+    @RequestMapping(value = "/queryCheckItemDetail", method = RequestMethod.GET)
+    public CheckItemDetailServiceResponse queryCheckItemDetail(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        CheckItemDetailResponse checkItemDetailResponse = new CheckItemDetailResponse();
+        CheckItemDetailServiceResponse checkItemDetailServiceResponse = new CheckItemDetailServiceResponse();
+        Map reqParams = JSONObject.parseObject(params);
+        try {
+            checkItemDetailResponse = checkItemDetailService.queryCheckItemDetail(reqParams, start, limit);
+        } catch (Exception e) {
+            logger.error("考评项详情数据查询异常", e);
+            checkItemDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            checkItemDetailResponse.setRspdesc("考评项详情数据查询异常!");
+        }
+        checkItemDetailServiceResponse.setResponse(checkItemDetailResponse);
+        return checkItemDetailServiceResponse;
+    }
+
+    public CheckItemDetailServiceResponse fallbackQueryCheckItemDetail(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        logger.info("考评项详情数据查询出错啦！");
+        logger.error("");
+        return new CheckItemDetailServiceResponse();
     }
 }
