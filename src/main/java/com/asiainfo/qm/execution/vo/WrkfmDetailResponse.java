@@ -1,10 +1,8 @@
 package com.asiainfo.qm.execution.vo;
 
-import com.asiainfo.qm.execution.domain.WrkfmDetail;
-import com.asiainfo.qm.manage.vo.Attach;
+import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.manage.vo.ResponseParent;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.pagehelper.Page;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -25,21 +23,17 @@ public class WrkfmDetailResponse extends ResponseParent {
 
     @ApiModelProperty(name = "DATA", value = "", required = true, example = "")
     @JsonProperty(value = "DATA")
-    private List<WrkfmDetail> data = new ArrayList<WrkfmDetail>();
+    private JSONObject data = new JSONObject();
 
     public WrkfmDetailResponse() {
     }
 
-    public List<WrkfmDetail> getData() {
+    public JSONObject getData() {
         return data;
     }
 
-    public void setData(List<WrkfmDetail> data) {
+    public void setData(JSONObject data) {
         this.data = data;
     }
 
-    public WrkfmDetailResponse(Page<WrkfmDetail> pageResult) {
-        this.setData(pageResult != null ? pageResult.getResult() : null);
-        this.setAttach(new Attach(pageResult != null ? pageResult.getTotal() : 0L));
-    }
 }

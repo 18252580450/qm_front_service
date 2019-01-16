@@ -7,6 +7,6 @@ public class WebUtil {
     public static String SUCCESS = "1";
     public static String FAIL = "2";
     public static String EXCEPTION = "3";
-
+    public static String WRKFM_URL = "http://203.57.227.53:8082";
 
 }

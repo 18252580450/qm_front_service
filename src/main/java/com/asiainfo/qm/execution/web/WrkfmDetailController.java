@@ -2,7 +2,6 @@ package com.asiainfo.qm.execution.web;
 
 import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.execution.service.WrkfmDetailService;
-import com.asiainfo.qm.manage.service.AppealNodeService;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.execution.vo.WrkfmDetailResponse;
 import com.asiainfo.qm.execution.vo.WrkfmDetailServiceResponse;

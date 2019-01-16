@@ -1,7 +1,13 @@
 package com.asiainfo.qm.execution.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.execution.service.WrkfmDetailService;
 import com.asiainfo.qm.execution.vo.WrkfmDetailResponse;
+import com.asiainfo.qm.manage.common.restClient.RestClient;
+import com.asiainfo.qm.manage.util.WebUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -14,8 +20,39 @@ import java.util.Map;
 @Service
 public class WrkfmDetailServiceImpl implements WrkfmDetailService {
 
+    private static Logger logger = LoggerFactory.getLogger(WrkfmDetailServiceImpl.class);
+
     @Override
     public WrkfmDetailResponse queryWrkfmDetail(Map params, int start, int limit) throws Exception {
-        return null;
+        WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
+        try {
+            String provCode = params.get("provCode").toString();
+            String wrkfmId = params.get("wrkfmId").toString();
+            String url = WebUtil.WRKFM_URL + "/tcwf/detail/getDetailMess?provCode=" + provCode + "&wrkfmId=" + wrkfmId;
+            RestClient restClient = new RestClient();
+            JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, null, JSONObject.class, null, "1");
+            if (rsp.getInteger("status").toString().equals("0")) {
+                if (rsp.getJSONObject("rsp").getJSONObject("data") != null) {
+                    JSONObject data = rsp.getJSONObject("rsp").getJSONObject("data");
+                    wrkfmDetailResponse.setData(data);
+                    wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+                } else {
+                    wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                    if (rsp.getJSONObject("rsp").getJSONObject("rspDesc") != null) {
+                        wrkfmDetailResponse.setRspdesc(rsp.getJSONObject("rsp").getJSONObject("rspDesc").toString());
+                    } else {
+                        wrkfmDetailResponse.setRspdesc("工单详情查询失败！");
+                    }
+                }
+            } else {
+                wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                wrkfmDetailResponse.setRspdesc("工单详情服务调用失败！");
+            }
+        } catch (Exception e) {
+            logger.error("工单详情查询异常", e);
+            wrkfmDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            wrkfmDetailResponse.setRspdesc("工单详情查询异常");
+        }
+        return wrkfmDetailResponse;
     }
 }

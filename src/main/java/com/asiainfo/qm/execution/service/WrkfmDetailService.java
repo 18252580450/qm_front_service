@@ -1,6 +1,5 @@
 package com.asiainfo.qm.execution.service;
 
-import com.asiainfo.qm.execution.domain.WrkfmDetail;
 import com.asiainfo.qm.execution.vo.WrkfmDetailResponse;
 
 import java.util.Map;
@@ -13,7 +12,7 @@ import java.util.Map;
 public interface WrkfmDetailService {
 
     /**
-     * 质检申诉查询
+     * 查询工单详情
      */
     WrkfmDetailResponse queryWrkfmDetail(Map params, int start, int limit) throws Exception;
 }
