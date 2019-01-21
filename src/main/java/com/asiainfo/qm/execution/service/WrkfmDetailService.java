@@ -15,4 +15,10 @@ public interface WrkfmDetailService {
      * 查询工单详情
      */
     WrkfmDetailResponse queryWrkfmDetail(Map params, int start, int limit) throws Exception;
+
+    /**
+     * 查询工单轨迹
+     */
+    WrkfmDetailResponse getProcProceLocus(Map params) throws Exception;
+
 }

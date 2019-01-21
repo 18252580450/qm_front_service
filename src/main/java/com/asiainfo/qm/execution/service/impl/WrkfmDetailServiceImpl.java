@@ -1,5 +1,6 @@
 package com.asiainfo.qm.execution.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.execution.service.WrkfmDetailService;
 import com.asiainfo.qm.execution.vo.WrkfmDetailResponse;
@@ -52,6 +53,38 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
             logger.error("工单详情查询异常", e);
             wrkfmDetailResponse.setRspcode(WebUtil.EXCEPTION);
             wrkfmDetailResponse.setRspdesc("工单详情查询异常");
+        }
+        return wrkfmDetailResponse;
+    }
+
+    @Override
+    public WrkfmDetailResponse getProcProceLocus(Map params) throws Exception {
+        WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
+        try {
+            String url = WebUtil.WRKFM_URL + "/tcwf/detail/procProceLocus";
+            RestClient restClient = new RestClient();
+            JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, params, JSONObject.class, null, "1");
+            if (rsp.getInteger("status").toString().equals("0")) {
+                if (rsp.getJSONObject("rsp").getJSONArray("datas") != null) {
+                    JSONArray data = rsp.getJSONObject("rsp").getJSONArray("datas");
+                    wrkfmDetailResponse.setDatas(data);
+                    wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+                } else {
+                    wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                    if (rsp.getJSONObject("rsp").getJSONObject("rspDesc") != null) {
+                        wrkfmDetailResponse.setRspdesc(rsp.getJSONObject("rsp").getJSONObject("rspDesc").toString());
+                    } else {
+                        wrkfmDetailResponse.setRspdesc("工单轨迹查询失败！");
+                    }
+                }
+            } else {
+                wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                wrkfmDetailResponse.setRspdesc("工单轨迹服务调用失败！");
+            }
+        } catch (Exception e) {
+            logger.error("工单轨迹查询异常", e);
+            wrkfmDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            wrkfmDetailResponse.setRspdesc("工单轨迹查询异常");
         }
         return wrkfmDetailResponse;
     }

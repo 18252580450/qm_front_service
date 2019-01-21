@@ -61,6 +61,7 @@
     <result column="CHECK_ITEM_NAME" property="checkItemName" jdbcType="VARCHAR" />
     <result column="CHECK_ITEM_TYPE" property="checkItemType" jdbcType="VARCHAR" />
     <result column="CHECK_ITEM_VITAL_TYPE" property="checkItemVitalType" jdbcType="VARCHAR" />
+    <result column="NODE_TYPE_CODE" property="nodeTypeCode" jdbcType="VARCHAR" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="SCORE_TYPE" property="scoreType" jdbcType="VARCHAR" />
   </resultMap>
@@ -133,7 +134,7 @@
     t1.NODE_ID, t1.NODE_TYPE, t1.TEMPLATE_ID, t1.TENANT_ID, t1.PROVINCE_ID, t1.CITY_ID, t1.NODE_NAME, t1.P_NODE_ID,
     t1.NODE_SCORE, t1.MAX_SCORE, t1.MIN_SCORE, t1.WEIGHT, t1.ERROR_TYPE,
     t1.SCORE_FLAG, t1.CRT_TIME, t1.MODF_TIME, t1.CREATE_STAFF_ID, t1.NODE_ORDER,
-    t2.CHECK_ITEM_NAME, t2.CHECK_ITEM_TYPE, t2.CHECK_ITEM_VITAL_TYPE, t2.REMARK, t3.SCORE_TYPE
+    t2.CHECK_ITEM_NAME, t2.CHECK_ITEM_TYPE, t2.CHECK_ITEM_VITAL_TYPE, t2.NODE_TYPE_CODE, t2.REMARK, t3.SCORE_TYPE
   </sql>
 
   <!--新增查询方法-->

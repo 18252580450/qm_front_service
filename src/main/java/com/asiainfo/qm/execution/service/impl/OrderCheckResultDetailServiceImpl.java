@@ -35,6 +35,9 @@ public class OrderCheckResultDetailServiceImpl implements OrderCheckResultDetail
         OrderCheckResultDetailExample example = new OrderCheckResultDetailExample();
         try {
             OrderCheckResultDetailExample.Criteria criteria = example.createCriteria();
+            if (null != params.get("tenantId") && !"".equals(params.get("tenantId"))) {
+                criteria.andTenantIdEqualTo((String) params.get("tenantId"));
+            }
             if (null != params.get("inspectionId") && !"".equals(params.get("inspectionId"))) {
                 criteria.andInspectionIdEqualTo((String) params.get("inspectionId"));
             }

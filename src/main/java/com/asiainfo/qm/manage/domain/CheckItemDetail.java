@@ -51,6 +51,8 @@ public class CheckItemDetail {
 
     private String checkItemVitalType;
 
+    private String nodeTypeCode;
+
     private String remark;
 
     private String scoreType;
@@ -221,6 +223,14 @@ public class CheckItemDetail {
 
     public void setCheckItemVitalType(String checkItemVitalType) {
         this.checkItemVitalType = checkItemVitalType;
+    }
+
+    public String getNodeTypeCode() {
+        return nodeTypeCode;
+    }
+
+    public void setNodeTypeCode(String nodeTypeCode) {
+        this.nodeTypeCode = nodeTypeCode;
     }
 
     public String getRemark() {

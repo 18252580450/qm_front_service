@@ -2,6 +2,7 @@ package com.asiainfo.qm.execution.service.impl;
 
 import com.asiainfo.qm.execution.dao.WorkformPoolMapper;
 import com.asiainfo.qm.execution.domain.WorkformPool;
+import com.asiainfo.qm.execution.service.OrderCheckResultDetailService;
 import com.asiainfo.qm.execution.service.OrderCheckResultService;
 import com.asiainfo.qm.execution.service.OrderCheckService;
 import com.asiainfo.qm.execution.vo.OrderCheckResponse;
@@ -42,6 +43,8 @@ public class OrderCheckServiceImpl implements OrderCheckService {
     private WorkformPoolMapper workformPoolMapper;
     @Autowired
     private OrderCheckResultService orderCheckResultService;
+    @Autowired
+    private OrderCheckResultDetailService orderCheckResultDetailService;
 
     @Autowired
     private SequenceUtils sequenceUtils;
@@ -82,17 +85,31 @@ public class OrderCheckServiceImpl implements OrderCheckService {
                 //若有保存数据，则流水号为保存时生成的流水
                 inspectionId = orderCheckResultResponse.getData().get(0).getInspectionId();
                 updateFlag = true;
-                for (OrderCheckResult orderCheckResult : orderCheckResultResponse.getData()
-                ) {
-                    for (Map<String, Object> checkLink : checkLinkData
+                //查询工单质检结果详细信息表，存在暂存数据则更新，反之插入
+                Map<String, Object> detailParams = new HashMap<>();
+                params.put("tenantId", orderCheckInfo.get("tenantId"));
+                params.put("touchId", orderCheckInfo.get("touchId"));
+                params.put("inspectionId", inspectionId);
+                OrderCheckResultDetailResponse orderCheckResultDetailResponse = orderCheckResultDetailService.queryOrderCheckResultDetail(detailParams, 0, 0);
+                if (orderCheckResultDetailResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
+                    orderCheckResponse.setRspcode(orderCheckResultDetailResponse.getRspcode());
+                    orderCheckResponse.setRspdesc(orderCheckResultDetailResponse.getRspdesc());
+                    return orderCheckResponse;
+                }
+                if (null != orderCheckResultDetailResponse.getData() && orderCheckResultDetailResponse.getData().size() > 0) {
+                    for (OrderCheckResultDetail orderCheckResultDetail : orderCheckResultDetailResponse.getData()
                     ) {
-                        if (checkLink.get("checkLink").toString().equals(orderCheckResult.getCheckLink())) {
-                            checkLink.put("updateFlag", "0");
-                            break;
+                        for (Map<String, Object> checkLink : checkLinkData
+                        ) {
+                            if (checkLink.get("checkLink").toString().equals(orderCheckResultDetail.getCheckLink())) {
+                                checkLink.put("updateFlag", "0");
+                                break;
+                            }
                         }
                     }
                 }
             }
+
             //原质检流水
             String originInspectionId = inspectionId;
             //复检
