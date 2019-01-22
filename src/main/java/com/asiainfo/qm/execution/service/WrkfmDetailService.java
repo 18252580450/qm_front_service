@@ -14,11 +14,21 @@ public interface WrkfmDetailService {
     /**
      * 查询工单详情
      */
-    WrkfmDetailResponse queryWrkfmDetail(Map params, int start, int limit) throws Exception;
+    WrkfmDetailResponse queryWrkfmDetail(Map params) throws Exception;
 
     /**
      * 查询工单轨迹
      */
     WrkfmDetailResponse getProcProceLocus(Map params) throws Exception;
+
+    /**
+     * 查询内外部回复
+     */
+    WrkfmDetailResponse getHandingLog(Map params) throws Exception;
+
+    /**
+     * 查询工单历史
+     */
+    WrkfmDetailResponse getHistoryProProce(Map params) throws Exception;
 
 }

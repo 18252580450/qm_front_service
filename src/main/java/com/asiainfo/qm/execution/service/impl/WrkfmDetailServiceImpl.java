@@ -24,7 +24,7 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
     private static Logger logger = LoggerFactory.getLogger(WrkfmDetailServiceImpl.class);
 
     @Override
-    public WrkfmDetailResponse queryWrkfmDetail(Map params, int start, int limit) throws Exception {
+    public WrkfmDetailResponse queryWrkfmDetail(Map params) throws Exception {
         WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
         try {
             String provCode = params.get("provCode").toString();
@@ -85,6 +85,72 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
             logger.error("工单轨迹查询异常", e);
             wrkfmDetailResponse.setRspcode(WebUtil.EXCEPTION);
             wrkfmDetailResponse.setRspdesc("工单轨迹查询异常");
+        }
+        return wrkfmDetailResponse;
+    }
+
+    @Override
+    public WrkfmDetailResponse getHandingLog(Map params) throws Exception {
+        WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
+        try {
+            String provCode = params.get("provCode").toString();
+            String wrkfmId = params.get("wrkfmId").toString();
+            String url = WebUtil.WRKFM_URL + "/tcwf/detail/handingLog?provCode=" + provCode + "&wrkfmId=" + wrkfmId;
+            RestClient restClient = new RestClient();
+            JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, null, JSONObject.class, null, "1");
+            if (rsp.getInteger("status").toString().equals("0")) {
+                if (rsp.getJSONObject("rsp").getJSONObject("data") != null) {
+                    JSONObject data = rsp.getJSONObject("rsp").getJSONObject("data");
+                    wrkfmDetailResponse.setData(data);
+                    wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+                } else {
+                    wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                    if (rsp.getJSONObject("rsp").getJSONObject("rspDesc") != null) {
+                        wrkfmDetailResponse.setRspdesc(rsp.getJSONObject("rsp").getJSONObject("rspDesc").toString());
+                    } else {
+                        wrkfmDetailResponse.setRspdesc("内外部回复查询失败！");
+                    }
+                }
+            } else {
+                wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                wrkfmDetailResponse.setRspdesc("内外部回复服务调用失败！");
+            }
+        } catch (Exception e) {
+            logger.error("内外部回复查询异常", e);
+            wrkfmDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            wrkfmDetailResponse.setRspdesc("内外部回复查询异常");
+        }
+        return wrkfmDetailResponse;
+    }
+
+    @Override
+    public WrkfmDetailResponse getHistoryProProce(Map params) throws Exception {
+        WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
+        try {
+            String url = WebUtil.WRKFM_URL + "/tcwf/detail/historyProProce";
+            RestClient restClient = new RestClient();
+            JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, params, JSONObject.class, null, "1");
+            if (rsp.getInteger("status").toString().equals("0")) {
+                if (rsp.getJSONObject("rsp").getJSONArray("datas") != null) {
+                    JSONArray data = rsp.getJSONObject("rsp").getJSONArray("datas");
+                    wrkfmDetailResponse.setDatas(data);
+                    wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+                } else {
+                    wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                    if (rsp.getJSONObject("rsp").getJSONObject("rspDesc") != null) {
+                        wrkfmDetailResponse.setRspdesc(rsp.getJSONObject("rsp").getJSONObject("rspDesc").toString());
+                    } else {
+                        wrkfmDetailResponse.setRspdesc("工单历史查询失败！");
+                    }
+                }
+            } else {
+                wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                wrkfmDetailResponse.setRspdesc("工单历史服务调用失败！");
+            }
+        } catch (Exception e) {
+            logger.error("工单历史查询异常", e);
+            wrkfmDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            wrkfmDetailResponse.setRspdesc("工单历史查询异常");
         }
         return wrkfmDetailResponse;
     }

@@ -41,12 +41,12 @@ public class WrkfmDetailController {
             @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
             @HystrixProperty(name = "coreSize", value = "200")})
     @RequestMapping(value = "/queryWrkfmDetail", method = RequestMethod.GET)
-    public WrkfmDetailServiceResponse queryWrkfmDetail(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+    public WrkfmDetailServiceResponse queryWrkfmDetail(@RequestParam(name = "params") String params) throws Exception {
         WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
         WrkfmDetailServiceResponse wrkfmDetailServiceResponse = new WrkfmDetailServiceResponse();
         Map reqParams = JSONObject.parseObject(params);
         try {
-            wrkfmDetailResponse = wrkfmDetailService.queryWrkfmDetail(reqParams, start, limit);
+            wrkfmDetailResponse = wrkfmDetailService.queryWrkfmDetail(reqParams);
         } catch (Exception e) {
             logger.error("工单详情数据查询异常", e);
             wrkfmDetailResponse.setRspcode(WebUtil.EXCEPTION);
@@ -56,7 +56,7 @@ public class WrkfmDetailController {
         return wrkfmDetailServiceResponse;
     }
 
-    public WrkfmDetailServiceResponse fallbackQueryWrkfmDetail(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+    public WrkfmDetailServiceResponse fallbackQueryWrkfmDetail(@RequestParam(name = "params") String params) throws Exception {
         logger.info("工单详情数据查询出错啦！");
         logger.error("");
         return new WrkfmDetailServiceResponse();
@@ -89,6 +89,68 @@ public class WrkfmDetailController {
 
     public WrkfmDetailServiceResponse fallbackGetProcProceLocus(@RequestParam(name = "params") String params) throws Exception {
         logger.info("工单轨迹数据查询出错啦！");
+        logger.error("");
+        return new WrkfmDetailServiceResponse();
+    }
+
+    @ApiOperation(value = "调用外部接口查询内外部回复", notes = "qm_configservice查询内外部回复", response = WrkfmDetailServiceResponse.class)
+    @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误")})
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "getHandingLog", threadPoolKey = "getHandingLogThread", fallbackMethod = "fallbackGetHandingLog", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200")})
+    @RequestMapping(value = "/getHandingLog", method = RequestMethod.GET)
+    public WrkfmDetailServiceResponse getHandingLog(@RequestParam(name = "params") String params) throws Exception {
+        WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
+        WrkfmDetailServiceResponse wrkfmDetailServiceResponse = new WrkfmDetailServiceResponse();
+        Map reqParams = JSONObject.parseObject(params);
+        try {
+            wrkfmDetailResponse = wrkfmDetailService.getHandingLog(reqParams);
+        } catch (Exception e) {
+            logger.error("内外部回复数据查询异常", e);
+            wrkfmDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            wrkfmDetailResponse.setRspdesc("内外部回复数据查询异常!");
+        }
+        wrkfmDetailServiceResponse.setResponse(wrkfmDetailResponse);
+        return wrkfmDetailServiceResponse;
+    }
+
+    public WrkfmDetailServiceResponse fallbackGetHandingLog(@RequestParam(name = "params") String params) throws Exception {
+        logger.info("内外部回复数据查询出错啦！");
+        logger.error("");
+        return new WrkfmDetailServiceResponse();
+    }
+
+    @ApiOperation(value = "调用外部接口查询工单历史", notes = "qm_configservice查询工单历史", response = WrkfmDetailServiceResponse.class)
+    @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误")})
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "getHistoryProProce", threadPoolKey = "getHistoryProProceThread", fallbackMethod = "fallbackGetHistoryProProce", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200")})
+    @RequestMapping(value = "/getHistoryProProce", method = RequestMethod.GET)
+    public WrkfmDetailServiceResponse getHistoryProProce(@RequestParam(name = "params") String params) throws Exception {
+        WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
+        WrkfmDetailServiceResponse wrkfmDetailServiceResponse = new WrkfmDetailServiceResponse();
+        Map reqParams = JSONObject.parseObject(params);
+        try {
+            wrkfmDetailResponse = wrkfmDetailService.getHistoryProProce(reqParams);
+        } catch (Exception e) {
+            logger.error("工单历史数据查询异常", e);
+            wrkfmDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            wrkfmDetailResponse.setRspdesc("工单历史数据查询异常!");
+        }
+        wrkfmDetailServiceResponse.setResponse(wrkfmDetailResponse);
+        return wrkfmDetailServiceResponse;
+    }
+
+    public WrkfmDetailServiceResponse fallbackGetHistoryProProce(@RequestParam(name = "params") String params) throws Exception {
+        logger.info("工单历史数据查询出错啦！");
         logger.error("");
         return new WrkfmDetailServiceResponse();
     }
