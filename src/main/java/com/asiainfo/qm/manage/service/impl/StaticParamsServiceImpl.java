@@ -45,6 +45,9 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 			if(null != params.get("paramsTypeId") && !"".equals(params.get("paramsTypeId"))) {
 				criteria.andParamsTypeIdEqualTo((String) params.get("paramsTypeId"));
 			}
+			if(null != params.get("paramsTypeName") && !"".equals(params.get("paramsTypeName"))) {
+				criteria.andParamsTypeNameLike("%" + params.get("paramsTypeName") + "%");
+			}
 			if(0 != limit) {
 				PageHelper.offsetPage(start, limit);
 				List<StaticParams> list = staticParamsMapper.selectByExample(example);
