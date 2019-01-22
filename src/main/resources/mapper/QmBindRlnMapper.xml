@@ -68,6 +68,26 @@
   <sql id="Base_Column_List">
     CHECKED_OBJECT_ID, PLAN_ID, CHECK_STAFF_ID, user_type
   </sql>
+
+  <!--新增删除方法-->
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from t_qm_bind_rln
+    where CHECK_STAFF_ID =
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item.checkStaffId,jdbcType=VARCHAR}
+    </foreach>
+    AND
+    CHECKED_OBJECT_ID =
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item.checkedObjectId,jdbcType=VARCHAR}
+    </foreach>
+    AND
+    PLAN_ID =
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item.planId,jdbcType=VARCHAR}
+    </foreach>
+  </delete>
+
   <select id="selectByExample" parameterType="com.asiainfo.qm.task.domain.QmBindRlnExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -103,13 +123,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.asiainfo.qm.task.domain.QmBindRln">
-    insert into t_qm_bind_rln (CHECKED_OBJECT_ID, PLAN_ID, CHECK_STAFF_ID, 
+    insert ignore into t_qm_bind_rln (CHECKED_OBJECT_ID, PLAN_ID, CHECK_STAFF_ID,
       user_type)
     values (#{checkedObjectId,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{checkStaffId,jdbcType=VARCHAR}, 
       #{userType,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.asiainfo.qm.task.domain.QmBindRln">
-    insert into t_qm_bind_rln
+    insert ignore into t_qm_bind_rln
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="checkedObjectId != null">
         CHECKED_OBJECT_ID,

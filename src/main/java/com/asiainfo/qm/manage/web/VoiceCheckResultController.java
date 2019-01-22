@@ -103,7 +103,12 @@ public class VoiceCheckResultController {
 				voiceCheckResult = list.get(i);
 				map = net.sf.json.JSONObject.fromObject(voiceCheckResult);//实体类转换成Map类型
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				map.put("checkEndTime",sdf2.format(voiceCheckResult.getCheckEndTime()));//转换时间格式
+				Date checkEndTime= voiceCheckResult.getCheckEndTime();
+				if(checkEndTime!=null){
+					map.put("checkEndTime",sdf2.format(checkEndTime));//转换时间格式
+				}else{
+					map.put("checkEndTime","");
+				}
 				listMap.add(map);
 			}
 		}

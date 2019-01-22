@@ -201,9 +201,24 @@ public class WorkformPoolController {
 				workformPool.setPlanName(workformPool.getQmPlan().getPlanName());
 				map = net.sf.json.JSONObject.fromObject(workformPool);//实体类转换成Map类型
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				map.put("crtTime",sdf2.format(workformPool.getCrtTime()));//转换时间格式
-				map.put("operateTime",sdf2.format(workformPool.getOperateTime()));//转换时间格式
-				map.put("arcTime",sdf2.format(workformPool.getArcTime()));//转换时间格式
+				Date crtTime = workformPool.getCrtTime();
+				if(crtTime!=null){
+					map.put("crtTime",sdf2.format(crtTime));//转换时间格式
+				}else{
+					map.put("crtTime","");
+				}
+				Date operateTime = workformPool.getOperateTime();
+				if(operateTime!=null){
+					map.put("operateTime",sdf2.format(operateTime));//转换时间格式
+				}else{
+					map.put("operateTime","");
+				}
+				Date arcTime = workformPool.getArcTime();
+				if(arcTime!=null){
+					map.put("arcTime",sdf2.format(arcTime));//转换时间格式
+				}else{
+					map.put("arcTime","");
+				}
 				listMap.add(map);
 			}
 		}

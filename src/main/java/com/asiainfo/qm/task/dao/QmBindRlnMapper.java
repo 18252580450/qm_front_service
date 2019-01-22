@@ -3,6 +3,8 @@ package com.asiainfo.qm.task.dao;
 import com.asiainfo.qm.task.domain.QmBindRln;
 import com.asiainfo.qm.task.domain.QmBindRlnExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface QmBindRlnMapper {
@@ -19,4 +21,6 @@ public interface QmBindRlnMapper {
     int updateByExampleSelective(@Param("record") QmBindRln record, @Param("example") QmBindRlnExample example);
 
     int updateByExample(@Param("record") QmBindRln record, @Param("example") QmBindRlnExample example);
+
+    int deleteByIds(List<Map<String,Object>> list);
 }
