@@ -167,7 +167,7 @@ public class QmPlanServiceImpl implements QmPlanService {
 		QmPlanResponse qmPlanResponse = new QmPlanResponse();
 		try {
 			qmPlan.setModifiedTime(DateUtil.getCurrontTime());
-			int result = qmPlanMapper.updateByPrimaryKey(qmPlan);
+			int result = qmPlanMapper.updateByPrimaryKeySelective(qmPlan);
 			if(result > 0){
 				//删除原有的
 				QmBindRlnExample example = new QmBindRlnExample();

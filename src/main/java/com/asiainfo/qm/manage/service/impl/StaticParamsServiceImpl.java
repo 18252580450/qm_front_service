@@ -128,15 +128,25 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 	public StaticParamsResponse addStaticParams(StaticParams staticParams) throws Exception {
 		StaticParamsResponse staticParamsResponse = new StaticParamsResponse();
 		try {
-			staticParams.setCrtTime(DateUtil.getCurrontTime());
-			staticParams.setParamsPurposeId(String.valueOf(sequenceUtils.getSequence("t_qm_static_params")));
-			int result = staticParamsMapper.insertSelective(staticParams);
-			if(result > 0){
-				staticParamsResponse.setRspcode(WebUtil.SUCCESS);
-				staticParamsResponse.setRspdesc("新增成功");
-			}else {
+			StaticParamsExample example = new StaticParamsExample();
+			StaticParamsExample.Criteria criteria= example.createCriteria();
+			criteria.andParamsCodeEqualTo(staticParams.getParamsCode());
+			criteria.andParamsTypeIdEqualTo(staticParams.getParamsTypeId());
+			List<StaticParams> params = staticParamsMapper.selectByExample(example);
+			if(params.size() > 0){
 				staticParamsResponse.setRspcode(WebUtil.FAIL);
-				staticParamsResponse.setRspdesc("新增失败");
+				staticParamsResponse.setRspdesc("该类型下参数编码已存在！");
+			}else {
+				staticParams.setCrtTime(DateUtil.getCurrontTime());
+				staticParams.setParamsPurposeId(String.valueOf(sequenceUtils.getSequence("t_qm_static_params")));
+				int result = staticParamsMapper.insertSelective(staticParams);
+				if (result > 0) {
+					staticParamsResponse.setRspcode(WebUtil.SUCCESS);
+					staticParamsResponse.setRspdesc("新增成功");
+				} else {
+					staticParamsResponse.setRspcode(WebUtil.FAIL);
+					staticParamsResponse.setRspdesc("新增失败");
+				}
 			}
 		}catch (Exception e){
 			e.printStackTrace();
@@ -151,14 +161,35 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 	public StaticParamsResponse updateStaticParams(StaticParams staticParams) throws Exception {
 		StaticParamsResponse staticParamsResponse = new StaticParamsResponse();
 		try {
-			staticParams.setModfTime(DateUtil.getCurrontTime());
-			int result = staticParamsMapper.updateByPrimaryKey(staticParams);
-			if(result > 0){
-				staticParamsResponse.setRspcode(WebUtil.SUCCESS);
-				staticParamsResponse.setRspdesc("更新成功");
-			}else {
-				staticParamsResponse.setRspcode(WebUtil.FAIL);
-				staticParamsResponse.setRspdesc("更新失败");
+			StaticParamsExample example = new StaticParamsExample();
+			StaticParamsExample.Criteria criteria= example.createCriteria();
+			criteria.andParamsCodeEqualTo(staticParams.getParamsCode());
+			criteria.andParamsTypeIdEqualTo(staticParams.getParamsTypeId());
+			List<StaticParams> params = staticParamsMapper.selectByExample(example);
+			boolean flag = false;
+			if(params.size() > 0){
+				for(int i = 0;i<params.size();i++){
+					if(!params.get(i).getParamsPurposeId().equals(staticParams.getParamsPurposeId())){
+						continue;
+					}else {
+						flag = true;
+						staticParamsResponse.setRspcode(WebUtil.FAIL);
+						staticParamsResponse.setRspdesc("该类型下参数编码已存在！");
+						break;
+					}
+				}
+
+			}
+			if(!flag) {
+				staticParams.setModfTime(DateUtil.getCurrontTime());
+				int result = staticParamsMapper.updateByPrimaryKeySelective(staticParams);
+				if (result > 0) {
+					staticParamsResponse.setRspcode(WebUtil.SUCCESS);
+					staticParamsResponse.setRspdesc("更新成功");
+				} else {
+					staticParamsResponse.setRspcode(WebUtil.FAIL);
+					staticParamsResponse.setRspdesc("更新失败");
+				}
 			}
 		}catch (Exception e){
 			e.printStackTrace();
