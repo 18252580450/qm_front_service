@@ -189,7 +189,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.asiainfo.qm.manage.domain.TemplateDetail" >
-    insert into t_qm_templatedetail (NODE_ID, NODE_TYPE, TEMPLATE_ID, 
+    insert ignore into t_qm_templatedetail (NODE_ID, NODE_TYPE, TEMPLATE_ID,
       TENANT_ID, PROVINCE_ID, CITY_ID, 
       NODE_NAME, P_NODE_ID, NODE_STRUCT, 
       NODE_SCORE, FORMULA, MAX_SCORE, 

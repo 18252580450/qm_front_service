@@ -179,7 +179,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.asiainfo.qm.manage.domain.CheckTemplate" >
-    insert into t_qm_checktemplate (TEMPLATE_ID, TENANT_ID, PROVINCE_ID, 
+    insert ignore into t_qm_checktemplate (TEMPLATE_ID, TENANT_ID, PROVINCE_ID,
       CITY_ID, TEMPLATE_NAME, CREATE_STAFF_ID, 
       CREATE_TIME, TEMPLATE_STATUS, INFLUENCE_SCOPE, 
       CHECK_OBJ, SCORE_TYPE, TEMPLATE_TYPE, 
@@ -203,7 +203,7 @@
       #{copyedTimes,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.asiainfo.qm.manage.domain.CheckTemplate" >
-    insert into t_qm_checktemplate
+    insert ignore into t_qm_checktemplate
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="templateId != null" >
         TEMPLATE_ID,

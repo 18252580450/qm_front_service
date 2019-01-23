@@ -196,7 +196,7 @@ public class CheckTemplateServiceImpl implements CheckTemplateService {
 
 			//更改模板的创建时间、模板状态（默认刚生成的复制模板状态都为未发布）、模板名称并随机生成templateId，然后将其插入到数据库中
 			list.get(0).setCreateTime(DateUtil.getCurrontTime());
-			list.get(0).setTemplateStatus(checkTemplate.getTemplateStatus());
+			list.get(0).setTemplateStatus("0");//复制的默认都为未发布
 			list.get(0).setTemplateName(checkTemplate.getTemplateName());
 			String id= String.valueOf(sequenceUtils.getSequence("t_qm_checktemplate"));
 			list.get(0).setTemplateId(id);
