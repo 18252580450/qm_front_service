@@ -144,6 +144,7 @@ public class QmPlanServiceImpl implements QmPlanService {
 				if(qmBindRlns.size() > 0){
 					for(int i = 0;i<qmBindRlns.size();i++){
 						QmBindRln bindRln = qmBindRlns.get(i);
+						bindRln.setPlanId(qmPlan.getPlanId());
 						qmBindRlnMapper.insertSelective(bindRln);
 					}
 				}
@@ -238,10 +239,10 @@ public class QmPlanServiceImpl implements QmPlanService {
 				if(qmBindRlns.size() > 0){
 					//TODO 需调查询虚拟组接口
 					for(int i = 0;i<qmBindRlns.size();i++){
-						if(!qmBindRlns.get(i).getCheckStaffId().isEmpty()){
+						if(null != qmBindRlns.get(i).getCheckStaffId()){
 							qmBindRlns.get(i).setCheckStaffName("质检人"+i);
 						}
-						if(!qmBindRlns.get(i).getCheckedObjectId().isEmpty()){
+						if(null != qmBindRlns.get(i).getCheckedObjectId()){
 							qmBindRlns.get(i).setCheckedObjectName("被质检人"+i);
 							qmBindRlns.get(i).setCheckedDepartName("话务组"+i);
 						}
