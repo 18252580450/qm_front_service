@@ -133,11 +133,11 @@ public class ExtractServiceImpl implements IExtractService{
                             //自动分派
                             for(int j = 0;i<qmBindRlns.size();j++){
                                 QmBindRln qmBindRln = qmBindRlns.get(j);
-                                if(qmBindRln.getUserType().equals("0") &&
+                                if(qmBindRln.getUserType().equals("0") && null != qmBindRln.getCheckedObjectId() &&
                                         qmBindRln.getCheckedObjectId().equals(qmVoice.getStaffId())){
                                     //话务员
                                     voicePool.setCheckStaffId(qmBindRln.getCheckStaffId());
-                                }else if(qmBindRln.getUserType().equals("1") &&
+                                }else if(qmBindRln.getUserType().equals("1") && null != qmBindRln.getCheckedObjectId() &&
                                 qmBindRln.getCheckedObjectId().equals(qmVoice.getDepartId())){
                             //班组
                             voicePool.setCheckStaffId(qmBindRln.getCheckStaffId());

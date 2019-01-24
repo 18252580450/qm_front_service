@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -118,18 +119,20 @@ public class AutoExtractCommonServiceImpl implements IAutoExtractCommonService {
                 int value1Index = rel.getElementValue1().indexOf("@");
                 if(value1Index >= 0){
                     String d = rel.getElementValue1().substring(0,value1Index).equals("")?"0":rel.getElementValue1().substring(0,value1Index);
-                    String cur = DateUtils.getCurrentDateString("YYYY-MM-DD") + rel.getElementValue1().substring(value1Index);
+                    String cur = DateUtils.getCurrentDateString("YYYY-MM-DD") + rel.getElementValue1().substring(value1Index + 1);
                     Date currentDate = DateUtil.getBeforeAfterDate(cur, Integer.parseInt(d));
-                    sql.append(rel.getElementCode()).append(" between ").append(DateUtil.date2String(currentDate));
+                    Timestamp currentDate1 = DateUtils.paraseSqlTimestamp(DateUtil.date2String(currentDate), DateUtils.DATE_FORMAT_A_YYYYMMDDHHMMSS);
+                    sql.append(rel.getElementCode()).append(" between '").append(currentDate1).append("'");
                 }else{
                     sql.append(rel.getElementCode()).append(" between ").append(rel.getElementValue1());
                 }
                 int value2Index = rel.getElementValue2().indexOf("@");
                 if(value2Index >= 0){
                     String d = rel.getElementValue2().substring(0,value2Index).equals("")?"0":rel.getElementValue2().substring(0,value2Index);
-                    String cur = DateUtils.getCurrentDateString("YYYY-MM-DD") + rel.getElementValue2().substring(value2Index);
+                    String cur = DateUtils.getCurrentDateString("YYYY-MM-DD") + rel.getElementValue2().substring(value2Index + 1);
                     Date currentDate = DateUtil.getBeforeAfterDate(cur, Integer.parseInt(d));
-                    sql.append(" and ").append(DateUtil.date2String(currentDate));
+                    Timestamp currentDate1 = DateUtils.paraseSqlTimestamp(DateUtil.date2String(currentDate), DateUtils.DATE_FORMAT_A_YYYYMMDDHHMMSS);
+                    sql.append(" and '").append(currentDate1).append("'");
                 }else{
                     sql.append(" and ").append(rel.getElementValue2());
                 }

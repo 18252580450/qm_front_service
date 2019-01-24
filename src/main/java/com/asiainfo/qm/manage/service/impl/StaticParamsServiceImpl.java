@@ -169,7 +169,7 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 			boolean flag = false;
 			if(params.size() > 0){
 				for(int i = 0;i<params.size();i++){
-					if(!params.get(i).getParamsPurposeId().equals(staticParams.getParamsPurposeId())){
+					if(params.get(i).getParamsPurposeId().equals(staticParams.getParamsPurposeId())){
 						continue;
 					}else {
 						flag = true;
