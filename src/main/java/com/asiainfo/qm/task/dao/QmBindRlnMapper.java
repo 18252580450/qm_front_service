@@ -5,6 +5,7 @@ import com.asiainfo.qm.task.domain.QmBindRlnExample;
 import java.util.List;
 import java.util.Map;
 
+import com.asiainfo.qm.task.domain.QmBindRlnKey;
 import org.apache.ibatis.annotations.Param;
 
 public interface QmBindRlnMapper {
@@ -23,4 +24,6 @@ public interface QmBindRlnMapper {
     int updateByExample(@Param("record") QmBindRln record, @Param("example") QmBindRlnExample example);
 
     int deleteByIds(List<Map<String,Object>> list);
+
+    int selectByPrimaryKey(QmBindRlnKey qmBindRlnKey);//新增
 }

@@ -4,6 +4,7 @@ import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.task.dao.QmBindRlnMapper;
 import com.asiainfo.qm.task.domain.QmBindRln;
+import com.asiainfo.qm.task.domain.QmBindRlnKey;
 import com.asiainfo.qm.task.service.QmBindRlnService;
 import com.asiainfo.qm.task.vo.QmBindRlnResponse;
 import org.slf4j.Logger;
@@ -47,6 +48,27 @@ public class QmBindRlnServiceImpl implements QmBindRlnService {
             logger.error("删除异常",e);
             qmBindRlnResponse.setRspcode(WebUtil.EXCEPTION);
             qmBindRlnResponse.setRspdesc("删除异常");
+        }
+        return qmBindRlnResponse;
+    }
+
+    @Override
+    public QmBindRlnResponse selectByPrimaryKey(QmBindRlnKey qmBindRlnKey){
+        QmBindRlnResponse qmBindRlnResponse = new QmBindRlnResponse();
+        try {
+            int result = qmBindRlnMapper.selectByPrimaryKey(qmBindRlnKey);
+            if(result > 0){
+                qmBindRlnResponse.setRspcode(WebUtil.SUCCESS);
+                qmBindRlnResponse.setRspdesc("查询成功");
+            }else {
+                qmBindRlnResponse.setRspcode(WebUtil.FAIL);
+                qmBindRlnResponse.setRspdesc("查询失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("查询异常",e);
+            qmBindRlnResponse.setRspcode(WebUtil.EXCEPTION);
+            qmBindRlnResponse.setRspdesc("查询异常");
         }
         return qmBindRlnResponse;
     }
