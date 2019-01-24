@@ -89,14 +89,33 @@ public class CheckItemServiceImpl implements CheckItemService {
         try {
             //生成考评项id
             String parentId = checkItem.getParentCheckItemId();
-            String checkItemId = parentId + "001";
+            String checkItemId = parentId + "001";  //默认首位插入id
             CheckItemExample example = new CheckItemExample();
             CheckItemExample.Criteria criteria = example.createCriteria();
             criteria.andParentCheckItemIdEqualTo(parentId);
-            example.setOrderByClause("CHECK_ITEM_ID DESC");
+            example.setOrderByClause("CHECK_ITEM_ID ASC");
             List<CheckItem> list = checkItemMapper.selectByExample(example);
             if (!list.isEmpty()) {
-                checkItemId = String.valueOf((Long.parseLong(list.get(0).getCheckItemId()) + 1));
+                if (list.size() < 999) {
+                    String firstId = list.get(0).getCheckItemId();
+                    if (firstId.substring(firstId.length() - 3).equals("001")) {  //首个id被占用
+                        for (int i = 1; i < list.size(); i++) {
+                            long preId = Long.parseLong(list.get(i - 1).getCheckItemId());
+                            long nextId = Long.parseLong(list.get(i).getCheckItemId());
+                            if (nextId - preId > 1) {
+                                checkItemId = String.valueOf(preId + 1);  //中间项插入id
+                                break;
+                            }
+                        }
+                        if (checkItemId.substring(checkItemId.length() - 3).equals("001")) {  //列表末端插入id
+                            checkItemId = String.valueOf(Long.parseLong(list.get(list.size() - 1).getCheckItemId()) + 1);
+                        }
+                    }
+                } else {
+                    checkItemResponse.setRspcode(WebUtil.FAIL);
+                    checkItemResponse.setRspdesc("该目录考评项数量超过最大值：999！");
+                    return checkItemResponse;
+                }
             }
             checkItem.setCreateTime(DateUtil.getCurrontTime());
             checkItem.setCheckItemId(checkItemId);
