@@ -3,13 +3,13 @@
 <mapper namespace="com.asiainfo.qm.manage.dao.OrderCheckResultDetailMapper" >
   <resultMap id="BaseResultMap" type="com.asiainfo.qm.manage.domain.OrderCheckResultDetail" >
     <id column="INSPECTION_ID" property="inspectionId" jdbcType="VARCHAR" />
-    <id column="TOUCH_ID" property="touchId" jdbcType="VARCHAR" />
     <id column="CHECK_LINK" property="checkLink" jdbcType="VARCHAR" />
     <id column="NODE_ID" property="nodeId" jdbcType="VARCHAR" />
     <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
     <result column="ACCEPT_MONTH" property="acceptMonth" jdbcType="VARCHAR" />
     <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
     <result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
+    <result column="TOUCH_ID" property="touchId" jdbcType="VARCHAR" />
     <result column="NODE_TYPE" property="nodeType" jdbcType="VARCHAR" />
     <result column="NODE_NAME" property="nodeName" jdbcType="VARCHAR" />
     <result column="CHECK_START_TIME" property="checkStartTime" jdbcType="TIMESTAMP" />
@@ -18,6 +18,10 @@
     <result column="CHECK_STAFF_NAME" property="checkStaffName" jdbcType="VARCHAR" />
     <result column="CHECK_DEPART_ID" property="checkDepartId" jdbcType="VARCHAR" />
     <result column="CHECK_DEPART_NAME" property="checkDepartName" jdbcType="VARCHAR" />
+    <result column="CHECKED_STAFF_ID" property="checkedStaffId" jdbcType="VARCHAR" />
+    <result column="CHECKED_STAFF_NAME" property="checkedStaffName" jdbcType="VARCHAR" />
+    <result column="CHECKED_DEPART_ID" property="checkedDepartId" jdbcType="VARCHAR" />
+    <result column="CHECKED_DEPART_NAME" property="checkedDepartName" jdbcType="VARCHAR" />
     <result column="WEIGHT" property="weight" jdbcType="INTEGER" />
     <result column="SCORE_TYPE" property="scoreType" jdbcType="VARCHAR" />
     <result column="SCORE_SCOPE" property="scoreScope" jdbcType="INTEGER" />
@@ -95,11 +99,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    INSPECTION_ID, TOUCH_ID, CHECK_LINK, NODE_ID, TENANT_ID, ACCEPT_MONTH, PROVINCE_ID, 
-    CITY_ID, NODE_TYPE, NODE_NAME, CHECK_START_TIME, CHECK_END_TIME, CHECK_STAFF_ID, 
-    CHECK_STAFF_NAME, CHECK_DEPART_ID, CHECK_DEPART_NAME, WEIGHT, SCORE_TYPE, SCORE_SCOPE, 
-    MIN_SCORE, MAX_SCORE, REAL_SCORE, CHECK_COMMENT, RESERVE_1, RESERVE_2, RESERVE_3, 
-    RESERVE_4, RESERVE_5, RESERVE_6, RESERVE_7, RESERVE_8, RESERVE_9, RESERVE_10
+    INSPECTION_ID, CHECK_LINK, NODE_ID, TENANT_ID, ACCEPT_MONTH, PROVINCE_ID, CITY_ID, 
+    TOUCH_ID, NODE_TYPE, NODE_NAME, CHECK_START_TIME, CHECK_END_TIME, CHECK_STAFF_ID, 
+    CHECK_STAFF_NAME, CHECK_DEPART_ID, CHECK_DEPART_NAME, CHECKED_STAFF_ID, CHECKED_STAFF_NAME, 
+    CHECKED_DEPART_ID, CHECKED_DEPART_NAME, WEIGHT, SCORE_TYPE, SCORE_SCOPE, MIN_SCORE, 
+    MAX_SCORE, REAL_SCORE, CHECK_COMMENT, RESERVE_1, RESERVE_2, RESERVE_3, RESERVE_4, 
+    RESERVE_5, RESERVE_6, RESERVE_7, RESERVE_8, RESERVE_9, RESERVE_10
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultDetailExample" >
     select
@@ -120,14 +125,12 @@
     <include refid="Base_Column_List" />
     from t_qm_order_check_result_detail
     where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
-      and TOUCH_ID = #{touchId,jdbcType=VARCHAR}
       and CHECK_LINK = #{checkLink,jdbcType=VARCHAR}
       and NODE_ID = #{nodeId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultDetailKey" >
     delete from t_qm_order_check_result_detail
     where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
-      and TOUCH_ID = #{touchId,jdbcType=VARCHAR}
       and CHECK_LINK = #{checkLink,jdbcType=VARCHAR}
       and NODE_ID = #{nodeId,jdbcType=VARCHAR}
   </delete>
@@ -138,39 +141,38 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultDetail" >
-    insert into t_qm_order_check_result_detail (INSPECTION_ID, TOUCH_ID, CHECK_LINK, 
-      NODE_ID, TENANT_ID, ACCEPT_MONTH, 
-      PROVINCE_ID, CITY_ID, NODE_TYPE, 
+    insert into t_qm_order_check_result_detail (INSPECTION_ID, CHECK_LINK, NODE_ID, 
+      TENANT_ID, ACCEPT_MONTH, PROVINCE_ID, 
+      CITY_ID, TOUCH_ID, NODE_TYPE, 
       NODE_NAME, CHECK_START_TIME, CHECK_END_TIME, 
       CHECK_STAFF_ID, CHECK_STAFF_NAME, CHECK_DEPART_ID, 
-      CHECK_DEPART_NAME, WEIGHT, SCORE_TYPE, 
-      SCORE_SCOPE, MIN_SCORE, MAX_SCORE, 
-      REAL_SCORE, CHECK_COMMENT, RESERVE_1, 
-      RESERVE_2, RESERVE_3, RESERVE_4, 
-      RESERVE_5, RESERVE_6, RESERVE_7, 
-      RESERVE_8, RESERVE_9, RESERVE_10
-      )
-    values (#{inspectionId,jdbcType=VARCHAR}, #{touchId,jdbcType=VARCHAR}, #{checkLink,jdbcType=VARCHAR}, 
-      #{nodeId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, #{acceptMonth,jdbcType=VARCHAR}, 
-      #{provinceId,jdbcType=VARCHAR}, #{cityId,jdbcType=VARCHAR}, #{nodeType,jdbcType=VARCHAR}, 
+      CHECK_DEPART_NAME, CHECKED_STAFF_ID, CHECKED_STAFF_NAME, 
+      CHECKED_DEPART_ID, CHECKED_DEPART_NAME, WEIGHT, 
+      SCORE_TYPE, SCORE_SCOPE, MIN_SCORE, 
+      MAX_SCORE, REAL_SCORE, CHECK_COMMENT, 
+      RESERVE_1, RESERVE_2, RESERVE_3, 
+      RESERVE_4, RESERVE_5, RESERVE_6, 
+      RESERVE_7, RESERVE_8, RESERVE_9, 
+      RESERVE_10)
+    values (#{inspectionId,jdbcType=VARCHAR}, #{checkLink,jdbcType=VARCHAR}, #{nodeId,jdbcType=VARCHAR}, 
+      #{tenantId,jdbcType=VARCHAR}, #{acceptMonth,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, 
+      #{cityId,jdbcType=VARCHAR}, #{touchId,jdbcType=VARCHAR}, #{nodeType,jdbcType=VARCHAR}, 
       #{nodeName,jdbcType=VARCHAR}, #{checkStartTime,jdbcType=TIMESTAMP}, #{checkEndTime,jdbcType=TIMESTAMP}, 
       #{checkStaffId,jdbcType=VARCHAR}, #{checkStaffName,jdbcType=VARCHAR}, #{checkDepartId,jdbcType=VARCHAR}, 
-      #{checkDepartName,jdbcType=VARCHAR}, #{weight,jdbcType=INTEGER}, #{scoreType,jdbcType=VARCHAR}, 
-      #{scoreScope,jdbcType=INTEGER}, #{minScore,jdbcType=INTEGER}, #{maxScore,jdbcType=INTEGER}, 
-      #{realScore,jdbcType=DECIMAL}, #{checkComment,jdbcType=VARCHAR}, #{reserve1,jdbcType=VARCHAR}, 
-      #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR}, #{reserve4,jdbcType=VARCHAR}, 
-      #{reserve5,jdbcType=VARCHAR}, #{reserve6,jdbcType=VARCHAR}, #{reserve7,jdbcType=VARCHAR}, 
-      #{reserve8,jdbcType=VARCHAR}, #{reserve9,jdbcType=VARCHAR}, #{reserve10,jdbcType=VARCHAR}
-      )
+      #{checkDepartName,jdbcType=VARCHAR}, #{checkedStaffId,jdbcType=VARCHAR}, #{checkedStaffName,jdbcType=VARCHAR}, 
+      #{checkedDepartId,jdbcType=VARCHAR}, #{checkedDepartName,jdbcType=VARCHAR}, #{weight,jdbcType=INTEGER}, 
+      #{scoreType,jdbcType=VARCHAR}, #{scoreScope,jdbcType=INTEGER}, #{minScore,jdbcType=INTEGER}, 
+      #{maxScore,jdbcType=INTEGER}, #{realScore,jdbcType=DECIMAL}, #{checkComment,jdbcType=VARCHAR}, 
+      #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR}, 
+      #{reserve4,jdbcType=VARCHAR}, #{reserve5,jdbcType=VARCHAR}, #{reserve6,jdbcType=VARCHAR}, 
+      #{reserve7,jdbcType=VARCHAR}, #{reserve8,jdbcType=VARCHAR}, #{reserve9,jdbcType=VARCHAR}, 
+      #{reserve10,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultDetail" >
     insert into t_qm_order_check_result_detail
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="inspectionId != null" >
         INSPECTION_ID,
-      </if>
-      <if test="touchId != null" >
-        TOUCH_ID,
       </if>
       <if test="checkLink != null" >
         CHECK_LINK,
@@ -189,6 +191,9 @@
       </if>
       <if test="cityId != null" >
         CITY_ID,
+      </if>
+      <if test="touchId != null" >
+        TOUCH_ID,
       </if>
       <if test="nodeType != null" >
         NODE_TYPE,
@@ -213,6 +218,18 @@
       </if>
       <if test="checkDepartName != null" >
         CHECK_DEPART_NAME,
+      </if>
+      <if test="checkedStaffId != null" >
+        CHECKED_STAFF_ID,
+      </if>
+      <if test="checkedStaffName != null" >
+        CHECKED_STAFF_NAME,
+      </if>
+      <if test="checkedDepartId != null" >
+        CHECKED_DEPART_ID,
+      </if>
+      <if test="checkedDepartName != null" >
+        CHECKED_DEPART_NAME,
       </if>
       <if test="weight != null" >
         WEIGHT,
@@ -270,9 +287,6 @@
       <if test="inspectionId != null" >
         #{inspectionId,jdbcType=VARCHAR},
       </if>
-      <if test="touchId != null" >
-        #{touchId,jdbcType=VARCHAR},
-      </if>
       <if test="checkLink != null" >
         #{checkLink,jdbcType=VARCHAR},
       </if>
@@ -290,6 +304,9 @@
       </if>
       <if test="cityId != null" >
         #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="touchId != null" >
+        #{touchId,jdbcType=VARCHAR},
       </if>
       <if test="nodeType != null" >
         #{nodeType,jdbcType=VARCHAR},
@@ -314,6 +331,18 @@
       </if>
       <if test="checkDepartName != null" >
         #{checkDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedStaffId != null" >
+        #{checkedStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedStaffName != null" >
+        #{checkedStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedDepartId != null" >
+        #{checkedDepartId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedDepartName != null" >
+        #{checkedDepartName,jdbcType=VARCHAR},
       </if>
       <if test="weight != null" >
         #{weight,jdbcType=INTEGER},
@@ -380,9 +409,6 @@
       <if test="record.inspectionId != null" >
         INSPECTION_ID = #{record.inspectionId,jdbcType=VARCHAR},
       </if>
-      <if test="record.touchId != null" >
-        TOUCH_ID = #{record.touchId,jdbcType=VARCHAR},
-      </if>
       <if test="record.checkLink != null" >
         CHECK_LINK = #{record.checkLink,jdbcType=VARCHAR},
       </if>
@@ -400,6 +426,9 @@
       </if>
       <if test="record.cityId != null" >
         CITY_ID = #{record.cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.touchId != null" >
+        TOUCH_ID = #{record.touchId,jdbcType=VARCHAR},
       </if>
       <if test="record.nodeType != null" >
         NODE_TYPE = #{record.nodeType,jdbcType=VARCHAR},
@@ -424,6 +453,18 @@
       </if>
       <if test="record.checkDepartName != null" >
         CHECK_DEPART_NAME = #{record.checkDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkedStaffId != null" >
+        CHECKED_STAFF_ID = #{record.checkedStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkedStaffName != null" >
+        CHECKED_STAFF_NAME = #{record.checkedStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkedDepartId != null" >
+        CHECKED_DEPART_ID = #{record.checkedDepartId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkedDepartName != null" >
+        CHECKED_DEPART_NAME = #{record.checkedDepartName,jdbcType=VARCHAR},
       </if>
       <if test="record.weight != null" >
         WEIGHT = #{record.weight,jdbcType=INTEGER},
@@ -484,13 +525,13 @@
   <update id="updateByExample" parameterType="map" >
     update t_qm_order_check_result_detail
     set INSPECTION_ID = #{record.inspectionId,jdbcType=VARCHAR},
-      TOUCH_ID = #{record.touchId,jdbcType=VARCHAR},
       CHECK_LINK = #{record.checkLink,jdbcType=VARCHAR},
       NODE_ID = #{record.nodeId,jdbcType=VARCHAR},
       TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
       ACCEPT_MONTH = #{record.acceptMonth,jdbcType=VARCHAR},
       PROVINCE_ID = #{record.provinceId,jdbcType=VARCHAR},
       CITY_ID = #{record.cityId,jdbcType=VARCHAR},
+      TOUCH_ID = #{record.touchId,jdbcType=VARCHAR},
       NODE_TYPE = #{record.nodeType,jdbcType=VARCHAR},
       NODE_NAME = #{record.nodeName,jdbcType=VARCHAR},
       CHECK_START_TIME = #{record.checkStartTime,jdbcType=TIMESTAMP},
@@ -499,6 +540,10 @@
       CHECK_STAFF_NAME = #{record.checkStaffName,jdbcType=VARCHAR},
       CHECK_DEPART_ID = #{record.checkDepartId,jdbcType=VARCHAR},
       CHECK_DEPART_NAME = #{record.checkDepartName,jdbcType=VARCHAR},
+      CHECKED_STAFF_ID = #{record.checkedStaffId,jdbcType=VARCHAR},
+      CHECKED_STAFF_NAME = #{record.checkedStaffName,jdbcType=VARCHAR},
+      CHECKED_DEPART_ID = #{record.checkedDepartId,jdbcType=VARCHAR},
+      CHECKED_DEPART_NAME = #{record.checkedDepartName,jdbcType=VARCHAR},
       WEIGHT = #{record.weight,jdbcType=INTEGER},
       SCORE_TYPE = #{record.scoreType,jdbcType=VARCHAR},
       SCORE_SCOPE = #{record.scoreScope,jdbcType=INTEGER},
@@ -535,6 +580,9 @@
       <if test="cityId != null" >
         CITY_ID = #{cityId,jdbcType=VARCHAR},
       </if>
+      <if test="touchId != null" >
+        TOUCH_ID = #{touchId,jdbcType=VARCHAR},
+      </if>
       <if test="nodeType != null" >
         NODE_TYPE = #{nodeType,jdbcType=VARCHAR},
       </if>
@@ -558,6 +606,18 @@
       </if>
       <if test="checkDepartName != null" >
         CHECK_DEPART_NAME = #{checkDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedStaffId != null" >
+        CHECKED_STAFF_ID = #{checkedStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedStaffName != null" >
+        CHECKED_STAFF_NAME = #{checkedStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedDepartId != null" >
+        CHECKED_DEPART_ID = #{checkedDepartId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedDepartName != null" >
+        CHECKED_DEPART_NAME = #{checkedDepartName,jdbcType=VARCHAR},
       </if>
       <if test="weight != null" >
         WEIGHT = #{weight,jdbcType=INTEGER},
@@ -612,7 +672,6 @@
       </if>
     </set>
     where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
-      and TOUCH_ID = #{touchId,jdbcType=VARCHAR}
       and CHECK_LINK = #{checkLink,jdbcType=VARCHAR}
       and NODE_ID = #{nodeId,jdbcType=VARCHAR}
   </update>
@@ -622,6 +681,7 @@
       ACCEPT_MONTH = #{acceptMonth,jdbcType=VARCHAR},
       PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
       CITY_ID = #{cityId,jdbcType=VARCHAR},
+      TOUCH_ID = #{touchId,jdbcType=VARCHAR},
       NODE_TYPE = #{nodeType,jdbcType=VARCHAR},
       NODE_NAME = #{nodeName,jdbcType=VARCHAR},
       CHECK_START_TIME = #{checkStartTime,jdbcType=TIMESTAMP},
@@ -630,6 +690,10 @@
       CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
       CHECK_DEPART_ID = #{checkDepartId,jdbcType=VARCHAR},
       CHECK_DEPART_NAME = #{checkDepartName,jdbcType=VARCHAR},
+      CHECKED_STAFF_ID = #{checkedStaffId,jdbcType=VARCHAR},
+      CHECKED_STAFF_NAME = #{checkedStaffName,jdbcType=VARCHAR},
+      CHECKED_DEPART_ID = #{checkedDepartId,jdbcType=VARCHAR},
+      CHECKED_DEPART_NAME = #{checkedDepartName,jdbcType=VARCHAR},
       WEIGHT = #{weight,jdbcType=INTEGER},
       SCORE_TYPE = #{scoreType,jdbcType=VARCHAR},
       SCORE_SCOPE = #{scoreScope,jdbcType=INTEGER},
@@ -648,7 +712,6 @@
       RESERVE_9 = #{reserve9,jdbcType=VARCHAR},
       RESERVE_10 = #{reserve10,jdbcType=VARCHAR}
     where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
-      and TOUCH_ID = #{touchId,jdbcType=VARCHAR}
       and CHECK_LINK = #{checkLink,jdbcType=VARCHAR}
       and NODE_ID = #{nodeId,jdbcType=VARCHAR}
   </update>

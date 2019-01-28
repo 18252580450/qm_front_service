@@ -12,6 +12,8 @@ public class OrderCheckResultDetail extends OrderCheckResultDetailKey {
 
     private String cityId;
 
+    private String touchId;
+
     private String nodeType;
 
     private String nodeName;
@@ -27,6 +29,14 @@ public class OrderCheckResultDetail extends OrderCheckResultDetailKey {
     private String checkDepartId;
 
     private String checkDepartName;
+
+    private String checkedStaffId;
+
+    private String checkedStaffName;
+
+    private String checkedDepartId;
+
+    private String checkedDepartName;
 
     private Integer weight;
 
@@ -94,6 +104,14 @@ public class OrderCheckResultDetail extends OrderCheckResultDetailKey {
         this.cityId = cityId == null ? null : cityId.trim();
     }
 
+    public String getTouchId() {
+        return touchId;
+    }
+
+    public void setTouchId(String touchId) {
+        this.touchId = touchId == null ? null : touchId.trim();
+    }
+
     public String getNodeType() {
         return nodeType;
     }
@@ -156,6 +174,38 @@ public class OrderCheckResultDetail extends OrderCheckResultDetailKey {
 
     public void setCheckDepartName(String checkDepartName) {
         this.checkDepartName = checkDepartName == null ? null : checkDepartName.trim();
+    }
+
+    public String getCheckedStaffId() {
+        return checkedStaffId;
+    }
+
+    public void setCheckedStaffId(String checkedStaffId) {
+        this.checkedStaffId = checkedStaffId == null ? null : checkedStaffId.trim();
+    }
+
+    public String getCheckedStaffName() {
+        return checkedStaffName;
+    }
+
+    public void setCheckedStaffName(String checkedStaffName) {
+        this.checkedStaffName = checkedStaffName == null ? null : checkedStaffName.trim();
+    }
+
+    public String getCheckedDepartId() {
+        return checkedDepartId;
+    }
+
+    public void setCheckedDepartId(String checkedDepartId) {
+        this.checkedDepartId = checkedDepartId == null ? null : checkedDepartId.trim();
+    }
+
+    public String getCheckedDepartName() {
+        return checkedDepartName;
+    }
+
+    public void setCheckedDepartName(String checkedDepartName) {
+        this.checkedDepartName = checkedDepartName == null ? null : checkedDepartName.trim();
     }
 
     public Integer getWeight() {

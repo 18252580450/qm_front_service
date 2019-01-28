@@ -3,8 +3,6 @@ package com.asiainfo.qm.manage.domain;
 public class OrderCheckResultDetailKey {
     private String inspectionId;
 
-    private String touchId;
-
     private String checkLink;
 
     private String nodeId;
@@ -15,14 +13,6 @@ public class OrderCheckResultDetailKey {
 
     public void setInspectionId(String inspectionId) {
         this.inspectionId = inspectionId == null ? null : inspectionId.trim();
-    }
-
-    public String getTouchId() {
-        return touchId;
-    }
-
-    public void setTouchId(String touchId) {
-        this.touchId = touchId == null ? null : touchId.trim();
     }
 
     public String getCheckLink() {

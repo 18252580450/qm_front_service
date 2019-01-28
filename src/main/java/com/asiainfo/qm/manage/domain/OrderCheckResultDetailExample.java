@@ -176,76 +176,6 @@ public class OrderCheckResultDetailExample {
             return (Criteria) this;
         }
 
-        public Criteria andTouchIdIsNull() {
-            addCriterion("TOUCH_ID is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTouchIdIsNotNull() {
-            addCriterion("TOUCH_ID is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTouchIdEqualTo(String value) {
-            addCriterion("TOUCH_ID =", value, "touchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTouchIdNotEqualTo(String value) {
-            addCriterion("TOUCH_ID <>", value, "touchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTouchIdGreaterThan(String value) {
-            addCriterion("TOUCH_ID >", value, "touchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTouchIdGreaterThanOrEqualTo(String value) {
-            addCriterion("TOUCH_ID >=", value, "touchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTouchIdLessThan(String value) {
-            addCriterion("TOUCH_ID <", value, "touchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTouchIdLessThanOrEqualTo(String value) {
-            addCriterion("TOUCH_ID <=", value, "touchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTouchIdLike(String value) {
-            addCriterion("TOUCH_ID like", value, "touchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTouchIdNotLike(String value) {
-            addCriterion("TOUCH_ID not like", value, "touchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTouchIdIn(List<String> values) {
-            addCriterion("TOUCH_ID in", values, "touchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTouchIdNotIn(List<String> values) {
-            addCriterion("TOUCH_ID not in", values, "touchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTouchIdBetween(String value1, String value2) {
-            addCriterion("TOUCH_ID between", value1, value2, "touchId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTouchIdNotBetween(String value1, String value2) {
-            addCriterion("TOUCH_ID not between", value1, value2, "touchId");
-            return (Criteria) this;
-        }
-
         public Criteria andCheckLinkIsNull() {
             addCriterion("CHECK_LINK is null");
             return (Criteria) this;
@@ -663,6 +593,76 @@ public class OrderCheckResultDetailExample {
 
         public Criteria andCityIdNotBetween(String value1, String value2) {
             addCriterion("CITY_ID not between", value1, value2, "cityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdIsNull() {
+            addCriterion("TOUCH_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdIsNotNull() {
+            addCriterion("TOUCH_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdEqualTo(String value) {
+            addCriterion("TOUCH_ID =", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdNotEqualTo(String value) {
+            addCriterion("TOUCH_ID <>", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdGreaterThan(String value) {
+            addCriterion("TOUCH_ID >", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdGreaterThanOrEqualTo(String value) {
+            addCriterion("TOUCH_ID >=", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdLessThan(String value) {
+            addCriterion("TOUCH_ID <", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdLessThanOrEqualTo(String value) {
+            addCriterion("TOUCH_ID <=", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdLike(String value) {
+            addCriterion("TOUCH_ID like", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdNotLike(String value) {
+            addCriterion("TOUCH_ID not like", value, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdIn(List<String> values) {
+            addCriterion("TOUCH_ID in", values, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdNotIn(List<String> values) {
+            addCriterion("TOUCH_ID not in", values, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdBetween(String value1, String value2) {
+            addCriterion("TOUCH_ID between", value1, value2, "touchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTouchIdNotBetween(String value1, String value2) {
+            addCriterion("TOUCH_ID not between", value1, value2, "touchId");
             return (Criteria) this;
         }
 
@@ -1203,6 +1203,286 @@ public class OrderCheckResultDetailExample {
 
         public Criteria andCheckDepartNameNotBetween(String value1, String value2) {
             addCriterion("CHECK_DEPART_NAME not between", value1, value2, "checkDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdIsNull() {
+            addCriterion("CHECKED_STAFF_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdIsNotNull() {
+            addCriterion("CHECKED_STAFF_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_ID =", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdNotEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_ID <>", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdGreaterThan(String value) {
+            addCriterion("CHECKED_STAFF_ID >", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdGreaterThanOrEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_ID >=", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdLessThan(String value) {
+            addCriterion("CHECKED_STAFF_ID <", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdLessThanOrEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_ID <=", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdLike(String value) {
+            addCriterion("CHECKED_STAFF_ID like", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdNotLike(String value) {
+            addCriterion("CHECKED_STAFF_ID not like", value, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdIn(List<String> values) {
+            addCriterion("CHECKED_STAFF_ID in", values, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdNotIn(List<String> values) {
+            addCriterion("CHECKED_STAFF_ID not in", values, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdBetween(String value1, String value2) {
+            addCriterion("CHECKED_STAFF_ID between", value1, value2, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffIdNotBetween(String value1, String value2) {
+            addCriterion("CHECKED_STAFF_ID not between", value1, value2, "checkedStaffId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameIsNull() {
+            addCriterion("CHECKED_STAFF_NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameIsNotNull() {
+            addCriterion("CHECKED_STAFF_NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_NAME =", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameNotEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_NAME <>", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameGreaterThan(String value) {
+            addCriterion("CHECKED_STAFF_NAME >", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameGreaterThanOrEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_NAME >=", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameLessThan(String value) {
+            addCriterion("CHECKED_STAFF_NAME <", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameLessThanOrEqualTo(String value) {
+            addCriterion("CHECKED_STAFF_NAME <=", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameLike(String value) {
+            addCriterion("CHECKED_STAFF_NAME like", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameNotLike(String value) {
+            addCriterion("CHECKED_STAFF_NAME not like", value, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameIn(List<String> values) {
+            addCriterion("CHECKED_STAFF_NAME in", values, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameNotIn(List<String> values) {
+            addCriterion("CHECKED_STAFF_NAME not in", values, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameBetween(String value1, String value2) {
+            addCriterion("CHECKED_STAFF_NAME between", value1, value2, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedStaffNameNotBetween(String value1, String value2) {
+            addCriterion("CHECKED_STAFF_NAME not between", value1, value2, "checkedStaffName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartIdIsNull() {
+            addCriterion("CHECKED_DEPART_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartIdIsNotNull() {
+            addCriterion("CHECKED_DEPART_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartIdEqualTo(String value) {
+            addCriterion("CHECKED_DEPART_ID =", value, "checkedDepartId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartIdNotEqualTo(String value) {
+            addCriterion("CHECKED_DEPART_ID <>", value, "checkedDepartId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartIdGreaterThan(String value) {
+            addCriterion("CHECKED_DEPART_ID >", value, "checkedDepartId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartIdGreaterThanOrEqualTo(String value) {
+            addCriterion("CHECKED_DEPART_ID >=", value, "checkedDepartId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartIdLessThan(String value) {
+            addCriterion("CHECKED_DEPART_ID <", value, "checkedDepartId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartIdLessThanOrEqualTo(String value) {
+            addCriterion("CHECKED_DEPART_ID <=", value, "checkedDepartId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartIdLike(String value) {
+            addCriterion("CHECKED_DEPART_ID like", value, "checkedDepartId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartIdNotLike(String value) {
+            addCriterion("CHECKED_DEPART_ID not like", value, "checkedDepartId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartIdIn(List<String> values) {
+            addCriterion("CHECKED_DEPART_ID in", values, "checkedDepartId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartIdNotIn(List<String> values) {
+            addCriterion("CHECKED_DEPART_ID not in", values, "checkedDepartId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartIdBetween(String value1, String value2) {
+            addCriterion("CHECKED_DEPART_ID between", value1, value2, "checkedDepartId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartIdNotBetween(String value1, String value2) {
+            addCriterion("CHECKED_DEPART_ID not between", value1, value2, "checkedDepartId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartNameIsNull() {
+            addCriterion("CHECKED_DEPART_NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartNameIsNotNull() {
+            addCriterion("CHECKED_DEPART_NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartNameEqualTo(String value) {
+            addCriterion("CHECKED_DEPART_NAME =", value, "checkedDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartNameNotEqualTo(String value) {
+            addCriterion("CHECKED_DEPART_NAME <>", value, "checkedDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartNameGreaterThan(String value) {
+            addCriterion("CHECKED_DEPART_NAME >", value, "checkedDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartNameGreaterThanOrEqualTo(String value) {
+            addCriterion("CHECKED_DEPART_NAME >=", value, "checkedDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartNameLessThan(String value) {
+            addCriterion("CHECKED_DEPART_NAME <", value, "checkedDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartNameLessThanOrEqualTo(String value) {
+            addCriterion("CHECKED_DEPART_NAME <=", value, "checkedDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartNameLike(String value) {
+            addCriterion("CHECKED_DEPART_NAME like", value, "checkedDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartNameNotLike(String value) {
+            addCriterion("CHECKED_DEPART_NAME not like", value, "checkedDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartNameIn(List<String> values) {
+            addCriterion("CHECKED_DEPART_NAME in", values, "checkedDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartNameNotIn(List<String> values) {
+            addCriterion("CHECKED_DEPART_NAME not in", values, "checkedDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartNameBetween(String value1, String value2) {
+            addCriterion("CHECKED_DEPART_NAME between", value1, value2, "checkedDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedDepartNameNotBetween(String value1, String value2) {
+            addCriterion("CHECKED_DEPART_NAME not between", value1, value2, "checkedDepartName");
             return (Criteria) this;
         }
 
