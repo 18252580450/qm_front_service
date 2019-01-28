@@ -126,15 +126,17 @@ public class OrderCheckServiceImpl implements OrderCheckService {
                 }
             }
 
-            //重置之前质检的最新质检结果标志
-            OrderCheckResult resetResult = new OrderCheckResult();
-            resetResult.setTouchId(orderCheckInfo.get("touchId").toString());
-            resetResult.setLastResultFlag("0");
-            orderCheckResultResponse = resetLastResultFlag(resetResult);
-            if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
-                orderCheckResponse.setRspcode(orderCheckResultResponse.getRspcode());
-                orderCheckResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
-                return orderCheckResponse;
+            //重置之前质检的最新质检结果标志（复检时）
+            if (!inspectionId.equals(originInspectionId)) {
+                OrderCheckResult resetResult = new OrderCheckResult();
+                resetResult.setTouchId(orderCheckInfo.get("touchId").toString());
+                resetResult.setLastResultFlag("0");
+                orderCheckResultResponse = resetLastResultFlag(resetResult);
+                if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
+                    orderCheckResponse.setRspcode(orderCheckResultResponse.getRspcode());
+                    orderCheckResponse.setRspdesc(orderCheckResultResponse.getRspdesc());
+                    return orderCheckResponse;
+                }
             }
 
             //工单质检结果更新or新增
@@ -233,8 +235,13 @@ public class OrderCheckServiceImpl implements OrderCheckService {
     private OrderCheckResultResponse resetLastResultFlag(OrderCheckResult orderCheckResult) throws Exception {
         OrderCheckResultResponse orderCheckResultResponse = new OrderCheckResultResponse();
         try {
-            orderCheckResultMapper.resetLastResultFlag(orderCheckResult);
-            orderCheckResultResponse.setRspcode(WebUtil.SUCCESS);
+            int result = orderCheckResultMapper.resetLastResultFlag(orderCheckResult);
+            if (result > 0) {
+                orderCheckResultResponse.setRspcode(WebUtil.SUCCESS);
+            } else {
+                orderCheckResultResponse.setRspdesc("最新质检结果标识重置失败");
+                orderCheckResultResponse.setRspcode(WebUtil.FAIL);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("最新质检结果标识重置异常", e);
@@ -268,7 +275,6 @@ public class OrderCheckServiceImpl implements OrderCheckService {
             orderCheckResult.setInspectionId(inspectionId);
             orderCheckResult.setOriginInspectionId(originInspectionId);
             orderCheckResult.setTouchId(orderCheckInfo.get("touchId").toString());
-            orderCheckResult.setCheckLink("1001");   //待删除字段
             orderCheckResult.setPlanId(orderCheckInfo.get("planId").toString());
             orderCheckResult.setTemplateId(orderCheckInfo.get("templateId").toString());
             orderCheckResult.setCheckModel(orderCheckInfo.get("checkModel").toString());        //默认计划内质检

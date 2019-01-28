@@ -5,8 +5,6 @@ public class OrderCheckResultKey {
 
     private String touchId;
 
-    private String checkLink;
-
     public String getInspectionId() {
         return inspectionId;
     }
@@ -21,13 +19,5 @@ public class OrderCheckResultKey {
 
     public void setTouchId(String touchId) {
         this.touchId = touchId == null ? null : touchId.trim();
-    }
-
-    public String getCheckLink() {
-        return checkLink;
-    }
-
-    public void setCheckLink(String checkLink) {
-        this.checkLink = checkLink == null ? null : checkLink.trim();
     }
 }

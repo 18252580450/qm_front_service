@@ -68,7 +68,11 @@ public class OrderCheckResult extends OrderCheckResultKey {
 
     private BigDecimal finalScore;
 
+    private String checkResult;
+
     private String checkComment;
+
+    private Integer unqualifiedNum;
 
     private String abandonStatus;
 
@@ -116,20 +120,20 @@ public class OrderCheckResult extends OrderCheckResultKey {
         this.tenantId = tenantId == null ? null : tenantId.trim();
     }
 
-    public QmPlan getQmPlan() {
-        return qmPlan;
-    }
-
-    public void setQmPlan(QmPlan qmPlan) {
-        this.qmPlan = qmPlan;
-    }
-
     public String getPlanName() {
         return planName;
     }
 
     public void setPlanName(String planName) {
         this.planName = planName == null ? null : planName.trim();
+    }
+
+    public QmPlan getQmPlan() {
+        return qmPlan;
+    }
+
+    public void setQmPlan(QmPlan qmPlan) {
+        this.qmPlan = qmPlan;
     }
 
     public String getAcceptMonth() {
@@ -364,12 +368,28 @@ public class OrderCheckResult extends OrderCheckResultKey {
         this.finalScore = finalScore;
     }
 
+    public String getCheckResult() {
+        return checkResult;
+    }
+
+    public void setCheckResult(String checkResult) {
+        this.checkResult = checkResult == null ? null : checkResult.trim();
+    }
+
     public String getCheckComment() {
         return checkComment;
     }
 
     public void setCheckComment(String checkComment) {
         this.checkComment = checkComment == null ? null : checkComment.trim();
+    }
+
+    public Integer getUnqualifiedNum() {
+        return unqualifiedNum;
+    }
+
+    public void setUnqualifiedNum(Integer unqualifiedNum) {
+        this.unqualifiedNum = unqualifiedNum;
     }
 
     public String getAbandonStatus() {

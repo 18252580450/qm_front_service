@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.asiainfo.qm.manage.domain.OrderCheckResult" >
     <id column="INSPECTION_ID" property="inspectionId" jdbcType="VARCHAR" />
     <id column="TOUCH_ID" property="touchId" jdbcType="VARCHAR" />
-    <id column="CHECK_LINK" property="checkLink" jdbcType="VARCHAR" />
     <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
     <result column="ACCEPT_MONTH" property="acceptMonth" jdbcType="VARCHAR" />
     <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
@@ -35,7 +34,9 @@
     <result column="ERROR_RANK" property="errorRank" jdbcType="VARCHAR" />
     <result column="BUSI_TYPE" property="busiType" jdbcType="VARCHAR" />
     <result column="FINAL_SCORE" property="finalScore" jdbcType="DECIMAL" />
+    <result column="CHECK_RESULT" property="checkResult" jdbcType="VARCHAR" />
     <result column="CHECK_COMMENT" property="checkComment" jdbcType="VARCHAR" />
+    <result column="UNQUALIFIED_NUM" property="unqualifiedNum" jdbcType="INTEGER" />
     <result column="ABANDON_STATUS" property="abandonStatus" jdbcType="VARCHAR" />
     <result column="ABANDON_REASON" property="abandonReason" jdbcType="VARCHAR" />
     <result column="ABANDON_COMMENT" property="abandonComment" jdbcType="VARCHAR" />
@@ -120,20 +121,20 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    INSPECTION_ID, TOUCH_ID, CHECK_LINK, TENANT_ID, ACCEPT_MONTH, PROVINCE_ID, CITY_ID, 
-    CALLING_NUMBER, ACCEPT_NUMBER, CUSTOMER_LEVEL, ORIGIN_INSPECTION_ID, PLAN_ID, TEMPLATE_ID, 
-    CHECK_MODEL, CHECKED_STAFF_ID, CHECKED_STAFF_NAME, CHECKED_DEPART_ID, CHECKED_DEPART_NAME, 
-    CHECK_STAFF_ID, CHECK_STAFF_NAME, CHECK_DEPART_ID, CHECK_DEPART_NAME, CHECK_START_TIME, 
-    CHECK_END_TIME, CHECK_TIME, PLAY_VOICE_TIME, PLAY_VOICE_NUM, SCORE_TYPE, RESULT_STATUS, 
-    LAST_RESULT_FLAG, ERROR_RANK, BUSI_TYPE, FINAL_SCORE, CHECK_COMMENT, ABANDON_STATUS, 
-    ABANDON_REASON, ABANDON_COMMENT, APPEAL_ID, APPEAL_TIME, APPEAL_NUM, OPERATE_TIME, 
-    OPERATE_STAFF_ID, OPERATE_REASON, RESERVE_1, RESERVE_2, RESERVE_3, RESERVE_4, RESERVE_5, 
-    RESERVE_6, RESERVE_7, RESERVE_8, RESERVE_9, RESERVE_10
+    INSPECTION_ID, TOUCH_ID, TENANT_ID, ACCEPT_MONTH, PROVINCE_ID, CITY_ID, CALLING_NUMBER,
+    ACCEPT_NUMBER, CUSTOMER_LEVEL, ORIGIN_INSPECTION_ID, PLAN_ID, TEMPLATE_ID, CHECK_MODEL,
+    CHECKED_STAFF_ID, CHECKED_STAFF_NAME, CHECKED_DEPART_ID, CHECKED_DEPART_NAME, CHECK_STAFF_ID,
+    CHECK_STAFF_NAME, CHECK_DEPART_ID, CHECK_DEPART_NAME, CHECK_START_TIME, CHECK_END_TIME,
+    CHECK_TIME, PLAY_VOICE_TIME, PLAY_VOICE_NUM, SCORE_TYPE, RESULT_STATUS, LAST_RESULT_FLAG,
+    ERROR_RANK, BUSI_TYPE, FINAL_SCORE, CHECK_RESULT, CHECK_COMMENT, UNQUALIFIED_NUM,
+    ABANDON_STATUS, ABANDON_REASON, ABANDON_COMMENT, APPEAL_ID, APPEAL_TIME, APPEAL_NUM,
+    OPERATE_TIME, OPERATE_STAFF_ID, OPERATE_REASON, RESERVE_1, RESERVE_2, RESERVE_3,
+    RESERVE_4, RESERVE_5, RESERVE_6, RESERVE_7, RESERVE_8, RESERVE_9, RESERVE_10
   </sql>
 
   <!--新增查询方法-->
   <select id="queryPlanName" resultType="com.asiainfo.qm.manage.domain.QmPlan" parameterType="String">
-     select PLAN_NAME planName from t_qm_plan where PLAN_ID is not null and PLAN_ID = #{planId,jdbcType=VARCHAR}
+    select PLAN_NAME planName from t_qm_plan where PLAN_ID is not null and PLAN_ID = #{planId,jdbcType=VARCHAR}
   </select>
 
   <!--查询第一质检的质检流水号-->
@@ -142,7 +143,7 @@
     <include refid="Base_Column_List" />
     from t_qm_order_check_result
     where TOUCH_ID = #{touchId,jdbcType=VARCHAR}
-      and INSPECTION_ID = ORIGIN_INSPECTION_ID
+    and INSPECTION_ID = ORIGIN_INSPECTION_ID
   </select>
 
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultExample" >
@@ -160,18 +161,16 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultKey" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_qm_order_check_result
     where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
-      and TOUCH_ID = #{touchId,jdbcType=VARCHAR}
-      and CHECK_LINK = #{checkLink,jdbcType=VARCHAR}
+    and TOUCH_ID = #{touchId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultKey" >
     delete from t_qm_order_check_result
     where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
       and TOUCH_ID = #{touchId,jdbcType=VARCHAR}
-      and CHECK_LINK = #{checkLink,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultExample" >
     delete from t_qm_order_check_result
@@ -180,42 +179,44 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResult" >
-    insert into t_qm_order_check_result (INSPECTION_ID, TOUCH_ID, CHECK_LINK, 
-      TENANT_ID, ACCEPT_MONTH, PROVINCE_ID, 
-      CITY_ID, CALLING_NUMBER, ACCEPT_NUMBER, 
-      CUSTOMER_LEVEL, ORIGIN_INSPECTION_ID, PLAN_ID, 
-      TEMPLATE_ID, CHECK_MODEL, CHECKED_STAFF_ID, 
-      CHECKED_STAFF_NAME, CHECKED_DEPART_ID, CHECKED_DEPART_NAME, 
-      CHECK_STAFF_ID, CHECK_STAFF_NAME, CHECK_DEPART_ID, 
-      CHECK_DEPART_NAME, CHECK_START_TIME, CHECK_END_TIME, 
-      CHECK_TIME, PLAY_VOICE_TIME, PLAY_VOICE_NUM, 
-      SCORE_TYPE, RESULT_STATUS, LAST_RESULT_FLAG, 
-      ERROR_RANK, BUSI_TYPE, FINAL_SCORE, 
-      CHECK_COMMENT, ABANDON_STATUS, ABANDON_REASON, 
-      ABANDON_COMMENT, APPEAL_ID, APPEAL_TIME, 
-      APPEAL_NUM, OPERATE_TIME, OPERATE_STAFF_ID, 
-      OPERATE_REASON, RESERVE_1, RESERVE_2, 
-      RESERVE_3, RESERVE_4, RESERVE_5, 
-      RESERVE_6, RESERVE_7, RESERVE_8, 
-      RESERVE_9, RESERVE_10)
-    values (#{inspectionId,jdbcType=VARCHAR}, #{touchId,jdbcType=VARCHAR}, #{checkLink,jdbcType=VARCHAR}, 
-      #{tenantId,jdbcType=VARCHAR}, #{acceptMonth,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, 
-      #{cityId,jdbcType=VARCHAR}, #{callingNumber,jdbcType=VARCHAR}, #{acceptNumber,jdbcType=VARCHAR}, 
-      #{customerLevel,jdbcType=VARCHAR}, #{originInspectionId,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, 
-      #{templateId,jdbcType=VARCHAR}, #{checkModel,jdbcType=VARCHAR}, #{checkedStaffId,jdbcType=VARCHAR}, 
-      #{checkedStaffName,jdbcType=VARCHAR}, #{checkedDepartId,jdbcType=VARCHAR}, #{checkedDepartName,jdbcType=VARCHAR}, 
-      #{checkStaffId,jdbcType=VARCHAR}, #{checkStaffName,jdbcType=VARCHAR}, #{checkDepartId,jdbcType=VARCHAR}, 
-      #{checkDepartName,jdbcType=VARCHAR}, #{checkStartTime,jdbcType=TIMESTAMP}, #{checkEndTime,jdbcType=TIMESTAMP}, 
-      #{checkTime,jdbcType=INTEGER}, #{playVoiceTime,jdbcType=INTEGER}, #{playVoiceNum,jdbcType=INTEGER}, 
-      #{scoreType,jdbcType=VARCHAR}, #{resultStatus,jdbcType=VARCHAR}, #{lastResultFlag,jdbcType=VARCHAR}, 
-      #{errorRank,jdbcType=VARCHAR}, #{busiType,jdbcType=VARCHAR}, #{finalScore,jdbcType=DECIMAL}, 
-      #{checkComment,jdbcType=VARCHAR}, #{abandonStatus,jdbcType=VARCHAR}, #{abandonReason,jdbcType=VARCHAR}, 
-      #{abandonComment,jdbcType=VARCHAR}, #{appealId,jdbcType=VARCHAR}, #{appealTime,jdbcType=TIMESTAMP}, 
-      #{appealNum,jdbcType=INTEGER}, #{operateTime,jdbcType=TIMESTAMP}, #{operateStaffId,jdbcType=VARCHAR}, 
-      #{operateReason,jdbcType=VARCHAR}, #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, 
-      #{reserve3,jdbcType=VARCHAR}, #{reserve4,jdbcType=VARCHAR}, #{reserve5,jdbcType=VARCHAR}, 
-      #{reserve6,jdbcType=VARCHAR}, #{reserve7,jdbcType=VARCHAR}, #{reserve8,jdbcType=VARCHAR}, 
-      #{reserve9,jdbcType=VARCHAR}, #{reserve10,jdbcType=VARCHAR})
+    insert into t_qm_order_check_result (INSPECTION_ID, TOUCH_ID, TENANT_ID,
+                                         ACCEPT_MONTH, PROVINCE_ID, CITY_ID,
+                                         CALLING_NUMBER, ACCEPT_NUMBER, CUSTOMER_LEVEL,
+                                         ORIGIN_INSPECTION_ID, PLAN_ID, TEMPLATE_ID,
+                                         CHECK_MODEL, CHECKED_STAFF_ID, CHECKED_STAFF_NAME,
+                                         CHECKED_DEPART_ID, CHECKED_DEPART_NAME, CHECK_STAFF_ID,
+                                         CHECK_STAFF_NAME, CHECK_DEPART_ID, CHECK_DEPART_NAME,
+                                         CHECK_START_TIME, CHECK_END_TIME, CHECK_TIME,
+                                         PLAY_VOICE_TIME, PLAY_VOICE_NUM, SCORE_TYPE,
+                                         RESULT_STATUS, LAST_RESULT_FLAG, ERROR_RANK,
+                                         BUSI_TYPE, FINAL_SCORE, CHECK_RESULT,
+                                         CHECK_COMMENT, UNQUALIFIED_NUM, ABANDON_STATUS,
+                                         ABANDON_REASON, ABANDON_COMMENT, APPEAL_ID,
+                                         APPEAL_TIME, APPEAL_NUM, OPERATE_TIME,
+                                         OPERATE_STAFF_ID, OPERATE_REASON, RESERVE_1,
+                                         RESERVE_2, RESERVE_3, RESERVE_4,
+                                         RESERVE_5, RESERVE_6, RESERVE_7,
+                                         RESERVE_8, RESERVE_9, RESERVE_10
+    )
+    values (#{inspectionId,jdbcType=VARCHAR}, #{touchId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR},
+            #{acceptMonth,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, #{cityId,jdbcType=VARCHAR},
+            #{callingNumber,jdbcType=VARCHAR}, #{acceptNumber,jdbcType=VARCHAR}, #{customerLevel,jdbcType=VARCHAR},
+            #{originInspectionId,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{templateId,jdbcType=VARCHAR},
+            #{checkModel,jdbcType=VARCHAR}, #{checkedStaffId,jdbcType=VARCHAR}, #{checkedStaffName,jdbcType=VARCHAR},
+            #{checkedDepartId,jdbcType=VARCHAR}, #{checkedDepartName,jdbcType=VARCHAR}, #{checkStaffId,jdbcType=VARCHAR},
+            #{checkStaffName,jdbcType=VARCHAR}, #{checkDepartId,jdbcType=VARCHAR}, #{checkDepartName,jdbcType=VARCHAR},
+            #{checkStartTime,jdbcType=TIMESTAMP}, #{checkEndTime,jdbcType=TIMESTAMP}, #{checkTime,jdbcType=INTEGER},
+            #{playVoiceTime,jdbcType=INTEGER}, #{playVoiceNum,jdbcType=INTEGER}, #{scoreType,jdbcType=VARCHAR},
+            #{resultStatus,jdbcType=VARCHAR}, #{lastResultFlag,jdbcType=VARCHAR}, #{errorRank,jdbcType=VARCHAR},
+            #{busiType,jdbcType=VARCHAR}, #{finalScore,jdbcType=DECIMAL}, #{checkResult,jdbcType=VARCHAR},
+            #{checkComment,jdbcType=VARCHAR}, #{unqualifiedNum,jdbcType=INTEGER}, #{abandonStatus,jdbcType=VARCHAR},
+            #{abandonReason,jdbcType=VARCHAR}, #{abandonComment,jdbcType=VARCHAR}, #{appealId,jdbcType=VARCHAR},
+            #{appealTime,jdbcType=TIMESTAMP}, #{appealNum,jdbcType=INTEGER}, #{operateTime,jdbcType=TIMESTAMP},
+            #{operateStaffId,jdbcType=VARCHAR}, #{operateReason,jdbcType=VARCHAR}, #{reserve1,jdbcType=VARCHAR},
+            #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR}, #{reserve4,jdbcType=VARCHAR},
+            #{reserve5,jdbcType=VARCHAR}, #{reserve6,jdbcType=VARCHAR}, #{reserve7,jdbcType=VARCHAR},
+            #{reserve8,jdbcType=VARCHAR}, #{reserve9,jdbcType=VARCHAR}, #{reserve10,jdbcType=VARCHAR}
+           )
   </insert>
   <insert id="insertSelective" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResult" >
     insert into t_qm_order_check_result
@@ -225,9 +226,6 @@
       </if>
       <if test="touchId != null" >
         TOUCH_ID,
-      </if>
-      <if test="checkLink != null" >
-        CHECK_LINK,
       </if>
       <if test="tenantId != null" >
         TENANT_ID,
@@ -319,8 +317,14 @@
       <if test="finalScore != null" >
         FINAL_SCORE,
       </if>
+      <if test="checkResult != null" >
+        CHECK_RESULT,
+      </if>
       <if test="checkComment != null" >
         CHECK_COMMENT,
+      </if>
+      <if test="unqualifiedNum != null" >
+        UNQUALIFIED_NUM,
       </if>
       <if test="abandonStatus != null" >
         ABANDON_STATUS,
@@ -386,9 +390,6 @@
       </if>
       <if test="touchId != null" >
         #{touchId,jdbcType=VARCHAR},
-      </if>
-      <if test="checkLink != null" >
-        #{checkLink,jdbcType=VARCHAR},
       </if>
       <if test="tenantId != null" >
         #{tenantId,jdbcType=VARCHAR},
@@ -480,8 +481,14 @@
       <if test="finalScore != null" >
         #{finalScore,jdbcType=DECIMAL},
       </if>
+      <if test="checkResult != null" >
+        #{checkResult,jdbcType=VARCHAR},
+      </if>
       <if test="checkComment != null" >
         #{checkComment,jdbcType=VARCHAR},
+      </if>
+      <if test="unqualifiedNum != null" >
+        #{unqualifiedNum,jdbcType=INTEGER},
       </if>
       <if test="abandonStatus != null" >
         #{abandonStatus,jdbcType=VARCHAR},
@@ -556,9 +563,6 @@
       </if>
       <if test="record.touchId != null" >
         TOUCH_ID = #{record.touchId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.checkLink != null" >
-        CHECK_LINK = #{record.checkLink,jdbcType=VARCHAR},
       </if>
       <if test="record.tenantId != null" >
         TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
@@ -650,8 +654,14 @@
       <if test="record.finalScore != null" >
         FINAL_SCORE = #{record.finalScore,jdbcType=DECIMAL},
       </if>
+      <if test="record.checkResult != null" >
+        CHECK_RESULT = #{record.checkResult,jdbcType=VARCHAR},
+      </if>
       <if test="record.checkComment != null" >
         CHECK_COMMENT = #{record.checkComment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unqualifiedNum != null" >
+        UNQUALIFIED_NUM = #{record.unqualifiedNum,jdbcType=INTEGER},
       </if>
       <if test="record.abandonStatus != null" >
         ABANDON_STATUS = #{record.abandonStatus,jdbcType=VARCHAR},
@@ -718,58 +728,59 @@
   <update id="updateByExample" parameterType="map" >
     update t_qm_order_check_result
     set INSPECTION_ID = #{record.inspectionId,jdbcType=VARCHAR},
-      TOUCH_ID = #{record.touchId,jdbcType=VARCHAR},
-      CHECK_LINK = #{record.checkLink,jdbcType=VARCHAR},
-      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
-      ACCEPT_MONTH = #{record.acceptMonth,jdbcType=VARCHAR},
-      PROVINCE_ID = #{record.provinceId,jdbcType=VARCHAR},
-      CITY_ID = #{record.cityId,jdbcType=VARCHAR},
-      CALLING_NUMBER = #{record.callingNumber,jdbcType=VARCHAR},
-      ACCEPT_NUMBER = #{record.acceptNumber,jdbcType=VARCHAR},
-      CUSTOMER_LEVEL = #{record.customerLevel,jdbcType=VARCHAR},
-      ORIGIN_INSPECTION_ID = #{record.originInspectionId,jdbcType=VARCHAR},
-      PLAN_ID = #{record.planId,jdbcType=VARCHAR},
-      TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
-      CHECK_MODEL = #{record.checkModel,jdbcType=VARCHAR},
-      CHECKED_STAFF_ID = #{record.checkedStaffId,jdbcType=VARCHAR},
-      CHECKED_STAFF_NAME = #{record.checkedStaffName,jdbcType=VARCHAR},
-      CHECKED_DEPART_ID = #{record.checkedDepartId,jdbcType=VARCHAR},
-      CHECKED_DEPART_NAME = #{record.checkedDepartName,jdbcType=VARCHAR},
-      CHECK_STAFF_ID = #{record.checkStaffId,jdbcType=VARCHAR},
-      CHECK_STAFF_NAME = #{record.checkStaffName,jdbcType=VARCHAR},
-      CHECK_DEPART_ID = #{record.checkDepartId,jdbcType=VARCHAR},
-      CHECK_DEPART_NAME = #{record.checkDepartName,jdbcType=VARCHAR},
-      CHECK_START_TIME = #{record.checkStartTime,jdbcType=TIMESTAMP},
-      CHECK_END_TIME = #{record.checkEndTime,jdbcType=TIMESTAMP},
-      CHECK_TIME = #{record.checkTime,jdbcType=INTEGER},
-      PLAY_VOICE_TIME = #{record.playVoiceTime,jdbcType=INTEGER},
-      PLAY_VOICE_NUM = #{record.playVoiceNum,jdbcType=INTEGER},
-      SCORE_TYPE = #{record.scoreType,jdbcType=VARCHAR},
-      RESULT_STATUS = #{record.resultStatus,jdbcType=VARCHAR},
-      LAST_RESULT_FLAG = #{record.lastResultFlag,jdbcType=VARCHAR},
-      ERROR_RANK = #{record.errorRank,jdbcType=VARCHAR},
-      BUSI_TYPE = #{record.busiType,jdbcType=VARCHAR},
-      FINAL_SCORE = #{record.finalScore,jdbcType=DECIMAL},
-      CHECK_COMMENT = #{record.checkComment,jdbcType=VARCHAR},
-      ABANDON_STATUS = #{record.abandonStatus,jdbcType=VARCHAR},
-      ABANDON_REASON = #{record.abandonReason,jdbcType=VARCHAR},
-      ABANDON_COMMENT = #{record.abandonComment,jdbcType=VARCHAR},
-      APPEAL_ID = #{record.appealId,jdbcType=VARCHAR},
-      APPEAL_TIME = #{record.appealTime,jdbcType=TIMESTAMP},
-      APPEAL_NUM = #{record.appealNum,jdbcType=INTEGER},
-      OPERATE_TIME = #{record.operateTime,jdbcType=TIMESTAMP},
-      OPERATE_STAFF_ID = #{record.operateStaffId,jdbcType=VARCHAR},
-      OPERATE_REASON = #{record.operateReason,jdbcType=VARCHAR},
-      RESERVE_1 = #{record.reserve1,jdbcType=VARCHAR},
-      RESERVE_2 = #{record.reserve2,jdbcType=VARCHAR},
-      RESERVE_3 = #{record.reserve3,jdbcType=VARCHAR},
-      RESERVE_4 = #{record.reserve4,jdbcType=VARCHAR},
-      RESERVE_5 = #{record.reserve5,jdbcType=VARCHAR},
-      RESERVE_6 = #{record.reserve6,jdbcType=VARCHAR},
-      RESERVE_7 = #{record.reserve7,jdbcType=VARCHAR},
-      RESERVE_8 = #{record.reserve8,jdbcType=VARCHAR},
-      RESERVE_9 = #{record.reserve9,jdbcType=VARCHAR},
-      RESERVE_10 = #{record.reserve10,jdbcType=VARCHAR}
+    TOUCH_ID = #{record.touchId,jdbcType=VARCHAR},
+    TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+    ACCEPT_MONTH = #{record.acceptMonth,jdbcType=VARCHAR},
+    PROVINCE_ID = #{record.provinceId,jdbcType=VARCHAR},
+    CITY_ID = #{record.cityId,jdbcType=VARCHAR},
+    CALLING_NUMBER = #{record.callingNumber,jdbcType=VARCHAR},
+    ACCEPT_NUMBER = #{record.acceptNumber,jdbcType=VARCHAR},
+    CUSTOMER_LEVEL = #{record.customerLevel,jdbcType=VARCHAR},
+    ORIGIN_INSPECTION_ID = #{record.originInspectionId,jdbcType=VARCHAR},
+    PLAN_ID = #{record.planId,jdbcType=VARCHAR},
+    TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
+    CHECK_MODEL = #{record.checkModel,jdbcType=VARCHAR},
+    CHECKED_STAFF_ID = #{record.checkedStaffId,jdbcType=VARCHAR},
+    CHECKED_STAFF_NAME = #{record.checkedStaffName,jdbcType=VARCHAR},
+    CHECKED_DEPART_ID = #{record.checkedDepartId,jdbcType=VARCHAR},
+    CHECKED_DEPART_NAME = #{record.checkedDepartName,jdbcType=VARCHAR},
+    CHECK_STAFF_ID = #{record.checkStaffId,jdbcType=VARCHAR},
+    CHECK_STAFF_NAME = #{record.checkStaffName,jdbcType=VARCHAR},
+    CHECK_DEPART_ID = #{record.checkDepartId,jdbcType=VARCHAR},
+    CHECK_DEPART_NAME = #{record.checkDepartName,jdbcType=VARCHAR},
+    CHECK_START_TIME = #{record.checkStartTime,jdbcType=TIMESTAMP},
+    CHECK_END_TIME = #{record.checkEndTime,jdbcType=TIMESTAMP},
+    CHECK_TIME = #{record.checkTime,jdbcType=INTEGER},
+    PLAY_VOICE_TIME = #{record.playVoiceTime,jdbcType=INTEGER},
+    PLAY_VOICE_NUM = #{record.playVoiceNum,jdbcType=INTEGER},
+    SCORE_TYPE = #{record.scoreType,jdbcType=VARCHAR},
+    RESULT_STATUS = #{record.resultStatus,jdbcType=VARCHAR},
+    LAST_RESULT_FLAG = #{record.lastResultFlag,jdbcType=VARCHAR},
+    ERROR_RANK = #{record.errorRank,jdbcType=VARCHAR},
+    BUSI_TYPE = #{record.busiType,jdbcType=VARCHAR},
+    FINAL_SCORE = #{record.finalScore,jdbcType=DECIMAL},
+    CHECK_RESULT = #{record.checkResult,jdbcType=VARCHAR},
+    CHECK_COMMENT = #{record.checkComment,jdbcType=VARCHAR},
+    UNQUALIFIED_NUM = #{record.unqualifiedNum,jdbcType=INTEGER},
+    ABANDON_STATUS = #{record.abandonStatus,jdbcType=VARCHAR},
+    ABANDON_REASON = #{record.abandonReason,jdbcType=VARCHAR},
+    ABANDON_COMMENT = #{record.abandonComment,jdbcType=VARCHAR},
+    APPEAL_ID = #{record.appealId,jdbcType=VARCHAR},
+    APPEAL_TIME = #{record.appealTime,jdbcType=TIMESTAMP},
+    APPEAL_NUM = #{record.appealNum,jdbcType=INTEGER},
+    OPERATE_TIME = #{record.operateTime,jdbcType=TIMESTAMP},
+    OPERATE_STAFF_ID = #{record.operateStaffId,jdbcType=VARCHAR},
+    OPERATE_REASON = #{record.operateReason,jdbcType=VARCHAR},
+    RESERVE_1 = #{record.reserve1,jdbcType=VARCHAR},
+    RESERVE_2 = #{record.reserve2,jdbcType=VARCHAR},
+    RESERVE_3 = #{record.reserve3,jdbcType=VARCHAR},
+    RESERVE_4 = #{record.reserve4,jdbcType=VARCHAR},
+    RESERVE_5 = #{record.reserve5,jdbcType=VARCHAR},
+    RESERVE_6 = #{record.reserve6,jdbcType=VARCHAR},
+    RESERVE_7 = #{record.reserve7,jdbcType=VARCHAR},
+    RESERVE_8 = #{record.reserve8,jdbcType=VARCHAR},
+    RESERVE_9 = #{record.reserve9,jdbcType=VARCHAR},
+    RESERVE_10 = #{record.reserve10,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -867,8 +878,14 @@
       <if test="finalScore != null" >
         FINAL_SCORE = #{finalScore,jdbcType=DECIMAL},
       </if>
+      <if test="checkResult != null" >
+        CHECK_RESULT = #{checkResult,jdbcType=VARCHAR},
+      </if>
       <if test="checkComment != null" >
         CHECK_COMMENT = #{checkComment,jdbcType=VARCHAR},
+      </if>
+      <if test="unqualifiedNum != null" >
+        UNQUALIFIED_NUM = #{unqualifiedNum,jdbcType=INTEGER},
       </if>
       <if test="abandonStatus != null" >
         ABANDON_STATUS = #{abandonStatus,jdbcType=VARCHAR},
@@ -929,8 +946,7 @@
       </if>
     </set>
     where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
-      and TOUCH_ID = #{touchId,jdbcType=VARCHAR}
-      and CHECK_LINK = #{checkLink,jdbcType=VARCHAR}
+    and TOUCH_ID = #{touchId,jdbcType=VARCHAR}
   </update>
 
 
@@ -948,77 +964,78 @@
   <!--根据质检流水更新申诉信息-->
   <update id="updateAppealInfoByInspectionId" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResult" >
     update t_qm_order_check_result
-      <set>
-          <if test="appealId != null">
-              APPEAL_ID = #{appealId,jdbcType=VARCHAR},
-          </if>
-          <if test="appealTime != null">
-              APPEAL_TIME = #{appealTime,jdbcType=TIMESTAMP},
-          </if>
-          <if test="appealNum != null">
-              APPEAL_NUM = #{appealNum,jdbcType=INTEGER},
-          </if>
-          <if test="resultStatus != null">
-              RESULT_STATUS = #{resultStatus,jdbcType=VARCHAR},
-          </if>
-      </set>
+    <set>
+      <if test="appealId != null">
+        APPEAL_ID = #{appealId,jdbcType=VARCHAR},
+      </if>
+      <if test="appealTime != null">
+        APPEAL_TIME = #{appealTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appealNum != null">
+        APPEAL_NUM = #{appealNum,jdbcType=INTEGER},
+      </if>
+      <if test="resultStatus != null">
+        RESULT_STATUS = #{resultStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
     where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
   </update>
 
   <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResult" >
     update t_qm_order_check_result
     set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
-      ACCEPT_MONTH = #{acceptMonth,jdbcType=VARCHAR},
-      PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
-      CITY_ID = #{cityId,jdbcType=VARCHAR},
-      CALLING_NUMBER = #{callingNumber,jdbcType=VARCHAR},
-      ACCEPT_NUMBER = #{acceptNumber,jdbcType=VARCHAR},
-      CUSTOMER_LEVEL = #{customerLevel,jdbcType=VARCHAR},
-      ORIGIN_INSPECTION_ID = #{originInspectionId,jdbcType=VARCHAR},
-      PLAN_ID = #{planId,jdbcType=VARCHAR},
-      TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
-      CHECK_MODEL = #{checkModel,jdbcType=VARCHAR},
-      CHECKED_STAFF_ID = #{checkedStaffId,jdbcType=VARCHAR},
-      CHECKED_STAFF_NAME = #{checkedStaffName,jdbcType=VARCHAR},
-      CHECKED_DEPART_ID = #{checkedDepartId,jdbcType=VARCHAR},
-      CHECKED_DEPART_NAME = #{checkedDepartName,jdbcType=VARCHAR},
-      CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
-      CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
-      CHECK_DEPART_ID = #{checkDepartId,jdbcType=VARCHAR},
-      CHECK_DEPART_NAME = #{checkDepartName,jdbcType=VARCHAR},
-      CHECK_START_TIME = #{checkStartTime,jdbcType=TIMESTAMP},
-      CHECK_END_TIME = #{checkEndTime,jdbcType=TIMESTAMP},
-      CHECK_TIME = #{checkTime,jdbcType=INTEGER},
-      PLAY_VOICE_TIME = #{playVoiceTime,jdbcType=INTEGER},
-      PLAY_VOICE_NUM = #{playVoiceNum,jdbcType=INTEGER},
-      SCORE_TYPE = #{scoreType,jdbcType=VARCHAR},
-      RESULT_STATUS = #{resultStatus,jdbcType=VARCHAR},
-      LAST_RESULT_FLAG = #{lastResultFlag,jdbcType=VARCHAR},
-      ERROR_RANK = #{errorRank,jdbcType=VARCHAR},
-      BUSI_TYPE = #{busiType,jdbcType=VARCHAR},
-      FINAL_SCORE = #{finalScore,jdbcType=DECIMAL},
-      CHECK_COMMENT = #{checkComment,jdbcType=VARCHAR},
-      ABANDON_STATUS = #{abandonStatus,jdbcType=VARCHAR},
-      ABANDON_REASON = #{abandonReason,jdbcType=VARCHAR},
-      ABANDON_COMMENT = #{abandonComment,jdbcType=VARCHAR},
-      APPEAL_ID = #{appealId,jdbcType=VARCHAR},
-      APPEAL_TIME = #{appealTime,jdbcType=TIMESTAMP},
-      APPEAL_NUM = #{appealNum,jdbcType=INTEGER},
-      OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
-      OPERATE_STAFF_ID = #{operateStaffId,jdbcType=VARCHAR},
-      OPERATE_REASON = #{operateReason,jdbcType=VARCHAR},
-      RESERVE_1 = #{reserve1,jdbcType=VARCHAR},
-      RESERVE_2 = #{reserve2,jdbcType=VARCHAR},
-      RESERVE_3 = #{reserve3,jdbcType=VARCHAR},
-      RESERVE_4 = #{reserve4,jdbcType=VARCHAR},
-      RESERVE_5 = #{reserve5,jdbcType=VARCHAR},
-      RESERVE_6 = #{reserve6,jdbcType=VARCHAR},
-      RESERVE_7 = #{reserve7,jdbcType=VARCHAR},
-      RESERVE_8 = #{reserve8,jdbcType=VARCHAR},
-      RESERVE_9 = #{reserve9,jdbcType=VARCHAR},
-      RESERVE_10 = #{reserve10,jdbcType=VARCHAR}
+        ACCEPT_MONTH = #{acceptMonth,jdbcType=VARCHAR},
+        PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+        CITY_ID = #{cityId,jdbcType=VARCHAR},
+        CALLING_NUMBER = #{callingNumber,jdbcType=VARCHAR},
+        ACCEPT_NUMBER = #{acceptNumber,jdbcType=VARCHAR},
+        CUSTOMER_LEVEL = #{customerLevel,jdbcType=VARCHAR},
+        ORIGIN_INSPECTION_ID = #{originInspectionId,jdbcType=VARCHAR},
+        PLAN_ID = #{planId,jdbcType=VARCHAR},
+        TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
+        CHECK_MODEL = #{checkModel,jdbcType=VARCHAR},
+        CHECKED_STAFF_ID = #{checkedStaffId,jdbcType=VARCHAR},
+        CHECKED_STAFF_NAME = #{checkedStaffName,jdbcType=VARCHAR},
+        CHECKED_DEPART_ID = #{checkedDepartId,jdbcType=VARCHAR},
+        CHECKED_DEPART_NAME = #{checkedDepartName,jdbcType=VARCHAR},
+        CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
+        CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
+        CHECK_DEPART_ID = #{checkDepartId,jdbcType=VARCHAR},
+        CHECK_DEPART_NAME = #{checkDepartName,jdbcType=VARCHAR},
+        CHECK_START_TIME = #{checkStartTime,jdbcType=TIMESTAMP},
+        CHECK_END_TIME = #{checkEndTime,jdbcType=TIMESTAMP},
+        CHECK_TIME = #{checkTime,jdbcType=INTEGER},
+        PLAY_VOICE_TIME = #{playVoiceTime,jdbcType=INTEGER},
+        PLAY_VOICE_NUM = #{playVoiceNum,jdbcType=INTEGER},
+        SCORE_TYPE = #{scoreType,jdbcType=VARCHAR},
+        RESULT_STATUS = #{resultStatus,jdbcType=VARCHAR},
+        LAST_RESULT_FLAG = #{lastResultFlag,jdbcType=VARCHAR},
+        ERROR_RANK = #{errorRank,jdbcType=VARCHAR},
+        BUSI_TYPE = #{busiType,jdbcType=VARCHAR},
+        FINAL_SCORE = #{finalScore,jdbcType=DECIMAL},
+        CHECK_RESULT = #{checkResult,jdbcType=VARCHAR},
+        CHECK_COMMENT = #{checkComment,jdbcType=VARCHAR},
+        UNQUALIFIED_NUM = #{unqualifiedNum,jdbcType=INTEGER},
+        ABANDON_STATUS = #{abandonStatus,jdbcType=VARCHAR},
+        ABANDON_REASON = #{abandonReason,jdbcType=VARCHAR},
+        ABANDON_COMMENT = #{abandonComment,jdbcType=VARCHAR},
+        APPEAL_ID = #{appealId,jdbcType=VARCHAR},
+        APPEAL_TIME = #{appealTime,jdbcType=TIMESTAMP},
+        APPEAL_NUM = #{appealNum,jdbcType=INTEGER},
+        OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+        OPERATE_STAFF_ID = #{operateStaffId,jdbcType=VARCHAR},
+        OPERATE_REASON = #{operateReason,jdbcType=VARCHAR},
+        RESERVE_1 = #{reserve1,jdbcType=VARCHAR},
+        RESERVE_2 = #{reserve2,jdbcType=VARCHAR},
+        RESERVE_3 = #{reserve3,jdbcType=VARCHAR},
+        RESERVE_4 = #{reserve4,jdbcType=VARCHAR},
+        RESERVE_5 = #{reserve5,jdbcType=VARCHAR},
+        RESERVE_6 = #{reserve6,jdbcType=VARCHAR},
+        RESERVE_7 = #{reserve7,jdbcType=VARCHAR},
+        RESERVE_8 = #{reserve8,jdbcType=VARCHAR},
+        RESERVE_9 = #{reserve9,jdbcType=VARCHAR},
+        RESERVE_10 = #{reserve10,jdbcType=VARCHAR}
     where INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR}
       and TOUCH_ID = #{touchId,jdbcType=VARCHAR}
-      and CHECK_LINK = #{checkLink,jdbcType=VARCHAR}
   </update>
 </mapper>

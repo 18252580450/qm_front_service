@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
@@ -66,9 +67,6 @@ public class WorkCheckResultServiceImpl implements OrderCheckResultService {
             if (null != params.get("qmStartTime") && !"".equals(params.get("qmStartTime")) && null != params.get("qmEndTime") && !"".equals(params.get("qmEndTime"))) {
                 criteria.andCheckEndTimeBetween(sdf.parse((String) params.get("qmStartTime")), sdf.parse((String) params.get("qmEndTime")));
             }
-            if (null != params.get("checkLink") && !"".equals(params.get("checkLink"))) {
-                criteria.andCheckLinkEqualTo((String) params.get("checkLink"));
-            }
             if (null != params.get("resultStatus") && !"".equals(params.get("resultStatus"))) {
                 criteria.andResultStatusEqualTo((String) params.get("resultStatus"));
             }
@@ -76,7 +74,7 @@ public class WorkCheckResultServiceImpl implements OrderCheckResultService {
                 criteria.andErrorRankEqualTo((String) params.get("errorRank"));
             }
             if (null != params.get("minScore") && !"".equals(params.get("minScore")) && null != params.get("maxScore") && !"".equals(params.get("maxScore"))) {
-                criteria.andFinalScoreBetween( params.get("minScore"), params.get("maxScore"));
+                criteria.andFinalScoreBetween(BigDecimal.valueOf(Double.parseDouble(params.get("minScore").toString())), BigDecimal.valueOf(Double.parseDouble(params.get("maxScore").toString())));
             }
 
             if (0 != limit) {

@@ -246,76 +246,6 @@ public class OrderCheckResultExample {
             return (Criteria) this;
         }
 
-        public Criteria andCheckLinkIsNull() {
-            addCriterion("CHECK_LINK is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckLinkIsNotNull() {
-            addCriterion("CHECK_LINK is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckLinkEqualTo(String value) {
-            addCriterion("CHECK_LINK =", value, "checkLink");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckLinkNotEqualTo(String value) {
-            addCriterion("CHECK_LINK <>", value, "checkLink");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckLinkGreaterThan(String value) {
-            addCriterion("CHECK_LINK >", value, "checkLink");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckLinkGreaterThanOrEqualTo(String value) {
-            addCriterion("CHECK_LINK >=", value, "checkLink");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckLinkLessThan(String value) {
-            addCriterion("CHECK_LINK <", value, "checkLink");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckLinkLessThanOrEqualTo(String value) {
-            addCriterion("CHECK_LINK <=", value, "checkLink");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckLinkLike(String value) {
-            addCriterion("CHECK_LINK like", value, "checkLink");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckLinkNotLike(String value) {
-            addCriterion("CHECK_LINK not like", value, "checkLink");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckLinkIn(List<String> values) {
-            addCriterion("CHECK_LINK in", values, "checkLink");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckLinkNotIn(List<String> values) {
-            addCriterion("CHECK_LINK not in", values, "checkLink");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckLinkBetween(String value1, String value2) {
-            addCriterion("CHECK_LINK between", value1, value2, "checkLink");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckLinkNotBetween(String value1, String value2) {
-            addCriterion("CHECK_LINK not between", value1, value2, "checkLink");
-            return (Criteria) this;
-        }
-
         public Criteria andTenantIdIsNull() {
             addCriterion("TENANT_ID is null");
             return (Criteria) this;
@@ -2346,13 +2276,83 @@ public class OrderCheckResultExample {
             return (Criteria) this;
         }
 
-        public Criteria andFinalScoreBetween(Object value1, Object value2) {
+        public Criteria andFinalScoreBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("FINAL_SCORE between", value1, value2, "finalScore");
             return (Criteria) this;
         }
 
         public Criteria andFinalScoreNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("FINAL_SCORE not between", value1, value2, "finalScore");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckResultIsNull() {
+            addCriterion("CHECK_RESULT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckResultIsNotNull() {
+            addCriterion("CHECK_RESULT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckResultEqualTo(String value) {
+            addCriterion("CHECK_RESULT =", value, "checkResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckResultNotEqualTo(String value) {
+            addCriterion("CHECK_RESULT <>", value, "checkResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckResultGreaterThan(String value) {
+            addCriterion("CHECK_RESULT >", value, "checkResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckResultGreaterThanOrEqualTo(String value) {
+            addCriterion("CHECK_RESULT >=", value, "checkResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckResultLessThan(String value) {
+            addCriterion("CHECK_RESULT <", value, "checkResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckResultLessThanOrEqualTo(String value) {
+            addCriterion("CHECK_RESULT <=", value, "checkResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckResultLike(String value) {
+            addCriterion("CHECK_RESULT like", value, "checkResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckResultNotLike(String value) {
+            addCriterion("CHECK_RESULT not like", value, "checkResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckResultIn(List<String> values) {
+            addCriterion("CHECK_RESULT in", values, "checkResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckResultNotIn(List<String> values) {
+            addCriterion("CHECK_RESULT not in", values, "checkResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckResultBetween(String value1, String value2) {
+            addCriterion("CHECK_RESULT between", value1, value2, "checkResult");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckResultNotBetween(String value1, String value2) {
+            addCriterion("CHECK_RESULT not between", value1, value2, "checkResult");
             return (Criteria) this;
         }
 
@@ -2423,6 +2423,66 @@ public class OrderCheckResultExample {
 
         public Criteria andCheckCommentNotBetween(String value1, String value2) {
             addCriterion("CHECK_COMMENT not between", value1, value2, "checkComment");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnqualifiedNumIsNull() {
+            addCriterion("UNQUALIFIED_NUM is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnqualifiedNumIsNotNull() {
+            addCriterion("UNQUALIFIED_NUM is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnqualifiedNumEqualTo(Integer value) {
+            addCriterion("UNQUALIFIED_NUM =", value, "unqualifiedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnqualifiedNumNotEqualTo(Integer value) {
+            addCriterion("UNQUALIFIED_NUM <>", value, "unqualifiedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnqualifiedNumGreaterThan(Integer value) {
+            addCriterion("UNQUALIFIED_NUM >", value, "unqualifiedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnqualifiedNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("UNQUALIFIED_NUM >=", value, "unqualifiedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnqualifiedNumLessThan(Integer value) {
+            addCriterion("UNQUALIFIED_NUM <", value, "unqualifiedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnqualifiedNumLessThanOrEqualTo(Integer value) {
+            addCriterion("UNQUALIFIED_NUM <=", value, "unqualifiedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnqualifiedNumIn(List<Integer> values) {
+            addCriterion("UNQUALIFIED_NUM in", values, "unqualifiedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnqualifiedNumNotIn(List<Integer> values) {
+            addCriterion("UNQUALIFIED_NUM not in", values, "unqualifiedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnqualifiedNumBetween(Integer value1, Integer value2) {
+            addCriterion("UNQUALIFIED_NUM between", value1, value2, "unqualifiedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnqualifiedNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("UNQUALIFIED_NUM not between", value1, value2, "unqualifiedNum");
             return (Criteria) this;
         }
 
