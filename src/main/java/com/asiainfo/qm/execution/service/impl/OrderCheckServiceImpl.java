@@ -62,7 +62,7 @@ public class OrderCheckServiceImpl implements OrderCheckService {
         List<OrderCheckResultDetail> orderCheckResultDetailAddList = new ArrayList<OrderCheckResultDetail>();
         //质检流水
         String inspectionId = String.valueOf(sequenceUtils.getSequence("t_qm_order_check_result"));
-        //质检结果状态（新增、暂存、复检）
+        //质检结果状态（新增、暂存、复检、复检保存）
         String checkStatus = orderCheckInfo.get("resultStatus").toString();
         //质检开始时间
         Date currentTime = DateUtil.getCurrontTime();
@@ -113,7 +113,7 @@ public class OrderCheckServiceImpl implements OrderCheckService {
             //原质检流水
             String originInspectionId = inspectionId;
             //复检
-            if (checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
+            if (checkStatus.equals(Constants.QM_CHECK_FLAG.RECHECK) || checkStatus.equals(Constants.QM_CHECK_FLAG.RECHECK_SAVE)) {
                 //查询原质检流水号
                 orderCheckResultResponse = orderCheckResultService.queryOriginInspectionId(orderCheckInfo);
                 if (orderCheckResultResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
@@ -204,7 +204,7 @@ public class OrderCheckServiceImpl implements OrderCheckService {
             }
 
             //更新工单质检池（质检暂存不更新质检池）
-            if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
+            if (checkStatus.equals(Constants.QM_CHECK_FLAG.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_FLAG.RECHECK)) {
                 WorkformPool workformPool = new WorkformPool();
                 workformPool.setWrkfmId(Long.parseLong(orderCheckInfo.get("touchId").toString()));
                 workformPool.setPoolStatus(Integer.parseInt(Constants.QM_CHECK_STATUS.CHECKED));
@@ -218,10 +218,9 @@ public class OrderCheckServiceImpl implements OrderCheckService {
             }
 
             orderCheckResponse.setRspcode(WebUtil.SUCCESS);
-            if (checkStatus.equals(Constants.QM_CHECK_RESULT.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_RESULT.RECHECK)) {
+            if (checkStatus.equals(Constants.QM_CHECK_FLAG.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_FLAG.RECHECK)) {
                 orderCheckResponse.setRspdesc("提交成功");
-            }
-            if (checkStatus.equals(Constants.QM_CHECK_RESULT.TEMP_SAVE)) {
+            } else {
                 orderCheckResponse.setRspdesc("保存成功");
             }
         } catch (Exception e) {
@@ -266,6 +265,15 @@ public class OrderCheckServiceImpl implements OrderCheckService {
         String checkStartTime = tmpStr.substring(0, 10) + " " + tmpStr.substring(11);
         //质检结果状态（新增、暂存、复检）
         String checkStatus = orderCheckInfo.get("resultStatus").toString();
+        String resultStatus = Constants.QM_CHECK_RESULT.TEMP_SAVE;
+        switch (checkStatus) {
+            case Constants.QM_CHECK_FLAG.NEW_BUILD:
+                resultStatus = Constants.QM_CHECK_RESULT.NEW_BUILD;
+                break;
+            case Constants.QM_CHECK_FLAG.RECHECK:
+                resultStatus = Constants.QM_CHECK_RESULT.RECHECK;
+                break;
+        }
         try {
             int result = 0;
             OrderCheckResult orderCheckResult = new OrderCheckResult();
@@ -290,7 +298,7 @@ public class OrderCheckServiceImpl implements OrderCheckService {
             orderCheckResult.setCheckEndTime(currentTime);
             orderCheckResult.setCheckTime(Integer.parseInt(orderCheckInfo.get("checkTime").toString()));
             orderCheckResult.setScoreType(orderCheckInfo.get("scoreType").toString());
-            orderCheckResult.setResultStatus(checkStatus);
+            orderCheckResult.setResultStatus(resultStatus);
             orderCheckResult.setLastResultFlag("1");      //最新质检结果
             orderCheckResult.setFinalScore(BigDecimal.valueOf(Double.parseDouble(orderCheckInfo.get("finalScore").toString())));
             orderCheckResult.setCheckComment(orderCheckInfo.get("checkComment").toString());

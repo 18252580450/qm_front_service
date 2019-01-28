@@ -1079,6 +1079,16 @@ public class Constants {
     }
 
     /**
+     * 质检标识
+     */
+    public interface QM_CHECK_FLAG {
+        String NEW_BUILD = "0";     //质检新生成
+        String CHECK_SAVE = "1";    //质检保存
+        String RECHECK = "2";       //复检
+        String RECHECK_SAVE = "3";  //复检保存
+    }
+
+    /**
      * 质检结果状态
      */
     public interface QM_LAST_CHECK_RESULT {
