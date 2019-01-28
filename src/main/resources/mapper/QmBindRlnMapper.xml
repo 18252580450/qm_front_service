@@ -102,19 +102,38 @@
       order by ${orderByClause}
     </if>
   </select>
+  <!--查询方法修改-->
   <select id="selectByPrimaryKey" parameterType="com.asiainfo.qm.task.domain.QmBindRlnKey" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_qm_bind_rln
-    where CHECKED_OBJECT_ID = #{checkedObjectId,jdbcType=VARCHAR}
-      and PLAN_ID = #{planId,jdbcType=VARCHAR}
-      and CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR}
+    where
+        <if test="checkedObjectId != null">
+          CHECKED_OBJECT_ID = #{checkedObjectId,jdbcType=VARCHAR}  and
+        </if>
+        PLAN_ID = #{planId,jdbcType=VARCHAR}
+    and
+        CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR}
   </select>
+  <!--删除方法修改-->
   <delete id="deleteByPrimaryKey" parameterType="com.asiainfo.qm.task.domain.QmBindRlnKey">
     delete from t_qm_bind_rln
-    where CHECKED_OBJECT_ID = #{checkedObjectId,jdbcType=VARCHAR}
-      and PLAN_ID = #{planId,jdbcType=VARCHAR}
-      and CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR}
+    where
+        CHECKED_OBJECT_ID = #{checkedObjectId,jdbcType=VARCHAR}
+    and
+        PLAN_ID = #{planId,jdbcType=VARCHAR}
+    and
+        CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR}
+  </delete>
+  <!--新增删除方法-->
+  <delete id="deleteById" parameterType="com.asiainfo.qm.task.domain.QmBindRlnKey">
+     delete from t_qm_bind_rln
+     where
+        <if test="checkedObjectId != null">
+          CHECKED_OBJECT_ID = #{checkedObjectId,jdbcType=VARCHAR}  and
+        </if>
+          PLAN_ID = #{planId,jdbcType=VARCHAR}
+     and CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.asiainfo.qm.task.domain.QmBindRlnExample">
     delete from t_qm_bind_rln

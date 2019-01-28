@@ -1,18 +1,12 @@
 package com.asiainfo.qm.manage.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
-import com.asiainfo.qm.manage.dao.CheckItemMapper;
 import com.asiainfo.qm.manage.dao.TemplateDetailMapper;
-import com.asiainfo.qm.manage.domain.CheckItem;
-import com.asiainfo.qm.manage.domain.CheckItemExample;
-import com.asiainfo.qm.manage.domain.TemplateDetail;
-import com.asiainfo.qm.manage.domain.TemplateDetailExample;
+import com.asiainfo.qm.manage.domain.*;
 import com.asiainfo.qm.manage.service.AddCheckTemplateService;
 import com.asiainfo.qm.manage.service.CheckItemService;
 import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.WebUtil;
-import com.asiainfo.qm.manage.vo.CheckItemResponse;
 import com.asiainfo.qm.manage.vo.TemplateDetailResponse;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -33,9 +27,6 @@ import java.util.Map;
 public class AddCheckTemplateServiceImpl implements AddCheckTemplateService {
 
     private static Logger logger = LoggerFactory.getLogger(AddCheckTemplateServiceImpl.class);
-
-    @Autowired
-    private CheckItemMapper checkItemMapper;
 
     @Autowired
     private TemplateDetailMapper templateDetailMapper;
@@ -164,6 +155,48 @@ public class AddCheckTemplateServiceImpl implements AddCheckTemplateService {
             logger.error("操作异常", e);
             templateDetailResponse.setRspcode(WebUtil.EXCEPTION);
             templateDetailResponse.setRspdesc("操作异常");
+        }
+        return templateDetailResponse;
+    }
+
+    @Override
+    public TemplateDetailResponse deleteByPrimaryKey(TemplateDetailKey templateDetailKey) throws Exception{
+        TemplateDetailResponse templateDetailResponse = new TemplateDetailResponse();
+        try {
+            int result = templateDetailMapper.deleteByPrimaryKey(templateDetailKey);
+            if(result > 0){
+                templateDetailResponse.setRspcode(WebUtil.SUCCESS);
+                templateDetailResponse.setRspdesc("删除成功");
+            }else {
+                templateDetailResponse.setRspcode(WebUtil.FAIL);
+                templateDetailResponse.setRspdesc("删除失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("删除异常",e);
+            templateDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            templateDetailResponse.setRspdesc("删除异常");
+        }
+        return templateDetailResponse;
+    }
+
+    @Override
+    public TemplateDetailResponse selectByPrimaryKey(TemplateDetailKey templateDetailKey){
+        TemplateDetailResponse templateDetailResponse = new TemplateDetailResponse();
+        try {
+            List<TemplateDetail> list = templateDetailMapper.selectByPrimaryKey(templateDetailKey);
+            if(list.size() > 0){
+                templateDetailResponse.setRspcode(WebUtil.SUCCESS);
+                templateDetailResponse.setRspdesc("查询成功");
+            }else {
+                templateDetailResponse.setRspcode(WebUtil.FAIL);
+                templateDetailResponse.setRspdesc("查询失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("查询异常",e);
+            templateDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            templateDetailResponse.setRspdesc("查询异常");
         }
         return templateDetailResponse;
     }

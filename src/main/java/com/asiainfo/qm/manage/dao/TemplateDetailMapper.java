@@ -24,7 +24,7 @@ public interface TemplateDetailMapper {
 
     List<CheckItemDetail> unionSelectByExample(CheckItemDetail checkItemDetail);
 
-    TemplateDetail selectByPrimaryKey(TemplateDetailKey key);
+//    TemplateDetail selectByPrimaryKey(TemplateDetailKey key);
 
     int updateByExampleSelective(@Param("record") TemplateDetail record, @Param("example") TemplateDetailExample example);
 
@@ -35,4 +35,6 @@ public interface TemplateDetailMapper {
     int updateByPrimaryKey(TemplateDetail record);
 
     int update(Map map);//新增方法
+    List<TemplateDetail> selectByPrimaryKey(TemplateDetailKey templateDetailKey);//新增方法
+
 }

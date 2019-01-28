@@ -25,5 +25,7 @@ public interface QmBindRlnMapper {
 
     int deleteByIds(List<Map<String,Object>> list);
 
-    int selectByPrimaryKey(QmBindRlnKey qmBindRlnKey);//新增
+    List<QmBindRln> selectByPrimaryKey(QmBindRlnKey qmBindRlnKey);//新增方法
+    int deleteByPrimaryKey(QmBindRlnKey qmBindRlnKey);//新增方法
+    int deleteById(QmBindRlnKey qmBindRlnKey);//新增方法
 }

@@ -63,7 +63,6 @@ public class TplOPLogServiceImpl implements TplOpLogService {
 	public TplOpLogResponse insertTplOpLog(TplOpLog tplOpLog) throws Exception{
 		TplOpLogResponse tplOpLogResponse = new TplOpLogResponse();
 		try {
-			tplOpLog.setTenantId("10010000");
 			tplOpLog.setCrtTime(DateUtil.getCurrontTime());
 			tplOpLog.setOperateTime(DateUtil.getCurrontTime());
 			tplOpLog.setOperateId(String.valueOf(sequenceUtils.getSequence("t_qm_tpl_op_log")));

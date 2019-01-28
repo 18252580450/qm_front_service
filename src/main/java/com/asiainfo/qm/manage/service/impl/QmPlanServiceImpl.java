@@ -239,10 +239,10 @@ public class QmPlanServiceImpl implements QmPlanService {
 				if(qmBindRlns.size() > 0){
 					//TODO 需调查询虚拟组接口
 					for(int i = 0;i<qmBindRlns.size();i++){
-						if(null != qmBindRlns.get(i).getCheckStaffId()){
+						if(null != qmBindRlns.get(i).getCheckStaffId()&&!(qmBindRlns.get(i).getCheckStaffId().isEmpty())){
 							qmBindRlns.get(i).setCheckStaffName("质检人"+i);
 						}
-						if(null != qmBindRlns.get(i).getCheckedObjectId()){
+						if(null != qmBindRlns.get(i).getCheckedObjectId()&&!(qmBindRlns.get(i).getCheckedObjectId().isEmpty())){
 							qmBindRlns.get(i).setCheckedObjectName("被质检人"+i);
 							qmBindRlns.get(i).setCheckedDepartName("话务组"+i);
 						}

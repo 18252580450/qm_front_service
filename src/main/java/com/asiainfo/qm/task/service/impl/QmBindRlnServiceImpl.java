@@ -32,10 +32,10 @@ public class QmBindRlnServiceImpl implements QmBindRlnService {
     private SequenceUtils sequenceUtils;
 
     @Override
-    public QmBindRlnResponse deleteByIds(List<Map<String,Object>> list) throws Exception {
+    public QmBindRlnResponse deleteByPrimaryKey(QmBindRlnKey qmBindRlnKey) throws Exception {
         QmBindRlnResponse qmBindRlnResponse = new QmBindRlnResponse();
         try {
-            int result = qmBindRlnMapper.deleteByIds(list);
+            int result = qmBindRlnMapper.deleteByPrimaryKey(qmBindRlnKey);
             if(result > 0){
                 qmBindRlnResponse.setRspcode(WebUtil.SUCCESS);
                 qmBindRlnResponse.setRspdesc("删除成功");
@@ -56,8 +56,8 @@ public class QmBindRlnServiceImpl implements QmBindRlnService {
     public QmBindRlnResponse selectByPrimaryKey(QmBindRlnKey qmBindRlnKey){
         QmBindRlnResponse qmBindRlnResponse = new QmBindRlnResponse();
         try {
-            int result = qmBindRlnMapper.selectByPrimaryKey(qmBindRlnKey);
-            if(result > 0){
+            List<QmBindRln> list = qmBindRlnMapper.selectByPrimaryKey(qmBindRlnKey);
+            if(list.size() > 0){
                 qmBindRlnResponse.setRspcode(WebUtil.SUCCESS);
                 qmBindRlnResponse.setRspdesc("查询成功");
             }else {
@@ -69,6 +69,27 @@ public class QmBindRlnServiceImpl implements QmBindRlnService {
             logger.error("查询异常",e);
             qmBindRlnResponse.setRspcode(WebUtil.EXCEPTION);
             qmBindRlnResponse.setRspdesc("查询异常");
+        }
+        return qmBindRlnResponse;
+    }
+
+    @Override
+    public QmBindRlnResponse deleteById(QmBindRlnKey qmBindRlnKey) throws Exception {
+        QmBindRlnResponse qmBindRlnResponse = new QmBindRlnResponse();
+        try {
+            int result = qmBindRlnMapper.deleteById(qmBindRlnKey);
+            if(result > 0){
+                qmBindRlnResponse.setRspcode(WebUtil.SUCCESS);
+                qmBindRlnResponse.setRspdesc("删除成功");
+            }else {
+                qmBindRlnResponse.setRspcode(WebUtil.FAIL);
+                qmBindRlnResponse.setRspdesc("删除失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("删除异常",e);
+            qmBindRlnResponse.setRspcode(WebUtil.EXCEPTION);
+            qmBindRlnResponse.setRspdesc("删除异常");
         }
         return qmBindRlnResponse;
     }

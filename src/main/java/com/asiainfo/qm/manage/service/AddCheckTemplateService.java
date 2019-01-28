@@ -2,6 +2,7 @@ package com.asiainfo.qm.manage.service;
 
 import com.asiainfo.qm.manage.domain.CheckItem;
 import com.asiainfo.qm.manage.domain.TemplateDetail;
+import com.asiainfo.qm.manage.domain.TemplateDetailKey;
 import com.asiainfo.qm.manage.vo.OrdinaryCommentResponse;
 import com.asiainfo.qm.manage.vo.TemplateDetailResponse;
 
@@ -20,4 +21,9 @@ public interface AddCheckTemplateService {
     TemplateDetailResponse selectByParams(Map params, int start, int limit)throws Exception;
 
     TemplateDetailResponse update(List<Map> list)throws Exception;
+
+    TemplateDetailResponse deleteByPrimaryKey(TemplateDetailKey templateDetailKey)throws Exception;
+
+    TemplateDetailResponse selectByPrimaryKey(TemplateDetailKey templateDetailKey)throws Exception;
+
 }

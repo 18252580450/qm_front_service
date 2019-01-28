@@ -3,10 +3,7 @@ package com.asiainfo.qm.manage.web;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
-import com.asiainfo.qm.manage.domain.CheckItem;
-import com.asiainfo.qm.manage.domain.CheckTemplate;
-import com.asiainfo.qm.manage.domain.OrdinaryComment;
-import com.asiainfo.qm.manage.domain.TemplateDetail;
+import com.asiainfo.qm.manage.domain.*;
 import com.asiainfo.qm.manage.service.AddCheckTemplateService;
 import com.asiainfo.qm.manage.service.CheckItemService;
 import com.asiainfo.qm.manage.service.CheckTemplateService;
@@ -197,4 +194,76 @@ public class AddCheckTemplateController {
         TemplateDetailServiceResponse templateDetailServiceResponse = new TemplateDetailServiceResponse();
         return templateDetailServiceResponse;
     }
+
+	@ApiOperation(value = "前端调用接口删除信息", notes = "qm_configservice删除信息", response = CheckTemplateServiceResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+			@ApiResponse(code = 403, message = "资源不存在"),
+			@ApiResponse(code = 404, message = "传入的参数无效"),
+			@ApiResponse(code = 500, message = "服务器出现异常错误") })
+	@HystrixCommand(groupKey = "qm_configservice ", commandKey = "deleteByPrimaryKey", threadPoolKey = "deleteByPrimaryKeyThread", fallbackMethod = "fallbackDeleteByPrimaryKey",commandProperties = {
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
+			@HystrixProperty(name = "coreSize", value = "200") })
+	@RequestMapping(value = "/deleteByPrimaryKey", method = RequestMethod.DELETE)
+	public TemplateDetailServiceResponse deleteByPrimaryKey(@RequestBody String params) throws Exception {
+		TemplateDetailResponse templateDetailResponse = new TemplateDetailResponse();
+		TemplateDetailServiceResponse templateDetailServiceResponse = new TemplateDetailServiceResponse();
+		Map reqParams = JSONObject.parseObject(params);
+		TemplateDetailKey templateDetailKey = new TemplateDetailKey();
+		templateDetailKey.setNodeId((String) reqParams.get("nodeId"));
+		templateDetailKey.setNodeType((String) reqParams.get("nodeType"));
+		templateDetailKey.setTemplateId((String) reqParams.get("templateId"));
+		try {
+			templateDetailResponse = addCheckTemplateService.deleteByPrimaryKey(templateDetailKey);
+		}catch (Exception e){
+			logger.error("信息删除异常");
+			templateDetailResponse.setRspcode(WebUtil.EXCEPTION);
+			templateDetailResponse.setRspdesc("信息删除异常!");
+		}
+		templateDetailServiceResponse.setResponse(templateDetailResponse);
+		return templateDetailServiceResponse;
+	}
+
+	public TemplateDetailServiceResponse fallbackDeleteByPrimaryKey(@RequestBody String params) throws Exception {
+		logger.info("信息删除出错啦！");
+		logger.error("");
+		TemplateDetailServiceResponse templateDetailServiceResponse = new TemplateDetailServiceResponse();
+		return templateDetailServiceResponse;
+	}
+
+	@ApiOperation(value = "前端调用接口查询", notes = "qm_configservice查询", response = CheckTemplateServiceResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+			@ApiResponse(code = 403, message = "资源不存在"),
+			@ApiResponse(code = 404, message = "传入的参数无效"),
+			@ApiResponse(code = 500, message = "服务器出现异常错误") })
+	@HystrixCommand(groupKey = "qm_configservice ", commandKey = "selectByParams", threadPoolKey = "selectByParamsThread", fallbackMethod = "fallbackSelectByPrimaryKey",commandProperties = {
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
+			@HystrixProperty(name = "coreSize", value = "200") })
+	@RequestMapping(value = "/selectByPrimaryKey", method = RequestMethod.GET)
+	public TemplateDetailServiceResponse selectByPrimaryKey(@RequestParam(name = "params")String params) throws Exception {
+		TemplateDetailResponse templateDetailResponse = new TemplateDetailResponse();
+		TemplateDetailServiceResponse templateDetailServiceResponse = new TemplateDetailServiceResponse();
+		Map reqParams = JSONObject.parseObject(params);
+		TemplateDetailKey templateDetailKey = new TemplateDetailKey();
+		templateDetailKey.setNodeId((String) reqParams.get("nodeId"));
+		templateDetailKey.setNodeType((String) reqParams.get("nodeType"));
+		templateDetailKey.setTemplateId((String) reqParams.get("templateId"));
+		try {
+			templateDetailResponse = addCheckTemplateService.selectByPrimaryKey(templateDetailKey);//查询方法
+		}catch (Exception e){
+			logger.error("数据查询异常");
+			templateDetailResponse.setRspcode(WebUtil.EXCEPTION);
+			templateDetailResponse.setRspdesc("数据查询异常!");
+		}
+		templateDetailServiceResponse.setResponse(templateDetailResponse);
+		return templateDetailServiceResponse;
+	}
+
+	public TemplateDetailServiceResponse fallbackSelectByPrimaryKey(@RequestParam(name = "params")String params) throws Exception {
+		logger.info("数据查询出错啦！");
+		logger.error("");
+		TemplateDetailServiceResponse templateDetailServiceResponse = new TemplateDetailServiceResponse();
+		return templateDetailServiceResponse;
+	}
 }
