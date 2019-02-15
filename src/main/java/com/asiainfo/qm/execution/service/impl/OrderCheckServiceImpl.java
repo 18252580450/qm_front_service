@@ -90,7 +90,7 @@ public class OrderCheckServiceImpl implements OrderCheckService {
                 params.put("tenantId", orderCheckInfo.get("tenantId"));
                 params.put("touchId", orderCheckInfo.get("touchId"));
                 params.put("inspectionId", inspectionId);
-                OrderCheckResultDetailResponse orderCheckResultDetailResponse = orderCheckResultDetailService.queryOrderCheckResultDetail(detailParams, 0, 0);
+                OrderCheckResultDetailResponse orderCheckResultDetailResponse = orderCheckResultDetailService.querySavedResult(detailParams, 0, 0);
                 if (orderCheckResultDetailResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
                     orderCheckResponse.setRspcode(orderCheckResultDetailResponse.getRspcode());
                     orderCheckResponse.setRspdesc(orderCheckResultDetailResponse.getRspdesc());

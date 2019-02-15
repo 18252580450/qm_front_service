@@ -12,6 +12,11 @@ import java.util.Map;
 public interface OrderCheckResultDetailService {
 
     /**
+     * 工单质检结果暂存信息查询
+     */
+    OrderCheckResultDetailResponse querySavedResult(Map params, int start, int limit) throws Exception;
+
+    /**
      * 工单质检结果详细信息查询
      */
     OrderCheckResultDetailResponse queryOrderCheckResultDetail(Map params, int start, int limit) throws Exception;

@@ -35,7 +35,7 @@ public class OrderCheckResultDetailServiceImpl implements OrderCheckResultDetail
     private OrderCheckResultService orderCheckResultService;
 
     @Override
-    public OrderCheckResultDetailResponse queryOrderCheckResultDetail(Map params, int start, int limit) throws Exception {
+    public OrderCheckResultDetailResponse querySavedResult(Map params, int start, int limit) throws Exception {
         OrderCheckResultDetailResponse orderCheckResultDetailResponse = null;
         OrderCheckResultDetailExample example = new OrderCheckResultDetailExample();
         try {
@@ -73,6 +73,41 @@ public class OrderCheckResultDetailServiceImpl implements OrderCheckResultDetail
                     orderCheckResultDetailResponse.setRspcode(WebUtil.FAIL);
                     orderCheckResultDetailResponse.setRspdesc("无数据");
                 }
+            } else {
+                orderCheckResultDetailResponse.setRspcode(WebUtil.FAIL);
+                orderCheckResultDetailResponse.setRspdesc("无数据");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("质检结果详情查询异常", e);
+            orderCheckResultDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            orderCheckResultDetailResponse.setRspdesc("质检结果详情查询异常");
+        }
+        return orderCheckResultDetailResponse;
+    }
+
+    @Override
+    public OrderCheckResultDetailResponse queryOrderCheckResultDetail(Map params, int start, int limit) throws Exception {
+        OrderCheckResultDetailResponse orderCheckResultDetailResponse = null;
+        OrderCheckResultDetailExample example = new OrderCheckResultDetailExample();
+        try {
+            String inspectionId = params.get("inspectionId").toString();
+            OrderCheckResultDetailExample.Criteria criteria = example.createCriteria();
+            criteria.andInspectionIdEqualTo(inspectionId);
+
+            if (0 != limit) {
+                PageHelper.offsetPage(start, limit);
+                List<OrderCheckResultDetail> list = orderCheckResultDetailMapper.selectByExample(example);
+                Page<OrderCheckResultDetail> pagelist = (Page) list;
+                orderCheckResultDetailResponse = new OrderCheckResultDetailResponse(pagelist);
+            } else {
+                orderCheckResultDetailResponse = new OrderCheckResultDetailResponse();
+                List<OrderCheckResultDetail> list = orderCheckResultDetailMapper.selectByExample(example);
+                orderCheckResultDetailResponse.setData(list);
+            }
+
+            if (null != orderCheckResultDetailResponse.getData() && orderCheckResultDetailResponse.getData().size() > 0) {
+                orderCheckResultDetailResponse.setRspcode(WebUtil.SUCCESS);
             } else {
                 orderCheckResultDetailResponse.setRspcode(WebUtil.FAIL);
                 orderCheckResultDetailResponse.setRspdesc("无数据");
