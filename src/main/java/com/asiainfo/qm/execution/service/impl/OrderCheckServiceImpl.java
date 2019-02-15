@@ -278,6 +278,7 @@ public class OrderCheckServiceImpl implements OrderCheckService {
             int result = 0;
             OrderCheckResult orderCheckResult = new OrderCheckResult();
             orderCheckResult.setTenantId(orderCheckInfo.get("tenantId").toString());
+            orderCheckResult.setProvinceId(orderCheckInfo.get("provinceId").toString());
             orderCheckResult.setCallingNumber(orderCheckInfo.get("callingNumber").toString());
             orderCheckResult.setAcceptNumber(orderCheckInfo.get("acceptNumber").toString());
             orderCheckResult.setInspectionId(inspectionId);
@@ -302,6 +303,7 @@ public class OrderCheckServiceImpl implements OrderCheckService {
             orderCheckResult.setLastResultFlag("1");      //最新质检结果
             orderCheckResult.setFinalScore(BigDecimal.valueOf(Double.parseDouble(orderCheckInfo.get("finalScore").toString())));
             orderCheckResult.setCheckComment(orderCheckInfo.get("checkComment").toString());
+            orderCheckResult.setUnqualifiedNum(Integer.parseInt(orderCheckInfo.get("unqualifiedNum").toString()));
 
             if (isUpdate) {
                 result = orderCheckResultMapper.updateByPrimaryKeySelective(orderCheckResult);
