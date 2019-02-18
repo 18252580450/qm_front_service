@@ -44,6 +44,7 @@ public class QmTaskController {
 			flag = extractService.extract(planId);
 		}catch (Exception e){
 			logger.error("计划执行定时任务异常");
+			e.printStackTrace();
 		}
         return flag;
 	}
@@ -67,9 +68,17 @@ public class QmTaskController {
 	public boolean doSynchroVoicesTask() throws Exception {
 		boolean flag = false;
 		try {
-//			flag = extractService.extract();
+			//语音数据同步
+			flag = taskService.doSynchroVoices(1);
+			if(flag){
+				//更新满意度
+				taskService.queryScore();
+				//下载录音文件
+				taskService.downloadRecordFiles();
+			}
 		}catch (Exception e){
 			logger.error("语音数据同步定时任务异常");
+			e.printStackTrace();
 		}
 		return flag;
 	}

@@ -5,7 +5,9 @@ package com.asiainfo.qm.task.service;
  */
 public interface IQmTaskService {
 
-    public boolean doSynchroVoices ();
+    public boolean doSynchroVoices (int pageNum);
 
+    public boolean downloadRecordFiles();
 
+    public boolean queryScore() throws Exception;
 }

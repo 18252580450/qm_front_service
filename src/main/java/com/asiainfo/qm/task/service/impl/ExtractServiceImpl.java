@@ -99,46 +99,47 @@ public class ExtractServiceImpl implements IExtractService{
                 voicePool.setProvinceId(qmVoice.getProvinceId());
                 voicePool.setCheckedStaffId(qmVoice.getStaffId());
                 voicePool.setCheckedStaffName(qmVoice.getStaffName());
+                voicePool.setCheckedTime(DateUtil.getCurrontTime());//抽取时间
                 voicePool.setDepartId(qmVoice.getDepartId());
                 voicePool.setDepartName(qmVoice.getDepartName());
                 voicePool.setBeginTime(qmVoice.getBeginTime());
                 voicePool.setEndTime(qmVoice.getEndTime());
                 voicePool.setTouchId(qmVoice.getTouchId());
-                        voicePool.setCallType(qmVoice.getCallType());
-                        voicePool.setIvrDuration(qmVoice.getIvrDuration());
-                        voicePool.setAcwDuration(qmVoice.getAcwDuration());
-                        voicePool.setAlertDuration(qmVoice.getAlertDuration());
-                        voicePool.setQueueDuration(qmVoice.getQueueDuration());
-                        voicePool.setTalkDuration(qmVoice.getTalkDuration());
-                        voicePool.setEndType(qmVoice.getEndType());
-                        voicePool.setStaffNumber(qmVoice.getStaffNumber());
-                        voicePool.setCustomerNumber(qmVoice.getCustomerNumber());
-                        voicePool.setRecordPath(qmVoice.getRecordPath());
-                        voicePool.setSatisfyExtent(qmVoice.getSatisfyExtent());
-                        voicePool.setDisconReason(qmVoice.getDisconReason());
-                        voicePool.setCallReason(qmVoice.getCallReason());
-                        voicePool.setNotOneSlt(qmVoice.getNotOneSlt());
-                        voicePool.setBusinessType(qmVoice.getBusinessType());
-                        voicePool.setReserve1(qmVoice.getReserve1());
-                        voicePool.setReserve2(qmVoice.getReserve2());
-                        voicePool.setReserve3(qmVoice.getReserve3());
-                        voicePool.setReserve4(qmVoice.getReserve4());
-                        voicePool.setReserve5(qmVoice.getReserve5());
-                        voicePool.setReserve6(qmVoice.getReserve6());
-                        voicePool.setReserve7(qmVoice.getReserve7());
-                        voicePool.setReserve8(qmVoice.getReserve8());
-                        //非公共参数
-                        voicePool.setRecordTime(qmVoice.getTalkDuration());
-                        if("1".equals(qmPlan.getManOrAuto())){
-                            //自动分派
-                            for(int j = 0;i<qmBindRlns.size();j++){
-                                QmBindRln qmBindRln = qmBindRlns.get(j);
-                                if(qmBindRln.getUserType().equals("0") && null != qmBindRln.getCheckedObjectId() &&
-                                        qmBindRln.getCheckedObjectId().equals(qmVoice.getStaffId())){
-                                    //话务员
-                                    voicePool.setCheckStaffId(qmBindRln.getCheckStaffId());
-                                }else if(qmBindRln.getUserType().equals("1") && null != qmBindRln.getCheckedObjectId() &&
-                                qmBindRln.getCheckedObjectId().equals(qmVoice.getDepartId())){
+                voicePool.setCallType(qmVoice.getCallType());
+                voicePool.setIvrDuration(qmVoice.getIvrDuration());
+                voicePool.setAcwDuration(qmVoice.getAcwDuration());
+                voicePool.setAlertDuration(qmVoice.getAlertDuration());
+                voicePool.setQueueDuration(qmVoice.getQueueDuration());
+                voicePool.setTalkDuration(qmVoice.getTalkDuration());
+                voicePool.setEndType(qmVoice.getEndType());
+                voicePool.setStaffNumber(qmVoice.getStaffNumber());
+                voicePool.setCustomerNumber(qmVoice.getCustomerNumber());
+                voicePool.setRecordPath(qmVoice.getRecordPath());
+                voicePool.setSatisfyExtent(qmVoice.getSatisfyExtent());
+                voicePool.setDisconReason(qmVoice.getDisconReason());
+                voicePool.setCallReason(qmVoice.getCallReason());
+                voicePool.setNotOneSlt(qmVoice.getNotOneSlt());
+                voicePool.setBusinessType(qmVoice.getBusinessType());
+                voicePool.setReserve1(qmVoice.getReserve1());
+                voicePool.setReserve2(qmVoice.getReserve2());
+                voicePool.setReserve3(qmVoice.getReserve3());
+                voicePool.setReserve4(qmVoice.getReserve4());
+                voicePool.setReserve5(qmVoice.getReserve5());
+                voicePool.setReserve6(qmVoice.getReserve6());
+                voicePool.setReserve7(qmVoice.getReserve7());
+                voicePool.setReserve8(qmVoice.getReserve8());
+                //非公共参数
+                voicePool.setRecordTime(qmVoice.getTalkDuration());
+                if("1".equals(qmPlan.getManOrAuto())){
+                    //自动分派
+                    for(int j = 0;i<qmBindRlns.size();j++){
+                        QmBindRln qmBindRln = qmBindRlns.get(j);
+                        if(qmBindRln.getUserType().equals("0") && null != qmBindRln.getCheckedObjectId() &&
+                                qmBindRln.getCheckedObjectId().equals(qmVoice.getStaffId())){
+                            //话务员
+                            voicePool.setCheckStaffId(qmBindRln.getCheckStaffId());
+                        }else if(qmBindRln.getUserType().equals("1") && null != qmBindRln.getCheckedObjectId() &&
+                        qmBindRln.getCheckedObjectId().equals(qmVoice.getDepartId())){
                             //班组
                             voicePool.setCheckStaffId(qmBindRln.getCheckStaffId());
                         }
