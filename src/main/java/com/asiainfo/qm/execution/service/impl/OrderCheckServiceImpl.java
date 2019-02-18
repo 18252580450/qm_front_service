@@ -167,6 +167,10 @@ public class OrderCheckServiceImpl implements OrderCheckService {
                     orderCheckResultDetail.setCheckStaffName(orderCheckInfo.get("checkStaffName").toString());
                     orderCheckResultDetail.setCheckDepartId(orderCheckInfo.get("checkDepartId").toString());
                     orderCheckResultDetail.setCheckDepartName(orderCheckInfo.get("checkDepartName").toString());
+                    orderCheckResultDetail.setCheckedStaffId(checkLink.get("checkedStaffId").toString());
+                    orderCheckResultDetail.setCheckedStaffName(checkLink.get("checkedStaffNm").toString());
+                    orderCheckResultDetail.setCheckedDepartId(checkLink.get("checkedDepartId").toString());
+                    orderCheckResultDetail.setCheckedDepartName(checkLink.get("checkedDepartNm").toString());
                     orderCheckResultDetail.setCheckStartTime(DateUtil.string2Date(checkStartTime));
                     orderCheckResultDetail.setCheckEndTime(currentTime);
                     orderCheckResultDetail.setScoreType(orderCheckInfo.get("scoreType").toString());
