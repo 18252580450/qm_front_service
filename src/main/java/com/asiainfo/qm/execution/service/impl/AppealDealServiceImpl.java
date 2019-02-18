@@ -217,9 +217,13 @@ public class AppealDealServiceImpl implements AppealDealService {
 
             //新增申诉数据
             AppealDeal appealDeal = new AppealDeal();
+            appealDeal.setTenantId(reqMap.get("tenantId").toString());
+            appealDeal.setProvinceId(reqMap.get("provinceId").toString());
             appealDeal.setCheckType(reqMap.get("checkType").toString());
             appealDeal.setTouchId(reqMap.get("touchId").toString());
             appealDeal.setInspectionId(reqMap.get("inspectionId").toString());
+            appealDeal.setPlanId(reqMap.get("planId").toString());
+            appealDeal.setTemplateId(reqMap.get("templateId").toString());
             appealDeal.setAppealId(appealId);
             appealDeal.setAppealStaffId(reqMap.get("appealStaffId").toString());
             appealDeal.setAppealStaffName(reqMap.get("appealStaffName").toString());

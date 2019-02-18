@@ -5,11 +5,19 @@ import java.util.Date;
 public class AppealDeal {
     private String appealId;
 
+    private String tenantId;
+
+    private String provinceId;
+
     private String checkType;
 
     private String touchId;
 
     private String inspectionId;
+
+    private String planId;
+
+    private String templateId;
 
     private String appealStaffId;
 
@@ -67,6 +75,22 @@ public class AppealDeal {
         this.appealId = appealId == null ? null : appealId.trim();
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId == null ? null : tenantId.trim();
+    }
+
+    public String getProvinceId() {
+        return provinceId;
+    }
+
+    public void setProvinceId(String provinceId) {
+        this.provinceId = provinceId == null ? null : provinceId.trim();
+    }
+
     public String getCheckType() {
         return checkType;
     }
@@ -89,6 +113,20 @@ public class AppealDeal {
 
     public void setInspectionId(String inspectionId) {
         this.inspectionId = inspectionId == null ? null : inspectionId.trim();
+    }
+
+    public String getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(String planId) { this.planId = planId == null ? null : planId.trim(); }
+
+    public String getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(String templateId) {
+        this.templateId = templateId == null ? null : templateId.trim();
     }
 
     public String getAppealStaffId() {

@@ -3,9 +3,13 @@
 <mapper namespace="com.asiainfo.qm.execution.dao.AppealDealMapper" >
   <resultMap id="BaseResultMap" type="com.asiainfo.qm.execution.domain.AppealDeal" >
     <id column="APPEAL_ID" property="appealId" jdbcType="VARCHAR" />
+    <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
     <result column="CHECK_TYPE" property="checkType" jdbcType="VARCHAR" />
     <result column="TOUCH_ID" property="touchId" jdbcType="VARCHAR" />
     <result column="INSPECTION_ID" property="inspectionId" jdbcType="VARCHAR" />
+    <result column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
+    <result column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
     <result column="APPEAL_STAFF_ID" property="appealStaffId" jdbcType="VARCHAR" />
     <result column="APPEAL_STAFF_NAME" property="appealStaffName" jdbcType="VARCHAR" />
     <result column="APPEAL_REASON" property="appealReason" jdbcType="VARCHAR" />
@@ -34,9 +38,13 @@
   <resultMap id="UnionResultMap" type="com.asiainfo.qm.execution.domain.UnionAppealDeal" >
     <id column="APPEAL_ID" property="appealId" jdbcType="VARCHAR" />
     <id column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
     <result column="CHECK_TYPE" property="checkType" jdbcType="VARCHAR" />
     <result column="TOUCH_ID" property="touchId" jdbcType="VARCHAR" />
     <result column="INSPECTION_ID" property="inspectionId" jdbcType="VARCHAR" />
+    <result column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
+    <result column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
     <result column="APPEAL_STAFF_ID" property="appealStaffId" jdbcType="VARCHAR" />
     <result column="APPEAL_STAFF_NAME" property="appealStaffName" jdbcType="VARCHAR" />
     <result column="APPEAL_REASON" property="appealReason" jdbcType="VARCHAR" />
@@ -125,7 +133,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    APPEAL_ID, CHECK_TYPE, TOUCH_ID, INSPECTION_ID, APPEAL_STAFF_ID, APPEAL_STAFF_NAME,
+    APPEAL_ID, TENANT_ID, PROVINCE_ID, CHECK_TYPE, TOUCH_ID, INSPECTION_ID, PLAN_ID, TEMPLATE_ID, APPEAL_STAFF_ID, APPEAL_STAFF_NAME,
     APPEAL_REASON, APPEAL_TIME, APPEAL_STATUS, MAIN_PROCESS_ID, CURRENT_PROCESS_ID, CURRENT_NODE_ID,
     CURRENT_NODE_NAME, PRE_PROCESS_ID, PRE_NODE_ID, PRE_NODE_DEAL_STAFF_ID, NEXT_PROCESS_ID,
     NEXT_NODE_ID, RESERVE_1, RESERVE_2, RESERVE_3, RESERVE_4, RESERVE_5, RESERVE_6, RESERVE_7,
@@ -134,7 +142,7 @@
 
   <!--AppealNodeInfo联表查询结果-->
   <sql id="UNION_Column_List" >
-    t.APPEAL_ID, t1.USER_ID, t.CHECK_TYPE, t.TOUCH_ID, t.INSPECTION_ID, t.APPEAL_STAFF_ID, t.APPEAL_STAFF_NAME,
+    t.APPEAL_ID, t1.USER_ID, t.TENANT_ID, t.PROVINCE_ID, t.CHECK_TYPE, t.TOUCH_ID, t.INSPECTION_ID, t.PLAN_ID, t.TEMPLATE_ID, t.APPEAL_STAFF_ID, t.APPEAL_STAFF_NAME,
     t.APPEAL_REASON, t.APPEAL_TIME, t.APPEAL_STATUS, t.MAIN_PROCESS_ID, t.CURRENT_PROCESS_ID, t.CURRENT_NODE_ID,
     t.CURRENT_NODE_NAME, t.PRE_PROCESS_ID, t.PRE_NODE_ID, t.PRE_NODE_DEAL_STAFF_ID, t.NEXT_PROCESS_ID,
     t.NEXT_NODE_ID, t1.USER_NAME, t1.USER_TYPE, t1.INFORM_ID, t1.INFORM_TYPE,
@@ -186,8 +194,8 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.asiainfo.qm.execution.domain.AppealDeal" >
-    insert into t_qm_appeal_process (APPEAL_ID, CHECK_TYPE, TOUCH_ID,
-      INSPECTION_ID, APPEAL_STAFF_ID, APPEAL_STAFF_NAME,
+    insert into t_qm_appeal_process (APPEAL_ID, TENANT_ID, PROVINCE_ID, CHECK_TYPE, TOUCH_ID,
+      INSPECTION_ID, PLAN_ID, TEMPLATE_ID, APPEAL_STAFF_ID, APPEAL_STAFF_NAME,
       APPEAL_REASON, APPEAL_TIME, APPEAL_STATUS,
       MAIN_PROCESS_ID, CURRENT_PROCESS_ID, CURRENT_NODE_ID,
       CURRENT_NODE_NAME, PRE_PROCESS_ID, PRE_NODE_ID,
@@ -196,8 +204,8 @@
       RESERVE_4, RESERVE_5, RESERVE_6,
       RESERVE_7, RESERVE_8, RESERVE_9,
       RESERVE_10)
-    values (#{appealId,jdbcType=VARCHAR}, #{checkType,jdbcType=VARCHAR}, #{touchId,jdbcType=VARCHAR},
-      #{inspectionId,jdbcType=VARCHAR}, #{appealStaffId,jdbcType=VARCHAR}, #{appealStaffName,jdbcType=VARCHAR},
+    values (#{appealId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, #{checkType,jdbcType=VARCHAR}, #{touchId,jdbcType=VARCHAR},
+      #{inspectionId,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{templateId,jdbcType=VARCHAR}, #{appealStaffId,jdbcType=VARCHAR}, #{appealStaffName,jdbcType=VARCHAR},
       #{appealReason,jdbcType=VARCHAR}, #{appealTime,jdbcType=TIMESTAMP}, #{appealStatus,jdbcType=VARCHAR},
       #{mainProcessId,jdbcType=VARCHAR}, #{currentProcessId,jdbcType=VARCHAR}, #{currentNodeId,jdbcType=INTEGER},
       #{currentNodeName,jdbcType=VARCHAR}, #{preProcessId,jdbcType=VARCHAR}, #{preNodeId,jdbcType=INTEGER},
@@ -213,6 +221,12 @@
       <if test="appealId != null" >
         APPEAL_ID,
       </if>
+      <if test="tenantId != null" >
+        TENANT_ID,
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID,
+      </if>
       <if test="checkType != null" >
         CHECK_TYPE,
       </if>
@@ -221,6 +235,12 @@
       </if>
       <if test="inspectionId != null" >
         INSPECTION_ID,
+      </if>
+      <if test="planId != null" >
+        PLAN_ID,
+      </if>
+      <if test="templateId != null" >
+        TEMPLATE_ID,
       </if>
       <if test="appealStaffId != null" >
         APPEAL_STAFF_ID,
@@ -299,6 +319,12 @@
       <if test="appealId != null" >
         #{appealId,jdbcType=VARCHAR},
       </if>
+      <if test="tenantId != null" >
+        #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=VARCHAR},
+      </if>
       <if test="checkType != null" >
         #{checkType,jdbcType=VARCHAR},
       </if>
@@ -307,6 +333,12 @@
       </if>
       <if test="inspectionId != null" >
         #{inspectionId,jdbcType=VARCHAR},
+      </if>
+      <if test="planId != null" >
+        #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null" >
+        #{templateId,jdbcType=VARCHAR},
       </if>
       <if test="appealStaffId != null" >
         #{appealStaffId,jdbcType=VARCHAR},
@@ -394,6 +426,12 @@
       <if test="record.appealId != null" >
         APPEAL_ID = #{record.appealId,jdbcType=VARCHAR},
       </if>
+      <if test="record.tenantId != null" >
+        TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceId != null" >
+        PROVINCE_ID = #{record.provinceId,jdbcType=VARCHAR},
+      </if>
       <if test="record.checkType != null" >
         CHECK_TYPE = #{record.checkType,jdbcType=VARCHAR},
       </if>
@@ -402,6 +440,12 @@
       </if>
       <if test="record.inspectionId != null" >
         INSPECTION_ID = #{record.inspectionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planId != null" >
+        PLAN_ID = #{record.planId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.templateId != null" >
+        TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
       </if>
       <if test="record.appealStaffId != null" >
         APPEAL_STAFF_ID = #{record.appealStaffId,jdbcType=VARCHAR},
@@ -483,9 +527,13 @@
   <update id="updateByExample" parameterType="map" >
     update t_qm_appeal_process
     set APPEAL_ID = #{record.appealId,jdbcType=VARCHAR},
+      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      PROVINCE_ID = #{record.provinceId,jdbcType=VARCHAR},
       CHECK_TYPE = #{record.checkType,jdbcType=VARCHAR},
       TOUCH_ID = #{record.touchId,jdbcType=VARCHAR},
       INSPECTION_ID = #{record.inspectionId,jdbcType=VARCHAR},
+      PLAN_ID = #{record.planId,jdbcType=VARCHAR},
+      TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
       APPEAL_STAFF_ID = #{record.appealStaffId,jdbcType=VARCHAR},
       APPEAL_STAFF_NAME = #{record.appealStaffName,jdbcType=VARCHAR},
       APPEAL_REASON = #{record.appealReason,jdbcType=VARCHAR},
@@ -517,6 +565,12 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.qm.execution.domain.AppealDeal" >
     update t_qm_appeal_process
     <set >
+      <if test="tenantId != null" >
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      </if>
       <if test="checkType != null" >
         CHECK_TYPE = #{checkType,jdbcType=VARCHAR},
       </if>
@@ -525,6 +579,12 @@
       </if>
       <if test="inspectionId != null" >
         INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR},
+      </if>
+      <if test="planId != null" >
+        PLAN_ID = #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null" >
+        TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
       </if>
       <if test="appealStaffId != null" >
         APPEAL_STAFF_ID = #{appealStaffId,jdbcType=VARCHAR},
@@ -603,9 +663,13 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.execution.domain.AppealDeal" >
     update t_qm_appeal_process
-    set CHECK_TYPE = #{checkType,jdbcType=VARCHAR},
+    set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      CHECK_TYPE = #{checkType,jdbcType=VARCHAR},
       TOUCH_ID = #{touchId,jdbcType=VARCHAR},
       INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR},
+      PLAN_ID = #{planId,jdbcType=VARCHAR},
+      TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
       APPEAL_STAFF_ID = #{appealStaffId,jdbcType=VARCHAR},
       APPEAL_STAFF_NAME = #{appealStaffName,jdbcType=VARCHAR},
       APPEAL_REASON = #{appealReason,jdbcType=VARCHAR},
