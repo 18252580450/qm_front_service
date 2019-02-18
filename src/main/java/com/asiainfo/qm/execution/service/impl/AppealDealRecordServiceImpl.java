@@ -47,14 +47,8 @@ public class AppealDealRecordServiceImpl implements AppealDealRecordService {
                 appealDealRecordResponse = new AppealDealRecordResponse();
                 appealDealRecordResponse.setData(list);
             }
-
-            if (null != appealDealRecordResponse.getData() && appealDealRecordResponse.getData().size() > 0) {
-                appealDealRecordResponse.setRspcode(WebUtil.SUCCESS);
-                appealDealRecordResponse.setRspdesc("查询成功");
-            } else {
-                appealDealRecordResponse.setRspcode(WebUtil.FAIL);
-                appealDealRecordResponse.setRspdesc("无数据");
-            }
+            appealDealRecordResponse.setRspcode(WebUtil.SUCCESS);
+            appealDealRecordResponse.setRspdesc("查询成功");
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("审批记录查询异常", e);
