@@ -226,4 +226,68 @@ public class QmPlanController {
 		QmPlanServiceResponse serviceResponse = new QmPlanServiceResponse();
 		return serviceResponse;
 	}
+
+	@ApiOperation(value = "查询工作组列表", notes = "qm_configservice查询工作组列表", response = QmPlanServiceResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+			@ApiResponse(code = 403, message = "资源不存在"),
+			@ApiResponse(code = 404, message = "传入的参数无效"),
+			@ApiResponse(code = 500, message = "服务器出现异常错误") })
+	@HystrixCommand(groupKey = "qm_configservice", commandKey = "updateQmPlan", threadPoolKey = "getWorkListThread",fallbackMethod = "fallbackGetWorkList", commandProperties = {
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
+			@HystrixProperty(name = "coreSize", value = "200") })
+	@RequestMapping(value = "/getWorkList", method = RequestMethod.GET)
+	public QmPlanServiceResponse getWorkList(@RequestParam(name = "params")String params)  throws Exception {
+		QmPlanResponse qmPlanResponse = new QmPlanResponse();
+		QmPlanServiceResponse qmPlanServiceResponse = new QmPlanServiceResponse();
+		Map reqParams = JSONObject.parseObject(params);
+		try {
+			qmPlanResponse = qmPlanService.getWorkList(reqParams);
+		}catch (Exception e){
+			logger.error("考评工作组列表异常");
+			qmPlanResponse.setRspcode(WebUtil.EXCEPTION);
+			qmPlanResponse.setRspdesc("考评工作组列表异常!");
+		}
+		qmPlanServiceResponse.setResponse(qmPlanResponse);
+		return qmPlanServiceResponse;
+	}
+
+	public QmPlanServiceResponse fallbackGetWorkList(@RequestParam(name = "params")String params) throws Exception {
+		logger.info("考评工作组列表出错啦！");
+		logger.error("");
+		QmPlanServiceResponse qmPlanServiceResponse = new QmPlanServiceResponse();
+		return qmPlanServiceResponse;
+	}
+
+	@ApiOperation(value = "查询人员工号列表", notes = "qm_configservice查询人员工号列表", response = QmPlanServiceResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+			@ApiResponse(code = 403, message = "资源不存在"),
+			@ApiResponse(code = 404, message = "传入的参数无效"),
+			@ApiResponse(code = 500, message = "服务器出现异常错误") })
+	@HystrixCommand(groupKey = "qm_configservice", commandKey = "updateQmPlan", threadPoolKey = "getQmPeopleThread",fallbackMethod = "fallbackGetQmPeople", commandProperties = {
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
+			@HystrixProperty(name = "coreSize", value = "200") })
+	@RequestMapping(value = "/getQmPeople", method = RequestMethod.GET)
+	public QmPlanServiceResponse getQmPeople(@RequestParam(name = "params")String params)  throws Exception {
+		QmPlanResponse qmPlanResponse = new QmPlanResponse();
+		QmPlanServiceResponse qmPlanServiceResponse = new QmPlanServiceResponse();
+		Map reqParams = JSONObject.parseObject(params);
+		try {
+			qmPlanResponse = qmPlanService.getQmPeople(reqParams);
+		}catch (Exception e){
+			logger.error("人员工号列表异常");
+			qmPlanResponse.setRspcode(WebUtil.EXCEPTION);
+			qmPlanResponse.setRspdesc("人员工号列表异常!");
+		}
+		qmPlanServiceResponse.setResponse(qmPlanResponse);
+		return qmPlanServiceResponse;
+	}
+
+	public QmPlanServiceResponse fallbackGetQmPeople(@RequestParam(name = "params")String params) throws Exception {
+		logger.info("人员工号列表出错啦！");
+		logger.error("");
+		QmPlanServiceResponse qmPlanServiceResponse = new QmPlanServiceResponse();
+		return qmPlanServiceResponse;
+	}
 }

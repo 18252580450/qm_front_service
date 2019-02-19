@@ -19,5 +19,9 @@ public interface QmPlanService {
 	QmPlanResponse batchUpdate(List<String> ids, String halfFlag)throws Exception;
 
 	QmPlanResponse getPlanById(String id)throws Exception;
+
+	QmPlanResponse getWorkList(Map params)throws Exception;
+
+	QmPlanResponse getQmPeople(Map params)throws Exception;
 }
 	

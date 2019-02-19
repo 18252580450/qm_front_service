@@ -1,5 +1,9 @@
 package com.asiainfo.qm.manage.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.asiainfo.qm.manage.common.restClient.RestClient;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.QmPlanMapper;
 import com.asiainfo.qm.manage.domain.QmPlan;
@@ -17,10 +21,12 @@ import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -240,11 +246,34 @@ public class QmPlanServiceImpl implements QmPlanService {
 					//TODO 需调查询虚拟组接口
 					for(int i = 0;i<qmBindRlns.size();i++){
 						if(null != qmBindRlns.get(i).getCheckStaffId()&&!(qmBindRlns.get(i).getCheckStaffId().isEmpty())){
-							qmBindRlns.get(i).setCheckStaffName("质检人"+i);
+//							qmBindRlns.get(i).setCheckStaffName("质检人"+i);
+							Map map = new HashMap();
+							map.put("staffId",qmBindRlns.get(i).getCheckStaffId());
+							map.put("groupId","");
+							map.put("staffName","");
+							map.put("start","");
+							map.put("limit","");
+							map.put("provCode","");
+							map.put("roleCode","");
+							QmPlanResponse planResponse = getQmPeople(map);
+							JSONObject jsonObject = (JSONObject) planResponse.getListData().get(0);
+							qmBindRlns.get(i).setCheckStaffName(jsonObject.getString("STAFF_NAME"));
 						}
 						if(null != qmBindRlns.get(i).getCheckedObjectId()&&!(qmBindRlns.get(i).getCheckedObjectId().isEmpty())){
-							qmBindRlns.get(i).setCheckedObjectName("被质检人"+i);
-							qmBindRlns.get(i).setCheckedDepartName("话务组"+i);
+//							qmBindRlns.get(i).setCheckedObjectName("被质检人"+i);
+//							qmBindRlns.get(i).setCheckedDepartName("话务组"+i);
+							Map map = new HashMap();
+							map.put("staffId",qmBindRlns.get(i).getCheckedObjectId());
+							map.put("groupId","");
+							map.put("staffName","");
+							map.put("start","");
+							map.put("limit","");
+							map.put("provCode","");
+							map.put("roleCode","");
+							QmPlanResponse planResponse = getQmPeople(map);
+							JSONObject jsonObject = (JSONObject) planResponse.getListData().get(0);
+							qmBindRlns.get(i).setCheckedObjectName(jsonObject.getString("STAFF_NAME"));
+							qmBindRlns.get(i).setCheckedDepartName(jsonObject.getString("ORGANIZE_NAME"));
 						}
 					}
 				}
@@ -264,4 +293,59 @@ public class QmPlanServiceImpl implements QmPlanService {
 		return  qmPlanResponse;
 	}
 
+	@Override
+	public QmPlanResponse getWorkList(Map params) throws Exception{
+		QmPlanResponse qmPlanResponse = new QmPlanResponse();
+
+		try {
+			String url = "http://203.57.226.107:3505/VirtualGroupServlet?parentId="+params.get("parentId")+"&groupId="+params.get("groupId")+"&groupName="+params.get("groupName")+"&provCode="+params.get("provCode");
+			RestClient restClient = new RestClient();
+			Map map = new HashMap();
+			List list = (List) restClient.callRemoteServicetWithHeaderForList(url, HttpMethod.POST,map,JSONObject.class,null,"1");
+			if(list.size() >0){
+				qmPlanResponse.setRspcode(WebUtil.SUCCESS);
+				qmPlanResponse.setListData(list);
+				qmPlanResponse.setRspdesc("查询成功");
+			}else {
+				qmPlanResponse.setRspcode(WebUtil.FAIL);
+				qmPlanResponse.setRspdesc("查询失败");
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error("查询异常",e);
+			qmPlanResponse.setRspcode(WebUtil.EXCEPTION);
+			qmPlanResponse.setRspdesc("查询异常");
+		}
+		return  qmPlanResponse;
+	}
+
+	@Override
+	public QmPlanResponse getQmPeople(Map params) throws Exception{
+		QmPlanResponse qmPlanResponse = new QmPlanResponse();
+
+		try {
+			String url = "http://203.57.226.107:3506/VirtualGroupPersonalServlet?groupId="
+					+params.get("groupId")+"&staffName="+params.get("staffName")+
+					"&staffId="+params.get("staffId")+"&start="+params.get("start")+
+					"&limit="+params.get("limit")+"&provCode="+params.get("provCode")+
+					"&roleCode="+params.get("roleCode");
+			RestClient restClient = new RestClient();
+			Map map = new HashMap();
+			List list = (List) restClient.callRemoteServicetWithHeaderForList(url, HttpMethod.POST,map,JSONObject.class,null,"1");
+			if(list.size() >0){
+				qmPlanResponse.setRspcode(WebUtil.SUCCESS);
+				qmPlanResponse.setListData(list);
+				qmPlanResponse.setRspdesc("查询成功");
+			}else {
+				qmPlanResponse.setRspcode(WebUtil.FAIL);
+				qmPlanResponse.setRspdesc("查询失败");
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			logger.error("查询异常",e);
+			qmPlanResponse.setRspcode(WebUtil.EXCEPTION);
+			qmPlanResponse.setRspdesc("查询异常");
+		}
+		return  qmPlanResponse;
+	}
 }

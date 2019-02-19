@@ -32,6 +32,14 @@ public class QmPlanResponse extends ResponseParent {
 		this.data = data;
 	}
 
+	public void setListData(List data) {
+		this.data = data;
+	}
+
+	public List getListData() {
+		return data;
+	}
+
 	public QmPlanResponse(Page<QmPlan> pageResult) {
 		this.setData(pageResult != null ? pageResult.getResult() : null);
 		this.setAttach(new Attach(pageResult != null ? pageResult.getTotal() : 0L));

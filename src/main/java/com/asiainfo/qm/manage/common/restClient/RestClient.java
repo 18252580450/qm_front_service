@@ -1,5 +1,6 @@
 package com.asiainfo.qm.manage.common.restClient;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //import com.unicom.kc.manage.demo.util.TokenUtils;
@@ -151,6 +153,32 @@ public class RestClient {
 //		System.out.println("返回结果："+sttr);
 		Object o = JSONObject.parseObject(sttr, respcalzz);
 		return o;
+	}
+
+	/**
+	 * 通用方法，所有请求内容在请求体中传递到服务端
+	 * @param serviceUrl
+	 * @param httpMethod
+	 * @param reqobj
+	 * @param respcalzz
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public  Object callRemoteServicetWithHeaderForList(String serviceUrl, HttpMethod httpMethod, Object reqobj,
+												Class respcalzz, Map<String, String> headers,String token) {
+		HttpHeaders requestHeaders = null;
+		if (headers!=null)
+			requestHeaders = buildGrayHeaders(headers,token);
+		else
+			requestHeaders = buildSimpleHeaders(headers,token);
+		org.springframework.http.HttpEntity<String> requestEntity = new org.springframework.http.HttpEntity(reqobj,
+				requestHeaders);
+		ResponseEntity<String> response = null;
+		restTemplate = new RestTemplate();
+		response = restTemplate.exchange(serviceUrl, httpMethod, requestEntity, String.class);
+		String sttr = response.getBody();
+		List list = JSONArray.parseArray(sttr);
+		return list;
 	}
 
 //	//post请求
