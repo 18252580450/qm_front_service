@@ -110,6 +110,7 @@ public class VoiceCheckServiceImpl implements VoiceCheckService {
             //语音质检结果
             VoiceCheckResult voiceCheckResult = new VoiceCheckResult();
             voiceCheckResult.setTenantId(checkResult.get("tenantId").toString());
+            voiceCheckResult.setProvinceId(checkResult.get("provinceId").toString());
             voiceCheckResult.setCallingNumber(checkResult.get("callingNumber").toString());
             voiceCheckResult.setAcceptNumber(checkResult.get("acceptNumber").toString());
             voiceCheckResult.setInspectionId(inspectionId);

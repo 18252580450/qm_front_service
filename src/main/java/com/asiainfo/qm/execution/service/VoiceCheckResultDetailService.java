@@ -16,6 +16,11 @@ public interface VoiceCheckResultDetailService {
     /**
      * 语音质检结果详细信息查询
      */
+    VoiceCheckResultDetailResponse querySavedResult(Map params, int start, int limit) throws Exception;
+
+    /**
+     * 语音质检结果详细信息查询
+     */
     VoiceCheckResultDetailResponse queryVoiceCheckResultDetail(Map params, int start, int limit) throws Exception;
 
 }

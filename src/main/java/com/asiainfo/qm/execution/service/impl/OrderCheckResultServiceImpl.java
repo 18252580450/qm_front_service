@@ -41,6 +41,9 @@ public class OrderCheckResultServiceImpl implements OrderCheckResultService {
             if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
                 criteria.andTouchIdEqualTo((String) params.get("touchId"));
             }
+            if (null != params.get("inspectionId") && !"".equals(params.get("inspectionId"))) {
+                criteria.andInspectionIdEqualTo((String) params.get("inspectionId"));
+            }
             if (null != params.get("resultStatus") && !"".equals(params.get("resultStatus"))) {
                 criteria.andResultStatusEqualTo((String) params.get("resultStatus"));
             }

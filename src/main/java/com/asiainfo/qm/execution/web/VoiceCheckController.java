@@ -128,4 +128,35 @@ public class VoiceCheckController {
         logger.error("");
         return new VoiceCheckResultDetailServiceResponse();
     }
+
+    @ApiOperation(value = "前端调用接口查询语音质检暂存数据", notes = "qm_configservice查询语音质检暂存数据", response = VoiceCheckResultDetailServiceResponse.class)
+    @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误")})
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "querySavedResult", threadPoolKey = "querySavedResultThread", fallbackMethod = "fallbackQuerySavedResult", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200")})
+    @RequestMapping(value = "/querySavedResult", method = RequestMethod.GET)
+    public VoiceCheckResultDetailServiceResponse querySavedResult(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        VoiceCheckResultDetailResponse voiceCheckResultDetailResponse = new VoiceCheckResultDetailResponse();
+        VoiceCheckResultDetailServiceResponse voiceCheckResultDetailServiceResponse = new VoiceCheckResultDetailServiceResponse();
+        Map reqParams = JSONObject.parseObject(params);
+        try {
+            voiceCheckResultDetailResponse = voiceCheckResultDetailService.querySavedResult(reqParams, start, limit);
+        } catch (Exception e) {
+            logger.error("语音质检暂存数据查询异常", e);
+            voiceCheckResultDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            voiceCheckResultDetailResponse.setRspdesc("语音质检暂存数据查询异常!");
+        }
+        voiceCheckResultDetailServiceResponse.setResponse(voiceCheckResultDetailResponse);
+        return voiceCheckResultDetailServiceResponse;
+    }
+
+    public VoiceCheckResultDetailServiceResponse fallbackQuerySavedResult(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        logger.info("语音质检暂存数据查询出错啦！");
+        logger.error("");
+        return new VoiceCheckResultDetailServiceResponse();
+    }
 }
