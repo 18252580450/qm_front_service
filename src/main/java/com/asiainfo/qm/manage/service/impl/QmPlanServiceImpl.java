@@ -331,10 +331,10 @@ public class QmPlanServiceImpl implements QmPlanService {
 					"&roleCode="+params.get("roleCode");
 			RestClient restClient = new RestClient();
 			Map map = new HashMap();
-			List list = (List) restClient.callRemoteServicetWithHeaderForList(url, HttpMethod.POST,map,JSONObject.class,null,"1");
-			if(list.size() >0){
+			JSONArray jsonArray = (JSONArray) restClient.callRemoteServicetWithHeaderForList(url, HttpMethod.POST,map,JSONObject.class,null,"1");
+			if(jsonArray.size() >0){
 				qmPlanResponse.setRspcode(WebUtil.SUCCESS);
-				qmPlanResponse.setListData(list);
+				qmPlanResponse.setListData(jsonArray);
 				qmPlanResponse.setRspdesc("查询成功");
 			}else {
 				qmPlanResponse.setRspcode(WebUtil.FAIL);
