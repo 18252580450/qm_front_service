@@ -48,6 +48,9 @@ public class VoiceQmResultServiceImpl implements VoiceCheckResultService {
             if (null != params.get("planId") && !"".equals(params.get("planId"))) {
                 criteria.andPlanIdEqualTo((String) params.get("planId"));
             }
+            if (null != params.get("originInspectionId") && !"".equals(params.get("originInspectionId"))) {
+                criteria.andOriginInspectionIdEqualTo((String) params.get("originInspectionId"));
+            }
             if (null != params.get("lastResultFlag") && !"".equals(params.get("lastResultFlag"))) {
                 criteria.andLastResultFlagEqualTo((String) params.get("lastResultFlag"));
             }
