@@ -105,7 +105,6 @@ public class OrdinaryCommentServiceImpl implements OrdinaryCommentService {
 		OrdinaryCommentResponse ordinaryCommentResponse = new OrdinaryCommentResponse();
 		try {
 			ordinaryComment.setModfTime(DateUtil.getCurrontTime());
-			ordinaryComment.setOperateStaffId("9527");//修改工号暂时先写死
 			int result = ordinaryCommentMapper.updateByPrimaryKey(ordinaryComment);
 			if(result > 0){
 				ordinaryCommentResponse.setRspcode(WebUtil.SUCCESS);
