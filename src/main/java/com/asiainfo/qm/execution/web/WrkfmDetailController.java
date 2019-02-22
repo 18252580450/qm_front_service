@@ -124,6 +124,37 @@ public class WrkfmDetailController {
         return new WrkfmDetailServiceResponse();
     }
 
+    @ApiOperation(value = "调用外部接口查询接触记录", notes = "qm_configservice查询接触记录", response = WrkfmDetailServiceResponse.class)
+    @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误")})
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "getRecordList", threadPoolKey = "getRecordListThread", fallbackMethod = "fallbackGetRecordList", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200")})
+    @RequestMapping(value = "/getRecordList", method = RequestMethod.GET)
+    public WrkfmDetailServiceResponse getRecordList(@RequestParam(name = "params") String params) throws Exception {
+        WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
+        WrkfmDetailServiceResponse wrkfmDetailServiceResponse = new WrkfmDetailServiceResponse();
+        Map reqParams = JSONObject.parseObject(params);
+        try {
+            wrkfmDetailResponse = wrkfmDetailService.getRecordList(reqParams);
+        } catch (Exception e) {
+            logger.error("接触记录数据查询异常", e);
+            wrkfmDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            wrkfmDetailResponse.setRspdesc("接触记录数据查询异常!");
+        }
+        wrkfmDetailServiceResponse.setResponse(wrkfmDetailResponse);
+        return wrkfmDetailServiceResponse;
+    }
+
+    public WrkfmDetailServiceResponse fallbackGetRecordList(@RequestParam(name = "params") String params) throws Exception {
+        logger.info("接触记录数据查询出错啦！");
+        logger.error("");
+        return new WrkfmDetailServiceResponse();
+    }
+
     @ApiOperation(value = "调用外部接口查询工单历史", notes = "qm_configservice查询工单历史", response = WrkfmDetailServiceResponse.class)
     @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
             @ApiResponse(code = 403, message = "资源不存在"),

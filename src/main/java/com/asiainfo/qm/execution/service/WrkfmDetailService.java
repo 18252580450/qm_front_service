@@ -27,6 +27,11 @@ public interface WrkfmDetailService {
     WrkfmDetailResponse getHandingLog(Map params) throws Exception;
 
     /**
+     * 查询工单接触记录
+     */
+    WrkfmDetailResponse getRecordList(Map params) throws Exception;
+
+    /**
      * 查询工单历史
      */
     WrkfmDetailResponse getHistoryProProce(Map params) throws Exception;

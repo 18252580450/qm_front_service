@@ -124,6 +124,38 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
     }
 
     @Override
+    public WrkfmDetailResponse getRecordList(Map params) throws Exception {
+        WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
+        try {
+            String url = WebUtil.WRKFM_URL + "/tcwf/queryRecord/queryRecordList";
+            RestClient restClient = new RestClient();
+            JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, params, JSONObject.class, null, "1");
+            if (rsp.getInteger("status").toString().equals("0")) {
+                if (rsp.getJSONObject("rsp").getJSONArray("datas") != null) {
+                    JSONArray data = rsp.getJSONObject("rsp").getJSONArray("datas");
+                    wrkfmDetailResponse.setDatas(data);
+                    wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+                } else {
+                    wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                    if (rsp.getJSONObject("rsp").getJSONObject("rspDesc") != null) {
+                        wrkfmDetailResponse.setRspdesc(rsp.getJSONObject("rsp").getJSONObject("rspDesc").toString());
+                    } else {
+                        wrkfmDetailResponse.setRspdesc("接触记录查询失败！");
+                    }
+                }
+            } else {
+                wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                wrkfmDetailResponse.setRspdesc("接触记录服务调用失败！");
+            }
+        } catch (Exception e) {
+            logger.error("接触记录查询异常", e);
+            wrkfmDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            wrkfmDetailResponse.setRspdesc("接触记录查询异常");
+        }
+        return wrkfmDetailResponse;
+    }
+
+    @Override
     public WrkfmDetailResponse getHistoryProProce(Map params) throws Exception {
         WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
         try {
