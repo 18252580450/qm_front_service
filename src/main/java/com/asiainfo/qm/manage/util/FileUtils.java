@@ -46,7 +46,7 @@ public class FileUtils {
             inputStream.close();
         }
         System.out.println("info:" + url + " download success");
-        return HttpConstants.HttpParams.NEW_REMOTE_PATH + fileName;
+        return fileName;
     }
 
     /**
@@ -67,6 +67,8 @@ public class FileUtils {
     }
 
     public static void main(String[] args) throws Exception{
-        downLoadFromUrl("http://172.18.33.247:8081/files/5ad6a162b1727a35cc7dff9b");
+        String file = downLoadFromUrl("http://221.226.14.187:48989/dcmsRecord_yx/doublingRecord/record/0251210001/" +
+                "Agent/20190220/TEL-01058514085_1012_20190220080226.wav");
+        System.out.println("new filename :"+file);
     }
 }

@@ -154,17 +154,16 @@ public class QmStrategyServiceImpl implements QmStrategyService {
 			qmStrategy.setUpdateDate(DateUtil.getCurrontTime());
 			int result = qmStrategyMapper.updateByPrimaryKeySelective(qmStrategy);
 			if(result > 0){
+				QmStrategyElementRelExample elementRelExample = new QmStrategyElementRelExample();
+				QmStrategyElementRelExample.Criteria eleCriteria = elementRelExample.createCriteria();
+				eleCriteria.andPIdEqualTo(qmStrategy.getpId());
+				qmStrategyElementRelMapper.deleteByExample(elementRelExample);
 				List<QmStrategyElementRel> elementRels = qmStrategy.getElements();
 				int eleRet = elementRels.size();
 				for(int i = 0;i<elementRels.size();i++){
 					QmStrategyElementRel elementRel = elementRels.get(i);
-					int ret;
-					if(null != elementRel.getpId()){
-						ret = qmStrategyElementRelMapper.updateByPrimaryKeySelective(elementRel);
-					}else{
-						elementRel.setpId(qmStrategy.getpId());
-						ret = qmStrategyElementRelMapper.insertSelective(elementRel);
-					}
+					elementRel.setpId(qmStrategy.getpId());
+					int ret = qmStrategyElementRelMapper.insertSelective(elementRel);
 					if(ret <= 0){
 						eleRet--;
 					}
