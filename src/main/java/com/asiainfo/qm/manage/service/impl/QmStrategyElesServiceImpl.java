@@ -87,9 +87,11 @@ public class QmStrategyElesServiceImpl implements QmStrategyElesService {
 					qmStrategyElesResponse.setRspcode(WebUtil.FAIL);
 					qmStrategyElesResponse.setRspdesc("元素正被使用，无法删除");
 				}else {
+					List<String> list = new ArrayList<>();
+					list.add(ids.get(i));
 					QmStrategyElementExample example = new QmStrategyElementExample();
 					QmStrategyElementExample.Criteria criteria1 = example.createCriteria();
-					criteria1.andElementIdIn(ids);
+					criteria1.andElementIdIn(list);
 					int result = qmStrategyElementMapper.deleteByExample(example);
 					if(result > 0){
 						qmStrategyElesResponse.setRspcode(WebUtil.SUCCESS);
