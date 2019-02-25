@@ -243,7 +243,7 @@ public class QmPlanServiceImpl implements QmPlanService {
 				criteria.andPlanIdEqualTo(id);
 				List<QmBindRln> qmBindRlns = qmBindRlnMapper.selectByExample(example);
 				if(qmBindRlns.size() > 0){
-					//TODO 需调查询虚拟组接口
+					//调查询虚拟组接口
 					for(int i = 0;i<qmBindRlns.size();i++){
 						if(null != qmBindRlns.get(i).getCheckStaffId()&&!(qmBindRlns.get(i).getCheckStaffId().isEmpty())){
 //							qmBindRlns.get(i).setCheckStaffName("质检人"+i);
@@ -256,8 +256,8 @@ public class QmPlanServiceImpl implements QmPlanService {
 							map.put("provCode","");
 							map.put("roleCode","");
 							QmPlanResponse planResponse = getQmPeople(map);
-							JSONObject jsonObject = (JSONObject) planResponse.getListData().get(0);
-							qmBindRlns.get(i).setCheckStaffName(jsonObject.getString("STAFF_NAME"));
+							HashMap hashMap = (HashMap) planResponse.getListData().get(0);
+							qmBindRlns.get(i).setCheckStaffName(((JSONObject)(((JSONArray)hashMap.get("jsonArray")).get(0))).getString("STAFF_NAME"));
 						}
 						if(null != qmBindRlns.get(i).getCheckedObjectId()&&!(qmBindRlns.get(i).getCheckedObjectId().isEmpty())){
 //							qmBindRlns.get(i).setCheckedObjectName("被质检人"+i);
@@ -271,9 +271,9 @@ public class QmPlanServiceImpl implements QmPlanService {
 							map.put("provCode","");
 							map.put("roleCode","");
 							QmPlanResponse planResponse = getQmPeople(map);
-							JSONObject jsonObject = (JSONObject) planResponse.getListData().get(0);
-							qmBindRlns.get(i).setCheckedObjectName(jsonObject.getString("STAFF_NAME"));
-							qmBindRlns.get(i).setCheckedDepartName(jsonObject.getString("ORGANIZE_NAME"));
+							HashMap hashMap = (HashMap) planResponse.getListData().get(0);
+							qmBindRlns.get(i).setCheckedObjectName(((JSONObject)(((JSONArray)hashMap.get("jsonArray")).get(0))).getString("STAFF_NAME"));
+							qmBindRlns.get(i).setCheckedDepartName(((JSONObject)(((JSONArray)hashMap.get("jsonArray")).get(0))).getString("ORGANIZE_NAME"));
 						}
 					}
 				}
