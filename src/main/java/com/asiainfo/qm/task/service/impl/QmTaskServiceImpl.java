@@ -36,6 +36,7 @@ public class QmTaskServiceImpl implements IQmTaskService{
         try {
             //调明细数据查询接口，查询录音数据，获取数据和总页数，循环调用
             JSONObject jsonObject = querySessionDetail(String.valueOf(pageNum));
+            logger.info("语音数据:", jsonObject.toJSONString());
             String code = jsonObject.getString("code");
             if(code.equals(HttpConstants.HttpParams.CODE_SUCCESS)){
                 Integer totalPages = jsonObject.getInteger("totalPages");
@@ -72,10 +73,11 @@ public class QmTaskServiceImpl implements IQmTaskService{
                     Calendar calendar = Calendar.getInstance();
                     Date beforeDay = DateUtil.currentBeforeDay();
 //                calendar.setTime(DateUtil.string2Date("2019-01-27 00:00:00"));
-                    calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay,"YYYY-MM-DD") + " 00:00:00"));
+                    logger.info("日期："+DateUtil.date2String(beforeDay,"YYYY-MM-dd"));
+                    calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay,"YYYY-MM-dd") + " 00:00:00"));
                     Long startTime = calendar.getTimeInMillis();
 //                calendar.setTime(DateUtil.string2Date("2019-01-27 23:59:59"));
-                    calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay,"YYYY-MM-DD") + " 23:59:59"));
+                    calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay,"YYYY-MM-dd") + " 23:59:59"));
                     Long endTime = calendar.getTimeInMillis();
                     params.put("startTime",startTime + "");
                     params.put("endTime",endTime + "");
@@ -85,16 +87,20 @@ public class QmTaskServiceImpl implements IQmTaskService{
                     params.put("remoteUrl", tel);
                     params.put("sessionIds", voice.getTouchId());
                     params.put("pageNum","1");
+                    logger.info("语音数据入参:", params.toString());
                     String ret = httpClient.sendGet(url, params);
-                    JSONObject result = JSONObject.parseObject(ret);
+                    JSONObject retJson = JSONObject.parseObject(ret);
                     //3.下载文件
-                    String code = result.getString("code");
+                    String code = retJson.getString("code");
                     if(code.equals(HttpConstants.HttpParams.CODE_SUCCESS)){
-                        String path = HttpConstants.HttpParams.REMOTE_PATH + String.valueOf(result.get("record_name"));
-                        String newPath = FileUtils.downLoadFromUrl(path);
-                        //4.更新数据库
-                        voice.setRecordPath(newPath);
-                        updateVoice(voice);
+                        List<Map<String,Object>> result = (List<Map<String,Object>>)retJson.get("result");
+                        if(result.size() > 0) {
+                            String path = HttpConstants.HttpParams.REMOTE_PATH + String.valueOf(result.get(0).get("record_name"));
+                            String newPath = FileUtils.downLoadFromUrl(path);
+                            //4.更新数据库
+                            voice.setRecordPath(newPath);
+                            updateVoice(voice);
+                        }
                     }
                 }
             }
@@ -113,17 +119,17 @@ public class QmTaskServiceImpl implements IQmTaskService{
             List<QmVoice> voices = queryVoices();
             //2.调用接口查询满意度数据
             if(voices.size() > 0){
-                for(int i = 0;i<voices.size();i++){
+                for(int i = 1000;i<voices.size();i++){
                     QmVoice voice = voices.get(i);
-                    String url = HttpConstants.HttpParams.URI + HttpConstants.HttpParams.RECORD_DETAIL_QUERY;
+                    String url = HttpConstants.HttpParams.URI + HttpConstants.HttpParams.TSRVA_DETAIL_QUERY;
                     Map<String,String> params = new HashMap();
                     Calendar calendar = Calendar.getInstance();
                     Date beforeDay = DateUtil.currentBeforeDay();
 //                calendar.setTime(DateUtil.string2Date("2019-01-27 00:00:00"));
-                    calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay,"YYYY-MM-DD") + " 00:00:00"));
+                    calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay,"YYYY-MM-dd") + " 00:00:00"));
                     Long startTime = calendar.getTimeInMillis();
 //                calendar.setTime(DateUtil.string2Date("2019-01-27 23:59:59"));
-                    calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay,"YYYY-MM-DD") + " 23:59:59"));
+                    calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay,"YYYY-MM-dd") + " 23:59:59"));
                     Long endTime = calendar.getTimeInMillis();
                     params.put("startTime",startTime + "");
                     params.put("endTime",endTime + "");
@@ -134,11 +140,16 @@ public class QmTaskServiceImpl implements IQmTaskService{
                     params.put("sessionIds", voice.getTouchId());
                     params.put("pageNum","1");
                     String ret = httpClient.sendGet(url, params);
-                    JSONObject result = JSONObject.parseObject(ret);
-                    String score = result.getString("score");
-                    voice.setSatisfyExtent(score);
-                    //3.更新数据库
-                    updateVoice(voice);
+                    if(null != ret) {
+                        JSONObject retJson = JSONObject.parseObject(ret);
+                        List<Map> result = (List<Map>)retJson.get("result");
+                        if(result.size() > 0 && null != result.get(0).get("score")){
+                            String score = String.valueOf(result.get(0).get("score"));
+                            voice.setSatisfyExtent(score);
+                            //3.更新数据库
+                            updateVoice(voice);
+                        }
+                    }
                 }
             }
             return true;
@@ -154,9 +165,9 @@ public class QmTaskServiceImpl implements IQmTaskService{
         QmVoiceExample example = new QmVoiceExample();
         QmVoiceExample.Criteria criteria = example.createCriteria();
         Date beforeDay = DateUtil.currentBeforeDay();
-        Timestamp startTime = DateUtils.paraseSqlTimestamp(DateUtil.date2String(beforeDay,"YYYY-MM-DD")
+        Timestamp startTime = DateUtils.paraseSqlTimestamp(DateUtil.date2String(beforeDay,"YYYY-MM-dd")
                 + " 00:00:00", DateUtils.DATE_FORMAT_A_YYYYMMDDHHMMSS);
-        Timestamp endTime = DateUtils.paraseSqlTimestamp(DateUtil.date2String(beforeDay,"YYYY-MM-DD")
+        Timestamp endTime = DateUtils.paraseSqlTimestamp(DateUtil.date2String(beforeDay,"YYYY-MM-dd")
                 + " 23:59:59", DateUtils.DATE_FORMAT_A_YYYYMMDDHHMMSS);
         criteria.andBeginTimeBetween(startTime,endTime);
         List<QmVoice> voices = qmVoiceMapper.selectByExample(example);
@@ -174,10 +185,11 @@ public class QmTaskServiceImpl implements IQmTaskService{
         Calendar calendar = Calendar.getInstance();
         Date beforeDay = DateUtil.currentBeforeDay();
 //        calendar.setTime(DateUtil.string2Date("2019-01-27 00:00:00"));
-        calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay,"YYYY-MM-DD") + " 00:00:00"));
+        logger.info("日期："+DateUtil.date2String(beforeDay,"YYYY-MM-dd"));
+        calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay,"YYYY-MM-dd") + " 00:00:00"));
         Long startTime = calendar.getTimeInMillis();
 //        calendar.setTime(DateUtil.string2Date("2019-01-27 23:59:59"));
-        calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay,"YYYY-MM-DD") + " 23:59:59"));
+        calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay,"YYYY-MM-dd") + " 23:59:59"));
         Long endTime = calendar.getTimeInMillis();
         params.put("startTime",startTime + "");
         params.put("endTime",endTime + "");

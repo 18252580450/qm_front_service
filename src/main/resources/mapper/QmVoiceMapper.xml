@@ -120,7 +120,7 @@
 
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.task.domain.QmVoiceExample" >
     select
-    <if test="distinct" >
+    <if test="example.distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
@@ -128,7 +128,7 @@
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="example.orderByClause != null" >
       order by ${orderByClause}
     </if>
   </select>

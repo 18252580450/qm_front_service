@@ -69,13 +69,13 @@ public class QmTaskController {
 		boolean flag = false;
 		try {
 			//语音数据同步
-			flag = taskService.doSynchroVoices(1);
-			if(flag){
+//			flag = taskService.doSynchroVoices(1);
+//			if(flag){
 				//更新满意度
-				taskService.queryScore();
+//				taskService.queryScore();
 				//下载录音文件
 				taskService.downloadRecordFiles();
-			}
+//			}
 		}catch (Exception e){
 			logger.error("语音数据同步定时任务异常");
 			e.printStackTrace();

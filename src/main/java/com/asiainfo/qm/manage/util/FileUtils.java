@@ -46,7 +46,7 @@ public class FileUtils {
             inputStream.close();
         }
         System.out.println("info:" + url + " download success");
-        return fileName;
+        return HttpConstants.HttpParams.NEW_REMOTE_PATH + fileName;
     }
 
     /**

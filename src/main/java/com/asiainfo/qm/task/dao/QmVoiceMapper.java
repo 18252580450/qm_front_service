@@ -17,7 +17,7 @@ public interface QmVoiceMapper {
 
     int insertSelective(QmVoice record);
 
-    List<QmVoice> selectByExample(QmVoiceExample example);
+    List<QmVoice> selectByExample(@Param("example") QmVoiceExample example);
 
     List<QmVoice> selectByExampleForAutoExract(@Param("tableName")String tableName,@Param("example") QmVoiceExample example,@Param("limit")Integer limit);
 
