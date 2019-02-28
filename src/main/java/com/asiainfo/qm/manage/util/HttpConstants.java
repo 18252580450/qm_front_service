@@ -24,5 +24,9 @@ public class HttpConstants {
         String LOCAL_PATH = "E:\\logs";
         //本地远程路径
         String NEW_REMOTE_PATH = "http://203.57.228.52:9002";
+        //虚拟组人员接口
+        String VIRTUAL_GROUP_PERSONAL_SERVLET = "http://203.57.226.107:3506/VirtualGroupPersonalServlet";
+        //虚拟组列表接口
+        String VIRTUAL_GROUP_SERVLET = "http://203.57.226.107:3505/VirtualGroupServlet";
     }
 }
