@@ -106,7 +106,7 @@ public class HttpClient {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json; charset=UTF-8");
         headers.put("Accept", "application/json");
-        headers.put("Accept-Encoding", "UTF-8");
+        headers.put("Accept-Encoding", ENCODING);
         return sendPost(url, headers, data, ENCODING);
 
     }
@@ -116,7 +116,7 @@ public class HttpClient {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json; charset=UTF-8");
         headers.put("Accept", "application/json");
-        headers.put("Accept-Encoding", "UTF-8");
+        headers.put("Accept-Encoding", ENCODING);
         return sendGet(url, headers, params, ENCODING);
 
     }
