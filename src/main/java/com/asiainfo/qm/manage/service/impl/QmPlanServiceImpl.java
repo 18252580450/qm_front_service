@@ -11,6 +11,7 @@ import com.asiainfo.qm.manage.domain.QmPlanExample;
 import com.asiainfo.qm.manage.service.QmPlanService;
 import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.DateUtils;
+import com.asiainfo.qm.manage.util.HttpConstants;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.manage.vo.QmPlanResponse;
 import com.asiainfo.qm.task.dao.QmBindRlnMapper;
@@ -298,7 +299,7 @@ public class QmPlanServiceImpl implements QmPlanService {
 		QmPlanResponse qmPlanResponse = new QmPlanResponse();
 
 		try {
-			String url = "http://203.57.226.107:3505/VirtualGroupServlet?parentId="+params.get("parentId")+"&groupId="+params.get("groupId")+"&groupName="+params.get("groupName")+"&provCode="+params.get("provCode");
+			String url = HttpConstants.HttpParams.VIRTUAL_GROUP_SERVLET+"?parentId="+params.get("parentId")+"&groupId="+params.get("groupId")+"&groupName="+params.get("groupName")+"&provCode="+params.get("provCode");
 			RestClient restClient = new RestClient();
 			Map map = new HashMap();
 			List list = (List) restClient.callRemoteServicetWithHeaderForList(url, HttpMethod.POST,map,JSONObject.class,null,"1");
@@ -324,12 +325,12 @@ public class QmPlanServiceImpl implements QmPlanService {
 		QmPlanResponse qmPlanResponse = new QmPlanResponse();
 
 		try {
-			String url = "http://203.57.226.107:3506/VirtualGroupPersonalServlet?groupId="
+			String url = HttpConstants.HttpParams.VIRTUAL_GROUP_PERSONAL_SERVLET+"?groupId="
 					+params.get("groupId")+"&staffName="+params.get("staffName")+
 					"&staffId="+params.get("staffId")+"&start="+params.get("start")+
 					"&limit="+params.get("limit")+"&provCode="+params.get("provCode")+
 					"&roleCode="+params.get("roleCode");
-			String urlAll = "http://203.57.226.107:3506/VirtualGroupPersonalServlet?groupId=&staffName=&staffId=&start=&limit=&=provCode=&roleCode=";
+			String urlAll = HttpConstants.HttpParams.VIRTUAL_GROUP_PERSONAL_SERVLET+"?groupId=&staffName=&staffId=&start=&limit=&=provCode=&roleCode=";
 			RestClient restClient = new RestClient();
 			Map map = new HashMap();
 			JSONArray jsonArray = (JSONArray) restClient.callRemoteServicetWithHeaderForList(url, HttpMethod.POST,map,JSONObject.class,null,"1");
