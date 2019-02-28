@@ -20,8 +20,8 @@ public class HttpConstants {
         //录音文件远程地址
         String REMOTE_PATH = "http://221.226.14.187:48989/dcmsRecord_yx/doublingRecord/";
         //本地物理路径
-//        String LOCAL_PATH = "/root/ctcqm/files/";
-        String LOCAL_PATH = "E:\\logs";
+        String LOCAL_PATH = "/root/ctcqm/files/";
+//        String LOCAL_PATH = "E:\\logs";
         //本地远程路径
         String NEW_REMOTE_PATH = "http://203.57.228.52:9002";
     }
