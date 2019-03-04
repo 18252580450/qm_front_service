@@ -257,8 +257,10 @@ public class QmPlanServiceImpl implements QmPlanService {
 							map.put("provCode","");
 							map.put("roleCode","");
 							QmPlanResponse planResponse = getQmPeople(map);
-							HashMap hashMap = (HashMap) planResponse.getListData().get(0);
-							qmBindRlns.get(i).setCheckStaffName(((JSONObject)(((JSONArray)hashMap.get("jsonArray")).get(0))).getString("STAFF_NAME"));
+							if(planResponse.getListData().size()>0&&planResponse.getListData()!=null){
+								HashMap hashMap = (HashMap) planResponse.getListData().get(0);
+								qmBindRlns.get(i).setCheckStaffName(((JSONObject)(((JSONArray)hashMap.get("jsonArray")).get(0))).getString("STAFF_NAME"));
+							}
 						}
 						if(null != qmBindRlns.get(i).getCheckedObjectId()&&!(qmBindRlns.get(i).getCheckedObjectId().isEmpty())){
 //							qmBindRlns.get(i).setCheckedObjectName("被质检人"+i);
@@ -272,9 +274,11 @@ public class QmPlanServiceImpl implements QmPlanService {
 							map.put("provCode","");
 							map.put("roleCode","");
 							QmPlanResponse planResponse = getQmPeople(map);
-							HashMap hashMap = (HashMap) planResponse.getListData().get(0);
-							qmBindRlns.get(i).setCheckedObjectName(((JSONObject)(((JSONArray)hashMap.get("jsonArray")).get(0))).getString("STAFF_NAME"));
-							qmBindRlns.get(i).setCheckedDepartName(((JSONObject)(((JSONArray)hashMap.get("jsonArray")).get(0))).getString("ORGANIZE_NAME"));
+							if(planResponse.getListData().size()>0&&planResponse.getListData()!=null){
+								HashMap hashMap = (HashMap) planResponse.getListData().get(0);
+								qmBindRlns.get(i).setCheckedObjectName(((JSONObject)(((JSONArray)hashMap.get("jsonArray")).get(0))).getString("STAFF_NAME"));
+								qmBindRlns.get(i).setCheckedDepartName(((JSONObject)(((JSONArray)hashMap.get("jsonArray")).get(0))).getString("ORGANIZE_NAME"));
+							}
 						}
 					}
 				}
