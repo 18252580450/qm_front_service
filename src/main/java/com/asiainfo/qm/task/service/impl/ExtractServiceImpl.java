@@ -74,12 +74,12 @@ public class ExtractServiceImpl implements IExtractService{
             params.put("limit", qmPlan.getPlanCount());
             if(qmPlan.getPlanType().equals("0")){
                 //语音数据抽取
-                List<QmVoice> voices = autoExtractCommonService.autoExtractVoiceInfo(params);
+                List<QmVoice> voices = autoExtractCommonService.selectExtractVoiceInfo(params);
                 //录入语音质检池
                 saveQmVoicePools(voices,qmBindRlns,qmPlan);
             }else{
                 //工单数据抽取
-                List<QmWorkform> workforms = autoExtractCommonService.autoExtractWorkformInfo(params);
+                List<QmWorkform> workforms = autoExtractCommonService.selectExtractWorkformInfo(params);
                 //录入工单质检池
                 saveQmWorkformPools(workforms,qmBindRlns,qmPlan);
             }

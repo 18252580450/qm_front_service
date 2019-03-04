@@ -19,7 +19,7 @@ public interface QmWorkformMapper {
 
     List<QmWorkform> selectByExample(QmWorkformExample example);
 
-    List<QmWorkform> selectByExampleForAutoExract(@Param("tableName")String tableName,QmWorkformExample example,@Param("limit")Integer limit);
+    List<QmWorkform> selectByExampleForAutoExract(@Param("tableName")String tableName,@Param("example") QmWorkformExample example,@Param("limit")Integer limit);
 
     QmWorkform selectByPrimaryKey(Long wrkfmId);
 

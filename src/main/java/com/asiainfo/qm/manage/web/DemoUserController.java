@@ -40,7 +40,7 @@ public class DemoUserController {
 			                @ApiResponse(code = 403, message = "资源不存在"),
 			                @ApiResponse(code = 404, message = "传入的参数无效"),
 			                @ApiResponse(code = 500, message = "服务器出现异常错误") })
-	@HystrixCommand(groupKey = "kc_configservice ", commandKey = "getUserById", threadPoolKey = "getUserByIdThread", fallbackMethod = "fallbackGetResult", commandProperties = {
+	@HystrixCommand(groupKey = "qm_configservice ", commandKey = "getUserById", threadPoolKey = "getUserByIdThread", fallbackMethod = "fallbackGetResult", commandProperties = {
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
 					@HystrixProperty(name = "coreSize", value = "200") })

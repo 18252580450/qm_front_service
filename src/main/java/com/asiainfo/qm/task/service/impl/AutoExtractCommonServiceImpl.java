@@ -38,7 +38,7 @@ public class AutoExtractCommonServiceImpl implements IAutoExtractCommonService {
     @Autowired
     private QmStrategyElementRelMapper qmStrategyElementRelMapper;
 
-    public List<QmVoice> autoExtractVoiceInfo(Map params) throws Exception{
+    public List<QmVoice> selectExtractVoiceInfo(Map params) throws Exception{
         List<QmVoice> list = new ArrayList<>();
 //        1、根据策略ID和计划ID联表查询策略元素和策略计划关系表，查出需抽取的数据源表名称，
 //           以及策略元素字段名，类型,值等信息
@@ -74,7 +74,7 @@ public class AutoExtractCommonServiceImpl implements IAutoExtractCommonService {
     }
 
     @Override
-    public List<QmWorkform> autoExtractWorkformInfo(Map params) throws Exception {
+    public List<QmWorkform> selectExtractWorkformInfo(Map params) throws Exception {
         List<QmWorkform> list = new ArrayList<>();
 //        1、根据策略ID和计划ID联表查询策略元素和策略计划关系表，查出需抽取的数据源表名称，
 //           以及策略元素字段名，类型,值等信息

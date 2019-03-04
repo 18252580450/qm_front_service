@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public interface IAutoExtractCommonService {
 
-    public List<QmVoice> autoExtractVoiceInfo(Map params) throws Exception;
+    public List<QmVoice> selectExtractVoiceInfo(Map params) throws Exception;
 
-    public List<QmWorkform> autoExtractWorkformInfo(Map params) throws Exception;
+    public List<QmWorkform> selectExtractWorkformInfo(Map params) throws Exception;
 }
