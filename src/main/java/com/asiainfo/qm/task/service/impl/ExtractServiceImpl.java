@@ -164,10 +164,13 @@ public class ExtractServiceImpl implements IExtractService{
                 workformPool.setCheckedStaffId(qmWorkform.getDspsComplteStaffId());
                 workformPool.setDepartId(qmWorkform.getDspsComplteWorkGrpId());
                 workformPool.setWrkfmId(qmWorkform.getWrkfmId());
+                workformPool.setProvinceId(qmWorkform.getProvCode());
                 workformPool.setHandleDuration(qmWorkform.getHandleDuration());
                 workformPool.setActualHandleDuration(qmWorkform.getActualHandleDuration());
                 workformPool.setBeginTime(qmWorkform.getCrtTime());//创建时间
                 workformPool.setEndTime(qmWorkform.getArcTime());//归档时间
+                workformPool.setCrtTime(qmWorkform.getCrtTime());//创建时间
+                workformPool.setArcTime(qmWorkform.getArcTime());//归档时间
                 workformPool.setSrvReqstTypeId(qmWorkform.getSrvReqstTypeId());
                 //非公共参数
                 if("1".equals(qmPlan.getManOrAuto())){

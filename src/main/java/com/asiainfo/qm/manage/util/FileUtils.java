@@ -36,7 +36,7 @@ public class FileUtils {
             saveDir.mkdir();
         }
         String fileName = urlStr.substring(urlStr.lastIndexOf("/"));
-        File file = new File(saveDir + File.separator + fileName);
+        File file = new File(saveDir + fileName);
         FileOutputStream fos = new FileOutputStream(file);
         fos.write(getData);
         if(fos!=null){
