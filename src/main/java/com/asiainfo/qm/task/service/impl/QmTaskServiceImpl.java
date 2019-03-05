@@ -8,6 +8,7 @@ import com.asiainfo.qm.manage.util.DateUtils;
 import com.asiainfo.qm.manage.util.FileUtils;
 import com.asiainfo.qm.manage.util.HttpConstants;
 import com.asiainfo.qm.task.dao.QmVoiceMapper;
+import com.asiainfo.qm.task.dao.QmWorkformMapper;
 import com.asiainfo.qm.task.domain.QmVoice;
 import com.asiainfo.qm.task.domain.QmVoiceExample;
 import com.asiainfo.qm.task.domain.QmWorkform;
@@ -36,6 +37,9 @@ public class QmTaskServiceImpl implements IQmTaskService{
 
     @Autowired
     private QmVoiceMapper qmVoiceMapper;
+
+    @Autowired
+    private QmWorkformMapper qmWorkformMapper;
 
     @Override
     public boolean doSynchroVoices(int pageNum){
@@ -195,7 +199,7 @@ public class QmTaskServiceImpl implements IQmTaskService{
             QmWorkform workform = new QmWorkform();
             workform.setWrkfmId((Long)data.get("wrkfmId"));//工单ID
             if(null != data.get("wrkfmShowSwftno")){//工单展示编码
-                workform.setWrkfmShowSwftno((String)data.get("wrkfmShowSwftno"));
+                workform.setWrkfmShowSwftno((String) data.get("wrkfmShowSwftno"));
             }
             if(null != data.get("srvReqstId")){//服务请求ID
                 workform.setSrvReqstId((Long) data.get("srvReqstId"));
@@ -322,9 +326,59 @@ public class QmTaskServiceImpl implements IQmTaskService{
             if(null != data.get("actvtModeCd")){//激活方式代码，手动，自动
                 workform.setActvtModeCd((String) data.get("actvtModeCd"));
             }
-            if(null != data.get("actvtModeCd")){//立单人号码
-//                workform.setac((String) data.get("actvtModeCd"));
+            if(null != data.get("acptStaffId")){//立单人
+                workform.setAcptStaffId((String) data.get("acptStaffId"));
             }
+            if(null != data.get("custNum")){//客户号码
+                workform.setCustNum((String) data.get("custNum"));
+            }
+            if(null != data.get("custName")){//客户名称
+                workform.setCustName((String) data.get("custName"));
+            }
+            if(null != data.get("custEmail")){//客户账号
+                workform.setCustEmail((String) data.get("custEmail"));
+            }
+            if(null != data.get("bizTitle")){//工单标题
+                workform.setBizTitle((String) data.get("bizTitle"));
+            }
+            if(null != data.get("bizCntt")){//工单内容
+                workform.setBizCntt((String) data.get("bizCntt"));
+            }
+            if(null != data.get("srvReqstTypeFullNm")){//服务请求类型全称
+                workform.setSrvReqstTypeFullNm((String) data.get("srvReqstTypeFullNm"));
+            }
+            if(null != data.get("actualHandleDuration")){//实际处理时长
+                workform.setActualHandleDuration((Integer) data.get("actualHandleDuration"));
+            }
+            if(null != data.get("handleDuration")){//处理时长
+                workform.setHandleDuration((Integer) data.get("handleDuration"));
+            }
+            if(null != data.get("urgeFlag")){//催办标志
+                workform.setUrgeFlag((Byte) data.get("urgeFlag"));
+            }
+            if(null != data.get("rmdrTmsCnt")){//催单次数
+                workform.setRmdrTmsCnt((Byte) data.get("rmdrTmsCnt"));
+            }
+            if(null != data.get("rmdrTime")){//催单时间
+                Long rmdrTime = (Long)data.get("rmdrTime");
+                workform.setRmdrTime(new Date(rmdrTime));
+            }
+            if(null != data.get("rmdrStaffNum")){//催单人
+                workform.setRmdrStaffNum((String) data.get("rmdrStaffNum"));
+            }
+            if(null != data.get("revstRemedyFlag")){//回访补救标志
+                workform.setRevstRemedyFlag((Byte) data.get("revstRemedyFlag"));
+            }
+            if(null != data.get("trsprtSmsIsudFlag")){//透明化短信下发标志
+                workform.setTrsprtSmsIsudFlag((Byte) data.get("trsprtSmsIsudFlag"));
+            }
+            if(null != data.get("rmdrStsCd")){//催单状态代码，已催办，未催办
+                workform.setRmdrStsCd((String) data.get("rmdrStsCd"));
+            }
+            if(null != data.get("dplctCmplntsFlag")){//重复投诉标志
+                workform.setDplctCmplntsFlag((Byte) data.get("dplctCmplntsFlag"));
+            }
+            qmWorkformMapper.insertSelective(workform);
         }
     }
 

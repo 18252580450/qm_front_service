@@ -88,6 +88,15 @@
     <result column="RESP_RSN_DESC" property="respRsnDesc" jdbcType="VARCHAR" />
     <result column="HANDLE_DURATION" property="handleDuration" jdbcType="INTEGER" />
     <result column="ACTUAL_HANDLE_DURATION" property="actualHandleDuration" jdbcType="INTEGER" />
+    <result column="SRV_REQST_TYPE_FULL_NM" property="srvReqstTypeFullNm" jdbcType="VARCHAR" />
+    <result column="SRV_REQST_TYPE_NM" property="srvReqstTypeNm" jdbcType="VARCHAR" />
+    <result column="BIZ_CNTT" property="bizCntt" jdbcType="VARCHAR" />
+    <result column="BIZ_TITLE" property="bizTitle" jdbcType="VARCHAR" />
+    <result column="CUST_EMAIL" property="custEmail" jdbcType="VARCHAR" />
+    <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
+    <result column="CUST_NUM" property="custNum" jdbcType="VARCHAR" />
+    <result column="ACPT_STAFF_ID" property="acptStaffId" jdbcType="VARCHAR" />
+    <result column="ACPT_STAFF_NUM" property="acptStaffNum" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -164,7 +173,9 @@
     DPLCT_CMPLNTS_FLAG, DPLCT_CMPLNTS_TMS_CNT, HIS_WORK_ORDER_NUM, EXPCT_FDBK_TIME, ACTL_FDBK_TIME, 
     ADTN_INFO_FLAG, DIRECT_DSPS_FLAG, LAST_CUST_SATIS_DGR_ID, SATIS_DGR_REVST_MODE_CD, 
     ARTF_REVST_SATIS_DGR_ID, RMDR_STAFF_NUM, RMDR_TIME, RMDR_TMS_CNT, URGE_FLAG, RETN_BL_FLAG, 
-    URGFRM_FLAG, RESP_DEPT_ID, RESP_RSN_DESC, HANDLE_DURATION, ACTUAL_HANDLE_DURATION
+    URGFRM_FLAG, RESP_DEPT_ID, RESP_RSN_DESC, HANDLE_DURATION, ACTUAL_HANDLE_DURATION, 
+    SRV_REQST_TYPE_FULL_NM, SRV_REQST_TYPE_NM, BIZ_CNTT, BIZ_TITLE, CUST_EMAIL, CUST_NAME, 
+    CUST_NUM, ACPT_STAFF_ID, ACPT_STAFF_NUM
   </sql>
   <select id="selectByExampleForAutoExract" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.task.domain.QmWorkformExample" >
     select
@@ -238,7 +249,10 @@
       ARTF_REVST_SATIS_DGR_ID, RMDR_STAFF_NUM, RMDR_TIME, 
       RMDR_TMS_CNT, URGE_FLAG, RETN_BL_FLAG, 
       URGFRM_FLAG, RESP_DEPT_ID, RESP_RSN_DESC, 
-      HANDLE_DURATION, ACTUAL_HANDLE_DURATION)
+      HANDLE_DURATION, ACTUAL_HANDLE_DURATION, SRV_REQST_TYPE_FULL_NM, 
+      SRV_REQST_TYPE_NM, BIZ_CNTT, BIZ_TITLE, 
+      CUST_EMAIL, CUST_NAME, CUST_NUM, 
+      ACPT_STAFF_ID, ACPT_STAFF_NUM)
     values (#{wrkfmId,jdbcType=BIGINT}, #{wrkfmShowSwftno,jdbcType=VARCHAR}, #{srvReqstId,jdbcType=BIGINT}, 
       #{srvReqstTypeId,jdbcType=VARCHAR}, #{seqprcTmpltId,jdbcType=VARCHAR}, #{seqprcIstncId,jdbcType=VARCHAR}, 
       #{wrkfmTypeCd,jdbcType=VARCHAR}, #{provCode,jdbcType=VARCHAR}, #{crtTime,jdbcType=TIMESTAMP}, 
@@ -268,7 +282,10 @@
       #{artfRevstSatisDgrId,jdbcType=VARCHAR}, #{rmdrStaffNum,jdbcType=VARCHAR}, #{rmdrTime,jdbcType=TIMESTAMP}, 
       #{rmdrTmsCnt,jdbcType=TINYINT}, #{urgeFlag,jdbcType=TINYINT}, #{retnBlFlag,jdbcType=TINYINT}, 
       #{urgfrmFlag,jdbcType=TINYINT}, #{respDeptId,jdbcType=VARCHAR}, #{respRsnDesc,jdbcType=VARCHAR}, 
-      #{handleDuration,jdbcType=INTEGER}, #{actualHandleDuration,jdbcType=INTEGER})
+      #{handleDuration,jdbcType=INTEGER}, #{actualHandleDuration,jdbcType=INTEGER}, #{srvReqstTypeFullNm,jdbcType=VARCHAR}, 
+      #{srvReqstTypeNm,jdbcType=VARCHAR}, #{bizCntt,jdbcType=VARCHAR}, #{bizTitle,jdbcType=VARCHAR}, 
+      #{custEmail,jdbcType=VARCHAR}, #{custName,jdbcType=VARCHAR}, #{custNum,jdbcType=VARCHAR}, 
+      #{acptStaffId,jdbcType=VARCHAR}, #{acptStaffNum,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.asiainfo.qm.task.domain.QmWorkform" >
     insert into t_qm_workform
@@ -531,6 +548,33 @@
       <if test="actualHandleDuration != null" >
         ACTUAL_HANDLE_DURATION,
       </if>
+      <if test="srvReqstTypeFullNm != null" >
+        SRV_REQST_TYPE_FULL_NM,
+      </if>
+      <if test="srvReqstTypeNm != null" >
+        SRV_REQST_TYPE_NM,
+      </if>
+      <if test="bizCntt != null" >
+        BIZ_CNTT,
+      </if>
+      <if test="bizTitle != null" >
+        BIZ_TITLE,
+      </if>
+      <if test="custEmail != null" >
+        CUST_EMAIL,
+      </if>
+      <if test="custName != null" >
+        CUST_NAME,
+      </if>
+      <if test="custNum != null" >
+        CUST_NUM,
+      </if>
+      <if test="acptStaffId != null" >
+        ACPT_STAFF_ID,
+      </if>
+      <if test="acptStaffNum != null" >
+        ACPT_STAFF_NUM,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="wrkfmId != null" >
@@ -790,6 +834,33 @@
       </if>
       <if test="actualHandleDuration != null" >
         #{actualHandleDuration,jdbcType=INTEGER},
+      </if>
+      <if test="srvReqstTypeFullNm != null" >
+        #{srvReqstTypeFullNm,jdbcType=VARCHAR},
+      </if>
+      <if test="srvReqstTypeNm != null" >
+        #{srvReqstTypeNm,jdbcType=VARCHAR},
+      </if>
+      <if test="bizCntt != null" >
+        #{bizCntt,jdbcType=VARCHAR},
+      </if>
+      <if test="bizTitle != null" >
+        #{bizTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="custEmail != null" >
+        #{custEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custNum != null" >
+        #{custNum,jdbcType=VARCHAR},
+      </if>
+      <if test="acptStaffId != null" >
+        #{acptStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="acptStaffNum != null" >
+        #{acptStaffNum,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -1060,6 +1131,33 @@
       <if test="record.actualHandleDuration != null" >
         ACTUAL_HANDLE_DURATION = #{record.actualHandleDuration,jdbcType=INTEGER},
       </if>
+      <if test="record.srvReqstTypeFullNm != null" >
+        SRV_REQST_TYPE_FULL_NM = #{record.srvReqstTypeFullNm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srvReqstTypeNm != null" >
+        SRV_REQST_TYPE_NM = #{record.srvReqstTypeNm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bizCntt != null" >
+        BIZ_CNTT = #{record.bizCntt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bizTitle != null" >
+        BIZ_TITLE = #{record.bizTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custEmail != null" >
+        CUST_EMAIL = #{record.custEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custName != null" >
+        CUST_NAME = #{record.custName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custNum != null" >
+        CUST_NUM = #{record.custNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acptStaffId != null" >
+        ACPT_STAFF_ID = #{record.acptStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acptStaffNum != null" >
+        ACPT_STAFF_NUM = #{record.acptStaffNum,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -1152,7 +1250,16 @@
       RESP_DEPT_ID = #{record.respDeptId,jdbcType=VARCHAR},
       RESP_RSN_DESC = #{record.respRsnDesc,jdbcType=VARCHAR},
       HANDLE_DURATION = #{record.handleDuration,jdbcType=INTEGER},
-      ACTUAL_HANDLE_DURATION = #{record.actualHandleDuration,jdbcType=INTEGER}
+      ACTUAL_HANDLE_DURATION = #{record.actualHandleDuration,jdbcType=INTEGER},
+      SRV_REQST_TYPE_FULL_NM = #{record.srvReqstTypeFullNm,jdbcType=VARCHAR},
+      SRV_REQST_TYPE_NM = #{record.srvReqstTypeNm,jdbcType=VARCHAR},
+      BIZ_CNTT = #{record.bizCntt,jdbcType=VARCHAR},
+      BIZ_TITLE = #{record.bizTitle,jdbcType=VARCHAR},
+      CUST_EMAIL = #{record.custEmail,jdbcType=VARCHAR},
+      CUST_NAME = #{record.custName,jdbcType=VARCHAR},
+      CUST_NUM = #{record.custNum,jdbcType=VARCHAR},
+      ACPT_STAFF_ID = #{record.acptStaffId,jdbcType=VARCHAR},
+      ACPT_STAFF_NUM = #{record.acptStaffNum,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -1415,6 +1522,33 @@
       <if test="actualHandleDuration != null" >
         ACTUAL_HANDLE_DURATION = #{actualHandleDuration,jdbcType=INTEGER},
       </if>
+      <if test="srvReqstTypeFullNm != null" >
+        SRV_REQST_TYPE_FULL_NM = #{srvReqstTypeFullNm,jdbcType=VARCHAR},
+      </if>
+      <if test="srvReqstTypeNm != null" >
+        SRV_REQST_TYPE_NM = #{srvReqstTypeNm,jdbcType=VARCHAR},
+      </if>
+      <if test="bizCntt != null" >
+        BIZ_CNTT = #{bizCntt,jdbcType=VARCHAR},
+      </if>
+      <if test="bizTitle != null" >
+        BIZ_TITLE = #{bizTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="custEmail != null" >
+        CUST_EMAIL = #{custEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        CUST_NAME = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custNum != null" >
+        CUST_NUM = #{custNum,jdbcType=VARCHAR},
+      </if>
+      <if test="acptStaffId != null" >
+        ACPT_STAFF_ID = #{acptStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="acptStaffNum != null" >
+        ACPT_STAFF_NUM = #{acptStaffNum,jdbcType=VARCHAR},
+      </if>
     </set>
     where WRKFM_ID = #{wrkfmId,jdbcType=BIGINT}
   </update>
@@ -1504,7 +1638,16 @@
       RESP_DEPT_ID = #{respDeptId,jdbcType=VARCHAR},
       RESP_RSN_DESC = #{respRsnDesc,jdbcType=VARCHAR},
       HANDLE_DURATION = #{handleDuration,jdbcType=INTEGER},
-      ACTUAL_HANDLE_DURATION = #{actualHandleDuration,jdbcType=INTEGER}
+      ACTUAL_HANDLE_DURATION = #{actualHandleDuration,jdbcType=INTEGER},
+      SRV_REQST_TYPE_FULL_NM = #{srvReqstTypeFullNm,jdbcType=VARCHAR},
+      SRV_REQST_TYPE_NM = #{srvReqstTypeNm,jdbcType=VARCHAR},
+      BIZ_CNTT = #{bizCntt,jdbcType=VARCHAR},
+      BIZ_TITLE = #{bizTitle,jdbcType=VARCHAR},
+      CUST_EMAIL = #{custEmail,jdbcType=VARCHAR},
+      CUST_NAME = #{custName,jdbcType=VARCHAR},
+      CUST_NUM = #{custNum,jdbcType=VARCHAR},
+      ACPT_STAFF_ID = #{acptStaffId,jdbcType=VARCHAR},
+      ACPT_STAFF_NUM = #{acptStaffNum,jdbcType=VARCHAR}
     where WRKFM_ID = #{wrkfmId,jdbcType=BIGINT}
   </update>
 </mapper>

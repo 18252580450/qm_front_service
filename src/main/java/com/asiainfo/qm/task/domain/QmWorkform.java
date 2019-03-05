@@ -175,6 +175,24 @@ public class QmWorkform {
 
     private Integer actualHandleDuration;
 
+    private String srvReqstTypeFullNm;
+
+    private String srvReqstTypeNm;
+
+    private String bizCntt;
+
+    private String bizTitle;
+
+    private String custEmail;
+
+    private String custName;
+
+    private String custNum;
+
+    private String acptStaffId;
+
+    private String acptStaffNum;
+
     public Long getWrkfmId() {
         return wrkfmId;
     }
@@ -861,5 +879,77 @@ public class QmWorkform {
 
     public void setActualHandleDuration(Integer actualHandleDuration) {
         this.actualHandleDuration = actualHandleDuration;
+    }
+
+    public String getSrvReqstTypeFullNm() {
+        return srvReqstTypeFullNm;
+    }
+
+    public void setSrvReqstTypeFullNm(String srvReqstTypeFullNm) {
+        this.srvReqstTypeFullNm = srvReqstTypeFullNm == null ? null : srvReqstTypeFullNm.trim();
+    }
+
+    public String getSrvReqstTypeNm() {
+        return srvReqstTypeNm;
+    }
+
+    public void setSrvReqstTypeNm(String srvReqstTypeNm) {
+        this.srvReqstTypeNm = srvReqstTypeNm == null ? null : srvReqstTypeNm.trim();
+    }
+
+    public String getBizCntt() {
+        return bizCntt;
+    }
+
+    public void setBizCntt(String bizCntt) {
+        this.bizCntt = bizCntt == null ? null : bizCntt.trim();
+    }
+
+    public String getBizTitle() {
+        return bizTitle;
+    }
+
+    public void setBizTitle(String bizTitle) {
+        this.bizTitle = bizTitle == null ? null : bizTitle.trim();
+    }
+
+    public String getCustEmail() {
+        return custEmail;
+    }
+
+    public void setCustEmail(String custEmail) {
+        this.custEmail = custEmail == null ? null : custEmail.trim();
+    }
+
+    public String getCustName() {
+        return custName;
+    }
+
+    public void setCustName(String custName) {
+        this.custName = custName == null ? null : custName.trim();
+    }
+
+    public String getCustNum() {
+        return custNum;
+    }
+
+    public void setCustNum(String custNum) {
+        this.custNum = custNum == null ? null : custNum.trim();
+    }
+
+    public String getAcptStaffId() {
+        return acptStaffId;
+    }
+
+    public void setAcptStaffId(String acptStaffId) {
+        this.acptStaffId = acptStaffId == null ? null : acptStaffId.trim();
+    }
+
+    public String getAcptStaffNum() {
+        return acptStaffNum;
+    }
+
+    public void setAcptStaffNum(String acptStaffNum) {
+        this.acptStaffNum = acptStaffNum == null ? null : acptStaffNum.trim();
     }
 }
