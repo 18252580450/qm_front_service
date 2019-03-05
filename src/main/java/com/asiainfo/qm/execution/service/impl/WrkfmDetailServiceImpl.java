@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.execution.service.WrkfmDetailService;
 import com.asiainfo.qm.execution.vo.WrkfmDetailResponse;
 import com.asiainfo.qm.manage.common.restClient.RestClient;
+import com.asiainfo.qm.manage.util.HttpConstants;
 import com.asiainfo.qm.manage.util.WebUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
         try {
             String provCode = params.get("provCode").toString();
             String wrkfmId = params.get("wrkfmId").toString();
-            String url = WebUtil.WRKFM_URL + "/tcwf/detail/getDetailMess?provCode=" + provCode + "&wrkfmId=" + wrkfmId;
+            String url = HttpConstants.HttpParams.WRKFM_URL + "/tcwf/detail/getDetailMess?provCode=" + provCode + "&wrkfmId=" + wrkfmId;
             RestClient restClient = new RestClient();
             JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, null, JSONObject.class, null, "1");
             if (rsp.getInteger("status").toString().equals("0")) {
@@ -61,7 +62,7 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
     public WrkfmDetailResponse getProcProceLocus(Map params) throws Exception {
         WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
         try {
-            String url = WebUtil.WRKFM_URL + "/tcwf/detail/procProceLocus";
+            String url = HttpConstants.HttpParams.WRKFM_URL + "/tcwf/detail/procProceLocus";
             RestClient restClient = new RestClient();
             JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, params, JSONObject.class, null, "1");
             if (rsp.getInteger("status").toString().equals("0")) {
@@ -95,7 +96,7 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
         try {
             String provCode = params.get("provCode").toString();
             String wrkfmId = params.get("wrkfmId").toString();
-            String url = WebUtil.WRKFM_URL + "/tcwf/detail/handingLog?provCode=" + provCode + "&wrkfmId=" + wrkfmId;
+            String url = HttpConstants.HttpParams.WRKFM_URL + "/tcwf/detail/handingLog?provCode=" + provCode + "&wrkfmId=" + wrkfmId;
             RestClient restClient = new RestClient();
             JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, null, JSONObject.class, null, "1");
             if (rsp.getInteger("status").toString().equals("0")) {
@@ -127,7 +128,7 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
     public WrkfmDetailResponse getRecordList(Map params) throws Exception {
         WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
         try {
-            String url = WebUtil.WRKFM_URL + "/tcwf/queryRecord/queryRecordList";
+            String url = HttpConstants.HttpParams.WRKFM_URL + "/tcwf/queryRecord/queryRecordList";
             RestClient restClient = new RestClient();
             JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, params, JSONObject.class, null, "1");
             if (rsp.getInteger("status").toString().equals("0")) {
@@ -159,7 +160,7 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
     public WrkfmDetailResponse getHistoryProProce(Map params) throws Exception {
         WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
         try {
-            String url = WebUtil.WRKFM_URL + "/tcwf/detail/historyProProce";
+            String url = HttpConstants.HttpParams.WRKFM_URL + "/tcwf/detail/historyProProce";
             RestClient restClient = new RestClient();
             JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, params, JSONObject.class, null, "1");
             if (rsp.getInteger("status").toString().equals("0")) {
