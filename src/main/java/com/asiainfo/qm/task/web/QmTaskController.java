@@ -89,4 +89,32 @@ public class QmTaskController {
 		return false;
 	}
 
+	@ApiOperation(value = "工单数据同步定时任务", notes = "qm_configservice工单数据同步定时任务", response = Boolean.class)
+	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
+			@ApiResponse(code = 403, message = "资源不存在"),
+			@ApiResponse(code = 404, message = "传入的参数无效"),
+			@ApiResponse(code = 500, message = "服务器出现异常错误") })
+	@HystrixCommand(groupKey = "qm_configservice ", commandKey = "doSynchroWorkformsTask", threadPoolKey = "doSynchroWorkformsTaskThread", fallbackMethod = "fallbackDoSynchroWorkformsTask",commandProperties = {
+			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
+			@HystrixProperty(name = "coreSize", value = "200") })
+	@RequestMapping(value = "/doSynchroWorkformsTask", method = RequestMethod.GET)
+	public boolean doSynchroWorkformsTask() throws Exception {
+		boolean flag = false;
+		try {
+			//工单数据同步
+			flag = taskService.doSynchroWorkforms();
+		}catch (Exception e){
+			logger.error("工单数据同步定时任务异常");
+			e.printStackTrace();
+		}
+		return flag;
+	}
+
+	public boolean fallbackDoSynchroWorkformsTask() throws Exception {
+		logger.info("工单数据同步定时任务出错啦！");
+		logger.error("");
+		return false;
+	}
+
 }

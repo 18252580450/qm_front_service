@@ -119,7 +119,7 @@ public class AutoExtractCommonServiceImpl implements IAutoExtractCommonService {
                 int value1Index = rel.getElementValue1().indexOf("@");
                 if(value1Index >= 0){
                     String d = rel.getElementValue1().substring(0,value1Index).equals("")?"0":rel.getElementValue1().substring(0,value1Index);
-                    String cur = DateUtils.getCurrentDateString("YYYY-MM-DD") + rel.getElementValue1().substring(value1Index + 1);
+                    String cur = DateUtils.getCurrentDateString("YYYY-MM-dd") + rel.getElementValue1().substring(value1Index + 1);
                     Date currentDate = DateUtil.getBeforeAfterDate(cur, Integer.parseInt(d));
                     Timestamp currentDate1 = DateUtils.paraseSqlTimestamp(DateUtil.date2String(currentDate), DateUtils.DATE_FORMAT_A_YYYYMMDDHHMMSS);
                     sql.append(rel.getElementCode()).append(" between '").append(currentDate1).append("'");
@@ -129,7 +129,7 @@ public class AutoExtractCommonServiceImpl implements IAutoExtractCommonService {
                 int value2Index = rel.getElementValue2().indexOf("@");
                 if(value2Index >= 0){
                     String d = rel.getElementValue2().substring(0,value2Index).equals("")?"0":rel.getElementValue2().substring(0,value2Index);
-                    String cur = DateUtils.getCurrentDateString("YYYY-MM-DD") + rel.getElementValue2().substring(value2Index + 1);
+                    String cur = DateUtils.getCurrentDateString("YYYY-MM-dd") + rel.getElementValue2().substring(value2Index + 1);
                     Date currentDate = DateUtil.getBeforeAfterDate(cur, Integer.parseInt(d));
                     Timestamp currentDate1 = DateUtils.paraseSqlTimestamp(DateUtil.date2String(currentDate), DateUtils.DATE_FORMAT_A_YYYYMMDDHHMMSS);
                     sql.append(" and '").append(currentDate1).append("'");

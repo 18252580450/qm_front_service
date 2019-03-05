@@ -11,6 +11,9 @@ public class HttpConstants {
         String CODE_SUCCESS = "0";
         //企业ID
         String ENT_ID = "0251210001";
+        //
+        String TENANT_ID = "10010000";
+
         //明细数据查询
         String SESSION_DETAIL_QUERY = "/standardInterface_yx/mvc/sessionDetail/query";
         //录音数据查询

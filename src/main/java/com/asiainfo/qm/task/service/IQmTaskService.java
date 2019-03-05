@@ -10,4 +10,6 @@ public interface IQmTaskService {
     public boolean downloadRecordFiles();
 
     public boolean queryScore() throws Exception;
+
+    public boolean doSynchroWorkforms();
 }

@@ -161,6 +161,28 @@ public class QmTaskServiceImpl implements IQmTaskService{
 
     }
 
+    @Override
+    public boolean doSynchroWorkforms() {
+        String url = HttpConstants.HttpParams.URI + HttpConstants.HttpParams.SESSION_DETAIL_QUERY;
+        Map<String,String> params = new HashMap();
+        Calendar calendar = Calendar.getInstance();
+        Date beforeDay = DateUtil.currentBeforeDay();
+//        calendar.setTime(DateUtil.string2Date("2019-01-27 00:00:00"));
+        logger.info("日期："+DateUtil.date2String(beforeDay,"YYYY-MM-dd"));
+        calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay,"YYYY-MM-dd") + " 00:00:00"));
+        Long startTime = calendar.getTimeInMillis();
+//        calendar.setTime(DateUtil.string2Date("2019-01-27 23:59:59"));
+        calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay,"YYYY-MM-dd") + " 23:59:59"));
+        Long endTime = calendar.getTimeInMillis();
+        params.put("startTime",startTime + "");
+        params.put("endTime",endTime + "");
+        params.put("entId",HttpConstants.HttpParams.ENT_ID);
+
+        String ret = httpClient.sendGet(url, params);
+        JSONObject result = JSONObject.parseObject(ret);
+        return false;
+    }
+
     private List<QmVoice> queryVoices() throws Exception{
         QmVoiceExample example = new QmVoiceExample();
         QmVoiceExample.Criteria criteria = example.createCriteria();
@@ -205,6 +227,7 @@ public class QmTaskServiceImpl implements IQmTaskService{
         for(int i = 0;i<voices.size();i++){
             QmVoice qmVoice = new QmVoice();
             Map<String, Object> voice = voices.get(i);
+            qmVoice.setTenantId(HttpConstants.HttpParams.TENANT_ID);
             if(null != voice.get("start_time")){//开始时间
                 Long start_time = Long.valueOf((String)voice.get("start_time"));
                 qmVoice.setBeginTime(new Date(start_time));
