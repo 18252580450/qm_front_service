@@ -31,5 +31,7 @@ public class HttpConstants {
         String VIRTUAL_GROUP_PERSONAL_SERVLET = "http://203.57.226.107:3506/VirtualGroupPersonalServlet";
         //虚拟组列表接口
         String VIRTUAL_GROUP_SERVLET = "http://203.57.226.107:3505/VirtualGroupServlet";
+        //工单接口
+        String WRKFM_URL = "http://203.57.227.53:8082";
     }
 }
