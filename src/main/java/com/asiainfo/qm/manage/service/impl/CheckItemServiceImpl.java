@@ -55,6 +55,9 @@ public class CheckItemServiceImpl implements CheckItemService {
             if (null != params.get("checkItemType") && !"".equals(params.get("checkItemType"))) {
                 criteria.andCheckItemTypeEqualTo((String) params.get("checkItemType"));
             }
+            if (null != params.get("nodeTypeCode") && !"".equals(params.get("nodeTypeCode"))) {
+                criteria.andNodeTypeCodeEqualTo((String) params.get("nodeTypeCode"));
+            }
 
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
