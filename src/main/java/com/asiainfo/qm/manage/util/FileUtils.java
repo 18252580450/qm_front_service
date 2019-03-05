@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 
 /**
  * Created by shiying on 2019/2/15.
@@ -31,7 +32,9 @@ public class FileUtils {
         byte[] getData = readInputStream(inputStream);
 
         //文件保存位置
-        File saveDir = new File(HttpConstants.HttpParams.LOCAL_PATH);
+        Date currentBeforeDay = DateUtil.currentBeforeDay();
+        String beforeDay = DateUtil.date2String(currentBeforeDay,"YYYYMMdd");
+        File saveDir = new File(HttpConstants.HttpParams.LOCAL_PATH + beforeDay + "/");
         if(!saveDir.exists()){
             saveDir.mkdir();
         }
