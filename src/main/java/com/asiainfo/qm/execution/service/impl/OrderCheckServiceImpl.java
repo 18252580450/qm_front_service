@@ -87,9 +87,9 @@ public class OrderCheckServiceImpl implements OrderCheckService {
                 updateFlag = true;
                 //查询工单质检结果详细信息表，存在暂存数据则更新，反之插入
                 Map<String, Object> detailParams = new HashMap<>();
-                params.put("tenantId", orderCheckInfo.get("tenantId"));
-                params.put("touchId", orderCheckInfo.get("touchId"));
-                params.put("inspectionId", inspectionId);
+                detailParams.put("tenantId", orderCheckInfo.get("tenantId"));
+                detailParams.put("touchId", orderCheckInfo.get("touchId"));
+                detailParams.put("inspectionId", inspectionId);
                 OrderCheckResultDetailResponse orderCheckResultDetailResponse = orderCheckResultDetailService.querySavedResult(detailParams, 0, 0);
                 if (orderCheckResultDetailResponse.getRspcode().equals(WebUtil.EXCEPTION)) {
                     orderCheckResponse.setRspcode(orderCheckResultDetailResponse.getRspcode());

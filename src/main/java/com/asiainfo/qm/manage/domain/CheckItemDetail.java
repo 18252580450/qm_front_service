@@ -15,6 +15,8 @@ public class CheckItemDetail {
 
     private String templateId;
 
+    private String planId;
+
     private String tenantId;
 
     private String provinceId;
@@ -80,6 +82,10 @@ public class CheckItemDetail {
     public void setTemplateId(String templateId) {
         this.templateId = templateId == null ? null : templateId.trim();
     }
+
+    public String getPlanId() { return planId; }
+
+    public void setPlanId(String planId) { this.planId = planId; }
 
     public String getTenantId() {
         return tenantId;

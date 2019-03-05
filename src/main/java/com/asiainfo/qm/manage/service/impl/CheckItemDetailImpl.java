@@ -34,6 +34,9 @@ public class CheckItemDetailImpl implements CheckItemDetailService {
             if (null != params.get("tenantId") && !"".equals(params.get("tenantId"))) {
                 checkItemDetail.setTenantId((String) params.get("tenantId"));
             }
+            if (null != params.get("planId") && !"".equals(params.get("planId"))) {
+                checkItemDetail.setPlanId((String) params.get("planId"));
+            }
             if (null != params.get("templateId") && !"".equals(params.get("templateId"))) {
                 checkItemDetail.setTemplateId((String) params.get("templateId"));
             }
