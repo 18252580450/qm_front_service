@@ -108,11 +108,25 @@
              separator=" " open="case TEMPLATE_ID" close="end">
       when #{item.templateId} then  #{item.templateStatus,jdbcType=VARCHAR}
     </foreach>
+    ,OPERATE_STAFF_ID =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TEMPLATE_ID" close="end">
+      when  #{item.templateId} then  #{item.operateStaffId,jdbcType=VARCHAR}
+    </foreach>
     where TEMPLATE_ID in
     <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
       #{item.templateId,jdbcType=VARCHAR}
     </foreach>
   </update>
+
+  <!--批量删除-->
+  <delete id="deleteTemplate" parameterType="java.util.List" >
+    delete from t_qm_checktemplate
+    where TEMPLATE_ID in
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item.templateId,jdbcType=VARCHAR}
+    </foreach>
+  </delete>
 
   <!--批量更新-->
   <update id="updateTemplate" parameterType="java.util.List" >

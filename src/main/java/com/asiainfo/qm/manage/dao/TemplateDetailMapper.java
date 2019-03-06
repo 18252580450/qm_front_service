@@ -36,5 +36,6 @@ public interface TemplateDetailMapper {
 
     int update(Map map);//新增方法
     List<TemplateDetail> selectByPrimaryKey(TemplateDetailKey templateDetailKey);//新增方法
+    int deleteDetail(List<String> list);//新增方法
 
 }

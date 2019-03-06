@@ -77,13 +77,16 @@ public class CheckTemplateController {
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
 			@HystrixProperty(name = "coreSize", value = "200") })
-	@RequestMapping(value = "/deleteByIds/{ids}", method = RequestMethod.DELETE)
-	public CheckTemplateServiceResponse deleteByIds(@PathVariable(name = "ids")String ids) throws Exception {
+	@RequestMapping(value = "/deleteByIds", method = RequestMethod.DELETE)
+	public CheckTemplateServiceResponse deleteByIds(@RequestBody String params) throws Exception {
 		CheckTemplateResponse checkTemplateResponse = new CheckTemplateResponse();
 		CheckTemplateServiceResponse checkTemplateServiceResponse = new CheckTemplateServiceResponse();
-		List<String> idList = Arrays.asList(ids.split(","));
+//		List<String> idList = Arrays.asList(ids.split(","));
+		//String 转 List
+		JSONArray jsonArray = JSONArray.fromObject(params);
+		List<String> list = (List<String>)jsonArray;
 		try {
-			checkTemplateResponse = checkTemplateService.deleteByIds(idList);
+			checkTemplateResponse = checkTemplateService.deleteByIds(list);
 		}catch (Exception e){
 			logger.error("考评模板基本信息删除异常");
 			checkTemplateResponse.setRspcode(WebUtil.EXCEPTION);
@@ -109,6 +112,9 @@ public class CheckTemplateController {
 		//String 转 List
 		JSONArray jsonArray = JSONArray.fromObject(params);
 		List<String> list = (List<String>)jsonArray;
+		//String 转 ListMap
+//		JSONArray jsonArray = JSONArray.fromObject(params);
+//		List<Map> list = (List<Map>)jsonArray;
 		try {
 			checkTemplateResponse = checkTemplateService.update(list);
 		}catch (Exception e){

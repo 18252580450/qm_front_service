@@ -73,7 +73,8 @@ public class AddCheckTemplateController {
 			templateDetail.setNodeScore((Integer) mapNew.get("nodeScore"));
 			templateDetail.setErrorType((String) mapNew.get("errorType"));
 			templateDetail.setNodeType((String) mapNew.get("nodeType"));
-			templateDetail.setpNodeId((String) mapNew.get("pNodeId "));//父节点
+			templateDetail.setpNodeId((String) mapNew.get("pNodeId"));//父节点
+			templateDetail.setCreateStaffId((String) mapNew.get("createStaffId"));
 			listNew.add(templateDetail);
 		}
 		try {
@@ -137,13 +138,16 @@ public class AddCheckTemplateController {
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
 			@HystrixProperty(name = "coreSize", value = "200") })
-	@RequestMapping(value = "/deleteByIds/{ids}", method = RequestMethod.PUT)
-	public TemplateDetailServiceResponse deleteByIds(@PathVariable(name = "ids")String ids) throws Exception {
+	@RequestMapping(value = "/deleteByIds", method = RequestMethod.PUT)
+	public TemplateDetailServiceResponse deleteByIds(@RequestBody String params) throws Exception {
 		TemplateDetailResponse templateDetailResponse = new TemplateDetailResponse();
 		TemplateDetailServiceResponse templateDetailServiceResponse = new TemplateDetailServiceResponse();
-		List<String> idList = Arrays.asList(ids.split(","));
+//		List<String> idList = Arrays.asList(ids.split(","));
+		//String 转 List
+		JSONArray jsonArray = JSONArray.fromObject(params);
+		List<String> list = (List<String>)jsonArray;
 		try {
-			templateDetailResponse = addCheckTemplateService.deleteByIds(idList);
+			templateDetailResponse = addCheckTemplateService.deleteByIds(list);
 		}catch (Exception e){
 			logger.error("数据删除异常");
 			templateDetailResponse.setRspcode(WebUtil.EXCEPTION);
@@ -213,6 +217,7 @@ public class AddCheckTemplateController {
 		templateDetailKey.setNodeId((String) reqParams.get("nodeId"));
 		templateDetailKey.setNodeType((String) reqParams.get("nodeType"));
 		templateDetailKey.setTemplateId((String) reqParams.get("templateId"));
+		templateDetailKey.setReserve1((String) reqParams.get("reserve1"));
 		try {
 			templateDetailResponse = addCheckTemplateService.deleteByPrimaryKey(templateDetailKey);
 		}catch (Exception e){

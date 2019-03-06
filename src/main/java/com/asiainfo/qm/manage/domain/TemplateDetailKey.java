@@ -7,6 +7,16 @@ public class TemplateDetailKey {
 
     private String templateId;
 
+    private String reserve1;
+
+    public String getReserve1() {
+        return reserve1;
+    }
+
+    public void setReserve1(String reserve1) {
+        this.reserve1 = reserve1 == null ? null : reserve1.trim();
+    }
+
     public String getNodeId() {
         return nodeId;
     }

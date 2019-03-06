@@ -564,7 +564,7 @@
     from t_qm_plan t
     WHERE t.TEMPLATE_ID in
     <foreach collection="list" item="item" open="(" close=")" separator=",">
-      #{item,jdbcType=VARCHAR}
+      #{item.templateId,jdbcType=VARCHAR}
     </foreach>
   </select>
 </mapper>
