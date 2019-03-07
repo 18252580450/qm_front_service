@@ -35,23 +35,29 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
             String provCode = params.get("provCode").toString();
             String wrkfmId = params.get("wrkfmId").toString();
             String url = HttpConstants.HttpParams.WRKFM_URL + "/tcwf/detail/getDetailMess?provCode=" + provCode + "&wrkfmId=" + wrkfmId;
-            JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, null, JSONObject.class, null, "1");
-            if (rsp.getInteger("status").toString().equals("0")) {
-                if (rsp.getJSONObject("rsp").getJSONObject("data") != null) {
-                    JSONObject data = rsp.getJSONObject("rsp").getJSONObject("data");
-                    wrkfmDetailResponse.setData(data);
-                    wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+            JSONObject rspRet = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, null, JSONObject.class, null, "1");
+            if (rspRet.getString("status").equals(HttpConstants.HttpParams.INT_SUCCESS_CODE)) {
+                JSONObject rsp = rspRet.getJSONObject("rsp");
+                if (rsp.getString("rspCode").equals(WebUtil.SUCCESS)) {
+                    if (rsp.getJSONObject("data") != null) {
+                        JSONObject data = rsp.getJSONObject("data");
+                        wrkfmDetailResponse.setData(data);
+                        wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+                    } else {
+                        wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                        wrkfmDetailResponse.setRspdesc("无数据");
+                    }
                 } else {
                     wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
-                    if (rsp.getJSONObject("rsp").getJSONObject("rspDesc") != null) {
-                        wrkfmDetailResponse.setRspdesc(rsp.getJSONObject("rsp").getJSONObject("rspDesc").toString());
+                    if (rsp.getString("rspDesc") != null) {
+                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc").toString());
                     } else {
                         wrkfmDetailResponse.setRspdesc("工单详情查询失败！");
                     }
                 }
             } else {
                 wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
-                wrkfmDetailResponse.setRspdesc("工单详情服务调用失败！");
+                wrkfmDetailResponse.setRspdesc("工单详情服务调用失败！" + rspRet.getString("msg"));
             }
         } catch (Exception e) {
             logger.error("工单详情查询异常", e);
@@ -66,23 +72,29 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
         WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
         try {
             String url = HttpConstants.HttpParams.WRKFM_URL + "/tcwf/detail/procProceLocus";
-            JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, params, JSONObject.class, null, "1");
-            if (rsp.getInteger("status").toString().equals("0")) {
-                if (rsp.getJSONObject("rsp").getJSONArray("datas") != null) {
-                    JSONArray data = rsp.getJSONObject("rsp").getJSONArray("datas");
-                    wrkfmDetailResponse.setDatas(data);
-                    wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+            JSONObject rspRet = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, params, JSONObject.class, null, "1");
+            if (rspRet.getString("status").equals(HttpConstants.HttpParams.INT_SUCCESS_CODE)) {
+                JSONObject rsp = rspRet.getJSONObject("rsp");
+                if (rsp.getString("rspCode").equals(WebUtil.SUCCESS)) {
+                    if (rsp.getJSONArray("datas") != null) {
+                        JSONArray data = rsp.getJSONArray("datas");
+                        wrkfmDetailResponse.setDatas(data);
+                        wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+                    } else {
+                        wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                        wrkfmDetailResponse.setRspdesc("无数据");
+                    }
                 } else {
                     wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
-                    if (rsp.getJSONObject("rsp").getJSONObject("rspDesc") != null) {
-                        wrkfmDetailResponse.setRspdesc(rsp.getJSONObject("rsp").getJSONObject("rspDesc").toString());
+                    if (rsp.getString("rspDesc") != null) {
+                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc").toString());
                     } else {
                         wrkfmDetailResponse.setRspdesc("工单轨迹查询失败！");
                     }
                 }
             } else {
                 wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
-                wrkfmDetailResponse.setRspdesc("工单轨迹服务调用失败！");
+                wrkfmDetailResponse.setRspdesc("工单轨迹服务调用失败！" + rspRet.getString("msg"));
             }
         } catch (Exception e) {
             logger.error("工单轨迹查询异常", e);
@@ -99,23 +111,29 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
             String provCode = params.get("provCode").toString();
             String wrkfmId = params.get("wrkfmId").toString();
             String url = HttpConstants.HttpParams.WRKFM_URL + "/tcwf/detail/handingLog?provCode=" + provCode + "&wrkfmId=" + wrkfmId;
-            JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, null, JSONObject.class, null, "1");
-            if (rsp.getInteger("status").toString().equals("0")) {
-                if (rsp.getJSONObject("rsp").getJSONObject("data") != null) {
-                    JSONObject data = rsp.getJSONObject("rsp").getJSONObject("data");
-                    wrkfmDetailResponse.setData(data);
-                    wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+            JSONObject rspRet = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, null, JSONObject.class, null, "1");
+            if (rspRet.getString("status").equals(HttpConstants.HttpParams.INT_SUCCESS_CODE)) {
+                JSONObject rsp = rspRet.getJSONObject("rsp");
+                if (rsp.getString("rspCode").equals(WebUtil.SUCCESS)) {
+                    if (rsp.getJSONObject("data") != null) {
+                        JSONObject data = rsp.getJSONObject("data");
+                        wrkfmDetailResponse.setData(data);
+                        wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+                    } else {
+                        wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                        wrkfmDetailResponse.setRspdesc("无数据");
+                    }
                 } else {
                     wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
-                    if (rsp.getJSONObject("rsp").getJSONObject("rspDesc") != null) {
-                        wrkfmDetailResponse.setRspdesc(rsp.getJSONObject("rsp").getJSONObject("rspDesc").toString());
+                    if (rsp.getString("rspDesc") != null) {
+                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc").toString());
                     } else {
                         wrkfmDetailResponse.setRspdesc("内外部回复查询失败！");
                     }
                 }
             } else {
                 wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
-                wrkfmDetailResponse.setRspdesc("内外部回复服务调用失败！");
+                wrkfmDetailResponse.setRspdesc("内外部回复服务调用失败！" + rspRet.getString("msg"));
             }
         } catch (Exception e) {
             logger.error("内外部回复查询异常", e);
@@ -130,23 +148,29 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
         WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
         try {
             String url = HttpConstants.HttpParams.WRKFM_URL + "/tcwf/queryRecord/queryRecordList";
-            JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, params, JSONObject.class, null, "1");
-            if (rsp.getInteger("status").toString().equals("0")) {
-                if (rsp.getJSONObject("rsp").getJSONArray("datas") != null) {
-                    JSONArray data = rsp.getJSONObject("rsp").getJSONArray("datas");
-                    wrkfmDetailResponse.setDatas(data);
-                    wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+            JSONObject rspRet = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, params, JSONObject.class, null, "1");
+            if (rspRet.getString("status").equals(HttpConstants.HttpParams.INT_SUCCESS_CODE)) {
+                JSONObject rsp = rspRet.getJSONObject("rsp");
+                if (rsp.getString("rspCode").equals(WebUtil.SUCCESS)) {
+                    if (rsp.getJSONArray("datas") != null) {
+                        JSONArray data = rsp.getJSONArray("datas");
+                        wrkfmDetailResponse.setDatas(data);
+                        wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+                    } else {
+                        wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                        wrkfmDetailResponse.setRspdesc("无数据");
+                    }
                 } else {
                     wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
-                    if (rsp.getJSONObject("rsp").getJSONObject("rspDesc") != null) {
-                        wrkfmDetailResponse.setRspdesc(rsp.getJSONObject("rsp").getJSONObject("rspDesc").toString());
+                    if (rsp.getString("rspDesc") != null) {
+                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc").toString());
                     } else {
                         wrkfmDetailResponse.setRspdesc("接触记录查询失败！");
                     }
                 }
             } else {
                 wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
-                wrkfmDetailResponse.setRspdesc("接触记录服务调用失败！");
+                wrkfmDetailResponse.setRspdesc("接触记录服务调用失败！" + rspRet.getString("msg"));
             }
         } catch (Exception e) {
             logger.error("接触记录查询异常", e);
@@ -161,23 +185,29 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
         WrkfmDetailResponse wrkfmDetailResponse = new WrkfmDetailResponse();
         try {
             String url = HttpConstants.HttpParams.WRKFM_URL + "/tcwf/detail/historyProProce";
-            JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, params, JSONObject.class, null, "1");
-            if (rsp.getInteger("status").toString().equals("0")) {
-                if (rsp.getJSONObject("rsp").getJSONArray("datas") != null) {
-                    JSONArray data = rsp.getJSONObject("rsp").getJSONArray("datas");
-                    wrkfmDetailResponse.setDatas(data);
-                    wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+            JSONObject rspRet = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, params, JSONObject.class, null, "1");
+            if (rspRet.getString("status").equals(HttpConstants.HttpParams.INT_SUCCESS_CODE)) {
+                JSONObject rsp = rspRet.getJSONObject("rsp");
+                if (rsp.getString("rspCode").equals(WebUtil.SUCCESS)) {
+                    if (rsp.getJSONArray("datas") != null) {
+                        JSONArray data = rsp.getJSONArray("datas");
+                        wrkfmDetailResponse.setDatas(data);
+                        wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
+                    } else {
+                        wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
+                        wrkfmDetailResponse.setRspdesc("无数据");
+                    }
                 } else {
                     wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
-                    if (rsp.getJSONObject("rsp").getJSONObject("rspDesc") != null) {
-                        wrkfmDetailResponse.setRspdesc(rsp.getJSONObject("rsp").getJSONObject("rspDesc").toString());
+                    if (rsp.getString("rspDesc") != null) {
+                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc").toString());
                     } else {
                         wrkfmDetailResponse.setRspdesc("工单历史查询失败！");
                     }
                 }
             } else {
                 wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
-                wrkfmDetailResponse.setRspdesc("工单历史服务调用失败！");
+                wrkfmDetailResponse.setRspdesc("工单历史服务调用失败！" + rspRet.getString("msg"));
             }
         } catch (Exception e) {
             logger.error("工单历史查询异常", e);
