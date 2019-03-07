@@ -99,10 +99,10 @@ public class CheckTemplateServiceImpl implements CheckTemplateService {
 			//如果该考评模版被考评计划绑定，则不可删除
             int size = qmPlanMapper.selectByTemplateId(ids);
 			if(size > 0){
+				flag = "1";
 				checkTemplateResponse.setRspcode(WebUtil.FAIL);
 				checkTemplateResponse.setRspdesc("考评模版已经被绑定，无法删除");
 			}else{
-//				int result = checkTemplateMapper.deleteByExample(example);
 				int result = checkTemplateMapper.deleteTemplate(ids);
 				if(result > 0){
 					checkTemplateResponse.setRspcode(WebUtil.SUCCESS);

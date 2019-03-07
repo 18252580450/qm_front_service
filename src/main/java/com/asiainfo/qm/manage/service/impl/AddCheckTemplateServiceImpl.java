@@ -165,12 +165,12 @@ public class AddCheckTemplateServiceImpl implements AddCheckTemplateService {
             templateDetailResponse.setRspcode(WebUtil.EXCEPTION);
             templateDetailResponse.setRspdesc("操作异常");
         }finally {//日志
-            Map map = new HashMap();
-            map.put("operateStaffId", list.get(0).get("reserve1"));
-            map.put("templateId",list.get(0).get("templateId"));
-            map.put("operateType","1");
-            map.put("reserve1",flag);
-            addTplOpLog(map);
+                Map map = new HashMap();
+                map.put("operateStaffId", list.get(0).get("reserve1"));
+                map.put("templateId",list.get(0).get("templateId"));
+                map.put("operateType","1");
+                map.put("reserve1",flag);
+                addTplOpLog(map);
         }
         return templateDetailResponse;
     }
