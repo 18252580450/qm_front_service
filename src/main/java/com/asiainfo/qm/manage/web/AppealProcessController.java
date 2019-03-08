@@ -2,6 +2,7 @@ package com.asiainfo.qm.manage.web;
 
 import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.manage.domain.AppealProcess;
+import com.asiainfo.qm.manage.domain.AppealProcessDetail;
 import com.asiainfo.qm.manage.service.AppealProcessService;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.manage.vo.*;
@@ -60,6 +61,37 @@ public class AppealProcessController {
         logger.info("申诉流程数据查询出错啦！");
         logger.error("");
         return new AppealProcessServiceResponse();
+    }
+
+    @ApiOperation(value = "前端调用接口查询审批流程", notes = "qm_configservice查询审批流程", response = AppealProcessDetailServiceResponse.class)
+    @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误")})
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "queryAppealProcessDetail", threadPoolKey = "queryAppealProcessDetailThread", fallbackMethod = "fallbackQueryAppealProcessDetail", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200")})
+    @RequestMapping(value = "/queryAppealProcessDetail", method = RequestMethod.GET)
+    public AppealProcessDetailServiceResponse queryAppealProcessDetail(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        AppealProcessDetailResponse appealProcessDetailResponse = new AppealProcessDetailResponse();
+        AppealProcessDetailServiceResponse appealProcessDetailServiceResponse = new AppealProcessDetailServiceResponse();
+        Map reqParams = JSONObject.parseObject(params);
+        try {
+            appealProcessDetailResponse = appealProcessService.queryProcessDetail(reqParams, start, limit);
+        } catch (Exception e) {
+            logger.error("审批流程数据查询异常", e);
+            appealProcessDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            appealProcessDetailResponse.setRspdesc("审批流程数据查询异常!");
+        }
+        appealProcessDetailServiceResponse.setResponse(appealProcessDetailResponse);
+        return appealProcessDetailServiceResponse;
+    }
+
+    public AppealProcessDetailServiceResponse fallbackQueryAppealProcessDetail(@RequestParam(name = "params") String params, @RequestParam(name = "start") int start, @RequestParam(name = "pageNum") int limit) throws Exception {
+        logger.info("审批流程数据查询出错啦！");
+        logger.error("");
+        return new AppealProcessDetailServiceResponse();
     }
 
     @ApiOperation(value = "前端调用接口新增申诉流程", notes = "qm_configservice新增申诉流程", response = AppealProcessServiceResponse.class)

@@ -37,6 +37,28 @@
     <result column="RESERVE_9" property="reserve9" jdbcType="VARCHAR" />
     <result column="RESERVE_10" property="reserve10" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="UnionResultMap" type="com.asiainfo.qm.manage.domain.AppealProcessDetail" >
+      <id column="PROCESS_ID" property="processId" jdbcType="VARCHAR" />
+      <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+      <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
+      <result column="PROCESS_NAME" property="processName" jdbcType="VARCHAR" />
+      <result column="PARENT_PROCESS_ID" property="parentProcessId" jdbcType="VARCHAR" />
+      <result column="MAIN_PROCESS_FLAG" property="mainProcessFlag" jdbcType="VARCHAR" />
+      <result column="DEPARTMENT_ID" property="departmentId" jdbcType="VARCHAR" />
+      <result column="DEPARTMENT_NAME" property="departmentName" jdbcType="VARCHAR" />
+      <result column="CREATE_STAFF_ID" property="createStaffId" jdbcType="VARCHAR" />
+      <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+      <result column="CHECK_TYPE" property="checkType" jdbcType="VARCHAR" />
+      <result column="PROCESS_VALID_FLAG" property="processValidFlag" jdbcType="VARCHAR" />
+      <result column="PROCESS_STATUS" property="processStatus" jdbcType="VARCHAR" />
+      <result column="PROCESS_USE_STATUS" property="processUseStatus" jdbcType="VARCHAR" />
+      <result column="ORDER_NO" property="orderNo" jdbcType="INTEGER" />
+      <result column="MAX_APPEAL_NUM" property="maxAppealNum" jdbcType="INTEGER" />
+      <result column="NODE_ID" property="nodeId" jdbcType="VARCHAR" />
+      <result column="NODE_NAME" property="nodeName" jdbcType="VARCHAR" />
+      <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+      <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -96,12 +118,18 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    PROCESS_ID, TENANT_ID, PROVINCE_ID, PROCESS_NAME, PARENT_PROCESS_ID, MAIN_PROCESS_FLAG, 
-    DEPARTMENT_ID, DEPARTMENT_NAME, CREATE_STAFF_ID, CREATE_TIME, CHECK_TYPE, PROCESS_VALID_FLAG, 
-    PROCESS_STATUS, PROCESS_USE_STATUS, ORDER_NO, SUB_PROCESS_NUM, SUB_NODE_NUM, MAX_APPEAL_NUM, 
-    ATTACH_PROVINCE_ID, ATTACH_CITY_ID, MODIFY_TIME, MODIFY_STAFF_ID, DELETE_TIME, DELETE_STAFF_ID, 
-    RESERVE_1, RESERVE_2, RESERVE_3, RESERVE_4, RESERVE_5, RESERVE_6, RESERVE_7, RESERVE_8, 
+    PROCESS_ID, TENANT_ID, PROVINCE_ID, PROCESS_NAME, PARENT_PROCESS_ID, MAIN_PROCESS_FLAG,
+    DEPARTMENT_ID, DEPARTMENT_NAME, CREATE_STAFF_ID, CREATE_TIME, CHECK_TYPE, PROCESS_VALID_FLAG,
+    PROCESS_STATUS, PROCESS_USE_STATUS, ORDER_NO, SUB_PROCESS_NUM, SUB_NODE_NUM, MAX_APPEAL_NUM,
+    ATTACH_PROVINCE_ID, ATTACH_CITY_ID, MODIFY_TIME, MODIFY_STAFF_ID, DELETE_TIME, DELETE_STAFF_ID,
+    RESERVE_1, RESERVE_2, RESERVE_3, RESERVE_4, RESERVE_5, RESERVE_6, RESERVE_7, RESERVE_8,
     RESERVE_9, RESERVE_10
+  </sql>
+  <sql id="Union_Column_List" >
+    t1.PROCESS_ID, t1.TENANT_ID, t1.PROVINCE_ID, t1.PROCESS_NAME, t1.MAIN_PROCESS_FLAG,
+    t1.DEPARTMENT_ID, t1.DEPARTMENT_NAME, t1.CREATE_STAFF_ID, t1.CREATE_TIME, t1.CHECK_TYPE, t1.PROCESS_VALID_FLAG,
+    t1.PROCESS_STATUS, t1.PROCESS_USE_STATUS, t1.ORDER_NO, t1.MAX_APPEAL_NUM,
+    t2.NODE_ID, t2.NODE_NAME, t2.USER_ID, t2.USER_NAME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.AppealProcessExample" >
     select
@@ -117,8 +145,17 @@
       order by ${orderByClause}
     </if>
   </select>
+  <!--联表查询申诉流程-->
+  <select id="unionSelectByExample" resultMap="UnionResultMap" parameterType="com.asiainfo.qm.manage.domain.AppealProcessDetail" >
+    select
+    <include refid="Union_Column_List" />
+    from t_qm_appeal_process_info t1
+    right outer join t_qm_appeal_node_info t2 ON t1.PROCESS_ID = t2.PROCESS_ID
+    where t1.TENANT_ID = #{tenantId,jdbcType=VARCHAR}
+      and t1.PARENT_PROCESS_ID = #{parentProcessId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_qm_appeal_process_info
     where PROCESS_ID = #{processId,jdbcType=VARCHAR}
@@ -134,29 +171,29 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.asiainfo.qm.manage.domain.AppealProcess" >
-    insert into t_qm_appeal_process_info (PROCESS_ID, TENANT_ID, PROVINCE_ID, 
-      PROCESS_NAME, PARENT_PROCESS_ID, MAIN_PROCESS_FLAG, 
-      DEPARTMENT_ID, DEPARTMENT_NAME, CREATE_STAFF_ID, 
-      CREATE_TIME, CHECK_TYPE, PROCESS_VALID_FLAG, 
-      PROCESS_STATUS, PROCESS_USE_STATUS, ORDER_NO, 
-      SUB_PROCESS_NUM, SUB_NODE_NUM, MAX_APPEAL_NUM, 
-      ATTACH_PROVINCE_ID, ATTACH_CITY_ID, MODIFY_TIME, 
-      MODIFY_STAFF_ID, DELETE_TIME, DELETE_STAFF_ID, 
-      RESERVE_1, RESERVE_2, RESERVE_3, 
-      RESERVE_4, RESERVE_5, RESERVE_6, 
-      RESERVE_7, RESERVE_8, RESERVE_9, 
+    insert into t_qm_appeal_process_info (PROCESS_ID, TENANT_ID, PROVINCE_ID,
+      PROCESS_NAME, PARENT_PROCESS_ID, MAIN_PROCESS_FLAG,
+      DEPARTMENT_ID, DEPARTMENT_NAME, CREATE_STAFF_ID,
+      CREATE_TIME, CHECK_TYPE, PROCESS_VALID_FLAG,
+      PROCESS_STATUS, PROCESS_USE_STATUS, ORDER_NO,
+      SUB_PROCESS_NUM, SUB_NODE_NUM, MAX_APPEAL_NUM,
+      ATTACH_PROVINCE_ID, ATTACH_CITY_ID, MODIFY_TIME,
+      MODIFY_STAFF_ID, DELETE_TIME, DELETE_STAFF_ID,
+      RESERVE_1, RESERVE_2, RESERVE_3,
+      RESERVE_4, RESERVE_5, RESERVE_6,
+      RESERVE_7, RESERVE_8, RESERVE_9,
       RESERVE_10)
-    values (#{processId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, 
-      #{processName,jdbcType=VARCHAR}, #{parentProcessId,jdbcType=VARCHAR}, #{mainProcessFlag,jdbcType=VARCHAR}, 
-      #{departmentId,jdbcType=VARCHAR}, #{departmentName,jdbcType=VARCHAR}, #{createStaffId,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{checkType,jdbcType=VARCHAR}, #{processValidFlag,jdbcType=VARCHAR}, 
-      #{processStatus,jdbcType=VARCHAR}, #{processUseStatus,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER}, 
-      #{subProcessNum,jdbcType=INTEGER}, #{subNodeNum,jdbcType=INTEGER}, #{maxAppealNum,jdbcType=INTEGER}, 
-      #{attachProvinceId,jdbcType=VARCHAR}, #{attachCityId,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{modifyStaffId,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, #{deleteStaffId,jdbcType=VARCHAR}, 
-      #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR}, 
-      #{reserve4,jdbcType=VARCHAR}, #{reserve5,jdbcType=VARCHAR}, #{reserve6,jdbcType=VARCHAR}, 
-      #{reserve7,jdbcType=VARCHAR}, #{reserve8,jdbcType=VARCHAR}, #{reserve9,jdbcType=VARCHAR}, 
+    values (#{processId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR},
+      #{processName,jdbcType=VARCHAR}, #{parentProcessId,jdbcType=VARCHAR}, #{mainProcessFlag,jdbcType=VARCHAR},
+      #{departmentId,jdbcType=VARCHAR}, #{departmentName,jdbcType=VARCHAR}, #{createStaffId,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{checkType,jdbcType=VARCHAR}, #{processValidFlag,jdbcType=VARCHAR},
+      #{processStatus,jdbcType=VARCHAR}, #{processUseStatus,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER},
+      #{subProcessNum,jdbcType=INTEGER}, #{subNodeNum,jdbcType=INTEGER}, #{maxAppealNum,jdbcType=INTEGER},
+      #{attachProvinceId,jdbcType=VARCHAR}, #{attachCityId,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP},
+      #{modifyStaffId,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, #{deleteStaffId,jdbcType=VARCHAR},
+      #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR},
+      #{reserve4,jdbcType=VARCHAR}, #{reserve5,jdbcType=VARCHAR}, #{reserve6,jdbcType=VARCHAR},
+      #{reserve7,jdbcType=VARCHAR}, #{reserve8,jdbcType=VARCHAR}, #{reserve9,jdbcType=VARCHAR},
       #{reserve10,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.asiainfo.qm.manage.domain.AppealProcess" >

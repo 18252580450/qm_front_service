@@ -1,6 +1,7 @@
 package com.asiainfo.qm.manage.service;
 
 import com.asiainfo.qm.manage.domain.AppealProcess;
+import com.asiainfo.qm.manage.vo.AppealProcessDetailResponse;
 import com.asiainfo.qm.manage.vo.AppealProcessResponse;
 
 import java.util.List;
@@ -17,6 +18,11 @@ public interface AppealProcessService {
      * 申诉流程查询
      */
     AppealProcessResponse queryAppealProcess(Map params, int start, int limit) throws Exception;
+
+    /**
+     * 申诉流程详情查询（包含节点信息）
+     */
+    AppealProcessDetailResponse queryProcessDetail(Map params, int start, int limit) throws Exception;
 
     /**
      * 申诉流程新增

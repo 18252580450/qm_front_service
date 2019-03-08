@@ -3,14 +3,12 @@ package com.asiainfo.qm.manage.service.impl;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.AppealNodeMapper;
 import com.asiainfo.qm.manage.dao.AppealProcessMapper;
-import com.asiainfo.qm.manage.domain.AppealNode;
-import com.asiainfo.qm.manage.domain.AppealNodeExample;
-import com.asiainfo.qm.manage.domain.AppealProcess;
-import com.asiainfo.qm.manage.domain.AppealProcessExample;
+import com.asiainfo.qm.manage.domain.*;
 import com.asiainfo.qm.manage.service.AppealProcessService;
 import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.manage.vo.AppealNodeResponse;
+import com.asiainfo.qm.manage.vo.AppealProcessDetailResponse;
 import com.asiainfo.qm.manage.vo.AppealProcessResponse;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -39,6 +37,8 @@ public class AppealProcessServiceImpl implements AppealProcessService {
     private AppealProcessMapper appealProcessMapper;
     @Autowired
     private AppealNodeMapper appealNodeMapper;
+
+
 
     @Autowired
     private SequenceUtils sequenceUtils;
@@ -106,6 +106,39 @@ public class AppealProcessServiceImpl implements AppealProcessService {
             appealProcessResponse.setRspdesc("申诉流程查询异常");
         }
         return appealProcessResponse;
+    }
+
+    @Override
+    public AppealProcessDetailResponse queryProcessDetail(Map params, int start, int limit) throws Exception {
+        AppealProcessDetailResponse appealProcessDetailResponse = null;
+        try {
+            AppealProcessDetail appealProcessDetail = new AppealProcessDetail();
+            if (null != params.get("tenantId") && !"".equals(params.get("tenantId"))) {
+                appealProcessDetail.setTenantId((String) params.get("tenantId"));
+            }
+            if (null != params.get("processId") && !"".equals(params.get("processId"))) {
+                appealProcessDetail.setParentProcessId((String) params.get("processId"));
+            }
+
+            appealProcessDetailResponse = new AppealProcessDetailResponse();
+
+            List<AppealProcessDetail> list = appealProcessMapper.unionSelectByExample(appealProcessDetail);
+            appealProcessDetailResponse.setData(list);
+
+            if (null != appealProcessDetailResponse.getData() && appealProcessDetailResponse.getData().size() > 0) {
+                appealProcessDetailResponse.setRspcode(WebUtil.SUCCESS);
+                appealProcessDetailResponse.setRspdesc("查询成功");
+            } else {
+                appealProcessDetailResponse.setRspcode(WebUtil.FAIL);
+                appealProcessDetailResponse.setRspdesc("无数据");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("审批流程查询异常", e);
+            appealProcessDetailResponse.setRspcode(WebUtil.EXCEPTION);
+            appealProcessDetailResponse.setRspdesc("审批流程查询异常");
+        }
+        return appealProcessDetailResponse;
     }
 
     @Override

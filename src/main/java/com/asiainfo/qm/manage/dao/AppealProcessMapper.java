@@ -1,6 +1,7 @@
 package com.asiainfo.qm.manage.dao;
 
 import com.asiainfo.qm.manage.domain.AppealProcess;
+import com.asiainfo.qm.manage.domain.AppealProcessDetail;
 import com.asiainfo.qm.manage.domain.AppealProcessExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -17,6 +18,8 @@ public interface AppealProcessMapper {
     int insertSelective(AppealProcess record);
 
     List<AppealProcess> selectByExample(AppealProcessExample example);
+
+    List<AppealProcessDetail> unionSelectByExample(AppealProcessDetail appealProcessDetail);
 
     AppealProcess selectByPrimaryKey(String processId);
 
