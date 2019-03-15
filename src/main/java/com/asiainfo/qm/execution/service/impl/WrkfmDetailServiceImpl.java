@@ -161,6 +161,8 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
                         wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
                         wrkfmDetailResponse.setRspdesc("无数据");
                     }
+                    Object total = rsp.getJSONObject("attach").get("total");
+                    wrkfmDetailResponse.setAttach(new Attach(total != null ? Long.parseLong(total.toString()) : 0L));
                 } else {
                     wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
                     if (rsp.getString("rspDesc") != null) {
@@ -192,14 +194,14 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
                 if (rsp.getString("rspCode").equals(WebUtil.SUCCESS)) {
                     if (rsp.getJSONArray("datas") != null) {
                         JSONArray data = rsp.getJSONArray("datas");
-                        Object total = rsp.getJSONObject("attach").get("total");
                         wrkfmDetailResponse.setDatas(data);
-                        wrkfmDetailResponse.setAttach(new Attach(total != null ? Long.parseLong(total.toString()) : 0L));
                         wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
                     } else {
                         wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
                         wrkfmDetailResponse.setRspdesc("无数据");
                     }
+                    Object total = rsp.getJSONObject("attach").get("total");
+                    wrkfmDetailResponse.setAttach(new Attach(total != null ? Long.parseLong(total.toString()) : 0L));
                 } else {
                     wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
                     if (rsp.getString("rspDesc") != null) {
