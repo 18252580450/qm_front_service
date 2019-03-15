@@ -7,6 +7,7 @@ import com.asiainfo.qm.execution.vo.WrkfmDetailResponse;
 import com.asiainfo.qm.manage.common.restClient.RestClient;
 import com.asiainfo.qm.manage.util.HttpConstants;
 import com.asiainfo.qm.manage.util.WebUtil;
+import com.asiainfo.qm.manage.vo.Attach;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -191,7 +192,9 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
                 if (rsp.getString("rspCode").equals(WebUtil.SUCCESS)) {
                     if (rsp.getJSONArray("datas") != null) {
                         JSONArray data = rsp.getJSONArray("datas");
+                        Object total = rsp.getJSONObject("attach").get("total");
                         wrkfmDetailResponse.setDatas(data);
+                        wrkfmDetailResponse.setAttach(new Attach(total != null ? Long.parseLong(total.toString()) : 0L));
                         wrkfmDetailResponse.setRspcode(WebUtil.SUCCESS);
                     } else {
                         wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
