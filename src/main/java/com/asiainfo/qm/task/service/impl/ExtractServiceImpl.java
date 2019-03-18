@@ -164,6 +164,7 @@ public class ExtractServiceImpl implements IExtractService{
                 workformPool.setCheckedStaffId(qmWorkform.getDspsComplteStaffId());
                 workformPool.setDepartId(qmWorkform.getDspsComplteWorkGrpId());
                 workformPool.setWrkfmId(qmWorkform.getWrkfmId());
+                workformPool.setWrkfmShowSwftno(qmWorkform.getWrkfmShowSwftno()); //显示工单号
                 workformPool.setProvinceId(qmWorkform.getProvCode());
                 workformPool.setHandleDuration(qmWorkform.getHandleDuration());
                 workformPool.setActualHandleDuration(qmWorkform.getActualHandleDuration());
@@ -171,7 +172,17 @@ public class ExtractServiceImpl implements IExtractService{
                 workformPool.setEndTime(qmWorkform.getArcTime());//归档时间
                 workformPool.setCrtTime(qmWorkform.getCrtTime());//创建时间
                 workformPool.setArcTime(qmWorkform.getArcTime());//归档时间
-                workformPool.setSrvReqstTypeId(qmWorkform.getSrvReqstTypeId());
+                workformPool.setSrvReqstTypeId(qmWorkform.getSrvReqstTypeId()); //服务请求类型id
+                workformPool.setSrvReqstTypeNm(qmWorkform.getSrvReqstTypeNm()); //服务请求类型名称
+                workformPool.setSrvReqstTypeFullNm(qmWorkform.getSrvReqstTypeFullNm()); //服务请求类型全称
+                workformPool.setBizCntt(qmWorkform.getBizCntt()); //工单内容
+                workformPool.setBizTitle(qmWorkform.getBizTitle()); //工单标题
+                workformPool.setCustEmail(qmWorkform.getCustEmail()); //客户账号
+                workformPool.setCustName(qmWorkform.getCustName()); //客户姓名
+                workformPool.setCustNum(qmWorkform.getCustNum()); //客户号码
+                workformPool.setAcptStaffId(qmWorkform.getAcptStaffId()); //立单人id
+                workformPool.setAcptStaffNum(qmWorkform.getAcptStaffNum()); //立单人姓名
+
                 //非公共参数
                 if("1".equals(qmPlan.getManOrAuto())){
                     //自动分派
