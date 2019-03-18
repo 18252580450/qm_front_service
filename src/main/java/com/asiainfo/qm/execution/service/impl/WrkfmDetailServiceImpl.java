@@ -51,7 +51,7 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
                 } else {
                     wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
                     if (rsp.getString("rspDesc") != null) {
-                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc").toString());
+                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc"));
                     } else {
                         wrkfmDetailResponse.setRspdesc("工单详情查询失败！");
                     }
@@ -88,7 +88,7 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
                 } else {
                     wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
                     if (rsp.getString("rspDesc") != null) {
-                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc").toString());
+                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc"));
                     } else {
                         wrkfmDetailResponse.setRspdesc("工单轨迹查询失败！");
                     }
@@ -127,7 +127,7 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
                 } else {
                     wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
                     if (rsp.getString("rspDesc") != null) {
-                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc").toString());
+                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc"));
                     } else {
                         wrkfmDetailResponse.setRspdesc("内外部回复查询失败！");
                     }
@@ -166,7 +166,7 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
                 } else {
                     wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
                     if (rsp.getString("rspDesc") != null) {
-                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc").toString());
+                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc"));
                     } else {
                         wrkfmDetailResponse.setRspdesc("接触记录查询失败！");
                     }
@@ -205,7 +205,7 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
                 } else {
                     wrkfmDetailResponse.setRspcode(WebUtil.FAIL);
                     if (rsp.getString("rspDesc") != null) {
-                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc").toString());
+                        wrkfmDetailResponse.setRspdesc(rsp.getString("rspDesc"));
                     } else {
                         wrkfmDetailResponse.setRspdesc("工单历史查询失败！");
                     }
