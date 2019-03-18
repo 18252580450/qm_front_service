@@ -1,6 +1,5 @@
 package com.asiainfo.qm.manage.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.manage.common.restClient.RestClient;
@@ -19,6 +18,7 @@ import com.asiainfo.qm.task.domain.QmBindRln;
 import com.asiainfo.qm.task.domain.QmBindRlnExample;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sun.corba.se.pept.encoding.InputObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -345,7 +345,7 @@ public class QmPlanServiceImpl implements QmPlanService {
 				Map hashMap = new HashMap();
 				hashMap.put("totalAll",((JSONObject) jsonArrayAll.get(0)).get("TOTAL"));
 				hashMap.put("jsonArray",jsonArray);
-				hashMap.put("jsonArrayAll",jsonArrayAll);
+//				hashMap.put("jsonArrayAll",jsonArrayAll);
 				list.add(hashMap);
 				qmPlanResponse.setListData(list);
 				qmPlanResponse.setRspdesc("查询成功");
