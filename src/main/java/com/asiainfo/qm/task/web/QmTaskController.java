@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/qm/configservice/doQmTask/")
@@ -65,11 +62,11 @@ public class QmTaskController {
 			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
 			@HystrixProperty(name = "coreSize", value = "200") })
 	@RequestMapping(value = "/doSynchroVoicesTask", method = RequestMethod.GET)
-	public boolean doSynchroVoicesTask() throws Exception {
+	public boolean doSynchroVoicesTask(@RequestParam(name = "startTime")String startTime, @RequestParam(name = "endTime")String endTime) throws Exception {
 		boolean flag = false;
 		try {
 			//语音数据同步
-			flag = taskService.doSynchroVoices(1);
+			flag = taskService.doSynchroVoices(startTime,endTime,1);
 			if(flag){
 				//更新满意度
 				taskService.queryScore();
@@ -83,7 +80,7 @@ public class QmTaskController {
 		return flag;
 	}
 
-	public boolean fallbackDoSynchroVoicesTask() throws Exception {
+	public boolean fallbackDoSynchroVoicesTask(@RequestParam(name = "startTime")String startTime, @RequestParam(name = "endTime")String endTime) throws Exception {
 		logger.info("语音数据同步定时任务出错啦！");
 		logger.error("");
 		return false;
@@ -99,11 +96,11 @@ public class QmTaskController {
 			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
 			@HystrixProperty(name = "coreSize", value = "200") })
 	@RequestMapping(value = "/doSynchroWorkformsTask", method = RequestMethod.GET)
-	public boolean doSynchroWorkformsTask() throws Exception {
+	public boolean doSynchroWorkformsTask(@RequestParam(name = "startTime")String startTime, @RequestParam(name = "endTime")String endTime) throws Exception {
 		boolean flag = false;
 		try {
 			//工单数据同步
-			flag = taskService.doSynchroWorkforms();
+			flag = taskService.doSynchroWorkforms(startTime,endTime);
 		}catch (Exception e){
 			logger.error("工单数据同步定时任务异常");
 			e.printStackTrace();
@@ -111,7 +108,7 @@ public class QmTaskController {
 		return flag;
 	}
 
-	public boolean fallbackDoSynchroWorkformsTask() throws Exception {
+	public boolean fallbackDoSynchroWorkformsTask(@RequestParam(name = "startTime")String startTime, @RequestParam(name = "endTime")String endTime) throws Exception {
 		logger.info("工单数据同步定时任务出错啦！");
 		logger.error("");
 		return false;

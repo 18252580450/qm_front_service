@@ -5,11 +5,11 @@ package com.asiainfo.qm.task.service;
  */
 public interface IQmTaskService {
 
-    public boolean doSynchroVoices (int pageNum);
+    public boolean doSynchroVoices (String startTime,String endTime,int pageNum);
 
     public boolean downloadRecordFiles();
 
     public boolean queryScore() throws Exception;
 
-    public boolean doSynchroWorkforms();
+    public boolean doSynchroWorkforms(String startTime,String endTime);
 }

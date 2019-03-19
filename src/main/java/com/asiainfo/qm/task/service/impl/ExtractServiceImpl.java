@@ -168,6 +168,7 @@ public class ExtractServiceImpl implements IExtractService{
                 workformPool.setProvinceId(qmWorkform.getProvCode());
                 workformPool.setHandleDuration(qmWorkform.getHandleDuration());
                 workformPool.setActualHandleDuration(qmWorkform.getActualHandleDuration());
+                workformPool.setModfTime(DateUtil.getCurrontTime());//抽取时间
                 workformPool.setBeginTime(qmWorkform.getCrtTime());//创建时间
                 workformPool.setEndTime(qmWorkform.getArcTime());//归档时间
                 workformPool.setCrtTime(qmWorkform.getCrtTime());//创建时间
