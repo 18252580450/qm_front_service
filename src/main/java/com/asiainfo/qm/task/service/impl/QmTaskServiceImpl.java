@@ -42,11 +42,10 @@ public class QmTaskServiceImpl implements IQmTaskService {
     private QmWorkformMapper qmWorkformMapper;
 
     @Override
-    public boolean doSynchroVoices(int pageNum) {
+    public boolean doSynchroVoices(String startTime,String endTime,int pageNum) {
         try {
             //调明细数据查询接口，查询录音数据，获取数据和总页数，循环调用
-            JSONObject jsonObject = querySessionDetail(String.valueOf(pageNum));
-            logger.info("语音数据:", jsonObject.toJSONString());
+            JSONObject jsonObject = querySessionDetail(startTime,endTime,String.valueOf(pageNum));
             String code = jsonObject.getString("code");
             if (code.equals(HttpConstants.HttpParams.CODE_SUCCESS)) {
                 Integer totalPages = jsonObject.getInteger("totalPages");
@@ -56,7 +55,7 @@ public class QmTaskServiceImpl implements IQmTaskService {
                     saveVoices(voices);
                     if (pageNum < totalPages) {
                         pageNum++;
-                        doSynchroVoices(pageNum);
+                        doSynchroVoices(startTime,endTime,pageNum);
                     }
                 }
                 return true;
@@ -172,13 +171,20 @@ public class QmTaskServiceImpl implements IQmTaskService {
     }
 
     @Override
-    public boolean doSynchroWorkforms() {
+    public boolean doSynchroWorkforms(String startTime, String endTime) {
         String url = HttpConstants.HttpParams.WRKFM_URL + HttpConstants.HttpParams.WRKFM_QUERY;
         Map<String, String> params = new HashMap();
         Date beforeDay = DateUtil.currentBeforeDay();
-        logger.info("日期：" + DateUtil.date2String(beforeDay, "YYYY-MM-dd"));
-        params.put("arcStartTime", DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 00:00:00");
-        params.put("arcEndTime", DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 23:59:59");
+        if(null != startTime && !"".equals(startTime)){
+            params.put("arcStartTime", startTime);
+        }else{
+            params.put("arcStartTime", DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 00:00:00");
+        }
+        if(null != endTime && !"".equals(endTime)){
+            params.put("arcEndTime", endTime);
+        }else {
+            params.put("arcEndTime", DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 23:59:59");
+        }
         params.put("provCode", HttpConstants.HttpParams.PROV_CODE);
         JSONObject rsp = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, params, JSONObject.class, null, "1");
         if (rsp.getString("status").equals(HttpConstants.HttpParams.INT_SUCCESS_CODE)) {
@@ -411,19 +417,24 @@ public class QmTaskServiceImpl implements IQmTaskService {
     }
 
     //调用查询录音数据接口
-    private JSONObject querySessionDetail(String pageNum) throws Exception {
+    private JSONObject querySessionDetail(String startDate,String endDate,String pageNum) throws Exception {
         String url = HttpConstants.HttpParams.URI + HttpConstants.HttpParams.SESSION_DETAIL_QUERY;
         Map<String, String> params = new HashMap();
         Calendar calendar = Calendar.getInstance();
         Date beforeDay = DateUtil.currentBeforeDay();
-//        calendar.setTime(DateUtil.string2Date("2019-01-27 00:00:00"));
-        logger.info("日期：" + DateUtil.date2String(beforeDay, "YYYY-MM-dd"));
-        calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 00:00:00"));
+        if(null != startDate && !"".equals(startDate)){
+            calendar.setTime(DateUtil.string2Date(startDate));
+        }else {
+            calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 00:00:00"));
+        }
         Long startTime = calendar.getTimeInMillis();
-//        calendar.setTime(DateUtil.string2Date("2019-01-27 23:59:59"));
-        calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 23:59:59"));
-        Long endTime = calendar.getTimeInMillis();
         params.put("startTime", startTime + "");
+        if(null != endDate && !"".equals(endDate)){
+            calendar.setTime(DateUtil.string2Date(endDate));
+        }else {
+            calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 23:59:59"));
+        }
+        Long endTime = calendar.getTimeInMillis();
         params.put("endTime", endTime + "");
         params.put("entId", HttpConstants.HttpParams.ENT_ID);
         params.put("pageNum", pageNum);
