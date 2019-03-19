@@ -806,6 +806,77 @@ public class OrderCheckResultExample {
             return (Criteria) this;
         }
 
+
+        public Criteria andWrkfmShowSwftnoIsNull() {
+            addCriterion("WRKFM_SHOW_SWFTNO is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrkfmShowSwftnoIsNotNull() {
+            addCriterion("WRKFM_SHOW_SWFTNO is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrkfmShowSwftnoEqualTo(String value) {
+            addCriterion("WRKFM_SHOW_SWFTNO =", value, "wrkfmShowSwftno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrkfmShowSwftnoNotEqualTo(String value) {
+            addCriterion("WRKFM_SHOW_SWFTNO <>", value, "wrkfmShowSwftno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrkfmShowSwftnoGreaterThan(String value) {
+            addCriterion("WRKFM_SHOW_SWFTNO >", value, "wrkfmShowSwftno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrkfmShowSwftnoGreaterThanOrEqualTo(String value) {
+            addCriterion("WRKFM_SHOW_SWFTNO >=", value, "wrkfmShowSwftno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrkfmShowSwftnoLessThan(String value) {
+            addCriterion("WRKFM_SHOW_SWFTNO <", value, "wrkfmShowSwftno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrkfmShowSwftnoLessThanOrEqualTo(String value) {
+            addCriterion("WRKFM_SHOW_SWFTNO <=", value, "wrkfmShowSwftno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrkfmShowSwftnoLike(String value) {
+            addCriterion("WRKFM_SHOW_SWFTNO like", value, "wrkfmShowSwftno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrkfmShowSwftnoNotLike(String value) {
+            addCriterion("WRKFM_SHOW_SWFTNO not like", value, "wrkfmShowSwftno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrkfmShowSwftnoIn(List<String> values) {
+            addCriterion("WRKFM_SHOW_SWFTNO in", values, "wrkfmShowSwftno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrkfmShowSwftnoNotIn(List<String> values) {
+            addCriterion("WRKFM_SHOW_SWFTNO not in", values, "wrkfmShowSwftno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrkfmShowSwftnoBetween(String value1, String value2) {
+            addCriterion("WRKFM_SHOW_SWFTNO between", value1, value2, "wrkfmShowSwftno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrkfmShowSwftnoNotBetween(String value1, String value2) {
+            addCriterion("WRKFM_SHOW_SWFTNO not between", value1, value2, "wrkfmShowSwftno");
+            return (Criteria) this;
+        }
+
         public Criteria andPlanIdIsNull() {
             addCriterion("PLAN_ID is null");
             return (Criteria) this;

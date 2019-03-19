@@ -12,6 +12,7 @@
     <result column="ACCEPT_NUMBER" property="acceptNumber" jdbcType="VARCHAR" />
     <result column="CUSTOMER_LEVEL" property="customerLevel" jdbcType="VARCHAR" />
     <result column="ORIGIN_INSPECTION_ID" property="originInspectionId" jdbcType="VARCHAR" />
+    <result column="WRKFM_SHOW_SWFTNO" property="wrkfmShowSwftno" jdbcType="VARCHAR" />
     <result column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
     <result column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
     <result column="CHECK_MODEL" property="checkModel" jdbcType="VARCHAR" />
@@ -122,7 +123,7 @@
   </sql>
   <sql id="Base_Column_List" >
     INSPECTION_ID, TOUCH_ID, TENANT_ID, ACCEPT_MONTH, PROVINCE_ID, CITY_ID, CALLING_NUMBER,
-    ACCEPT_NUMBER, CUSTOMER_LEVEL, ORIGIN_INSPECTION_ID, PLAN_ID, TEMPLATE_ID, CHECK_MODEL,
+    ACCEPT_NUMBER, CUSTOMER_LEVEL, ORIGIN_INSPECTION_ID, WRKFM_SHOW_SWFTNO, PLAN_ID, TEMPLATE_ID, CHECK_MODEL,
     CHECKED_STAFF_ID, CHECKED_STAFF_NAME, CHECKED_DEPART_ID, CHECKED_DEPART_NAME, CHECK_STAFF_ID,
     CHECK_STAFF_NAME, CHECK_DEPART_ID, CHECK_DEPART_NAME, CHECK_START_TIME, CHECK_END_TIME,
     CHECK_TIME, PLAY_VOICE_TIME, PLAY_VOICE_NUM, SCORE_TYPE, RESULT_STATUS, LAST_RESULT_FLAG,
@@ -182,7 +183,7 @@
     insert into t_qm_order_check_result (INSPECTION_ID, TOUCH_ID, TENANT_ID,
                                          ACCEPT_MONTH, PROVINCE_ID, CITY_ID,
                                          CALLING_NUMBER, ACCEPT_NUMBER, CUSTOMER_LEVEL,
-                                         ORIGIN_INSPECTION_ID, PLAN_ID, TEMPLATE_ID,
+                                         ORIGIN_INSPECTION_ID, WRKFM_SHOW_SWFTNO, PLAN_ID, TEMPLATE_ID,
                                          CHECK_MODEL, CHECKED_STAFF_ID, CHECKED_STAFF_NAME,
                                          CHECKED_DEPART_ID, CHECKED_DEPART_NAME, CHECK_STAFF_ID,
                                          CHECK_STAFF_NAME, CHECK_DEPART_ID, CHECK_DEPART_NAME,
@@ -201,7 +202,7 @@
     values (#{inspectionId,jdbcType=VARCHAR}, #{touchId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR},
             #{acceptMonth,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, #{cityId,jdbcType=VARCHAR},
             #{callingNumber,jdbcType=VARCHAR}, #{acceptNumber,jdbcType=VARCHAR}, #{customerLevel,jdbcType=VARCHAR},
-            #{originInspectionId,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{templateId,jdbcType=VARCHAR},
+            #{originInspectionId,jdbcType=VARCHAR}, #{wrkfmShowSwftno,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{templateId,jdbcType=VARCHAR},
             #{checkModel,jdbcType=VARCHAR}, #{checkedStaffId,jdbcType=VARCHAR}, #{checkedStaffName,jdbcType=VARCHAR},
             #{checkedDepartId,jdbcType=VARCHAR}, #{checkedDepartName,jdbcType=VARCHAR}, #{checkStaffId,jdbcType=VARCHAR},
             #{checkStaffName,jdbcType=VARCHAR}, #{checkDepartId,jdbcType=VARCHAR}, #{checkDepartName,jdbcType=VARCHAR},
@@ -250,6 +251,9 @@
       </if>
       <if test="originInspectionId != null" >
         ORIGIN_INSPECTION_ID,
+      </if>
+      <if test="wrkfmShowSwftno != null" >
+        WRKFM_SHOW_SWFTNO,
       </if>
       <if test="planId != null" >
         PLAN_ID,
@@ -414,6 +418,9 @@
       </if>
       <if test="originInspectionId != null" >
         #{originInspectionId,jdbcType=VARCHAR},
+      </if>
+      <if test="wrkfmShowSwftno != null" >
+        #{wrkfmShowSwftno,jdbcType=VARCHAR},
       </if>
       <if test="planId != null" >
         #{planId,jdbcType=VARCHAR},
@@ -588,6 +595,9 @@
       <if test="record.originInspectionId != null" >
         ORIGIN_INSPECTION_ID = #{record.originInspectionId,jdbcType=VARCHAR},
       </if>
+      <if test="record.wrkfmShowSwftno != null" >
+        WRKFM_SHOW_SWFTNO = #{record.wrkfmShowSwftno,jdbcType=VARCHAR},
+      </if>
       <if test="record.planId != null" >
         PLAN_ID = #{record.planId,jdbcType=VARCHAR},
       </if>
@@ -737,6 +747,7 @@
     ACCEPT_NUMBER = #{record.acceptNumber,jdbcType=VARCHAR},
     CUSTOMER_LEVEL = #{record.customerLevel,jdbcType=VARCHAR},
     ORIGIN_INSPECTION_ID = #{record.originInspectionId,jdbcType=VARCHAR},
+    WRKFM_SHOW_SWFTNO = #{record.wrkfmShowSwftno,jdbcType=VARCHAR},
     PLAN_ID = #{record.planId,jdbcType=VARCHAR},
     TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
     CHECK_MODEL = #{record.checkModel,jdbcType=VARCHAR},
@@ -811,6 +822,9 @@
       </if>
       <if test="originInspectionId != null" >
         ORIGIN_INSPECTION_ID = #{originInspectionId,jdbcType=VARCHAR},
+      </if>
+      <if test="wrkfmShowSwftno != null" >
+        WRKFM_SHOW_SWFTNO = #{wrkfmShowSwftno,jdbcType=VARCHAR},
       </if>
       <if test="planId != null" >
         PLAN_ID = #{planId,jdbcType=VARCHAR},
@@ -991,6 +1005,7 @@
         ACCEPT_NUMBER = #{acceptNumber,jdbcType=VARCHAR},
         CUSTOMER_LEVEL = #{customerLevel,jdbcType=VARCHAR},
         ORIGIN_INSPECTION_ID = #{originInspectionId,jdbcType=VARCHAR},
+        WRKFM_SHOW_SWFTNO = #{wrkfmShowSwftno,jdbcType=VARCHAR},
         PLAN_ID = #{planId,jdbcType=VARCHAR},
         TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
         CHECK_MODEL = #{checkModel,jdbcType=VARCHAR},

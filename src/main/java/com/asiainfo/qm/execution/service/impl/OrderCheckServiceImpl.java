@@ -288,6 +288,7 @@ public class OrderCheckServiceImpl implements OrderCheckService {
             orderCheckResult.setInspectionId(inspectionId);
             orderCheckResult.setOriginInspectionId(originInspectionId);
             orderCheckResult.setTouchId(orderCheckInfo.get("touchId").toString());
+            orderCheckResult.setWrkfmShowSwftno(orderCheckInfo.get("wrkfmShowSwftno").toString());
             orderCheckResult.setPlanId(orderCheckInfo.get("planId").toString());
             orderCheckResult.setTemplateId(orderCheckInfo.get("templateId").toString());
             orderCheckResult.setCheckModel(orderCheckInfo.get("checkModel").toString());        //默认计划内质检
