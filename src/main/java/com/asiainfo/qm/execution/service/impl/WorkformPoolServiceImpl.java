@@ -149,30 +149,6 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
     }
 
     @Override
-    public WorkformPoolResponse deleteItems(List<String> ids) throws Exception {
-        WorkformPoolResponse workformPoolResponse = new WorkformPoolResponse();
-        try {
-            WorkformPoolExample example = new WorkformPoolExample();
-            WorkformPoolExample.Criteria criteria= example.createCriteria();
-            criteria.andWrkfmShowSwftnoNotIn(ids);
-            int result = workformPoolMapper.deleteByExample(example);
-            if(result > 0){
-                workformPoolResponse.setRspcode(WebUtil.SUCCESS);
-                workformPoolResponse.setRspdesc("删除质检池数据成功");
-            }else {
-                workformPoolResponse.setRspcode(WebUtil.FAIL);
-                workformPoolResponse.setRspdesc("删除质检池数据失败");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            logger.error("删除质检池数据异常",e);
-            workformPoolResponse.setRspcode(WebUtil.EXCEPTION);
-            workformPoolResponse.setRspdesc("删除质检池数据异常");
-        }
-        return workformPoolResponse;
-    }
-
-    @Override
     public WorkformPoolResponse update(@Param("list")List<String> list) throws Exception{
         WorkformPoolResponse workformPoolResponse = new WorkformPoolResponse();
         try {

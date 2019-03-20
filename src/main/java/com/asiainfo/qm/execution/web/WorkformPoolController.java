@@ -72,37 +72,6 @@ public class WorkformPoolController {
 		return workformPoolServiceResponse;
 	}
 
-	@ApiOperation(value = "前端调用接口删除质检池数据", notes = "qm_configservice删除质检池数据", response = WorkformPoolServiceResponse.class)
-	@ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
-			@ApiResponse(code = 403, message = "资源不存在"),
-			@ApiResponse(code = 404, message = "传入的参数无效"),
-			@ApiResponse(code = 500, message = "服务器出现异常错误")})
-	@HystrixCommand(groupKey = "qm_configservice ", commandKey = "deleteItems", threadPoolKey = "deleteItemsThread", fallbackMethod = "fallbackDeleteItems", commandProperties = {
-			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
-			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
-			@HystrixProperty(name = "coreSize", value = "200")})
-	@RequestMapping(value = "/{delArr}", method = RequestMethod.DELETE)
-	public WorkformPoolServiceResponse deleteItems(@PathVariable("delArr") String delArr) throws Exception {
-		WorkformPoolResponse workformPoolResponse = new WorkformPoolResponse();
-		WorkformPoolServiceResponse workformPoolServiceResponse = new WorkformPoolServiceResponse();
-		List<String> idlList = Arrays.asList(delArr.split(","));
-		try {
-			workformPoolResponse = workformPoolService.deleteItems(idlList);
-		} catch (Exception e) {
-			logger.error("质检池数据删除异常", e);
-			workformPoolResponse.setRspcode(WebUtil.EXCEPTION);
-			workformPoolResponse.setRspdesc("质检池数据删除异常!");
-		}
-		workformPoolServiceResponse.setResponse(workformPoolResponse);
-		return workformPoolServiceResponse;
-	}
-
-	public WorkformPoolServiceResponse fallbackDeleteItems(@RequestParam(name = "delArr") String delArr) throws Exception {
-		logger.info("质检池数据删除出错啦！");
-		logger.error("");
-		return new WorkformPoolServiceResponse();
-	}
-
 	@ApiOperation(value = "前端调用接口清空质检员", notes = "qm_configservice清空质检员", response = WorkformPoolServiceResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = 401, message = "服务器认证失败"),
 			@ApiResponse(code = 403, message = "资源不存在"),

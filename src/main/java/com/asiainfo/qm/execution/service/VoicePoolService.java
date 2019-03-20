@@ -12,6 +12,4 @@ public interface VoicePoolService {
     VoicePoolResponse update(List<String> idList) throws Exception;
 
     VoicePoolResponse updateCheck(List<Map> list) throws Exception;
-
-    VoicePoolResponse deleteItems(List<String> idList) throws Exception;
 }
