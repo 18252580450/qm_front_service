@@ -175,7 +175,7 @@
       #{reserve9,jdbcType=VARCHAR}, #{reserve10,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.asiainfo.qm.task.domain.QmVoice" >
-    insert into t_qm_voice
+    insert IGNORE into t_qm_voice
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="touchId != null" >
         TOUCH_ID,
