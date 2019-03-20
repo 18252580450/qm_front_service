@@ -13,6 +13,8 @@ public class AppealDeal {
 
     private String touchId;
 
+    private String wrkfmShowSwftno;
+
     private String inspectionId;
 
     private String planId;
@@ -105,6 +107,14 @@ public class AppealDeal {
 
     public void setTouchId(String touchId) {
         this.touchId = touchId == null ? null : touchId.trim();
+    }
+
+    public String getWrkfmShowSwftno() {
+        return wrkfmShowSwftno;
+    }
+
+    public void setWrkfmShowSwftno(String wrkfmShowSwftno) {
+        this.wrkfmShowSwftno = wrkfmShowSwftno == null ? null : wrkfmShowSwftno.trim();
     }
 
     public String getInspectionId() {

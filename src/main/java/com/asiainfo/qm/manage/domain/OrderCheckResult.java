@@ -24,6 +24,8 @@ public class OrderCheckResult extends OrderCheckResultKey {
 
     private String originInspectionId;
 
+    private String wrkfmShowSwftno;
+
     private String planId;
 
     private String templateId;
@@ -190,6 +192,14 @@ public class OrderCheckResult extends OrderCheckResultKey {
 
     public void setOriginInspectionId(String originInspectionId) {
         this.originInspectionId = originInspectionId == null ? null : originInspectionId.trim();
+    }
+
+    public String getWrkfmShowSwftno() {
+        return wrkfmShowSwftno;
+    }
+
+    public void setWrkfmShowSwftno(String wrkfmShowSwftno) {
+        this.wrkfmShowSwftno = wrkfmShowSwftno == null ? null : wrkfmShowSwftno.trim();
     }
 
     public String getPlanId() {

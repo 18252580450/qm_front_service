@@ -221,6 +221,9 @@ public class AppealDealServiceImpl implements AppealDealService {
             appealDeal.setProvinceId(reqMap.get("provinceId").toString());
             appealDeal.setCheckType(reqMap.get("checkType").toString());
             appealDeal.setTouchId(reqMap.get("touchId").toString());
+            if (null != reqMap.get("wrkfmShowSwftno") && !"".equals(reqMap.get("wrkfmShowSwftno"))) {
+                appealDeal.setWrkfmShowSwftno(reqMap.get("wrkfmShowSwftno").toString());
+            }
             appealDeal.setInspectionId(reqMap.get("inspectionId").toString());
             appealDeal.setPlanId(reqMap.get("planId").toString());
             appealDeal.setTemplateId(reqMap.get("templateId").toString());

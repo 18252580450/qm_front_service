@@ -946,6 +946,66 @@ public class WorkformPoolExample {
             return (Criteria) this;
         }
 
+        public Criteria andCheckedTimeIsNull() {
+            addCriterion("CHECKED_TIME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedTimeIsNotNull() {
+            addCriterion("CHECKED_TIME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedTimeEqualTo(Date value) {
+            addCriterion("CHECKED_TIME =", value, "checkedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedTimeNotEqualTo(Date value) {
+            addCriterion("CHECKED_TIME <>", value, "checkedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedTimeGreaterThan(Date value) {
+            addCriterion("CHECKED_TIME >", value, "checkedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("CHECKED_TIME >=", value, "checkedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedTimeLessThan(Date value) {
+            addCriterion("CHECKED_TIME <", value, "checkedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedTimeLessThanOrEqualTo(Date value) {
+            addCriterion("CHECKED_TIME <=", value, "checkedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedTimeIn(List<Date> values) {
+            addCriterion("CHECKED_TIME in", values, "checkedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedTimeNotIn(List<Date> values) {
+            addCriterion("CHECKED_TIME not in", values, "checkedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedTimeBetween(Date value1, Date value2) {
+            addCriterion("CHECKED_TIME between", value1, value2, "checkedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckedTimeNotBetween(Date value1, Date value2) {
+            addCriterion("CHECKED_TIME not between", value1, value2, "checkedTime");
+            return (Criteria) this;
+        }
+
         public Criteria andCustomerCityIsNull() {
             addCriterion("CUSTOMER_CITY is null");
             return (Criteria) this;

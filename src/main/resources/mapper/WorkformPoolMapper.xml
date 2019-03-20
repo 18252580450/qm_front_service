@@ -15,6 +15,7 @@
     <result column="DEPART_ID" property="departId" jdbcType="VARCHAR" />
     <result column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
     <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="CHECKED_TIME" property="checkedTime" jdbcType="TIMESTAMP" />
     <result column="CUSTOMER_CITY" property="customerCity" jdbcType="VARCHAR" />
     <result column="CUSTOMER_LEVEL" property="customerLevel" jdbcType="VARCHAR" />
     <result column="BUSINESS_TYPE" property="businessType" jdbcType="VARCHAR" />
@@ -115,7 +116,7 @@
   </sql>
   <sql id="Base_Column_List" >
     WRKFM_ID, PLAN_ID, TENANT_ID, PROVINCE_ID, HANDLE_DURATION, ACTUAL_HANDLE_DURATION, 
-    POOL_STATUS, OPERATE_STAFF_ID, OPERATE_TIME, STAFF_ID, DEPART_ID, BEGIN_TIME, END_TIME, 
+    POOL_STATUS, OPERATE_STAFF_ID, OPERATE_TIME, STAFF_ID, DEPART_ID, BEGIN_TIME, END_TIME, CHECKED_TIME,
     CUSTOMER_CITY, CUSTOMER_LEVEL, BUSINESS_TYPE, CUSTOMER_BRAND, CHECK_STAFF_NAME, TEMPLATE_ID, 
     PROJECT_TYPE, MARKETING_RESULT, CRT_TIME, MODF_TIME, SRV_REQST_TYPE_ID, SRV_REQST_TYPE_NM, 
     SRV_REQST_TYPE_FULL_NM, CHECK_LINK, RESERVE_1, RESERVE_2, RESERVE_3, RESERVE_4, RESERVE_5, 
@@ -257,7 +258,7 @@
       PROVINCE_ID, HANDLE_DURATION, ACTUAL_HANDLE_DURATION, 
       POOL_STATUS, OPERATE_STAFF_ID, OPERATE_TIME, 
       STAFF_ID, DEPART_ID, BEGIN_TIME, 
-      END_TIME, CUSTOMER_CITY, CUSTOMER_LEVEL, 
+      END_TIME, CHECKED_TIME, CUSTOMER_CITY, CUSTOMER_LEVEL,
       BUSINESS_TYPE, CUSTOMER_BRAND, CHECK_STAFF_NAME, 
       TEMPLATE_ID, PROJECT_TYPE, MARKETING_RESULT, 
       CRT_TIME, MODF_TIME, SRV_REQST_TYPE_ID, 
@@ -273,7 +274,7 @@
       #{provinceId,jdbcType=VARCHAR}, #{handleDuration,jdbcType=INTEGER}, #{actualHandleDuration,jdbcType=INTEGER}, 
       #{poolStatus,jdbcType=INTEGER}, #{operateStaffId,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, 
       #{staffId,jdbcType=VARCHAR}, #{departId,jdbcType=VARCHAR}, #{beginTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{customerCity,jdbcType=VARCHAR}, #{customerLevel,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{checkedTime,jdbcType=TIMESTAMP}, #{customerCity,jdbcType=VARCHAR}, #{customerLevel,jdbcType=VARCHAR},
       #{businessType,jdbcType=VARCHAR}, #{customerBrand,jdbcType=VARCHAR}, #{checkStaffName,jdbcType=VARCHAR}, 
       #{templateId,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, #{marketingResult,jdbcType=VARCHAR}, 
       #{crtTime,jdbcType=TIMESTAMP}, #{modfTime,jdbcType=TIMESTAMP}, #{srvReqstTypeId,jdbcType=VARCHAR}, 
@@ -327,6 +328,9 @@
       </if>
       <if test="endTime != null" >
         END_TIME,
+      </if>
+      <if test="checkedTime != null" >
+        CHECKED_TIME,
       </if>
       <if test="customerCity != null" >
         CUSTOMER_CITY,
@@ -470,6 +474,9 @@
       </if>
       <if test="endTime != null" >
         #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkedTime != null" >
+        #{checkedTime,jdbcType=TIMESTAMP},
       </if>
       <if test="customerCity != null" >
         #{customerCity,jdbcType=VARCHAR},
@@ -623,6 +630,9 @@
       <if test="record.endTime != null" >
         END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.checkedTime != null" >
+        CHECKED_TIME = #{record.checkedTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.customerCity != null" >
         CUSTOMER_CITY = #{record.customerCity,jdbcType=VARCHAR},
       </if>
@@ -745,6 +755,7 @@
       DEPART_ID = #{record.departId,jdbcType=VARCHAR},
       BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
       END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      CHECKED_TIME = #{record.checkedTime,jdbcType=TIMESTAMP},
       CUSTOMER_CITY = #{record.customerCity,jdbcType=VARCHAR},
       CUSTOMER_LEVEL = #{record.customerLevel,jdbcType=VARCHAR},
       BUSINESS_TYPE = #{record.businessType,jdbcType=VARCHAR},
@@ -818,6 +829,9 @@
       </if>
       <if test="endTime != null" >
         END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkedTime != null" >
+        CHECKED_TIME = #{checkedTime,jdbcType=TIMESTAMP},
       </if>
       <if test="customerCity != null" >
         CUSTOMER_CITY = #{customerCity,jdbcType=VARCHAR},
@@ -938,6 +952,7 @@
       DEPART_ID = #{departId,jdbcType=VARCHAR},
       BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
       END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      CHECKED_TIME = #{checkedTime,jdbcType=TIMESTAMP},
       CUSTOMER_CITY = #{customerCity,jdbcType=VARCHAR},
       CUSTOMER_LEVEL = #{customerLevel,jdbcType=VARCHAR},
       BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},

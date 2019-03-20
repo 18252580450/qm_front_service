@@ -33,6 +33,8 @@ public class WorkformPool extends WorkformPoolKey {
 
     private Date endTime;
 
+    private Date checkedTime;
+
     private String customerCity;
 
     private String customerLevel;
@@ -212,6 +214,14 @@ public class WorkformPool extends WorkformPoolKey {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Date getCheckedTime() {
+        return checkedTime;
+    }
+
+    public void setCheckedTime(Date checkedTime) {
+        this.checkedTime = checkedTime;
     }
 
     public String getCustomerCity() {
