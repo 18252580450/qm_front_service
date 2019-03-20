@@ -67,6 +67,9 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             if (null != params.get("checkLink") && !"".equals(params.get("checkLink"))) {
                 criteria.andCheckLinkEqualTo((String) params.get("checkLink"));
             }
+            if (null != params.get("custNum") && !"".equals(params.get("custNum"))) {
+                criteria.andCustNumEqualTo((String) params.get("custNum"));
+            }
 //            if(permission.equals("checked")){//话务员只能查询被质检人是自己的信息
 //
 //            }else if(permission.equals("check")) {//质检员只能查询质检人是自己的信息
