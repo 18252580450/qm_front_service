@@ -130,7 +130,7 @@ public class ExtractServiceImpl implements IExtractService{
                 voicePool.setReserve8(qmVoice.getReserve8());
                 //非公共参数
                 voicePool.setRecordTime(qmVoice.getTalkDuration());
-                if("1".equals(qmPlan.getManOrAuto())){
+                if("0".equals(qmPlan.getManOrAuto())){
                     //自动分派
                     for(int j = 0;i<qmBindRlns.size();j++){
                         QmBindRln qmBindRln = qmBindRlns.get(j);
@@ -185,7 +185,7 @@ public class ExtractServiceImpl implements IExtractService{
                 workformPool.setAcptStaffNum(qmWorkform.getAcptStaffNum()); //立单人姓名
 
                 //非公共参数
-                if("1".equals(qmPlan.getManOrAuto())){
+                if("0".equals(qmPlan.getManOrAuto())){
                     //自动分派
                     for(int j = 0;i<qmBindRlns.size();j++){
                         QmBindRln qmBindRln = qmBindRlns.get(j);

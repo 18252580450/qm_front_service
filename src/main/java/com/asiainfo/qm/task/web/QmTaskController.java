@@ -66,7 +66,7 @@ public class QmTaskController {
 		boolean flag = false;
 		try {
 			//语音数据同步
-			flag = taskService.doSynchroVoices(startTime,endTime,1);
+			flag = taskService.querySynchroVoices(startTime,endTime,1);
 			if(flag){
 				//更新满意度
 				taskService.queryScore();
@@ -100,7 +100,7 @@ public class QmTaskController {
 		boolean flag = false;
 		try {
 			//工单数据同步
-			flag = taskService.doSynchroWorkforms(startTime,endTime);
+			flag = taskService.querySynchroWorkforms(startTime, endTime);
 		}catch (Exception e){
 			logger.error("工单数据同步定时任务异常");
 			e.printStackTrace();
