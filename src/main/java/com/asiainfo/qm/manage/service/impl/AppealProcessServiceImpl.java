@@ -38,8 +38,6 @@ public class AppealProcessServiceImpl implements AppealProcessService {
     @Autowired
     private AppealNodeMapper appealNodeMapper;
 
-
-
     @Autowired
     private SequenceUtils sequenceUtils;
 
