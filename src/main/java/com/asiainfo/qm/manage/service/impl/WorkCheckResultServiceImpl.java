@@ -55,17 +55,8 @@ public class WorkCheckResultServiceImpl implements OrderCheckResultService {
             if (null != params.get("lastResultFlag") && !"".equals(params.get("lastResultFlag"))) {
                 criteria.andLastResultFlagEqualTo((String) params.get("lastResultFlag"));
             }
-            if (null != params.get("acceptNumber") && !"".equals(params.get("acceptNumber"))) {
-                criteria.andAcceptNumberEqualTo((String) params.get("acceptNumber"));
-            }
-            if (null != params.get("checkDepartName") && !"".equals(params.get("checkDepartName"))) {
-                criteria.andCheckDepartNameEqualTo((String) params.get("checkDepartName"));
-            }
             if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
                 criteria.andCheckStaffIdEqualTo((String) params.get("checkStaffId"));
-            }
-            if (null != params.get("checkStaffName") && !"".equals(params.get("checkStaffName"))) {
-                criteria.andCheckStaffNameEqualTo((String) params.get("checkStaffName"));
             }
             if (null != params.get("qmStartTime") && !"".equals(params.get("qmStartTime")) && null != params.get("qmEndTime") && !"".equals(params.get("qmEndTime"))) {
                 criteria.andCheckEndTimeBetween(sdf.parse((String) params.get("qmStartTime")), sdf.parse((String) params.get("qmEndTime")));

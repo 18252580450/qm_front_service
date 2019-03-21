@@ -77,8 +77,8 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
 //            }else{
 //
 //            }
-            if (null != params.get("checkStaffName") && !"".equals(params.get("checkStaffName"))) {
-                criteria.andCheckStaffNameEqualTo((String) params.get("checkStaffName"));
+            if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
+                criteria.andCheckedStaffIdEqualTo((String) params.get("checkStaffId"));
             }
             if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
                 criteria.andCheckStaffIdEqualTo((String) params.get("checkStaffId"));
