@@ -124,7 +124,7 @@ public class AutoExtractCommonServiceImpl implements IAutoExtractCommonService {
                     Timestamp currentDate1 = DateUtils.paraseSqlTimestamp(DateUtil.date2String(currentDate), DateUtils.DATE_FORMAT_A_YYYYMMDDHHMMSS);
                     sql.append(rel.getElementCode()).append(" between '").append(currentDate1).append("'");
                 }else{
-                    sql.append(rel.getElementCode()).append(" between ").append(rel.getElementValue1());
+                    sql.append(rel.getElementCode()).append(" between '").append(rel.getElementValue1()).append("'");
                 }
                 int value2Index = rel.getElementValue2().indexOf("@");
                 if(value2Index >= 0){
@@ -134,7 +134,7 @@ public class AutoExtractCommonServiceImpl implements IAutoExtractCommonService {
                     Timestamp currentDate1 = DateUtils.paraseSqlTimestamp(DateUtil.date2String(currentDate), DateUtils.DATE_FORMAT_A_YYYYMMDDHHMMSS);
                     sql.append(" and '").append(currentDate1).append("'");
                 }else{
-                    sql.append(" and ").append(rel.getElementValue2());
+                    sql.append(" and '").append(rel.getElementValue2()).append("'");
                 }
             }else if(rel.getOperator().equals("in")){
                 sql.append(rel.getElementCode()).append(" in(");

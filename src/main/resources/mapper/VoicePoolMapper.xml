@@ -292,7 +292,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.asiainfo.qm.execution.domain.VoicePool" >
-    insert into t_qm_voice_pool
+    insert IGNORE into t_qm_voice_pool
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="touchId != null" >
         TOUCH_ID,

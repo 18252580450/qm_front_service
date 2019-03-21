@@ -288,7 +288,7 @@
       #{checkedStaffName,jdbcType=VARCHAR}, #{cityId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
-    insert into t_qm_workform_pool
+    insert IGNORE into t_qm_workform_pool
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="wrkfmId != null" >
         WRKFM_ID,
