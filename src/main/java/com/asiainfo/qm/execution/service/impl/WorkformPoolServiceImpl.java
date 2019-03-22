@@ -64,9 +64,6 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             if (null != params.get("isOperate") && !"".equals(params.get("isOperate"))) {
                 criteria.andIsOperateEqualTo((String) params.get("isOperate"));
             }
-            if (null != params.get("checkLink") && !"".equals(params.get("checkLink"))) {
-                criteria.andCheckLinkEqualTo((String) params.get("checkLink"));
-            }
             if (null != params.get("custNum") && !"".equals(params.get("custNum"))) {
                 criteria.andCustNumEqualTo((String) params.get("custNum"));
             }
@@ -77,9 +74,6 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
 //            }else{
 //
 //            }
-            if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
-                criteria.andCheckedStaffIdEqualTo((String) params.get("checkStaffId"));
-            }
             if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
                 criteria.andCheckStaffIdEqualTo((String) params.get("checkStaffId"));
             }
