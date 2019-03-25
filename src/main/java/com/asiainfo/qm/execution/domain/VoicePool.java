@@ -7,6 +7,8 @@ import java.util.Date;
 public class VoicePool {
     private String touchId;
 
+    private String planName;
+
     private QmPlan qmPlan;
 
     private String tenantId;
@@ -108,6 +110,14 @@ public class VoicePool {
     private Date endTime;
 
     private String cityId;
+
+    public String getPlanName() {
+        return planName;
+    }
+
+    public void setPlanName(String planName) {
+        this.planName = planName == null ? null : planName.trim();
+    }
 
     public String getTouchId() {
         return touchId;
