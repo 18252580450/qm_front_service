@@ -22,7 +22,9 @@ public interface TemplateDetailMapper {
 
     List<TemplateDetail> selectByExample(TemplateDetailExample example);
 
-    List<CheckItemDetail> unionSelectByExample(CheckItemDetail checkItemDetail);
+    List<CheckItemDetail> qryCheckItemByPlanId(CheckItemDetail checkItemDetail);
+
+    List<CheckItemDetail> qryCheckItemByTemplateId(CheckItemDetail checkItemDetail);
 
 //    TemplateDetail selectByPrimaryKey(TemplateDetailKey key);
 

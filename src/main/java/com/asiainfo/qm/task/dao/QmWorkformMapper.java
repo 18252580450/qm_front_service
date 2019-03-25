@@ -1,5 +1,6 @@
 package com.asiainfo.qm.task.dao;
 
+import com.asiainfo.qm.execution.domain.QmWorkForm;
 import com.asiainfo.qm.task.domain.QmWorkform;
 import com.asiainfo.qm.task.domain.QmWorkformExample;
 import org.apache.ibatis.annotations.Param;
@@ -18,6 +19,8 @@ public interface QmWorkformMapper {
     int insertSelective(QmWorkform record);
 
     List<QmWorkform> selectByExample(QmWorkformExample example);
+
+    List<QmWorkForm> queryBeyondPlanWorkForm(QmWorkForm record);
 
     QmWorkform selectByPrimaryKey(Long wrkfmId);
 

@@ -39,7 +39,7 @@
     <association property="checkItem" column="NODE_ID" javaType="com.asiainfo.qm.manage.domain.CheckItem" select="queryCheckItem">
     </association>
   </resultMap>
-  <resultMap id="UnionResultMap" type="com.asiainfo.qm.manage.domain.CheckItemDetail" >
+  <resultMap id="ResultMapByPlan" type="com.asiainfo.qm.manage.domain.CheckItemDetail" >
     <id column="NODE_ID" property="nodeId" jdbcType="VARCHAR" />
     <id column="NODE_TYPE" property="nodeType" jdbcType="VARCHAR" />
     <id column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
@@ -65,6 +65,32 @@
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="SCORE_TYPE" property="scoreType" jdbcType="VARCHAR" />
     <result column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapByTemplate" type="com.asiainfo.qm.manage.domain.CheckItemDetail" >
+    <id column="NODE_ID" property="nodeId" jdbcType="VARCHAR" />
+    <id column="NODE_TYPE" property="nodeType" jdbcType="VARCHAR" />
+    <id column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
+    <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
+    <result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
+    <result column="NODE_NAME" property="nodeName" jdbcType="VARCHAR" />
+    <result column="P_NODE_ID" property="pNodeId" jdbcType="VARCHAR" />
+    <result column="NODE_SCORE" property="nodeScore" jdbcType="INTEGER" />
+    <result column="MAX_SCORE" property="maxScore" jdbcType="INTEGER" />
+    <result column="MIN_SCORE" property="minScore" jdbcType="INTEGER" />
+    <result column="WEIGHT" property="weight" jdbcType="INTEGER" />
+    <result column="ERROR_TYPE" property="errorType" jdbcType="VARCHAR" />
+    <result column="SCORE_FLAG" property="scoreFlag" jdbcType="VARCHAR" />
+    <result column="CRT_TIME" property="crtTime" jdbcType="TIMESTAMP" />
+    <result column="MODF_TIME" property="modfTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_STAFF_ID" property="createStaffId" jdbcType="VARCHAR" />
+    <result column="NODE_ORDER" property="nodeOrder" jdbcType="INTEGER" />
+    <result column="CHECK_ITEM_NAME" property="checkItemName" jdbcType="VARCHAR" />
+    <result column="CHECK_ITEM_TYPE" property="checkItemType" jdbcType="VARCHAR" />
+    <result column="CHECK_ITEM_VITAL_TYPE" property="checkItemVitalType" jdbcType="VARCHAR" />
+    <result column="NODE_TYPE_CODE" property="nodeTypeCode" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="SCORE_TYPE" property="scoreType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -130,12 +156,20 @@
     SCORE_FLAG, CRT_TIME, MODF_TIME, CREATE_STAFF_ID, REMARK, RESERVE_1, RESERVE_2, RESERVE_3, 
     RESERVE_4, RESERVE_5, RESERVE_6, RESERVE_7, RESERVE_8, RESERVE_9, RESERVE_10, NODE_ORDER
   </sql>
-  <!--考评项联表查询结果-->
-  <sql id="UNION_Column_List" >
+  <!--考评项联表查询结果（通过计划id）-->
+  <sql id="Plan_Column_List" >
     t1.NODE_ID, t1.NODE_TYPE, t1.TEMPLATE_ID, t1.TENANT_ID, t1.PROVINCE_ID, t1.CITY_ID, t1.NODE_NAME, t1.P_NODE_ID,
     t1.NODE_SCORE, t1.MAX_SCORE, t1.MIN_SCORE, t1.WEIGHT, t1.ERROR_TYPE,
     t1.SCORE_FLAG, t1.CRT_TIME, t1.MODF_TIME, t1.CREATE_STAFF_ID, t1.NODE_ORDER,
     t3.CHECK_ITEM_NAME, t3.CHECK_ITEM_TYPE, t3.CHECK_ITEM_VITAL_TYPE, t3.NODE_TYPE_CODE, t3.REMARK, t4.SCORE_TYPE
+  </sql>
+
+  <!--考评项联表查询结果（通过模版id）-->
+  <sql id="Template_Column_List" >
+    t1.NODE_ID, t1.NODE_TYPE, t1.TEMPLATE_ID, t1.TENANT_ID, t1.PROVINCE_ID, t1.CITY_ID, t1.NODE_NAME, t1.P_NODE_ID,
+    t1.NODE_SCORE, t1.MAX_SCORE, t1.MIN_SCORE, t1.WEIGHT, t1.ERROR_TYPE,
+    t1.SCORE_FLAG, t1.CRT_TIME, t1.MODF_TIME, t1.CREATE_STAFF_ID, t1.NODE_ORDER,
+    t2.CHECK_ITEM_NAME, t2.CHECK_ITEM_TYPE, t2.CHECK_ITEM_VITAL_TYPE, t2.NODE_TYPE_CODE, t2.REMARK, t3.SCORE_TYPE
   </sql>
 
   <!--新增查询方法-->
@@ -144,16 +178,27 @@
    from t_qm_check_item where CHECK_ITEM_ID is not null and CHECK_ITEM_ID = #{checkItemId,jdbcType=VARCHAR}
   </select>
 
-  <!--考评项联表查询-->
-  <select id="unionSelectByExample" resultMap="UnionResultMap" parameterType="com.asiainfo.qm.manage.domain.CheckItemDetail" >
+  <!--通过planId联表查询考评项-->
+  <select id="qryCheckItemByPlanId" resultMap="ResultMapByPlan" parameterType="com.asiainfo.qm.manage.domain.CheckItemDetail" >
     select
-    <include refid="UNION_Column_List" />
+    <include refid="Plan_Column_List" />
     from t_qm_templatedetail t1
       left outer join t_qm_plan t2 ON t1.TEMPLATE_ID = t2.TEMPLATE_ID
       left outer join t_qm_check_item t3 ON t1.NODE_ID = t3.CHECK_ITEM_ID
       left outer join t_qm_checktemplate t4 ON t1.TEMPLATE_ID = t4.TEMPLATE_ID
     where t1.TENANT_ID = #{tenantId,jdbcType=VARCHAR}
       and t2.PLAN_ID = #{planId,jdbcType=VARCHAR}
+  </select>
+
+  <!--通过templateId联表查询考评项-->
+  <select id="qryCheckItemByTemplateId" resultMap="ResultMapByTemplate" parameterType="com.asiainfo.qm.manage.domain.CheckItemDetail" >
+    select
+    <include refid="Template_Column_List" />
+    from t_qm_templatedetail t1
+      left outer join t_qm_check_item t2 ON t1.NODE_ID = t2.CHECK_ITEM_ID
+      left outer join t_qm_checktemplate t3 ON t1.TEMPLATE_ID = t3.TEMPLATE_ID
+    where t1.TENANT_ID = #{tenantId,jdbcType=VARCHAR}
+      and t1.TEMPLATE_ID = #{templateId,jdbcType=VARCHAR}
   </select>
 
   <!--批量删除-->

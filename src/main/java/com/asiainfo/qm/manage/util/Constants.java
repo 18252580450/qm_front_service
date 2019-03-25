@@ -1035,6 +1035,14 @@ public class Constants {
     }
 
     /**
+     * 质检模式
+     */
+    public interface QM_CHECK_MODEL {
+        String WITHIN_PLAN = "0"; //计划内质检
+        String BEYOND_PLAN = "1"; //计划外质检
+    }
+
+    /**
      * 考评模版节点类型
      */
     public interface QM_TEMPLATE_NODE_TYPE {

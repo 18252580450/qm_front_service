@@ -98,6 +98,33 @@
     <result column="ACPT_STAFF_ID" property="acptStaffId" jdbcType="VARCHAR" />
     <result column="ACPT_STAFF_NUM" property="acptStaffNum" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="WorkFormResultMap" type="com.asiainfo.qm.execution.domain.QmWorkForm" >
+    <id column="WRKFM_ID" property="wrkfmId" jdbcType="BIGINT" />
+    <result column="WRKFM_SHOW_SWFTNO" property="wrkfmShowSwftno" jdbcType="VARCHAR" />
+    <result column="PROV_CODE" property="provCode" jdbcType="VARCHAR" />
+    <result column="SRV_REQST_ID" property="srvReqstId" jdbcType="BIGINT" />
+    <result column="SRV_REQST_TYPE_ID" property="srvReqstTypeId" jdbcType="VARCHAR" />
+    <result column="SRV_REQST_TYPE_NM" property="srvReqstTypeNm" jdbcType="VARCHAR" />
+    <result column="SRV_REQST_TYPE_FULL_NM" property="srvReqstTypeFullNm" jdbcType="VARCHAR" />
+    <result column="WRKFM_TYPE_CD" property="wrkfmTypeCd" jdbcType="VARCHAR" />
+    <result column="WRKFM_STS_CD" property="wrkfmStsCd" jdbcType="VARCHAR" />
+    <result column="CRT_TIME" property="crtTime" jdbcType="TIMESTAMP" />
+    <result column="ARC_TIME" property="arcTime" jdbcType="TIMESTAMP" />
+    <result column="BIZ_CNTT" property="bizCntt" jdbcType="VARCHAR" />
+    <result column="BIZ_TITLE" property="bizTitle" jdbcType="VARCHAR" />
+    <result column="CUST_EMAIL" property="custEmail" jdbcType="VARCHAR" />
+    <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
+    <result column="CUST_NUM" property="custNum" jdbcType="VARCHAR" />
+    <result column="HANDLE_DURATION" property="handleDuration" jdbcType="INTEGER" />
+    <result column="ACTUAL_HANDLE_DURATION" property="actualHandleDuration" jdbcType="INTEGER" />
+    <result column="ACPT_STAFF_ID" property="acptStaffId" jdbcType="VARCHAR" />
+    <result column="ACPT_STAFF_NUM" property="acptStaffNum" jdbcType="VARCHAR" />
+    <result column="ARC_STAFF_ID" property="arcStaffId" jdbcType="VARCHAR" />
+    <result column="ARC_STAFF_WORK_GRP_ID" property="arcStaffWorkGrpId" jdbcType="VARCHAR" />
+    <result column="ARC_STAFF_DEPT_ID" property="arcStaffDeptId" jdbcType="VARCHAR" />
+    <result column="ARC_OPIN_CNTT" property="arcOpinCntt" jdbcType="VARCHAR" />
+    <result column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -177,7 +204,39 @@
     SRV_REQST_TYPE_FULL_NM, SRV_REQST_TYPE_NM, BIZ_CNTT, BIZ_TITLE, CUST_EMAIL, CUST_NAME, 
     CUST_NUM, ACPT_STAFF_ID, ACPT_STAFF_NUM
   </sql>
-  <select id="selectByExampleForAutoExract" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.task.domain.QmWorkformExample" >
+  <sql id="Work_Form_Column_List" >
+    t1.WRKFM_ID, t1.WRKFM_SHOW_SWFTNO, t1.PROV_CODE, t1.SRV_REQST_ID, t1.SRV_REQST_TYPE_ID, t1.SRV_REQST_TYPE_NM, t1.SRV_REQST_TYPE_FULL_NM,
+    t1.WRKFM_TYPE_CD, t1.WRKFM_STS_CD, t1.CRT_TIME, t1.ARC_TIME, t1.BIZ_CNTT, t1.BIZ_TITLE, t1.CUST_EMAIL, t1.CUST_NAME, t1.CUST_NUM,
+    t1.HANDLE_DURATION, t1.ACTUAL_HANDLE_DURATION, t1.ACPT_STAFF_ID, t1.ACPT_STAFF_NUM, t1.ARC_STAFF_ID, t1.ARC_STAFF_WORK_GRP_ID,
+    t1.ARC_STAFF_DEPT_ID, t1.ARC_OPIN_CNTT, t3.TEMPLATE_ID
+  </sql>
+  <!--工单池联表查询（计划外工单）-->
+  <select id="queryBeyondPlanWorkForm" resultMap="WorkFormResultMap" parameterType="com.asiainfo.qm.execution.domain.QmWorkForm" >
+    select
+    <include refid="Work_Form_Column_List" />
+    from t_qm_workform t1
+      left outer join t_qm_workform_pool t2 ON t1.WRKFM_ID = t2.WRKFM_ID
+      left outer join t_qm_order_check_result t3 ON t1.WRKFM_ID = t3.TOUCH_ID
+    <where >
+      t2.WRKFM_ID is null
+      <if test="wrkfmShowSwftno != null" >
+        and t1.WRKFM_SHOW_SWFTNO = #{wrkfmShowSwftno,jdbcType=VARCHAR}
+      </if>
+      <if test="arcStaffId != null" >
+        and t1.ACPT_STAFF_ID = #{arcStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="arcBeginTime != null" >
+        and t1.ARC_TIME between #{arcBeginTime,jdbcType=VARCHAR} and #{arcEndTime,jdbcType=VARCHAR}
+      </if>
+      <if test="custName != null" >
+        and t1.CUST_NAME = #{custName,jdbcType=VARCHAR}
+      </if>
+      <if test="custNum != null" >
+        and t1.CUST_NUM = #{custNum,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectByExampleForAutoExract" resultMap="BaseResultMap" parameterType="map" >
     select
     <if test="example.distinct" >
       distinct

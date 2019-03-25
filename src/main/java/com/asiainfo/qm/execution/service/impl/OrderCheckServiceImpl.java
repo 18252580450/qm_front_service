@@ -165,8 +165,6 @@ public class OrderCheckServiceImpl implements OrderCheckService {
                     orderCheckResultDetail.setTouchId(orderCheckInfo.get("touchId").toString());
                     orderCheckResultDetail.setCheckStaffId(orderCheckInfo.get("checkStaffId").toString());
                     orderCheckResultDetail.setCheckStaffName(orderCheckInfo.get("checkStaffName").toString());
-                    orderCheckResultDetail.setCheckDepartId(orderCheckInfo.get("checkDepartId").toString());
-                    orderCheckResultDetail.setCheckDepartName(orderCheckInfo.get("checkDepartName").toString());
                     orderCheckResultDetail.setCheckedStaffId(checkLink.get("checkedStaffId").toString());
                     orderCheckResultDetail.setCheckedStaffName(checkLink.get("checkedStaffNm").toString());
                     orderCheckResultDetail.setCheckedDepartId(checkLink.get("checkedDepartId").toString());
@@ -209,15 +207,29 @@ public class OrderCheckServiceImpl implements OrderCheckService {
 
             //更新工单质检池（质检暂存不更新质检池）
             if (checkStatus.equals(Constants.QM_CHECK_FLAG.NEW_BUILD) || checkStatus.equals(Constants.QM_CHECK_FLAG.RECHECK)) {
-                WorkformPool workformPool = new WorkformPool();
-                workformPool.setWrkfmId(Long.parseLong(orderCheckInfo.get("touchId").toString()));
-                workformPool.setPoolStatus(Integer.parseInt(Constants.QM_CHECK_STATUS.CHECKED));
+                //计划内质检
+                if (orderCheckInfo.get("checkModel").toString().equals(Constants.QM_CHECK_MODEL.WITHIN_PLAN)) {
+                    WorkformPool workformPool = new WorkformPool();
+                    workformPool.setWrkfmId(Long.parseLong(orderCheckInfo.get("touchId").toString()));
+                    workformPool.setPoolStatus(Integer.parseInt(Constants.QM_CHECK_STATUS.CHECKED));
 
-                WorkformPoolResponse workformPoolResponse = updateWorkFormPool(workformPool);
-                if (!workformPoolResponse.getRspcode().equals(WebUtil.SUCCESS)) {
-                    orderCheckResponse.setRspcode(workformPoolResponse.getRspcode());
-                    orderCheckResponse.setRspdesc(workformPoolResponse.getRspdesc());
-                    return orderCheckResponse;
+                    WorkformPoolResponse workformPoolResponse = updateWorkFormPool(workformPool);
+                    if (!workformPoolResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                        orderCheckResponse.setRspcode(workformPoolResponse.getRspcode());
+                        orderCheckResponse.setRspdesc(workformPoolResponse.getRspdesc());
+                        return orderCheckResponse;
+                    }
+                }
+                //计划外质检
+                if (orderCheckInfo.get("checkModel").toString().equals(Constants.QM_CHECK_MODEL.BEYOND_PLAN)) {
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> workFormInfo = (Map<String, Object>) reqMap.get("workFormInfo");
+                    WorkformPoolResponse workformPoolResponse = insertWorkFormPool(workFormInfo, orderCheckInfo);
+                    if (!workformPoolResponse.getRspcode().equals(WebUtil.SUCCESS)) {
+                        orderCheckResponse.setRspcode(workformPoolResponse.getRspcode());
+                        orderCheckResponse.setRspdesc(workformPoolResponse.getRspdesc());
+                        return orderCheckResponse;
+                    }
                 }
             }
 
@@ -291,15 +303,9 @@ public class OrderCheckServiceImpl implements OrderCheckService {
             orderCheckResult.setWrkfmShowSwftno(orderCheckInfo.get("wrkfmShowSwftno").toString());
             orderCheckResult.setPlanId(orderCheckInfo.get("planId").toString());
             orderCheckResult.setTemplateId(orderCheckInfo.get("templateId").toString());
-            orderCheckResult.setCheckModel(orderCheckInfo.get("checkModel").toString());        //默认计划内质检
-            orderCheckResult.setCheckedStaffId(orderCheckInfo.get("checkedStaffId").toString());
-            orderCheckResult.setCheckedStaffName(orderCheckInfo.get("checkedStaffName").toString());
-            orderCheckResult.setCheckedDepartId(orderCheckInfo.get("checkedDepartId").toString());
-            orderCheckResult.setCheckedDepartName(orderCheckInfo.get("checkedDepartName").toString());
+            orderCheckResult.setCheckModel(orderCheckInfo.get("checkModel").toString());        //计划内or计划外
             orderCheckResult.setCheckStaffId(orderCheckInfo.get("checkStaffId").toString());
             orderCheckResult.setCheckStaffName(orderCheckInfo.get("checkStaffName").toString());
-            orderCheckResult.setCheckDepartId(orderCheckInfo.get("checkDepartId").toString());
-            orderCheckResult.setCheckDepartName(orderCheckInfo.get("checkDepartName").toString());
             orderCheckResult.setCheckStartTime(DateUtil.string2Date(checkStartTime));
             orderCheckResult.setCheckEndTime(currentTime);
             orderCheckResult.setCheckTime(Integer.parseInt(orderCheckInfo.get("checkTime").toString()));
@@ -413,6 +419,54 @@ public class OrderCheckServiceImpl implements OrderCheckService {
             logger.error("工单质检池更新异常", e);
             workFormPoolResponse.setRspcode(WebUtil.EXCEPTION);
             workFormPoolResponse.setRspdesc("工单质检池更新异常");
+        }
+        return workFormPoolResponse;
+    }
+
+    private WorkformPoolResponse insertWorkFormPool(Map<String, Object> workForm, Map<String, Object> orderCheckInfo) throws Exception {
+        WorkformPoolResponse workFormPoolResponse = new WorkformPoolResponse();
+        try {
+            WorkformPool workformPool = new WorkformPool();
+            workformPool.setCheckedStaffId(workForm.get("checkedStaffId").toString());
+            workformPool.setWrkfmId(Long.parseLong(orderCheckInfo.get("touchId").toString()));
+            workformPool.setWrkfmShowSwftno(orderCheckInfo.get("wrkfmShowSwftno").toString());   //显示工单号
+            workformPool.setProvinceId(orderCheckInfo.get("provinceId").toString());
+            workformPool.setHandleDuration(Integer.parseInt(workForm.get("handleDuration").toString()));
+            workformPool.setActualHandleDuration(Integer.parseInt(workForm.get("actualHandleDuration").toString()));
+            workformPool.setCheckedTime(DateUtil.getCurrontTime());                              //抽取时间
+            workformPool.setModfTime(DateUtil.string2Date(workForm.get("modfTime").toString())); //修改时间
+            workformPool.setCrtTime(DateUtil.string2Date(workForm.get("crtTime").toString()));   //创建时间
+            workformPool.setArcTime(DateUtil.string2Date(workForm.get("arcTime").toString()));   //归档时间
+            workformPool.setSrvReqstTypeId(workForm.get("srvReqstTypeId").toString());           //服务请求类型id
+            workformPool.setSrvReqstTypeNm(workForm.get("srvReqstTypeNm").toString());           //服务请求类型名称
+            workformPool.setSrvReqstTypeFullNm(workForm.get("srvReqstTypeFullNm").toString());   //服务请求类型全称
+            workformPool.setBizCntt(workForm.get("bizCntt").toString());                         //工单内容
+            workformPool.setBizTitle(workForm.get("bizTitle").toString());                       //工单标题
+            workformPool.setCustEmail(workForm.get("custEmail").toString());                     //客户账号
+            workformPool.setCustName(workForm.get("custName").toString());                       //客户姓名
+            workformPool.setCustNum(workForm.get("custNum").toString());                         //客户号码
+            workformPool.setAcptStaffId(workForm.get("acptStaffId").toString());                 //立单人id
+            workformPool.setAcptStaffNum(workForm.get("acptStaffNum").toString());               //立单人姓名
+            workformPool.setIsOperate(Constants.QM_DISTRIBUTE_STATUS.TRUE);                      //分派状态
+            workformPool.setOperateTime(DateUtil.getCurrontTime());                              //分派时间
+            workformPool.setCheckStaffId(orderCheckInfo.get("checkStaffId").toString());         //质检员工号
+            workformPool.setCheckStaffName(orderCheckInfo.get("checkStaffName").toString());     //质检员姓名
+            workformPool.setPoolStatus(Integer.parseInt(Constants.QM_CHECK_STATUS.CHECKED));     //质检状态标识
+            workformPool.setPlanId("");                                                          //计划外质检不绑定planId
+            workformPool.setTemplateId(orderCheckInfo.get("templateId").toString());             //模版id
+
+            int result = workformPoolMapper.insertSelective(workformPool);
+            if (result > 0) {
+                workFormPoolResponse.setRspcode(WebUtil.SUCCESS);
+            } else {
+                workFormPoolResponse.setRspcode(WebUtil.FAIL);
+                workFormPoolResponse.setRspdesc("工单质检池插入失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("工单质检池插入异常", e);
+            workFormPoolResponse.setRspcode(WebUtil.EXCEPTION);
+            workFormPoolResponse.setRspdesc("工单质检池插入异常");
         }
         return workFormPoolResponse;
     }

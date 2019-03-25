@@ -64,6 +64,9 @@ public class CheckTemplateServiceImpl implements CheckTemplateService {
 			if(null != params.get("templateStatus") && !"".equals(params.get("templateStatus"))) {
 				criteria.andTemplateStatusEqualTo((String) params.get("templateStatus"));
 			}
+			if(null != params.get("templateType") && !"".equals(params.get("templateType"))) {
+				criteria.andTemplateTypeEqualTo((String) params.get("templateType"));
+			}
 
 			if (0 != limit) {
 				PageHelper.offsetPage(start, limit);

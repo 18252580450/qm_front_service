@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,10 +38,17 @@ public class CheckItemDetailImpl implements CheckItemDetailService {
             if (null != params.get("planId") && !"".equals(params.get("planId"))) {
                 checkItemDetail.setPlanId((String) params.get("planId"));
             }
+            if (null != params.get("templateId") && !"".equals(params.get("templateId"))) {
+                checkItemDetail.setTemplateId((String) params.get("templateId"));
+            }
 
             checkItemDetailResponse = new CheckItemDetailResponse();
-
-            List<CheckItemDetail> list = templateDetailMapper.unionSelectByExample(checkItemDetail);
+            List<CheckItemDetail> list = new ArrayList<>();
+            if (checkItemDetail.getPlanId() != null && !checkItemDetail.getPlanId().isEmpty()) {
+                list = templateDetailMapper.qryCheckItemByPlanId(checkItemDetail);  //通过计划id联表查询考评项
+            } else {
+                list = templateDetailMapper.qryCheckItemByTemplateId(checkItemDetail);  //通过模版id联表查询考评项
+            }
             checkItemDetailResponse.setData(list);
 
             if (null != checkItemDetailResponse.getData() && checkItemDetailResponse.getData().size() > 0) {
