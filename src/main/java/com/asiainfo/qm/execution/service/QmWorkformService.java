@@ -11,5 +11,13 @@ import java.util.Map;
  */
 public interface QmWorkformService {
 
+    /**
+     * 计划外工单查询
+     */
     QmWorkformResponse queryWorkForm(Map params, int start, int limit)throws Exception;
+
+    /**
+     * 工单分配
+     */
+    QmWorkformResponse workFormAllocate(Map<String, Object> params) throws Exception;
 }
