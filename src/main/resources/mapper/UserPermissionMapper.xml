@@ -8,7 +8,7 @@
     <result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
     <result column="PERMISSION_CODE" property="permissionCode" jdbcType="VARCHAR" />
     <result column="RESERVE_1" property="reserve1" jdbcType="VARCHAR" />
-    <result column="RESERVE_2" property="reserve2" jdbcType="VARCHAR" />
+    <result column="RESERVE_2" property="reserve2" jdbcType="INTEGER" />
     <result column="RESERVE_3" property="reserve3" jdbcType="VARCHAR" />
     <result column="RESERVE_4" property="reserve4" jdbcType="VARCHAR" />
     <result column="RESERVE_5" property="reserve5" jdbcType="VARCHAR" />
@@ -114,7 +114,7 @@
       RESERVE_5)
     values (#{tenantId,jdbcType=VARCHAR}, #{userRole,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, 
       #{cityId,jdbcType=VARCHAR}, #{permissionCode,jdbcType=VARCHAR}, #{reserve1,jdbcType=VARCHAR}, 
-      #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR}, #{reserve4,jdbcType=VARCHAR}, 
+      #{reserve2,jdbcType=INTEGER}, #{reserve3,jdbcType=VARCHAR}, #{reserve4,jdbcType=VARCHAR},
       #{reserve5,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.asiainfo.qm.manage.domain.UserPermission" >
@@ -171,7 +171,7 @@
         #{reserve1,jdbcType=VARCHAR},
       </if>
       <if test="reserve2 != null" >
-        #{reserve2,jdbcType=VARCHAR},
+        #{reserve2,jdbcType=INTEGER},
       </if>
       <if test="reserve3 != null" >
         #{reserve3,jdbcType=VARCHAR},
@@ -212,7 +212,7 @@
         RESERVE_1 = #{record.reserve1,jdbcType=VARCHAR},
       </if>
       <if test="record.reserve2 != null" >
-        RESERVE_2 = #{record.reserve2,jdbcType=VARCHAR},
+        RESERVE_2 = #{record.reserve2,jdbcType=INTEGER},
       </if>
       <if test="record.reserve3 != null" >
         RESERVE_3 = #{record.reserve3,jdbcType=VARCHAR},
@@ -236,7 +236,7 @@
       CITY_ID = #{record.cityId,jdbcType=VARCHAR},
       PERMISSION_CODE = #{record.permissionCode,jdbcType=VARCHAR},
       RESERVE_1 = #{record.reserve1,jdbcType=VARCHAR},
-      RESERVE_2 = #{record.reserve2,jdbcType=VARCHAR},
+      RESERVE_2 = #{record.reserve2,jdbcType=INTEGER},
       RESERVE_3 = #{record.reserve3,jdbcType=VARCHAR},
       RESERVE_4 = #{record.reserve4,jdbcType=VARCHAR},
       RESERVE_5 = #{record.reserve5,jdbcType=VARCHAR}
@@ -260,7 +260,7 @@
         RESERVE_1 = #{reserve1,jdbcType=VARCHAR},
       </if>
       <if test="reserve2 != null" >
-        RESERVE_2 = #{reserve2,jdbcType=VARCHAR},
+        RESERVE_2 = #{reserve2,jdbcType=INTEGER},
       </if>
       <if test="reserve3 != null" >
         RESERVE_3 = #{reserve3,jdbcType=VARCHAR},
@@ -281,7 +281,7 @@
       CITY_ID = #{cityId,jdbcType=VARCHAR},
       PERMISSION_CODE = #{permissionCode,jdbcType=VARCHAR},
       RESERVE_1 = #{reserve1,jdbcType=VARCHAR},
-      RESERVE_2 = #{reserve2,jdbcType=VARCHAR},
+      RESERVE_2 = #{reserve2,jdbcType=INTEGER},
       RESERVE_3 = #{reserve3,jdbcType=VARCHAR},
       RESERVE_4 = #{reserve4,jdbcType=VARCHAR},
       RESERVE_5 = #{reserve5,jdbcType=VARCHAR}
