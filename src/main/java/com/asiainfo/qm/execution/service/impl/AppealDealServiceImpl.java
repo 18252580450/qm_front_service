@@ -67,9 +67,16 @@ public class AppealDealServiceImpl implements AppealDealService {
     @Override
     public AppealDealResponse submitAppeal(Map<String, Object> reqMap) throws Exception {
         AppealDealResponse appealDealResponse = new AppealDealResponse();
+        appealDealResponse.setRspcode(WebUtil.FAIL);
         //申诉流水号
+        String departmentId = "";
         String appealId = String.valueOf(sequenceUtils.getSequence("t_qm_appeal_process"));
-        String departmentId = reqMap.get("departmentId").toString();
+        if (null != reqMap.get("departmentId") && !"".equals(reqMap.get("departmentId"))) {
+            departmentId = reqMap.get("departmentId").toString();
+        } else {
+            appealDealResponse.setRspdesc("无法获取申诉人部门信息！");
+            return appealDealResponse;
+        }
         String mainProcessId = "";      //主流程编码
         String currentProcessId = "";   //当前子流程编码
         int currentNodeId = 0;          //当前子节点编码

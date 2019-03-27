@@ -164,6 +164,7 @@ public class AppealProcessServiceImpl implements AppealProcessService {
                 appealProcess.setCreateTime(currentTime);
                 appealProcess.setProcessName(appealProcessList.get(i).get("processName").toString());
                 appealProcess.setTenantId(appealProcessList.get(i).get("tenantId").toString());
+                appealProcess.setCreateStaffId(appealProcessList.get(i).get("createStaffId").toString());
                 appealProcess.setDepartmentId(appealProcessList.get(i).get("departmentId").toString());
                 appealProcess.setDepartmentName(appealProcessList.get(i).get("departmentName").toString());
                 appealProcess.setCheckType(appealProcessList.get(i).get("checkType").toString());
@@ -360,6 +361,7 @@ public class AppealProcessServiceImpl implements AppealProcessService {
                     appealProcess.setCreateTime(currentTime);
                     appealProcess.setProcessName(data.get("processName").toString());
                     appealProcess.setTenantId(data.get("tenantId").toString());
+                    appealProcess.setCreateStaffId(data.get("createStaffId").toString());
                     appealProcess.setDepartmentId(data.get("departmentId").toString());
                     appealProcess.setDepartmentName(data.get("departmentName").toString());
                     appealProcess.setCheckType(data.get("checkType").toString());
