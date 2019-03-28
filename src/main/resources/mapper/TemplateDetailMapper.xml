@@ -772,8 +772,8 @@
   <!--新增的批量更新方法-->
   <update id="update" parameterType="java.util.Map" >
     update t_qm_templatedetail
-    set MAX_SCORE = #{maxScore,jdbcType=VARCHAR},
-    NODE_SCORE = #{nodeScore,jdbcType=VARCHAR},
+    set MAX_SCORE = #{maxScore,jdbcType=INTEGER},
+    NODE_SCORE = #{nodeScore,jdbcType=INTEGER},
     RESERVE_1 = #{reserve1,jdbcType=VARCHAR},
     MODF_TIME = now()
     where TEMPLATE_ID = #{templateId,jdbcType=VARCHAR} and NODE_ID = #{nodeId,jdbcType=VARCHAR}

@@ -112,9 +112,6 @@ public class CheckTemplateController {
 		//String 转 List
 		JSONArray jsonArray = JSONArray.fromObject(params);
 		List<String> list = (List<String>)jsonArray;
-		//String 转 ListMap
-//		JSONArray jsonArray = JSONArray.fromObject(params);
-//		List<Map> list = (List<Map>)jsonArray;
 		try {
 			checkTemplateResponse = checkTemplateService.update(list);
 		}catch (Exception e){
