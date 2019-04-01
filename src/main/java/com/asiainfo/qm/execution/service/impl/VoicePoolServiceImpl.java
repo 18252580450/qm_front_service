@@ -102,21 +102,11 @@ public class VoicePoolServiceImpl implements VoicePoolService {
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
                 List<VoicePool> list = voicePoolMapper.selectByExample(example);
-                for(int i=list.size()-1;i>=0;i--){
-                    if(list.get(i).getQmPlan()==null){
-                        list.remove(i);
-                    }
-                }
                 Page<VoicePool> pagelist = (Page) list;
                 voicePoolResponse = new VoicePoolResponse(pagelist);
             } else {
                 voicePoolResponse = new VoicePoolResponse();
                 List<VoicePool> list = voicePoolMapper.selectByExample(example);
-                for(int i=list.size()-1;i>=0;i--){
-                    if(list.get(i).getQmPlan()==null){
-                        list.remove(i);
-                    }
-                }
                 voicePoolResponse.setData(list);
             }
             if (null != voicePoolResponse.getData() && voicePoolResponse.getData().size() > 0) {
