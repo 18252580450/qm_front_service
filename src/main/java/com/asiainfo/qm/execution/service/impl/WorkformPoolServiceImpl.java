@@ -37,12 +37,12 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
     private SequenceUtils sequenceUtils;
 
     @Override
-    public WorkformPoolResponse selectByParams(Map params, int start, int limit) throws Exception{
+    public WorkformPoolResponse selectByParams(Map params, int start, int limit) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         WorkformPoolResponse workformPoolResponse = null;
         WorkformPoolExample workformPoolExample = new WorkformPoolExample();
         try {
-            WorkformPoolExample.Criteria criteria= workformPoolExample.createCriteria();//在运行时动态生成查询语句
+            WorkformPoolExample.Criteria criteria = workformPoolExample.createCriteria();//在运行时动态生成查询语句
             if (null != params.get("wrkfmShowSwftno") && !"".equals(params.get("wrkfmShowSwftno"))) {
                 criteria.andWrkfmShowSwftnoEqualTo((String) params.get("wrkfmShowSwftno"));
             }
@@ -61,12 +61,12 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             if (null != params.get("custNum") && !"".equals(params.get("custNum"))) {
                 criteria.andCustNumEqualTo((String) params.get("custNum"));
             }
-            if((params.get("userPermission")).equals("checker")){//查询质检员是本身和未分配质检员的数据
+            if (null != params.get("userPermission") && !"".equals(params.get("userPermission")) && (params.get("userPermission")).equals("checker")) {//查询质检员是本身和未分配质检员的数据
                 List<String> list = new ArrayList<>();
                 list.add((String) params.get("checkStaffId"));
                 list.add("");
                 criteria.andCheckStaffIdIn(list);
-            }else{
+            } else {
                 if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
                     criteria.andCheckStaffIdEqualTo((String) params.get("checkStaffId"));
                 }
@@ -84,30 +84,30 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
                 List<WorkformPool> list = workformPoolMapper.selectByExample(workformPoolExample);
-                for (WorkformPool workformPool:list) {
+                for (WorkformPool workformPool : list) {
                     workformPool.setWorkFormId(String.valueOf(workformPool.getWrkfmId()));
                 }
 
-                Page<WorkformPool> pagelist = (Page)list;
+                Page<WorkformPool> pagelist = (Page) list;
                 workformPoolResponse = new WorkformPoolResponse(pagelist);
             } else {
                 workformPoolResponse = new WorkformPoolResponse();
                 List<WorkformPool> list = workformPoolMapper.selectByExample(workformPoolExample);
-                for (WorkformPool workformPool:list) {
+                for (WorkformPool workformPool : list) {
                     workformPool.setWorkFormId(String.valueOf(workformPool.getWrkfmId()));
                 }
                 workformPoolResponse.setData(list);
             }
 
-            if(null != workformPoolResponse.getData() && workformPoolResponse.getData().size() > 0){
+            if (null != workformPoolResponse.getData() && workformPoolResponse.getData().size() > 0) {
                 workformPoolResponse.setRspcode(WebUtil.SUCCESS);
                 workformPoolResponse.setRspdesc("查询成功");
-            }else {
+            } else {
                 workformPoolResponse.setRspcode(WebUtil.FAIL);
                 workformPoolResponse.setRspdesc("无数据");
             }
-        }catch (Exception e){
-            logger.error("查询异常",e);
+        } catch (Exception e) {
+            logger.error("查询异常", e);
             workformPoolResponse.setRspcode(WebUtil.EXCEPTION);
             workformPoolResponse.setRspdesc("查询异常");
         }
@@ -115,7 +115,7 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
     }
 
     @Override
-    public WorkformPoolResponse update(@Param("list")List<String> list) throws Exception{
+    public WorkformPoolResponse update(@Param("list") List<String> list) throws Exception {
         WorkformPoolResponse workformPoolResponse = new WorkformPoolResponse();
         try {
             int result = workformPoolMapper.update(list);
@@ -136,7 +136,7 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
     }
 
     @Override
-    public WorkformPoolResponse updateCheck(List<Map> list) throws Exception{
+    public WorkformPoolResponse updateCheck(List<Map> list) throws Exception {
         WorkformPoolResponse workformPoolResponse = new WorkformPoolResponse();
         try {
             int result = workformPoolMapper.updateCheck(list);
