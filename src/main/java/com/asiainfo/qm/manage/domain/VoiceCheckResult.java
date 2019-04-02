@@ -8,6 +8,8 @@ public class VoiceCheckResult {
 
     private QmPlan qmPlan;
 
+    private String planName;
+
     private String tenantId;
 
     private String acceptMonth;
@@ -109,6 +111,14 @@ public class VoiceCheckResult {
     private String reserve9;
 
     private String reserve10;
+
+    public String getPlanName() {
+        return planName;
+    }
+
+    public void setPlanName(String planName) {
+        this.planName = planName == null ? null : planName.trim();
+    }
 
     public String getInspectionId() {
         return inspectionId;
