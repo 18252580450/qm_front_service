@@ -101,7 +101,9 @@ public class OrderCheckResultController {
 			OrderCheckResult orderCheckResult = null;
 			for (int i = 0,size = list.size(); i < size; i++) {
 				orderCheckResult = list.get(i);
-				orderCheckResult.setPlanName(orderCheckResult.getQmPlan().getPlanName());
+				if(orderCheckResult.getQmPlan()!=null){
+					orderCheckResult.setPlanName(orderCheckResult.getQmPlan().getPlanName());
+				}
 				map = net.sf.json.JSONObject.fromObject(orderCheckResult);//实体类转换成Map类型
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date checkEndTime= orderCheckResult.getCheckEndTime();

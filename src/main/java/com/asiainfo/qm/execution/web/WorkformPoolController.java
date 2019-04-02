@@ -167,7 +167,9 @@ public class WorkformPoolController {
 			WorkformPool workformPool = null;
 			for (int i = 0,size = list.size(); i < size; i++) {
 				workformPool = list.get(i);
-				workformPool.setPlanName(workformPool.getQmPlan().getPlanName());
+				if(workformPool.getQmPlan()!=null){
+					workformPool.setPlanName(workformPool.getQmPlan().getPlanName());
+				}
 				map = net.sf.json.JSONObject.fromObject(workformPool);//实体类转换成Map类型
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date crtTime = workformPool.getCrtTime();

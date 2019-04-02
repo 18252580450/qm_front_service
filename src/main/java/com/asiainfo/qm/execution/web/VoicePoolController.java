@@ -166,8 +166,10 @@ public class VoicePoolController {
 			for (int i = 0,size = list.size(); i < size; i++) {
 				voicePool = list.get(i);
 				map = net.sf.json.JSONObject.fromObject(voicePool);//实体类转换成Map类型
-				Map qmPlanMap = net.sf.json.JSONObject.fromObject(map.get("qmPlan"));//转成Map
-				map.put("planName",qmPlanMap.get("planName"));
+				if(map.get("qmPlan")!=null){
+					Map qmPlanMap = net.sf.json.JSONObject.fromObject(map.get("qmPlan"));//转成Map
+					map.put("planName",qmPlanMap.get("planName"));
+				}
 				SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date checkedTime= voicePool.getCheckedTime();
 				if(checkedTime!=null){
