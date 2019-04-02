@@ -291,11 +291,11 @@
 
   <select id="qryUserPermission" resultMap="BaseResultMap" parameterType="java.util.List">
     select * from t_qm_user_permission
+    where RESERVE_2 = (select max(RESERVE_2)
+    from t_qm_user_permission
     where USER_ROLE in
     <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
       #{item,jdbcType=VARCHAR}
-    </foreach>
-    and
-    RESERVE_2=(select max(RESERVE_2) from t_qm_user_permission)
+    </foreach>);
   </select>
 </mapper>
