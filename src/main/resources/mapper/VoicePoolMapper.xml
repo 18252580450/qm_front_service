@@ -6,6 +6,7 @@
     <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
     <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
     <result column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
+    <result column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
     <result column="CHECK_STAFF_ID" property="checkStaffId" jdbcType="VARCHAR" />
     <result column="CHECK_STAFF_NAME" property="checkStaffName" jdbcType="VARCHAR" />
     <result column="CHECKED_STAFF_ID" property="checkedStaffId" jdbcType="VARCHAR" />
@@ -118,7 +119,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    TOUCH_ID, TENANT_ID, PROVINCE_ID, PLAN_ID, CHECK_STAFF_ID, CHECK_STAFF_NAME, CHECKED_STAFF_ID, 
+    TOUCH_ID, TENANT_ID, PROVINCE_ID, PLAN_ID, TEMPLATE_ID, CHECK_STAFF_ID, CHECK_STAFF_NAME, CHECKED_STAFF_ID,
     CHECKED_STAFF_NAME, IS_OPERATE, HUNGUP_TYPE, CALL_TYPE, VOICE_SATISFY_EXTENT, RECORD_TIME, 
     SATISFY_EXTENT_TYPE, SRV_REQST_TYPE_ID, SRV_REQST_TYPE_NM, SRV_REQST_TYPE_FULL_NM, 
     CHECKED_TIME, OPERATE_TIME, STRATEGY_NAME, ORG_TYPE, RESERVE_1, RESERVE_2, RESERVE_3, 
@@ -255,7 +256,7 @@
   </delete>
   <insert id="insert" parameterType="com.asiainfo.qm.execution.domain.VoicePool" >
     insert into t_qm_voice_pool (TOUCH_ID, TENANT_ID, PROVINCE_ID, 
-      PLAN_ID, CHECK_STAFF_ID, CHECK_STAFF_NAME, 
+      PLAN_ID, TEMPLATE_ID, CHECK_STAFF_ID, CHECK_STAFF_NAME,
       CHECKED_STAFF_ID, CHECKED_STAFF_NAME, IS_OPERATE, 
       HUNGUP_TYPE, CALL_TYPE, VOICE_SATISFY_EXTENT, 
       RECORD_TIME, SATISFY_EXTENT_TYPE, SRV_REQST_TYPE_ID, 
@@ -273,7 +274,7 @@
       BEGIN_TIME, END_TIME, CITY_ID
       )
     values (#{touchId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, 
-      #{planId,jdbcType=VARCHAR}, #{checkStaffId,jdbcType=VARCHAR}, #{checkStaffName,jdbcType=VARCHAR}, 
+      #{planId,jdbcType=VARCHAR}, #{templateId,jdbcType=VARCHAR}, #{checkStaffId,jdbcType=VARCHAR}, #{checkStaffName,jdbcType=VARCHAR},
       #{checkedStaffId,jdbcType=VARCHAR}, #{checkedStaffName,jdbcType=VARCHAR}, #{isOperate,jdbcType=VARCHAR}, 
       #{hungupType,jdbcType=VARCHAR}, #{callType,jdbcType=VARCHAR}, #{voiceSatisfyExtent,jdbcType=VARCHAR}, 
       #{recordTime,jdbcType=INTEGER}, #{satisfyExtentType,jdbcType=VARCHAR}, #{srvReqstTypeId,jdbcType=VARCHAR}, 
@@ -305,6 +306,9 @@
       </if>
       <if test="planId != null" >
         PLAN_ID,
+      </if>
+      <if test="templateId != null" >
+        TEMPLATE_ID,
       </if>
       <if test="checkStaffId != null" >
         CHECK_STAFF_ID,
@@ -460,6 +464,9 @@
       </if>
       <if test="planId != null" >
         #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null" >
+        #{templateId,jdbcType=VARCHAR},
       </if>
       <if test="checkStaffId != null" >
         #{checkStaffId,jdbcType=VARCHAR},
@@ -625,6 +632,9 @@
       <if test="record.planId != null" >
         PLAN_ID = #{record.planId,jdbcType=VARCHAR},
       </if>
+      <if test="record.templateId != null" >
+        TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
+      </if>
       <if test="record.checkStaffId != null" >
         CHECK_STAFF_ID = #{record.checkStaffId,jdbcType=VARCHAR},
       </if>
@@ -777,6 +787,7 @@
       TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
       PROVINCE_ID = #{record.provinceId,jdbcType=VARCHAR},
       PLAN_ID = #{record.planId,jdbcType=VARCHAR},
+      TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
       CHECK_STAFF_ID = #{record.checkStaffId,jdbcType=VARCHAR},
       CHECK_STAFF_NAME = #{record.checkStaffName,jdbcType=VARCHAR},
       CHECKED_STAFF_ID = #{record.checkedStaffId,jdbcType=VARCHAR},
@@ -839,6 +850,9 @@
       </if>
       <if test="planId != null" >
         PLAN_ID = #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null" >
+        TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
       </if>
       <if test="checkStaffId != null" >
         CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
@@ -989,6 +1003,7 @@
     set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
       PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
       PLAN_ID = #{planId,jdbcType=VARCHAR},
+      TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
       CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
       CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
       CHECKED_STAFF_ID = #{checkedStaffId,jdbcType=VARCHAR},

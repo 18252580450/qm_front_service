@@ -1,5 +1,6 @@
 package com.asiainfo.qm.task.dao;
 
+import com.asiainfo.qm.execution.domain.QmVoiceRecord;
 import com.asiainfo.qm.task.domain.QmVoice;
 import com.asiainfo.qm.task.domain.QmVoiceExample;
 import org.apache.ibatis.annotations.Param;
@@ -18,6 +19,8 @@ public interface QmVoiceMapper {
     int insertSelective(QmVoice record);
 
     List<QmVoice> selectByExample(@Param("example") QmVoiceExample example);
+
+    List<QmVoiceRecord> queryBeyondPlanVoice(QmVoiceRecord record);
 
     List<QmVoice> selectByExampleForAutoExract(@Param("tableName")String tableName,@Param("example") QmVoiceExample example,@Param("limit")Integer limit);
 

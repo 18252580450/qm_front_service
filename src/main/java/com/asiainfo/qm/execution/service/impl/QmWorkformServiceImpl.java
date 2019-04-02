@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,6 @@ public class QmWorkformServiceImpl implements QmWorkformService {
 
     @Override
     public QmWorkformResponse queryWorkForm(Map params, int start, int limit) throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         QmWorkformResponse qmWorkformResponse = null;
         try {
             QmWorkForm qmWorkForm = new QmWorkForm();

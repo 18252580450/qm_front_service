@@ -125,8 +125,6 @@ public class VoiceCheckServiceImpl implements VoiceCheckService {
             voiceCheckResult.setCheckedDepartName(checkResult.get("checkedDepartName").toString());
             voiceCheckResult.setCheckStaffId(checkResult.get("checkStaffId").toString());
             voiceCheckResult.setCheckStaffName(checkResult.get("checkStaffName").toString());
-            voiceCheckResult.setCheckDepartId(checkResult.get("checkDepartId").toString());
-            voiceCheckResult.setCheckDepartName(checkResult.get("checkDepartName").toString());
             voiceCheckResult.setCheckStartTime(DateUtil.string2Date(checkStartTime));
             voiceCheckResult.setCheckEndTime(currentTime);
             voiceCheckResult.setCheckTime(Integer.parseInt(checkResult.get("checkTime").toString()));
@@ -178,8 +176,6 @@ public class VoiceCheckServiceImpl implements VoiceCheckService {
                 voiceCheckResultDetail.setInspectionId(inspectionId);
                 voiceCheckResultDetail.setCheckStaffId(checkResult.get("checkStaffId").toString());
                 voiceCheckResultDetail.setCheckStaffName(checkResult.get("checkStaffName").toString());
-                voiceCheckResultDetail.setCheckDepartId(checkResult.get("checkDepartId").toString());
-                voiceCheckResultDetail.setCheckDepartName(checkResult.get("checkDepartName").toString());
                 voiceCheckResultDetail.setCheckStartTime(DateUtil.string2Date(checkStartTime));
                 voiceCheckResultDetail.setCheckEndTime(currentTime);
                 voiceCheckResultDetail.setScoreType(checkResult.get("scoreType").toString());

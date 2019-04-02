@@ -17,6 +17,8 @@ public class VoicePool {
 
     private String planId;
 
+    private String templateId;
+
     private String checkStaffId;
 
     private String checkStaffName;
@@ -156,6 +158,14 @@ public class VoicePool {
 
     public void setPlanId(String planId) {
         this.planId = planId == null ? null : planId.trim();
+    }
+
+    public String getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(String templateId) {
+        this.templateId = templateId == null ? null : templateId.trim();
     }
 
     public String getCheckStaffId() {

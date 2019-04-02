@@ -11,5 +11,13 @@ import java.util.Map;
  */
 public interface QmVoiceService {
 
-    QmVoiceResponse queryVoice(Map params, int start, int limit)throws Exception;
+    /**
+     * 计划外语音查询
+     */
+    QmVoiceResponse queryVoiceRecord(Map params, int start, int limit)throws Exception;
+
+    /**
+     * 工单分配
+     */
+    QmVoiceResponse voiceAllocate(Map<String, Object> params) throws Exception;
 }

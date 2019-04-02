@@ -385,6 +385,66 @@ public class VoicePoolExample {
             return (Criteria) this;
         }
 
+        public Criteria andTemplateIdEqualTo(String value) {
+            addCriterion("TEMPLATE_ID =", value, "templateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateIdNotEqualTo(String value) {
+            addCriterion("TEMPLATE_ID <>", value, "templateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateIdGreaterThan(String value) {
+            addCriterion("TEMPLATE_ID >", value, "templateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateIdGreaterThanOrEqualTo(String value) {
+            addCriterion("TEMPLATE_ID >=", value, "templateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateIdLessThan(String value) {
+            addCriterion("TEMPLATE_ID <", value, "templateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateIdLessThanOrEqualTo(String value) {
+            addCriterion("TEMPLATE_ID <=", value, "templateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateIdLike(String value) {
+            addCriterion("TEMPLATE_ID like", value, "templateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateIdNotLike(String value) {
+            addCriterion("TEMPLATE_ID not like", value, "templateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateIdIn(List<String> values) {
+            addCriterion("TEMPLATE_ID in", values, "templateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateIdNotIn(List<String> values) {
+            addCriterion("TEMPLATE_ID not in", values, "templateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateIdBetween(String value1, String value2) {
+            addCriterion("TEMPLATE_ID between", value1, value2, "templateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateIdNotBetween(String value1, String value2) {
+            addCriterion("TEMPLATE_ID not between", value1, value2, "templateId");
+            return (Criteria) this;
+        }
+
         public Criteria andCheckStaffIdIsNull() {
             addCriterion("CHECK_STAFF_ID is null");
             return (Criteria) this;

@@ -2,7 +2,7 @@ package com.asiainfo.qm.execution.vo;
 
 import com.asiainfo.qm.manage.vo.Attach;
 import com.asiainfo.qm.manage.vo.ResponseParent;
-import com.asiainfo.qm.task.domain.QmVoice;
+import com.asiainfo.qm.execution.domain.QmVoiceRecord;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.pagehelper.Page;
 import io.swagger.annotations.ApiModel;
@@ -26,20 +26,20 @@ public class QmVoiceResponse extends ResponseParent {
 
     @ApiModelProperty(name = "DATA", value = "", required = true, example = "")
     @JsonProperty(value = "DATA")
-    private List<QmVoice> data = new ArrayList<QmVoice>();
+    private List<QmVoiceRecord> data = new ArrayList<QmVoiceRecord>();
 
     public QmVoiceResponse() {
     }
 
-    public List<QmVoice> getData() {
+    public List<QmVoiceRecord> getData() {
         return data;
     }
 
-    public void setData(List<QmVoice> data) {
+    public void setData(List<QmVoiceRecord> data) {
         this.data = data;
     }
 
-    public QmVoiceResponse(Page<QmVoice> pageResult) {
+    public QmVoiceResponse(Page<QmVoiceRecord> pageResult) {
         this.setData(pageResult != null ? pageResult.getResult() : null);
         this.setAttach(new Attach(pageResult != null ? pageResult.getTotal() : 0L));
     }
