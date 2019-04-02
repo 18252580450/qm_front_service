@@ -41,12 +41,6 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         WorkformPoolResponse workformPoolResponse = null;
         WorkformPoolExample workformPoolExample = new WorkformPoolExample();
-        //            角色权限：1.话务员只能查询被质检人是自己的信息
-//                    2.质检员只能查询质检人是自己的信息
-//                    3.管理员可以查询所有的信息
-//        可以添加查询条件或者根据权限对数据进行筛选
-        String permission = "";//用户权限(根据用户权限表获得)
-        String staffId ="";//用户Id（前台传递过来的参数）
         try {
             WorkformPoolExample.Criteria criteria= workformPoolExample.createCriteria();//在运行时动态生成查询语句
             if (null != params.get("wrkfmShowSwftno") && !"".equals(params.get("wrkfmShowSwftno"))) {
@@ -67,13 +61,6 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             if (null != params.get("custNum") && !"".equals(params.get("custNum"))) {
                 criteria.andCustNumEqualTo((String) params.get("custNum"));
             }
-//            if(permission.equals("checked")){//话务员只能查询被质检人是自己的信息
-//
-//            }else if(permission.equals("check")) {//质检员只能查询质检人是自己的信息
-//
-//            }else{
-//
-//            }
             if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
                 criteria.andCheckStaffIdEqualTo((String) params.get("checkStaffId"));
             }
@@ -90,8 +77,6 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
                 List<WorkformPool> list = workformPoolMapper.selectByExample(workformPoolExample);
-
-//                List<WorkformPool> listNew = permiFilter(permission,staffId,list);//过滤
                 for (WorkformPool workformPool:list) {
                     workformPool.setWorkFormId(String.valueOf(workformPool.getWrkfmId()));
                 }
@@ -101,8 +86,6 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             } else {
                 workformPoolResponse = new WorkformPoolResponse();
                 List<WorkformPool> list = workformPoolMapper.selectByExample(workformPoolExample);
-
-//                List<WorkformPool> listNew = permiFilter(permission,staffId,list);//过滤
                 for (WorkformPool workformPool:list) {
                     workformPool.setWorkFormId(String.valueOf(workformPool.getWrkfmId()));
                 }
@@ -122,27 +105,6 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             workformPoolResponse.setRspdesc("查询异常");
         }
         return workformPoolResponse;
-    }
-
-    public List<WorkformPool> permiFilter(String permission,String staffId,List<WorkformPool> list){
-        List<WorkformPool> listPerm = new ArrayList<>();
-
-        if(permission.equals("checked")){//话务员只能查询被质检人是自己的信息
-            for (WorkformPool workformPool : list) {
-                if(workformPool.getCheckedStaffId().equals(staffId)){
-                    listPerm.add(workformPool);
-                }
-            }
-        }else if(permission.equals("check")){//质检员只能查询质检人是自己的信息
-            for (WorkformPool workformPool : list) {
-                if(workformPool.getCheckStaffId().equals(staffId)){
-                    listPerm.add(workformPool);
-                }
-            }
-        }else{//管理员可以查询所有的信息
-            listPerm = list;
-        }
-        return listPerm;
     }
 
     @Override
