@@ -53,8 +53,15 @@ public class VoicePoolServiceImpl implements VoicePoolService {
             if (null != params.get("isOperate") && !"".equals(params.get("isOperate"))) {
                 criteria.andIsOperateEqualTo((String) params.get("isOperate"));
             }
-            if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
-                criteria.andCheckStaffIdEqualTo((String) params.get("checkStaffId"));
+            if((params.get("userPermission")).equals("checker")){//查询质检员是本身和未分配质检员的数据
+                List<String> list = new ArrayList<>();
+                list.add((String) params.get("checkStaffId"));
+                list.add("");
+                criteria.andCheckStaffIdIn(list);
+            }else{
+                if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
+                    criteria.andCheckStaffIdEqualTo((String) params.get("checkStaffId"));
+                }
             }
             if (null != params.get("checkedStaffId") && !"".equals(params.get("checkedStaffId"))) {
                 criteria.andCheckedStaffIdEqualTo((String) params.get("checkedStaffId"));

@@ -61,8 +61,15 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             if (null != params.get("custNum") && !"".equals(params.get("custNum"))) {
                 criteria.andCustNumEqualTo((String) params.get("custNum"));
             }
-            if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
-                criteria.andCheckStaffIdEqualTo((String) params.get("checkStaffId"));
+            if((params.get("userPermission")).equals("checker")){//查询质检员是本身和未分配质检员的数据
+                List<String> list = new ArrayList<>();
+                list.add((String) params.get("checkStaffId"));
+                list.add("");
+                criteria.andCheckStaffIdIn(list);
+            }else{
+                if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
+                    criteria.andCheckStaffIdEqualTo((String) params.get("checkStaffId"));
+                }
             }
             if (null != params.get("planStartTime") && !"".equals(params.get("planStartTime")) && null != params.get("planEndTime") && !"".equals(params.get("planEndTime"))) {
                 criteria.andCrtTimeBetween(sdf.parse((String) params.get("planStartTime")), sdf.parse((String) params.get("planEndTime")));
