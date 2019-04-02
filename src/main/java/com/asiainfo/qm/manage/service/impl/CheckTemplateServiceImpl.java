@@ -59,7 +59,7 @@ public class CheckTemplateServiceImpl implements CheckTemplateService {
 				criteria.andTemplateIdEqualTo((String) params.get("templateId"));
 			}
 			if(null != params.get("templateName") && !"".equals(params.get("templateName"))) {
-				criteria.andTemplateNameEqualTo((String) params.get("templateName"));
+				criteria.andTemplateNameLike("%" + (String) params.get("templateName") + "%");
 			}
 			if(null != params.get("templateStatus") && !"".equals(params.get("templateStatus"))) {
 				criteria.andTemplateStatusEqualTo((String) params.get("templateStatus"));

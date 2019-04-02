@@ -42,12 +42,8 @@ public class OrdinaryCommentServiceImpl implements OrdinaryCommentService {
 		OrdinaryCommentExample example = new OrdinaryCommentExample();
 		try {
 			OrdinaryCommentExample.Criteria criteria= example.createCriteria();//在运行时动态生成查询语句
-//			criteria.andTenantIdEqualTo((String) params.get("tenantId"));
-			if(null != params.get("parentCommentId")&& !"".equals(params.get("parentCommentId"))){
-				example.createCriteria().andParentCommentIdEqualTo((String) params.get("parentCommentId"));
-			}
 			if(null != params.get("commentName") && !"".equals(params.get("commentName"))) {
-				criteria.andCommentNameEqualTo((String) params.get("commentName"));
+				criteria.andCommentNameLike("%" + (String) params.get("commentName") + "%");
 			}
 
 			if (0 != limit) {
