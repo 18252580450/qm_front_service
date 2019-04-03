@@ -222,8 +222,8 @@
       <if test="wrkfmShowSwftno != null" >
         and t1.WRKFM_SHOW_SWFTNO = #{wrkfmShowSwftno,jdbcType=VARCHAR}
       </if>
-      <if test="arcStaffId != null" >
-        and t1.ACPT_STAFF_ID = #{arcStaffId,jdbcType=VARCHAR}
+      <if test="acptStaffId != null" >
+        and t1.ACPT_STAFF_ID = #{acptStaffId,jdbcType=VARCHAR}
       </if>
       <if test="arcBeginTime != null" >
         and t1.ARC_TIME between #{arcBeginTime,jdbcType=VARCHAR} and #{arcEndTime,jdbcType=VARCHAR}
