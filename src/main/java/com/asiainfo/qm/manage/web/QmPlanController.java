@@ -105,7 +105,7 @@ public class QmPlanController {
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
 			@HystrixProperty(name = "coreSize", value = "200") })
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(value = "/addQmPlan", method = RequestMethod.POST)
 	public QmPlanServiceResponse addQmPlan(@RequestBody String qmPlan) throws Exception {
 		QmPlanResponse qmPlanResponse = new QmPlanResponse();
 		QmPlanServiceResponse qmPlanServiceResponse = new QmPlanServiceResponse();
@@ -138,7 +138,7 @@ public class QmPlanController {
 			@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
 			@HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000") }, threadPoolProperties = {
 			@HystrixProperty(name = "coreSize", value = "200") })
-	@RequestMapping(value = "/", method = RequestMethod.PUT, consumes = "application/json")
+	@RequestMapping(value = "/updateQmPlan", method = RequestMethod.PUT, consumes = "application/json")
 	public QmPlanServiceResponse updateQmPlan(@RequestBody String qmPlan) throws Exception {
 		QmPlanResponse qmPlanResponse = new QmPlanResponse();
 		QmPlanServiceResponse qmPlanServiceResponse = new QmPlanServiceResponse();

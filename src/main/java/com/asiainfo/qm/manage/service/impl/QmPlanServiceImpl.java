@@ -277,7 +277,7 @@ public class QmPlanServiceImpl implements QmPlanService {
 							if(planResponse.getListData().size()>0&&planResponse.getListData()!=null){
 								HashMap hashMap = (HashMap) planResponse.getListData().get(0);
 								qmBindRlns.get(i).setCheckedObjectName(((JSONObject)(((JSONArray)hashMap.get("jsonArray")).get(0))).getString("STAFF_NAME"));
-								qmBindRlns.get(i).setCheckedDepartName(((JSONObject)(((JSONArray)hashMap.get("jsonArray")).get(0))).getString("ORGANIZE_NAME"));
+								qmBindRlns.get(i).setCheckedDepartName(((JSONObject)(((JSONArray)hashMap.get("jsonArray")).get(0))).getString("GROUP_NAME"));
 							}
 						}
 					}
