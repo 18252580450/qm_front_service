@@ -79,7 +79,6 @@ public class AddCheckTemplateServiceImpl implements AddCheckTemplateService {
         TemplateDetailExample example = new TemplateDetailExample();
         try {
             TemplateDetailExample.Criteria criteria= example.createCriteria();//在运行时动态生成查询语句
-			criteria.andTenantIdEqualTo((String) params.get("tenantId"));
             if(null != params.get("templateId")&& !"".equals(params.get("templateId"))){
                 criteria.andTemplateIdEqualTo((String) params.get("templateId"));
             }

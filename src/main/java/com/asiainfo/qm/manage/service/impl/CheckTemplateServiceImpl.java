@@ -262,7 +262,6 @@ public class CheckTemplateServiceImpl implements CheckTemplateService {
 
 			Map mapNew =new HashMap();
 			mapNew.put("templateId",checkTemplate.getTemplateId());
-			mapNew.put("tenantId","10010000");
 			TemplateDetailResponse templateDetailResponse = addCheckTemplateService.selectByParams(mapNew,0,0);
 			List<TemplateDetail> listNew = templateDetailResponse.getData();
 			for(TemplateDetail t : listNew) {//循环插入
