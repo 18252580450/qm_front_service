@@ -5,7 +5,6 @@ import com.asiainfo.qm.manage.domain.CheckItem;
 import com.asiainfo.qm.manage.domain.CheckItemExample;
 import com.asiainfo.qm.manage.service.CheckItemService;
 import com.asiainfo.qm.manage.service.CheckTemplateDetailService;
-import com.asiainfo.qm.manage.service.CheckTemplateService;
 import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.manage.vo.CheckItemResponse;
