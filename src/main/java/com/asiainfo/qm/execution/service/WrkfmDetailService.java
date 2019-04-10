@@ -2,6 +2,7 @@ package com.asiainfo.qm.execution.service;
 
 import com.asiainfo.qm.execution.vo.WrkfmDetailResponse;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -35,5 +36,10 @@ public interface WrkfmDetailService {
      * 查询工单历史
      */
     WrkfmDetailResponse getHistoryProProce(Map params) throws Exception;
+
+    /**
+     * 录音文件下载
+     */
+    void downloadRecord(String ftpPath, HttpServletResponse response) throws Exception;
 
 }

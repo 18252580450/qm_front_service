@@ -14,6 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Map;
 
 /**
@@ -220,5 +224,53 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
             wrkfmDetailResponse.setRspdesc("工单历史查询异常");
         }
         return wrkfmDetailResponse;
+    }
+
+    @Override
+    public void downloadRecord(String ftpPath, HttpServletResponse response) throws IOException {
+        if (ftpPath != null) {
+            String fileName = ftpPath.substring(ftpPath.lastIndexOf("/") + 1);
+            URL url = new URL(ftpPath);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            //设置超时间为3秒
+            conn.setConnectTimeout(3 * 1000);
+            //防止屏蔽程序抓取而返回403错误
+            conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
+            response.setContentType("application/octet-stream");
+            response.setHeader("content-type", "application/octet-stream");
+            response.setHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
+            byte[] buffer = new byte[1024];
+            InputStream fis = null;
+            BufferedInputStream bis = null;
+            try {
+                fis = conn.getInputStream();
+                bis = new BufferedInputStream(fis);
+                OutputStream os = response.getOutputStream();
+                int i = bis.read(buffer);
+                while (i != -1) {
+                    os.write(buffer, 0, i);
+                    i = bis.read(buffer);
+                }
+                System.out.println(fileName + "录音文件下载成功");
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.error(fileName + "录音文件下载失败", e);
+            } finally {
+                if (bis != null) {
+                    try {
+                        bis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 }

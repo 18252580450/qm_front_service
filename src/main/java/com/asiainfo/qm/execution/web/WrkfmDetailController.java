@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -184,5 +185,28 @@ public class WrkfmDetailController {
         logger.info("工单历史数据查询出错啦！");
         logger.error("");
         return new WrkfmDetailServiceResponse();
+    }
+
+    @ApiOperation(value = "调用外部接口下载录音文件", notes = "qm_configservice下载录音文件", response = WrkfmDetailServiceResponse.class)
+    @ApiResponses(value = {@ApiResponse(code = 401, message = "服务器认证失败"),
+            @ApiResponse(code = 403, message = "资源不存在"),
+            @ApiResponse(code = 404, message = "传入的参数无效"),
+            @ApiResponse(code = 500, message = "服务器出现异常错误")})
+    @HystrixCommand(groupKey = "qm_configservice ", commandKey = "recordDownload", threadPoolKey = "recordDownloadThread", fallbackMethod = "fallbackRecordDownload", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000"),
+            @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "200")})
+    @RequestMapping(value = "/recordDownload", method = RequestMethod.GET)
+    public void recordDownload(@RequestParam(name = "ftpPath") String ftpPath, HttpServletResponse response) throws Exception {
+        try {
+            wrkfmDetailService.downloadRecord(ftpPath, response);
+        } catch (Exception e) {
+            logger.error("录音文件下载异常", e);
+        }
+    }
+
+    public void fallbackRecordDownload(@RequestParam(name = "ftpPath") String ftpPath, HttpServletResponse response) throws Exception {
+        logger.info("录音文件下载出错啦！");
+        logger.error("");
     }
 }
