@@ -132,7 +132,8 @@ public class TypicalCaseServiceImpl implements TypicalCaseService {
         String caseId = String.valueOf(sequenceUtils.getSequence("t_qm_typical_case"));
         try {
             TypicalCaseExample.Criteria criteria = example.createCriteria();
-            criteria.andInspectionIdEqualTo(typicalCase.getInspectionId());
+//            criteria.andInspectionIdEqualTo(typicalCase.getInspectionId());
+            criteria.andTouchIdEqualTo(typicalCase.getTouchId());
             criteria.andCaseTypeEqualTo(typicalCase.getCaseType());
             List<TypicalCase> list = typicalCaseMapper.selectByCaseType(example);
             if (null != list && list.size() > 0) {

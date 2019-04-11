@@ -595,73 +595,73 @@ public class TypicalCaseExample {
             return (Criteria) this;
         }
 
-        public Criteria andInspectionIdIsNull() {
-            addCriterion("INSPECTION_ID is null");
+        public Criteria andTouchIdIsNull() {
+            addCriterion("TOUCH_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andInspectionIdIsNotNull() {
-            addCriterion("INSPECTION_ID is not null");
+        public Criteria andTouchIdIsNotNull() {
+            addCriterion("TOUCH_ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andInspectionIdEqualTo(String value) {
-            addCriterion("INSPECTION_ID =", value, "inspectionId");
+        public Criteria andTouchIdEqualTo(String value) {
+            addCriterion("TOUCH_ID =", value, "touchId");
             return (Criteria) this;
         }
 
-        public Criteria andInspectionIdNotEqualTo(String value) {
-            addCriterion("INSPECTION_ID <>", value, "inspectionId");
+        public Criteria andTouchIdNotEqualTo(String value) {
+            addCriterion("TOUCH_ID <>", value, "touchId");
             return (Criteria) this;
         }
 
-        public Criteria andInspectionIdGreaterThan(String value) {
-            addCriterion("INSPECTION_ID >", value, "inspectionId");
+        public Criteria andTouchIdGreaterThan(String value) {
+            addCriterion("TOUCH_ID >", value, "touchId");
             return (Criteria) this;
         }
 
-        public Criteria andInspectionIdGreaterThanOrEqualTo(String value) {
-            addCriterion("INSPECTION_ID >=", value, "inspectionId");
+        public Criteria andTouchIdGreaterThanOrEqualTo(String value) {
+            addCriterion("TOUCH_ID >=", value, "touchId");
             return (Criteria) this;
         }
 
-        public Criteria andInspectionIdLessThan(String value) {
-            addCriterion("INSPECTION_ID <", value, "inspectionId");
+        public Criteria andTouchIdLessThan(String value) {
+            addCriterion("TOUCH_ID <", value, "touchId");
             return (Criteria) this;
         }
 
-        public Criteria andInspectionIdLessThanOrEqualTo(String value) {
-            addCriterion("INSPECTION_ID <=", value, "inspectionId");
+        public Criteria andTouchIdLessThanOrEqualTo(String value) {
+            addCriterion("TOUCH_ID <=", value, "touchId");
             return (Criteria) this;
         }
 
-        public Criteria andInspectionIdLike(String value) {
-            addCriterion("INSPECTION_ID like", value, "inspectionId");
+        public Criteria andTouchIdLike(String value) {
+            addCriterion("TOUCH_ID like", value, "touchId");
             return (Criteria) this;
         }
 
-        public Criteria andInspectionIdNotLike(String value) {
-            addCriterion("INSPECTION_ID not like", value, "inspectionId");
+        public Criteria andTouchIdNotLike(String value) {
+            addCriterion("TOUCH_ID not like", value, "touchId");
             return (Criteria) this;
         }
 
-        public Criteria andInspectionIdIn(List<String> values) {
-            addCriterion("INSPECTION_ID in", values, "inspectionId");
+        public Criteria andTouchIdIn(List<String> values) {
+            addCriterion("TOUCH_ID in", values, "touchId");
             return (Criteria) this;
         }
 
-        public Criteria andInspectionIdNotIn(List<String> values) {
-            addCriterion("INSPECTION_ID not in", values, "inspectionId");
+        public Criteria andTouchIdNotIn(List<String> values) {
+            addCriterion("TOUCH_ID not in", values, "touchId");
             return (Criteria) this;
         }
 
-        public Criteria andInspectionIdBetween(String value1, String value2) {
-            addCriterion("INSPECTION_ID between", value1, value2, "inspectionId");
+        public Criteria andTouchIdBetween(String value1, String value2) {
+            addCriterion("TOUCH_ID between", value1, value2, "touchId");
             return (Criteria) this;
         }
 
-        public Criteria andInspectionIdNotBetween(String value1, String value2) {
-            addCriterion("INSPECTION_ID not between", value1, value2, "inspectionId");
+        public Criteria andTouchIdNotBetween(String value1, String value2) {
+            addCriterion("TOUCH_ID not between", value1, value2, "touchId");
             return (Criteria) this;
         }
 

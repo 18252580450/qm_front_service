@@ -9,7 +9,7 @@
     <result column="CHECK_TYPE" property="checkType" jdbcType="VARCHAR" />
     <result column="CASE_TYPE" property="caseType" jdbcType="VARCHAR" />
     <result column="CASE_TITLE" property="caseTitle" jdbcType="VARCHAR" />
-    <result column="INSPECTION_ID" property="inspectionId" jdbcType="VARCHAR" />
+    <result column="TOUCH_ID" property="touchId" jdbcType="VARCHAR" />
     <result column="CREATE_REASON" property="createReason" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_STAFF_ID" property="createStaffId" jdbcType="VARCHAR" />
@@ -29,13 +29,12 @@
     <result column="CHECK_TYPE" property="checkType" jdbcType="VARCHAR" />
     <result column="CASE_TYPE" property="caseType" jdbcType="VARCHAR" />
     <result column="CASE_TITLE" property="caseTitle" jdbcType="VARCHAR" />
-    <result column="INSPECTION_ID" property="inspectionId" jdbcType="VARCHAR" />
+    <result column="TOUCH_ID" property="touchId" jdbcType="VARCHAR" />
     <result column="CREATE_REASON" property="createReason" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="CREATE_STAFF_ID" property="createStaffId" jdbcType="VARCHAR" />
     <result column="CREATE_STAFF_NAME" property="createStaffName" jdbcType="VARCHAR" />
     <result column="CASE_NUM" property="caseNum" jdbcType="VARCHAR" />
-    <result column="TOUCH_ID" property="touchId" jdbcType="VARCHAR" />
     <result column="CHECK_STAFF_ID" property="checkStaffId" jdbcType="VARCHAR" />
     <result column="CHECKED_STAFF_ID" property="checkedStaffId" jdbcType="VARCHAR" />
     <result column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
@@ -99,14 +98,14 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    CASE_ID, TENANT_ID, PROVINCE_ID, CITY_ID, CHECK_TYPE, CASE_TYPE, CASE_TITLE, INSPECTION_ID, 
+    CASE_ID, TENANT_ID, PROVINCE_ID, CITY_ID, CHECK_TYPE, CASE_TYPE, CASE_TITLE, TOUCH_ID,
     CREATE_REASON, CREATE_TIME, CREATE_STAFF_ID, CREATE_STAFF_NAME, RESERVE_1, RESERVE_2, 
     RESERVE_3, RESERVE_4, RESERVE_5
   </sql>
   <sql id="UNION_Column_List" >
-    t.CASE_ID, t.TENANT_ID, t1.PROVINCE_ID, t.CITY_ID, t.CHECK_TYPE, t.CASE_TYPE, t.CASE_TITLE, t.INSPECTION_ID,
+    t.CASE_ID, t.TENANT_ID, t1.PROVINCE_ID, t.CITY_ID, t.CHECK_TYPE, t.CASE_TYPE, t.CASE_TITLE, t.TOUCH_ID,
     t.CREATE_REASON, t.CREATE_TIME, t.CREATE_STAFF_ID, t.CREATE_STAFF_NAME,
-    t1.TOUCH_ID, t1.CHECK_STAFF_ID, t1.CHECKED_STAFF_ID, t1.TEMPLATE_ID
+    t1.CHECK_STAFF_ID, t1.CHECKED_STAFF_ID, t1.TEMPLATE_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.TypicalCaseExample" >
     select
@@ -128,7 +127,7 @@
       distinct
     </if>
     <include refid="UNION_Column_List" />
-    from t_qm_typical_case t left outer join t_qm_order_check_result t1 ON t.INSPECTION_ID = t1.INSPECTION_ID
+    from t_qm_typical_case t left outer join t_qm_workform_pool t1 ON t.TOUCH_ID = t1.WRKFM_ID
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -142,7 +141,7 @@
       distinct
     </if>
     <include refid="UNION_Column_List" />
-    from t_qm_typical_case t left outer join t_qm_voice_check_result t1 ON t.INSPECTION_ID = t1.INSPECTION_ID
+    from t_qm_typical_case t left outer join t_qm_voice_pool t1 ON t.TOUCH_ID = t1.TOUCH_ID
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -180,13 +179,13 @@
   <insert id="insert" parameterType="com.asiainfo.qm.manage.domain.TypicalCase" >
     insert into t_qm_typical_case (CASE_ID, TENANT_ID, PROVINCE_ID, 
       CITY_ID, CHECK_TYPE, CASE_TYPE, 
-      CASE_TITLE, INSPECTION_ID, CREATE_REASON, 
+      CASE_TITLE, TOUCH_ID, CREATE_REASON,
       CREATE_TIME, CREATE_STAFF_ID, CREATE_STAFF_NAME, 
       RESERVE_1, RESERVE_2, RESERVE_3, 
       RESERVE_4, RESERVE_5)
     values (#{caseId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, 
       #{cityId,jdbcType=VARCHAR}, #{checkType,jdbcType=VARCHAR}, #{caseType,jdbcType=VARCHAR}, 
-      #{caseTitle,jdbcType=VARCHAR}, #{inspectionId,jdbcType=VARCHAR}, #{createReason,jdbcType=VARCHAR}, 
+      #{caseTitle,jdbcType=VARCHAR}, #{touchId,jdbcType=VARCHAR}, #{createReason,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{createStaffId,jdbcType=VARCHAR}, #{createStaffName,jdbcType=VARCHAR}, 
       #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR}, 
       #{reserve4,jdbcType=VARCHAR}, #{reserve5,jdbcType=VARCHAR})
@@ -215,8 +214,8 @@
       <if test="caseTitle != null" >
         CASE_TITLE,
       </if>
-      <if test="inspectionId != null" >
-        INSPECTION_ID,
+      <if test="touchId != null" >
+        TOUCH_ID,
       </if>
       <if test="createReason != null" >
         CREATE_REASON,
@@ -268,8 +267,8 @@
       <if test="caseTitle != null" >
         #{caseTitle,jdbcType=VARCHAR},
       </if>
-      <if test="inspectionId != null" >
-        #{inspectionId,jdbcType=VARCHAR},
+      <if test="touchId != null" >
+        #{touchId,jdbcType=VARCHAR},
       </if>
       <if test="createReason != null" >
         #{createReason,jdbcType=VARCHAR},
@@ -330,8 +329,8 @@
       <if test="record.caseTitle != null" >
         CASE_TITLE = #{record.caseTitle,jdbcType=VARCHAR},
       </if>
-      <if test="record.inspectionId != null" >
-        INSPECTION_ID = #{record.inspectionId,jdbcType=VARCHAR},
+      <if test="record.touchId != null" >
+        TOUCH_ID = #{record.touchId,jdbcType=VARCHAR},
       </if>
       <if test="record.createReason != null" >
         CREATE_REASON = #{record.createReason,jdbcType=VARCHAR},
@@ -374,7 +373,7 @@
       CHECK_TYPE = #{record.checkType,jdbcType=VARCHAR},
       CASE_TYPE = #{record.caseType,jdbcType=VARCHAR},
       CASE_TITLE = #{record.caseTitle,jdbcType=VARCHAR},
-      INSPECTION_ID = #{record.inspectionId,jdbcType=VARCHAR},
+      TOUCH_ID = #{record.touchId,jdbcType=VARCHAR},
       CREATE_REASON = #{record.createReason,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       CREATE_STAFF_ID = #{record.createStaffId,jdbcType=VARCHAR},
@@ -409,8 +408,8 @@
       <if test="caseTitle != null" >
         CASE_TITLE = #{caseTitle,jdbcType=VARCHAR},
       </if>
-      <if test="inspectionId != null" >
-        INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR},
+      <if test="touchId != null" >
+        TOUCH_ID = #{touchId,jdbcType=VARCHAR},
       </if>
       <if test="createReason != null" >
         CREATE_REASON = #{createReason,jdbcType=VARCHAR},
@@ -450,7 +449,7 @@
       CHECK_TYPE = #{checkType,jdbcType=VARCHAR},
       CASE_TYPE = #{caseType,jdbcType=VARCHAR},
       CASE_TITLE = #{caseTitle,jdbcType=VARCHAR},
-      INSPECTION_ID = #{inspectionId,jdbcType=VARCHAR},
+      TOUCH_ID = #{touchId,jdbcType=VARCHAR},
       CREATE_REASON = #{createReason,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       CREATE_STAFF_ID = #{createStaffId,jdbcType=VARCHAR},
