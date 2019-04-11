@@ -42,6 +42,6 @@ public interface AppealProcessService {
     /**
      * 主流程启动or暂停
      */
-    AppealProcessResponse changeProcessStatus(List<AppealProcess> processList, String processStatus) throws Exception;
+    AppealProcessResponse changeProcessStatus(Map<String, Object> reqMap) throws Exception;
 
 }

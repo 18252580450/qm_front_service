@@ -195,12 +195,11 @@ public class AppealProcessController {
             @HystrixProperty(name = "fallback.isolation.semaphore.maxConcurrentRequests", value = "2000")}, threadPoolProperties = {
             @HystrixProperty(name = "coreSize", value = "200")})
     @RequestMapping(value = "/changeProcessStatus", method = RequestMethod.PUT)
-    public AppealProcessServiceResponse changeProcessStatus(@RequestBody List<AppealProcess> processList) throws Exception {
+    public AppealProcessServiceResponse changeProcessStatus(@RequestBody Map<String, Object> reqMap) throws Exception {
         AppealProcessResponse appealProcessResponse = new AppealProcessResponse();
         AppealProcessServiceResponse appealProcessServiceResponse = new AppealProcessServiceResponse();
-        String processStatus = processList.get(0).getProcessStatus();
         try {
-            appealProcessResponse = appealProcessService.changeProcessStatus(processList, processStatus);
+            appealProcessResponse = appealProcessService.changeProcessStatus(reqMap);
         } catch (Exception e) {
             logger.error("流程状态更新异常", e);
             appealProcessResponse.setRspcode(WebUtil.EXCEPTION);
@@ -210,7 +209,7 @@ public class AppealProcessController {
         return appealProcessServiceResponse;
     }
 
-    public AppealProcessServiceResponse fallbackChangeProcessStatus(@RequestBody List<AppealProcess> processList) throws Exception {
+    public AppealProcessServiceResponse fallbackChangeProcessStatus(@RequestBody Map<String, Object> reqMap) throws Exception {
         logger.info("流程状态更新出错啦！");
         logger.error("");
         return new AppealProcessServiceResponse();

@@ -1,10 +1,14 @@
 package com.asiainfo.qm.manage.service.impl;
 
+import com.asiainfo.qm.execution.dao.AppealDealMapper;
+import com.asiainfo.qm.execution.domain.AppealDeal;
+import com.asiainfo.qm.execution.domain.AppealDealExample;
 import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.AppealNodeMapper;
 import com.asiainfo.qm.manage.dao.AppealProcessMapper;
 import com.asiainfo.qm.manage.domain.*;
 import com.asiainfo.qm.manage.service.AppealProcessService;
+import com.asiainfo.qm.manage.util.Constants;
 import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.asiainfo.qm.manage.vo.AppealNodeResponse;
@@ -37,6 +41,8 @@ public class AppealProcessServiceImpl implements AppealProcessService {
     private AppealProcessMapper appealProcessMapper;
     @Autowired
     private AppealNodeMapper appealNodeMapper;
+    @Autowired
+    private AppealDealMapper appealDealMapper;
 
     @Autowired
     private SequenceUtils sequenceUtils;
@@ -486,20 +492,67 @@ public class AppealProcessServiceImpl implements AppealProcessService {
     }
 
     @Override
-    public AppealProcessResponse changeProcessStatus(List<AppealProcess> processList, String processStatus) throws Exception {
+    public AppealProcessResponse changeProcessStatus(Map<String, Object> reqMap) throws Exception {
         AppealProcessResponse appealProcessResponse = new AppealProcessResponse();
+        String processStatus = reqMap.get("processStatus").toString();
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> processList = (List<Map<String, Object>>) reqMap.get("processList");
+        List<String> processIdList = new ArrayList<>();
+        List<String> departmentList = new ArrayList<>();
+
         String rspDesc = "";
-        if (processStatus.equals("1")) {
+        if (processStatus.equals(Constants.QM_APPEAL_PROCESS_STATUS.ENABLE)) {
             rspDesc = "启动";
-        } else {
+        } else if (processStatus.equals(Constants.QM_APPEAL_PROCESS_STATUS.PAUSE)) {
             rspDesc = "暂停";
         }
         try {
-            int result = 0;
-            for (AppealProcess appealProcess : processList
+            for (Map<String, Object> process : processList
             ) {
+                processIdList.add(process.get("processId").toString());
+                departmentList.add(process.get("departmentId").toString());
+            }
+            if (processStatus.equals(Constants.QM_APPEAL_PROCESS_STATUS.ENABLE)) { //1.启动校验，同一部门同一质检类型只能存在一个启动流程
+                AppealProcessExample example = new AppealProcessExample();
+                AppealProcessExample.Criteria criteria = example.createCriteria();
+                criteria.andMainProcessFlagEqualTo(Constants.QM_APPEAL_PROCESS_TYPE.MAIN);  //针对主流程
+                criteria.andProcessStatusEqualTo(Constants.QM_APPEAL_PROCESS_STATUS.ENABLE);
+                criteria.andDepartmentIdIn(departmentList);
+                List<AppealProcess> list = appealProcessMapper.selectByExample(example);
+                if (null != list && list.size() > 0) {
+                    for (Map<String, Object> newProcess : processList
+                    ) {
+                        for (AppealProcess oldProcess : list
+                        ) {
+                            if (oldProcess.getDepartmentId().equals(newProcess.get("departmentId").toString()) && oldProcess.getCheckType().equals(newProcess.get("checkType").toString())) {
+                                appealProcessResponse.setRspcode(WebUtil.FAIL);
+                                appealProcessResponse.setRspdesc("同部门同一质检类型同时只能启动一个申诉流程！");
+                                return appealProcessResponse;
+                            }
+                        }
+                    }
+                }
+            } else if (processStatus.equals(Constants.QM_APPEAL_PROCESS_STATUS.PAUSE)) { //2.暂停校验，存在申诉流程时不能暂停
+                AppealDealExample example = new AppealDealExample();
+                AppealDealExample.Criteria criteria = example.createCriteria();
+                criteria.andAppealStatusEqualTo(Constants.QM_APPEAL_STATUS.APPEALING);
+                criteria.andMainProcessIdIn(processIdList);
+                List<AppealDeal> list = appealDealMapper.selectByExample(example);
+                if (null != list && list.size() > 0) {
+                    appealProcessResponse.setRspcode(WebUtil.FAIL);
+                    appealProcessResponse.setRspdesc("暂停失败!流程正在使用中");
+                    return appealProcessResponse;
+                }
+            }
+
+            int result = 0;
+            for (Map<String, Object> process : processList
+            ) {
+                AppealProcess appealProcess = new AppealProcess();
+                appealProcess.setProcessId(process.get("processId").toString());
+                appealProcess.setProcessStatus(processStatus);
                 appealProcess.setModifyTime(DateUtil.getCurrontTime());
-                result = appealProcessMapper.updateByPrimaryKey(appealProcess);
+                result = appealProcessMapper.updateByPrimaryKeySelective(appealProcess);
                 if (result == 0) {
                     break;
                 }

@@ -1132,7 +1132,7 @@ public class Constants {
     }
 
     /**
-     * 审批结果
+     * 主子流程标志
      */
     public interface QM_APPEAL_PROCESS_TYPE {
         String MAIN = "0";        //主流程
