@@ -188,7 +188,7 @@ public class ExtractServiceImpl implements IExtractService{
                 //非公共参数
                 if("0".equals(qmPlan.getManOrAuto())){
                     //自动分派
-                    for(int j = 0;i<qmBindRlns.size();j++){
+                    for (int j = 0; j < qmBindRlns.size(); j++) {
                         QmBindRln qmBindRln = qmBindRlns.get(j);
                         if(qmBindRln.getUserType().equals("0") &&
                                 qmBindRln.getCheckedObjectId().equals(qmWorkform.getArcStaffId())){
