@@ -89,17 +89,22 @@ public class TypicalCaseServiceImpl implements TypicalCaseService {
                 criteria.andCaseTypeEqualTo((String) params.get("caseType"));
             }
             List<TypicalCase> list = new ArrayList<>();
-            if (params.get("checkType").equals(Constants.QM_CHECK_TYPE.VOICE)) {
-                list = typicalCaseMapper.voiceUnionSelectByExample(example);
-            } else if (params.get("checkType").equals(Constants.QM_CHECK_TYPE.ORDER)) {
-                list = typicalCaseMapper.orderUnionSelectByExample(example);
-            }
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
+                if (params.get("checkType").equals(Constants.QM_CHECK_TYPE.VOICE)) {
+                    list = typicalCaseMapper.voiceUnionSelectByExample(example);
+                } else if (params.get("checkType").equals(Constants.QM_CHECK_TYPE.ORDER)) {
+                    list = typicalCaseMapper.orderUnionSelectByExample(example);
+                }
                 Page<TypicalCase> pagelist = (Page) list;
                 typicalCaseResponse = new TypicalCaseResponse(pagelist);
             } else {
                 typicalCaseResponse = new TypicalCaseResponse();
+                if (params.get("checkType").equals(Constants.QM_CHECK_TYPE.VOICE)) {
+                    list = typicalCaseMapper.voiceUnionSelectByExample(example);
+                } else if (params.get("checkType").equals(Constants.QM_CHECK_TYPE.ORDER)) {
+                    list = typicalCaseMapper.orderUnionSelectByExample(example);
+                }
                 typicalCaseResponse.setData(list);
             }
 
