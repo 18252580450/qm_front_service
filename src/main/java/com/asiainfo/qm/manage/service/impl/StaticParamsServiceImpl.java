@@ -34,19 +34,21 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 
 	@Override
 	public StaticParamsResponse selectByParams(Map params,int start,int limit) throws Exception  {
+
+
 		StaticParamsResponse staticParamsResponse = null;
 		StaticParamsExample example = new StaticParamsExample();
 		try {
 			StaticParamsExample.Criteria criteria= example.createCriteria();
 			criteria.andTenantIdEqualTo((String) params.get("tenantId"));
+			if(null != params.get("paramsTypeName") && !"".equals(params.get("paramsTypeName"))) {
+				criteria.andParamsTypeNameLike("%" + params.get("paramsTypeName") + "%");
+			}
 			if(null != params.get("paramsPurposeId")&& !"".equals(params.get("paramsPurposeId"))){
 				example.createCriteria().andParamsPurposeIdEqualTo((String) params.get("paramsPurposeId"));
 			}
 			if(null != params.get("paramsTypeId") && !"".equals(params.get("paramsTypeId"))) {
 				criteria.andParamsTypeIdEqualTo((String) params.get("paramsTypeId"));
-			}
-			if(null != params.get("paramsTypeName") && !"".equals(params.get("paramsTypeName"))) {
-				criteria.andParamsTypeNameLike("%" + params.get("paramsTypeName") + "%");
 			}
 			if(0 != limit) {
 				PageHelper.offsetPage(start, limit);

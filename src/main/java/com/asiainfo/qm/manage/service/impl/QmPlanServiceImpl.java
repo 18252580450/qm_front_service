@@ -334,7 +334,7 @@ public class QmPlanServiceImpl implements QmPlanService {
 					"&staffId="+params.get("staffId")+"&start="+params.get("start")+
 					"&limit="+params.get("limit")+"&provCode="+params.get("provCode")+
 					"&roleCode="+params.get("roleCode");
-			String urlAll = HttpConstants.HttpParams.VIRTUAL_GROUP_PERSONAL_SERVLET+"?groupId=&staffName=&staffId=&start=&limit=&=provCode=&roleCode=";
+			String urlAll = HttpConstants.HttpParams.VIRTUAL_GROUP_PERSONAL_SERVLET+"?groupId=&staffName=&staffId=&start=&limit=&=provCode=&roleCode="+params.get("roleCode");
 			RestClient restClient = new RestClient();
 			Map map = new HashMap();
 			JSONArray jsonArray = (JSONArray) restClient.callRemoteServicetWithHeaderForList(url, HttpMethod.POST,map,JSONObject.class,null,"1");
@@ -345,7 +345,7 @@ public class QmPlanServiceImpl implements QmPlanService {
 				Map hashMap = new HashMap();
 				hashMap.put("totalAll",((JSONObject) jsonArrayAll.get(0)).get("TOTAL"));
 				hashMap.put("jsonArray",jsonArray);
-//				hashMap.put("jsonArrayAll",jsonArrayAll);
+				hashMap.put("jsonArrayAll",jsonArrayAll);
 				list.add(hashMap);
 				qmPlanResponse.setListData(list);
 				qmPlanResponse.setRspdesc("查询成功");
