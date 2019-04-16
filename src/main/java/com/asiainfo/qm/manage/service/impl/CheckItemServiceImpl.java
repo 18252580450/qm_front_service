@@ -48,6 +48,10 @@ public class CheckItemServiceImpl implements CheckItemService {
             if (null != params.get("parentCheckItemId") && !"".equals(params.get("parentCheckItemId"))) {
                 criteria.andParentCheckItemIdLike((String) params.get("parentCheckItemId") + "%");
             }
+            //显示子一级目录
+            if (null != params.get("orderNo") && !"".equals(params.get("orderNo"))) {
+                criteria.andOrderNoEqualTo(Integer.parseInt(params.get("orderNo").toString()));
+            }
             if (null != params.get("checkItemName") && !"".equals(params.get("checkItemName"))) {
                 criteria.andCheckItemNameLike("%" + (String) params.get("checkItemName") + "%");
             }

@@ -234,7 +234,9 @@
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    order by CHECKED_TIME desc
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

@@ -326,6 +326,9 @@ public class AppealDealServiceImpl implements AppealDealService {
                 criteria.andUserIdEqualTo((String) params.get("staffId"));
             }
 
+            //排序（按申诉时间降序排序）
+            example.setOrderByClause("APPEAL_TIME desc");
+
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
                 List<UnionAppealDeal> list = appealDealMapper.unionSelectByExample(example);

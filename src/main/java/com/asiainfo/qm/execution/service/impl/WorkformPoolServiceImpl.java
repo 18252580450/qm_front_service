@@ -81,6 +81,13 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
                 criteria.andOperateTimeBetween(sdf.parse((String) params.get("operateTimeBegin")), sdf.parse((String) params.get("operateTimeEnd")));
             }
 
+            //排序（默认按抽取时间降序）
+            if (null != params.get("orderMethod") && !"".equals(params.get("orderMethod"))) {
+                workformPoolExample.setOrderByClause("OPERATE_TIME desc");
+            } else {
+                workformPoolExample.setOrderByClause("CHECKED_TIME desc");
+            }
+
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
                 List<WorkformPool> list = workformPoolMapper.selectByExample(workformPoolExample);

@@ -106,6 +106,12 @@ public class VoicePoolServiceImpl implements VoicePoolService {
             if (null != params.get("poolStatus") && !"".equals(params.get("poolStatus"))) {
                 criteria.andPoolStatusEqualTo(Integer.parseInt((String) params.get("poolStatus")));
             }
+            //排序（默认按抽取时间降序）
+            if (null != params.get("orderMethod") && !"".equals(params.get("orderMethod"))) {
+                example.setOrderByClause("OPERATE_TIME desc");
+            } else {
+                example.setOrderByClause("CHECKED_TIME desc");
+            }
             if (0 != limit) {
                 PageHelper.offsetPage(start, limit);
                 List<VoicePool> list = voicePoolMapper.selectByExample(example);
