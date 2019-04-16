@@ -9,7 +9,6 @@ import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.util.WebUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,26 +80,8 @@ public class VoicePoolServiceImpl implements VoicePoolService {
             if (null != params.get("callType") && !"".equals(params.get("callType"))) {
                 criteria.andCallTypeEqualTo((String) params.get("callType"));
             }
-            if (null != params.get("voiceSatisfyExtent") && !"".equals(params.get("voiceSatisfyExtent"))) {
-                criteria.andVoiceSatisfyExtentEqualTo((String) params.get("voiceSatisfyExtent"));
-            }
-            if (null != params.get("staffNumber") && !"".equals(params.get("staffNumber"))) {
-                criteria.andStaffNumberEqualTo((String) params.get("staffNumber"));
-            }
-            if (null != params.get("customerNumber") && !"".equals(params.get("customerNumber"))) {
-                criteria.andCustomerNumberEqualTo((String) params.get("customerNumber"));
-            }
-            if (null != params.get("satisfyExtentType") && !"".equals(params.get("satisfyExtentType"))) {
-                criteria.andSatisfyExtentTypeEqualTo((String) params.get("satisfyExtentType"));
-            }
             if (null != params.get("srvReqstTypeId") && !"".equals(params.get("srvReqstTypeId"))) {
                 criteria.andSrvReqstTypeIdEqualTo((String) params.get("srvReqstTypeId"));
-            }
-            if (null != params.get("strategyName") && !"".equals(params.get("strategyName"))) {
-                criteria.andStrategyNameEqualTo((String) params.get("strategyName"));
-            }
-            if (null != params.get("recordTimeMin") && !"".equals(params.get("recordTimeMin")) && null != params.get("recordTimeMax") && !"".equals(params.get("recordTimeMax"))) {
-                criteria.andRecordTimeBetween(Integer.parseInt((String) params.get("recordTimeMin")), Integer.parseInt((String) params.get("recordTimeMax")));
             }
             //质检状态，区分已质检和未质检数据
             if (null != params.get("poolStatus") && !"".equals(params.get("poolStatus"))) {

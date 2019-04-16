@@ -64,9 +64,6 @@ public class WorkCheckResultServiceImpl implements OrderCheckResultService {
             if (null != params.get("resultStatus") && !"".equals(params.get("resultStatus"))) {
                 criteria.andResultStatusEqualTo((String) params.get("resultStatus"));
             }
-            if (null != params.get("errorRank") && !"".equals(params.get("errorRank"))) {
-                criteria.andErrorRankEqualTo((String) params.get("errorRank"));
-            }
             if (null != params.get("minScore") && !"".equals(params.get("minScore")) && null != params.get("maxScore") && !"".equals(params.get("maxScore"))) {
                 criteria.andFinalScoreBetween(BigDecimal.valueOf(Double.parseDouble(params.get("minScore").toString())), BigDecimal.valueOf(Double.parseDouble(params.get("maxScore").toString())));
             }
