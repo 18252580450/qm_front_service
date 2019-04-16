@@ -151,8 +151,7 @@
     <include refid="Union_Column_List" />
     from t_qm_appeal_process_info t1
     right outer join t_qm_appeal_node_info t2 ON t1.PROCESS_ID = t2.PROCESS_ID
-    where t1.TENANT_ID = #{tenantId,jdbcType=VARCHAR}
-      and t1.PARENT_PROCESS_ID = #{parentProcessId,jdbcType=VARCHAR}
+    where t1.PARENT_PROCESS_ID = #{parentProcessId,jdbcType=VARCHAR}
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
