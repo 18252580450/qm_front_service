@@ -157,9 +157,7 @@
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
+    order by CHECK_END_TIME desc
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.OrderCheckResultKey" >
     select

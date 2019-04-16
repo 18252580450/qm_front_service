@@ -231,9 +231,7 @@
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
+    order by CHECKED_TIME desc
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.execution.domain.WorkformPoolKey" >
     select 
