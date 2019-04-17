@@ -44,7 +44,7 @@ public class VoicePoolServiceImpl implements VoicePoolService {
         try {
             VoicePoolExample.Criteria criteria = example.createCriteria();//在运行时动态生成查询语句
             if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
-                criteria.andTouchIdEqualTo((String) params.get("touchId"));
+                criteria.andTouchIdLike("%" + (String) params.get("touchId") + "%");  //模糊查询
             }
             if (null != params.get("planId") && !"".equals(params.get("planId"))) {
                 criteria.andPlanIdEqualTo((String) params.get("planId"));

@@ -43,16 +43,16 @@ public class QmVoiceServiceImpl implements QmVoiceService {
         try {
             QmVoiceRecord qmVoiceRecord = new QmVoiceRecord();
             if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
-                qmVoiceRecord.setTouchId(params.get("touchId").toString());
+                qmVoiceRecord.setTouchId("%" + params.get("touchId").toString() + "%");
             }
             if (null != params.get("staffNumber") && !"".equals(params.get("staffNumber"))) {
-                qmVoiceRecord.setStaffNumber((String) params.get("staffNumber"));
+                qmVoiceRecord.setStaffNumber("%" + (String) params.get("staffNumber") + "%");
             }
             if (null != params.get("staffId") && !"".equals(params.get("staffId"))) {
                 qmVoiceRecord.setStaffId((String) params.get("staffId"));
             }
-            if (null != params.get("calledNumber") && !"".equals(params.get("calledNumber"))) {
-                qmVoiceRecord.setCustomerNumber((String) params.get("calledNumber"));
+            if (null != params.get("customerNumber") && !"".equals(params.get("customerNumber"))) {
+                qmVoiceRecord.setCustomerNumber("%" + params.get("customerNumber") + "%");
             }
             if (null != params.get("beginTime") && !"".equals(params.get("beginTime")) && null != params.get("endTime") && !"".equals(params.get("endTime"))) {
                 qmVoiceRecord.setTouchBeginTime((String) params.get("beginTime"));

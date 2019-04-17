@@ -305,13 +305,13 @@ public class AppealDealServiceImpl implements AppealDealService {
                 criteria.andCheckTypeEqualTo((String) params.get("checkType"));
             }
             if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
-                criteria.andTouchIdEqualTo((String) params.get("touchId"));
+                criteria.andTouchIdLike("%" + params.get("touchId") + "%");
             }
             if (null != params.get("inspectionId") && !"".equals(params.get("inspectionId"))) {
-                criteria.andInspectionIdEqualTo((String) params.get("inspectionId"));
+                criteria.andInspectionIdLike("%" + params.get("inspectionId") + "%");
             }
             if (null != params.get("appealId") && !"".equals(params.get("appealId"))) {
-                criteria.andAppealIdEqualTo((String) params.get("appealId"));
+                criteria.andAppealIdLike("%" + params.get("appealId") + "%");
             }
             if (null != params.get("appealStatus") && !"".equals(params.get("appealStatus"))) {
                 criteria.andAppealStatusEqualTo((String) params.get("appealStatus"));

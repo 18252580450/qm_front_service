@@ -147,13 +147,13 @@
     <where >
       t2.TOUCH_ID is null
       <if test="touchId != null" >
-        and t1.TOUCH_ID = #{touchId,jdbcType=VARCHAR}
+        and t1.TOUCH_ID like #{touchId,jdbcType=VARCHAR}
       </if>
       <if test="staffNumber != null" >
-        and t1.STAFF_NUMBER = #{staffNumber,jdbcType=VARCHAR}
+        and t1.STAFF_NUMBER like #{staffNumber,jdbcType=VARCHAR}
       </if>
       <if test="customerNumber != null" >
-        and t1.CUSTOMER_NUMBER = #{customerNumber,jdbcType=VARCHAR}
+        and t1.CUSTOMER_NUMBER like #{customerNumber,jdbcType=VARCHAR}
       </if>
       <if test="staffId != null" >
         and t1.STAFF_ID = #{staffId,jdbcType=VARCHAR}

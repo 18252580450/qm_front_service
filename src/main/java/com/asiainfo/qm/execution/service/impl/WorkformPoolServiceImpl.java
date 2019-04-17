@@ -44,7 +44,7 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
         try {
             WorkformPoolExample.Criteria criteria = workformPoolExample.createCriteria();//在运行时动态生成查询语句
             if (null != params.get("wrkfmShowSwftno") && !"".equals(params.get("wrkfmShowSwftno"))) {
-                criteria.andWrkfmShowSwftnoEqualTo((String) params.get("wrkfmShowSwftno"));
+                criteria.andWrkfmShowSwftnoLike("%" + (String) params.get("wrkfmShowSwftno") + "%");  //模糊查询
             }
             if (null != params.get("planId") && !"".equals(params.get("planId"))) {
                 criteria.andPlanIdEqualTo((String) params.get("planId"));

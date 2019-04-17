@@ -220,7 +220,7 @@
     <where >
       t2.WRKFM_ID is null
       <if test="wrkfmShowSwftno != null" >
-        and t1.WRKFM_SHOW_SWFTNO = #{wrkfmShowSwftno,jdbcType=VARCHAR}
+        and t1.WRKFM_SHOW_SWFTNO like #{wrkfmShowSwftno,jdbcType=VARCHAR}
       </if>
       <if test="acptStaffId != null" >
         and t1.ACPT_STAFF_ID = #{acptStaffId,jdbcType=VARCHAR}
@@ -228,11 +228,8 @@
       <if test="arcBeginTime != null" >
         and t1.ARC_TIME between #{arcBeginTime,jdbcType=VARCHAR} and #{arcEndTime,jdbcType=VARCHAR}
       </if>
-      <if test="custName != null" >
-        and t1.CUST_NAME = #{custName,jdbcType=VARCHAR}
-      </if>
       <if test="custNum != null" >
-        and t1.CUST_NUM = #{custNum,jdbcType=VARCHAR}
+        and t1.CUST_NUM like #{custNum,jdbcType=VARCHAR}
       </if>
     </where>
   </select>

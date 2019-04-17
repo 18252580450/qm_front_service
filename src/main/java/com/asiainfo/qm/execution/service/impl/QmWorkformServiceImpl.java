@@ -41,7 +41,7 @@ public class QmWorkformServiceImpl implements QmWorkformService {
         try {
             QmWorkForm qmWorkForm = new QmWorkForm();
             if (null != params.get("wrkfmShowSwftno") && !"".equals(params.get("wrkfmShowSwftno"))) {
-                qmWorkForm.setWrkfmShowSwftno((String) params.get("wrkfmShowSwftno"));
+                qmWorkForm.setWrkfmShowSwftno("%" + params.get("wrkfmShowSwftno") + "%");
             }
             if (null != params.get("acptStaffId") && !"".equals(params.get("acptStaffId"))) {
                 qmWorkForm.setAcptStaffId((String) params.get("acptStaffId"));
@@ -50,11 +50,8 @@ public class QmWorkformServiceImpl implements QmWorkformService {
                 qmWorkForm.setArcBeginTime((String) params.get("arcBeginTime"));
                 qmWorkForm.setArcEndTime((String) params.get("arcEndTime"));
             }
-            if (null != params.get("custName") && !"".equals(params.get("custName"))) {
-                qmWorkForm.setCustName((String) params.get("custName"));
-            }
             if (null != params.get("custNum") && !"".equals(params.get("custNum"))) {
-                qmWorkForm.setCustNum((String) params.get("custNum"));
+                qmWorkForm.setCustNum("%" + params.get("custNum") + "%");
             }
 
             if (0 != limit) {
