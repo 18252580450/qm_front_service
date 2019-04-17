@@ -44,7 +44,7 @@ public class WorkCheckResultServiceImpl implements OrderCheckResultService {
         try {
             OrderCheckResultExample.Criteria criteria= orderCheckResultExample.createCriteria();//在运行时动态生成查询语句
             if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
-                criteria.andTouchIdEqualTo((String) params.get("touchId"));
+                criteria.andWrkfmShowSwftnoEqualTo((String) params.get("touchId"));
             }
             if (null != params.get("originInspectionId") && !"".equals(params.get("originInspectionId"))) {
                 criteria.andOriginInspectionIdEqualTo((String) params.get("originInspectionId"));
