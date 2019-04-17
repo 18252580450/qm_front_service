@@ -215,8 +215,9 @@
     <if test="distinct" >
       distinct
     </if>
-    <include refid="Base_Column_List" />
-    from t_qm_templatedetail
+    *
+    from t_qm_templatedetail t1
+    left outer join t_qm_check_item t2 ON t1.NODE_ID = t2.CHECK_ITEM_ID
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
