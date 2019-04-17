@@ -48,6 +48,9 @@ public class QmVoiceServiceImpl implements QmVoiceService {
             if (null != params.get("staffNumber") && !"".equals(params.get("staffNumber"))) {
                 qmVoiceRecord.setStaffNumber((String) params.get("staffNumber"));
             }
+            if (null != params.get("staffId") && !"".equals(params.get("staffId"))) {
+                qmVoiceRecord.setStaffId((String) params.get("staffId"));
+            }
             if (null != params.get("calledNumber") && !"".equals(params.get("calledNumber"))) {
                 qmVoiceRecord.setCustomerNumber((String) params.get("calledNumber"));
             }
