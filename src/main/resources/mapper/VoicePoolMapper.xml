@@ -173,12 +173,12 @@
     set  CHECK_STAFF_ID =
     <foreach collection="list" item="item" index="index"
              separator=" " open="case TOUCH_ID" close="end">
-      when #{item} then  ""
+      when #{item} then null
     </foreach>
     ,CHECK_STAFF_NAME =
     <foreach collection="list" item="item" index="index"
              separator=" " open="case TOUCH_ID" close="end">
-      when #{item} then ""
+      when #{item} then null
     </foreach>
     ,IS_OPERATE =
     <foreach collection="list" item="item" index="index"
