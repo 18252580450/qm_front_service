@@ -33,9 +33,17 @@ public class TypicalCase {
 
     private String checkedStaffId;
 
-    private String templateId;
-
     private String caseNum;
+
+    private String recordPath;
+
+    private String staffName;
+
+    private String departName;
+
+    private String staffNumber;
+
+    private String customerNumber;
 
     private String reserve1;
 
@@ -175,12 +183,44 @@ public class TypicalCase {
         this.checkedStaffId = checkedStaffId;
     }
 
-    public String getTemplateId() {
-        return templateId;
+    public String getRecordPath() {
+        return recordPath;
     }
 
-    public void setTemplateId(String templateId) {
-        this.templateId = templateId;
+    public void setRecordPath(String recordPath) {
+        this.recordPath = recordPath;
+    }
+
+    public String getStaffName() {
+        return staffName;
+    }
+
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
+    }
+
+    public String getDepartName() {
+        return departName;
+    }
+
+    public void setDepartName(String departName) {
+        this.departName = departName;
+    }
+
+    public String getStaffNumber() {
+        return staffNumber;
+    }
+
+    public void setStaffNumber(String staffNumber) {
+        this.staffNumber = staffNumber;
+    }
+
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
     }
 
     public String getReserve1() {
