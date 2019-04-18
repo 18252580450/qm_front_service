@@ -3157,6 +3157,216 @@ public class OrderCheckResultExample {
             return (Criteria) this;
         }
 
+        public Criteria andSrvReqstTypeIdIsNull() {
+            addCriterion("SRV_REQST_TYPE_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeIdIsNotNull() {
+            addCriterion("SRV_REQST_TYPE_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeIdEqualTo(String value) {
+            addCriterion("SRV_REQST_TYPE_ID =", value, "srvReqstTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeIdNotEqualTo(String value) {
+            addCriterion("SRV_REQST_TYPE_ID <>", value, "srvReqstTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeIdGreaterThan(String value) {
+            addCriterion("SRV_REQST_TYPE_ID >", value, "srvReqstTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeIdGreaterThanOrEqualTo(String value) {
+            addCriterion("SRV_REQST_TYPE_ID >=", value, "srvReqstTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeIdLessThan(String value) {
+            addCriterion("SRV_REQST_TYPE_ID <", value, "srvReqstTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeIdLessThanOrEqualTo(String value) {
+            addCriterion("SRV_REQST_TYPE_ID <=", value, "srvReqstTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeIdLike(String value) {
+            addCriterion("SRV_REQST_TYPE_ID like", value, "srvReqstTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeIdNotLike(String value) {
+            addCriterion("SRV_REQST_TYPE_ID not like", value, "srvReqstTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeIdIn(List<String> values) {
+            addCriterion("SRV_REQST_TYPE_ID in", values, "srvReqstTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeIdNotIn(List<String> values) {
+            addCriterion("SRV_REQST_TYPE_ID not in", values, "srvReqstTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeIdBetween(String value1, String value2) {
+            addCriterion("SRV_REQST_TYPE_ID between", value1, value2, "srvReqstTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeIdNotBetween(String value1, String value2) {
+            addCriterion("SRV_REQST_TYPE_ID not between", value1, value2, "srvReqstTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeNmIsNull() {
+            addCriterion("SRV_REQST_TYPE_NM is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeNmIsNotNull() {
+            addCriterion("SRV_REQST_TYPE_NM is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeNmEqualTo(String value) {
+            addCriterion("SRV_REQST_TYPE_NM =", value, "srvReqstTypeNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeNmNotEqualTo(String value) {
+            addCriterion("SRV_REQST_TYPE_NM <>", value, "srvReqstTypeNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeNmGreaterThan(String value) {
+            addCriterion("SRV_REQST_TYPE_NM >", value, "srvReqstTypeNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeNmGreaterThanOrEqualTo(String value) {
+            addCriterion("SRV_REQST_TYPE_NM >=", value, "srvReqstTypeNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeNmLessThan(String value) {
+            addCriterion("SRV_REQST_TYPE_NM <", value, "srvReqstTypeNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeNmLessThanOrEqualTo(String value) {
+            addCriterion("SRV_REQST_TYPE_NM <=", value, "srvReqstTypeNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeNmLike(String value) {
+            addCriterion("SRV_REQST_TYPE_NM like", value, "srvReqstTypeNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeNmNotLike(String value) {
+            addCriterion("SRV_REQST_TYPE_NM not like", value, "srvReqstTypeNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeNmIn(List<String> values) {
+            addCriterion("SRV_REQST_TYPE_NM in", values, "srvReqstTypeNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeNmNotIn(List<String> values) {
+            addCriterion("SRV_REQST_TYPE_NM not in", values, "srvReqstTypeNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeNmBetween(String value1, String value2) {
+            addCriterion("SRV_REQST_TYPE_NM between", value1, value2, "srvReqstTypeNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeNmNotBetween(String value1, String value2) {
+            addCriterion("SRV_REQST_TYPE_NM not between", value1, value2, "srvReqstTypeNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeFullNmIsNull() {
+            addCriterion("SRV_REQST_TYPE_FULL_NM is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeFullNmIsNotNull() {
+            addCriterion("SRV_REQST_TYPE_FULL_NM is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeFullNmEqualTo(String value) {
+            addCriterion("SRV_REQST_TYPE_FULL_NM =", value, "srvReqstTypeFullNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeFullNmNotEqualTo(String value) {
+            addCriterion("SRV_REQST_TYPE_FULL_NM <>", value, "srvReqstTypeFullNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeFullNmGreaterThan(String value) {
+            addCriterion("SRV_REQST_TYPE_FULL_NM >", value, "srvReqstTypeFullNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeFullNmGreaterThanOrEqualTo(String value) {
+            addCriterion("SRV_REQST_TYPE_FULL_NM >=", value, "srvReqstTypeFullNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeFullNmLessThan(String value) {
+            addCriterion("SRV_REQST_TYPE_FULL_NM <", value, "srvReqstTypeFullNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeFullNmLessThanOrEqualTo(String value) {
+            addCriterion("SRV_REQST_TYPE_FULL_NM <=", value, "srvReqstTypeFullNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeFullNmLike(String value) {
+            addCriterion("SRV_REQST_TYPE_FULL_NM like", value, "srvReqstTypeFullNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeFullNmNotLike(String value) {
+            addCriterion("SRV_REQST_TYPE_FULL_NM not like", value, "srvReqstTypeFullNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeFullNmIn(List<String> values) {
+            addCriterion("SRV_REQST_TYPE_FULL_NM in", values, "srvReqstTypeFullNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeFullNmNotIn(List<String> values) {
+            addCriterion("SRV_REQST_TYPE_FULL_NM not in", values, "srvReqstTypeFullNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeFullNmBetween(String value1, String value2) {
+            addCriterion("SRV_REQST_TYPE_FULL_NM between", value1, value2, "srvReqstTypeFullNm");
+            return (Criteria) this;
+        }
+
+        public Criteria andSrvReqstTypeFullNmNotBetween(String value1, String value2) {
+            addCriterion("SRV_REQST_TYPE_FULL_NM not between", value1, value2, "srvReqstTypeFullNm");
+            return (Criteria) this;
+        }
+
         public Criteria andReserve1IsNull() {
             addCriterion("RESERVE_1 is null");
             return (Criteria) this;

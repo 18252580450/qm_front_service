@@ -311,6 +311,15 @@ public class OrderCheckServiceImpl implements OrderCheckService {
             if (null != orderCheckInfo.get("wrkfmShowSwftno") && !"".equals(orderCheckInfo.get("wrkfmShowSwftno"))) {
                 orderCheckResult.setWrkfmShowSwftno(orderCheckInfo.get("wrkfmShowSwftno").toString());
             }
+            if (null != orderCheckInfo.get("srvReqstTypeId") && !"".equals(orderCheckInfo.get("srvReqstTypeId"))) {
+                orderCheckResult.setSrvReqstTypeId(orderCheckInfo.get("srvReqstTypeId").toString());           //服务请求类型id
+            }
+            if (null != orderCheckInfo.get("srvReqstTypeNm") && !"".equals(orderCheckInfo.get("srvReqstTypeNm"))) {
+                orderCheckResult.setSrvReqstTypeNm(orderCheckInfo.get("srvReqstTypeNm").toString());           //服务请求类型名称
+            }
+            if (null != orderCheckInfo.get("srvReqstTypeFullNm") && !"".equals(orderCheckInfo.get("srvReqstTypeFullNm"))) {
+                orderCheckResult.setSrvReqstTypeFullNm(orderCheckInfo.get("srvReqstTypeFullNm").toString());   //服务请求类型全称
+            }
             if (null != orderCheckInfo.get("planId") && !"".equals(orderCheckInfo.get("planId"))) {
                 orderCheckResult.setPlanId(orderCheckInfo.get("planId").toString());
             }

@@ -94,6 +94,12 @@ public class OrderCheckResult extends OrderCheckResultKey {
 
     private String operateReason;
 
+    private String srvReqstTypeId;
+
+    private String srvReqstTypeNm;
+
+    private String srvReqstTypeFullNm;
+
     private String reserve1;
 
     private String reserve2;
@@ -472,6 +478,30 @@ public class OrderCheckResult extends OrderCheckResultKey {
 
     public void setOperateReason(String operateReason) {
         this.operateReason = operateReason == null ? null : operateReason.trim();
+    }
+
+    public String getSrvReqstTypeId() {
+        return srvReqstTypeId;
+    }
+
+    public void setSrvReqstTypeId(String srvReqstTypeId) {
+        this.srvReqstTypeId = srvReqstTypeId == null ? null : srvReqstTypeId.trim();
+    }
+
+    public String getSrvReqstTypeNm() {
+        return srvReqstTypeNm;
+    }
+
+    public void setSrvReqstTypeNm(String srvReqstTypeNm) {
+        this.srvReqstTypeNm = srvReqstTypeNm == null ? null : srvReqstTypeNm.trim();
+    }
+
+    public String getSrvReqstTypeFullNm() {
+        return srvReqstTypeFullNm;
+    }
+
+    public void setSrvReqstTypeFullNm(String srvReqstTypeFullNm) {
+        this.srvReqstTypeFullNm = srvReqstTypeFullNm == null ? null : srvReqstTypeFullNm.trim();
     }
 
     public String getReserve1() {
