@@ -60,20 +60,16 @@ public class WorkformPoolServiceImpl implements WorkformPoolService {
             if (null != params.get("custNum") && !"".equals(params.get("custNum"))) {
                 criteria.andCustNumEqualTo((String) params.get("custNum"));
             }
-            if (null != params.get("userPermission") && !"".equals(params.get("userPermission")) && (params.get("userPermission")).equals("checker")) {//查询质检员是本身和未分配质检员的数据
+            if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
                 if (!"0".equals(params.get("isOperate"))) {//质检员选择全部显示自己信息和未分配数据，选择已分配显示自己的数据
                     criteria.andCheckStaffIdEqualTo((String) params.get("checkStaffId"));
-                    if (!"1".equals(params.get("isOperate"))) {//显示自己信息和未分配数据
+                    if (!"1".equals(params.get("isOperate"))) {//显示自己信息和未分配数据（是否分配：全部）
                         WorkformPoolExample.Criteria criteria2 = workformPoolExample.createCriteria();//在运行时动态生成查询语句
                         criteria2.andCheckStaffIdIsNull();
                         workformPoolExample.or(criteria2);//and和or联合查询
                     }
                 } else {//质检员角色选择未分配,显示未分配数据
                     criteria.andCheckStaffIdIsNull();
-                }
-            } else { //管理员
-                if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
-                    criteria.andCheckStaffIdEqualTo((String) params.get("checkStaffId"));
                 }
             }
             if (null != params.get("planStartTime") && !"".equals(params.get("planStartTime")) && null != params.get("planEndTime") && !"".equals(params.get("planEndTime"))) {

@@ -51,20 +51,16 @@ public class VoicePoolServiceImpl implements VoicePoolService {
             if (null != params.get("isOperate") && !"".equals(params.get("isOperate"))) {
                 criteria.andIsOperateEqualTo((String) params.get("isOperate"));
             }
-            if (null != params.get("userPermission") && !"".equals(params.get("userPermission")) && (params.get("userPermission")).equals("checker")) {//查询质检员是本身和未分配质检员的数据
+            if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
                 if (!"0".equals(params.get("isOperate"))) {//质检员选择全部显示自己信息和未分配数据，选择已分配显示自己的数据
                     criteria.andCheckStaffIdEqualTo((String) params.get("checkStaffId"));
-                    if (!"1".equals(params.get("isOperate"))) {//显示自己信息和未分配数据
+                    if (!"1".equals(params.get("isOperate"))) {//显示自己信息和未分配数据（是否分配：全部）
                         VoicePoolExample.Criteria criteria2 = example.createCriteria();//在运行时动态生成查询语句
                         criteria2.andCheckStaffIdIsNull();
                         example.or(criteria2);//and和or联合查询
                     }
                 } else {//质检员角色选择未分配,显示未分配数据
                     criteria.andCheckStaffIdIsNull();
-                }
-            } else { //管理员
-                if (null != params.get("checkStaffId") && !"".equals(params.get("checkStaffId"))) {
-                    criteria.andCheckStaffIdEqualTo((String) params.get("checkStaffId"));
                 }
             }
             if (null != params.get("checkedStaffId") && !"".equals(params.get("checkedStaffId"))) {
