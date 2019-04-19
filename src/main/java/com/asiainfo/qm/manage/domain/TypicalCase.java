@@ -45,6 +45,14 @@ public class TypicalCase {
 
     private String customerNumber;
 
+    private String wrkfmShowSwftno;
+
+    private String srvReqstId;
+
+    private String srvReqstTypeId;
+
+    private String srvReqstTypeFullNm;
+
     private String reserve1;
 
     private String reserve2;
@@ -221,6 +229,38 @@ public class TypicalCase {
 
     public void setCustomerNumber(String customerNumber) {
         this.customerNumber = customerNumber;
+    }
+
+    public String getWrkfmShowSwftno() {
+        return wrkfmShowSwftno;
+    }
+
+    public void setWrkfmShowSwftno(String wrkfmShowSwftno) {
+        this.wrkfmShowSwftno = wrkfmShowSwftno;
+    }
+
+    public String getSrvReqstId() {
+        return srvReqstId;
+    }
+
+    public void setSrvReqstId(String srvReqstId) {
+        this.srvReqstId = srvReqstId;
+    }
+
+    public String getSrvReqstTypeId() {
+        return srvReqstTypeId;
+    }
+
+    public void setSrvReqstTypeId(String srvReqstTypeId) {
+        this.srvReqstTypeId = srvReqstTypeId;
+    }
+
+    public String getSrvReqstTypeFullNm() {
+        return srvReqstTypeFullNm;
+    }
+
+    public void setSrvReqstTypeFullNm(String srvReqstTypeFullNm) {
+        this.srvReqstTypeFullNm = srvReqstTypeFullNm;
     }
 
     public String getReserve1() {

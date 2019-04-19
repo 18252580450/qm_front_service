@@ -22,6 +22,10 @@
     <result column="DEPART_NAME" property="departName" jdbcType="VARCHAR" />
     <result column="STAFF_NUMBER" property="staffNumber" jdbcType="VARCHAR" />
     <result column="CUSTOMER_NUMBER" property="customerNumber" jdbcType="VARCHAR" />
+    <result column="WRKFM_SHOW_SWFTNO" property="wrkfmShowSwftno" jdbcType="VARCHAR" />
+    <result column="SRV_REQST_TYPE_ID" property="srvReqstTypeId" jdbcType="VARCHAR" />
+    <result column="SRV_REQST_TYPE_NM" property="srvReqstTypeNm" jdbcType="VARCHAR" />
+    <result column="SRV_REQST_TYPE_FULL_NM" property="srvReqstTypeFullNm" jdbcType="VARCHAR" />
     <result column="RESERVE_1" property="reserve1" jdbcType="VARCHAR" />
     <result column="RESERVE_2" property="reserve2" jdbcType="VARCHAR" />
     <result column="RESERVE_3" property="reserve3" jdbcType="VARCHAR" />
@@ -94,7 +98,8 @@
   <sql id="ORDER_UNION_Column_List" >
     t.CASE_ID, t.TENANT_ID, t.PROVINCE_ID, t.CITY_ID, t.CHECK_TYPE, t.CASE_TYPE, t.CASE_TITLE, t.TOUCH_ID,
     t.CREATE_REASON, t.CREATE_TIME, t.CREATE_STAFF_ID, t.CREATE_STAFF_NAME,
-    t1.CHECK_STAFF_ID, t1.CHECKED_STAFF_ID
+    t1.CHECK_STAFF_ID, t1.CHECKED_STAFF_ID,
+    t2.WRKFM_SHOW_SWFTNO, t2.SRV_REQST_TYPE_ID, t2.SRV_REQST_TYPE_NM, t2.SRV_REQST_TYPE_FULL_NM
   </sql>
   <sql id="VOICE_UNION_Column_List" >
     t.CASE_ID, t.TENANT_ID, t.PROVINCE_ID, t.CITY_ID, t.CHECK_TYPE, t.CASE_TYPE, t.CASE_TITLE, t.TOUCH_ID,
@@ -123,6 +128,7 @@
     </if>
     <include refid="ORDER_UNION_Column_List" />
     from t_qm_typical_case t left outer join t_qm_workform_pool t1 ON t.TOUCH_ID = t1.WRKFM_ID
+                             left outer join t_qm_workform t2 ON t.TOUCH_ID = t2.WRKFM_ID
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
