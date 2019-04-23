@@ -128,6 +128,8 @@ public class Constants {
         String NGKM_TMPLT_FILTER_ALL = "NGKM_TMPLT_FILTER_ALL:";
         //知识索引模板配置上信息 缓存
         String NGKM_INDEX_TMPLT_CFG = "NGKM_INDEX_TMPLT_CFG:";
+        //质检信息缓存
+        String QM_REDIS_DEV = "QM_REDIS_DEV:";
     }
 
     // session 信息

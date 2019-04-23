@@ -4,6 +4,7 @@ import com.asiainfo.qm.manage.common.sequence.SequenceUtils;
 import com.asiainfo.qm.manage.dao.StaticParamsMapper;
 import com.asiainfo.qm.manage.domain.StaticParams;
 import com.asiainfo.qm.manage.domain.StaticParamsExample;
+import com.asiainfo.qm.manage.redis.RedisCommand;
 import com.asiainfo.qm.manage.service.StaticParamsService;
 import com.asiainfo.qm.manage.util.DateUtil;
 import com.asiainfo.qm.manage.util.WebUtil;
@@ -32,35 +33,54 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 	@Autowired
 	private SequenceUtils sequenceUtils;
 
+	@Autowired
+	RedisCommand redisCommand;
+
 	@Override
 	public StaticParamsResponse selectByParams(Map params,int start,int limit) throws Exception  {
 
-
+		List<StaticParams> list;
 		StaticParamsResponse staticParamsResponse = null;
 		StaticParamsExample example = new StaticParamsExample();
 		try {
-			StaticParamsExample.Criteria criteria= example.createCriteria();
+			//先从redis缓存中获取数据，如果没有再查询数据库
+//            String listStr = redisCommand.get(Constants.REDIS_KEY_PERFIX.QM_REDIS_DEV+params.get("paramsTypeName")+params.get("paramsPurposeId")+params.get("paramsTypeId")+start+limit);
+//            if(listStr==null){
+			StaticParamsExample.Criteria criteria = example.createCriteria();
 			criteria.andTenantIdEqualTo((String) params.get("tenantId"));
-			if(null != params.get("paramsTypeName") && !"".equals(params.get("paramsTypeName"))) {
+			if (null != params.get("paramsTypeName") && !"".equals(params.get("paramsTypeName"))) {
 				criteria.andParamsTypeNameLike("%" + params.get("paramsTypeName") + "%");
 			}
-			if(null != params.get("paramsPurposeId")&& !"".equals(params.get("paramsPurposeId"))){
+			if (null != params.get("paramsPurposeId") && !"".equals(params.get("paramsPurposeId"))) {
 				example.createCriteria().andParamsPurposeIdEqualTo((String) params.get("paramsPurposeId"));
 			}
-			if(null != params.get("paramsTypeId") && !"".equals(params.get("paramsTypeId"))) {
+			if (null != params.get("paramsTypeId") && !"".equals(params.get("paramsTypeId"))) {
 				criteria.andParamsTypeIdEqualTo((String) params.get("paramsTypeId"));
 			}
-			if(0 != limit) {
+			if (0 != limit) {
 				PageHelper.offsetPage(start, limit);
-				List<StaticParams> list = staticParamsMapper.selectByExample(example);
+				list = staticParamsMapper.selectByExample(example);
+//					//将数据放入缓存
+//					redisCommand.set(Constants.REDIS_KEY_PERFIX.QM_REDIS_DEV+params.get("paramsTypeName")+params.get("paramsPurposeId")+params.get("paramsTypeId")+start+limit,list.toString());
 				Page<StaticParams> pagelist = (Page) list;
 				staticParamsResponse = new StaticParamsResponse(pagelist);
-			}else {
+			} else {
 				staticParamsResponse = new StaticParamsResponse();
-				List<StaticParams> list = staticParamsMapper.selectByExample(example);
+				list = staticParamsMapper.selectByExample(example);
+//					//将数据放入缓存
+//					redisCommand.set(Constants.REDIS_KEY_PERFIX.QM_REDIS_DEV+params.get("paramsTypeName")+params.get("paramsPurposeId")+params.get("paramsTypeId")+start+limit,list.toString());
 				staticParamsResponse.setData(list);
 			}
-
+//            }else{
+//                list = JSONArray.fromObject(listStr);
+//				if(0 != limit) {
+//					Page<StaticParams> pagelist = (Page) list;
+//					staticParamsResponse = new StaticParamsResponse(pagelist);
+//				}else {
+//					staticParamsResponse = new StaticParamsResponse();
+//					staticParamsResponse.setData(list);
+//				}
+//            }
 			if(null != staticParamsResponse.getData() && staticParamsResponse.getData().size() > 0){
 				staticParamsResponse.setRspcode(WebUtil.SUCCESS);
 				staticParamsResponse.setRspdesc("查询成功");
@@ -104,6 +124,9 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 
 	@Override
 	public StaticParamsResponse deleteByIds(List<String> ids) throws Exception {
+		// 删除redis中的缓存
+//        Set<String> allKeys = redisCommand.getAllKeys(Constants.REDIS_KEY_PERFIX.QM_REDIS_DEV + "*");
+//        redisCommand.delete(allKeys);
 		StaticParamsResponse staticParamsResponse = new StaticParamsResponse();
 		try {
 			StaticParamsExample example = new StaticParamsExample();
@@ -128,6 +151,9 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 
 	@Override
 	public StaticParamsResponse addStaticParams(StaticParams staticParams) throws Exception {
+		// 删除redis中的缓存
+//        Set<String> allKeys = redisCommand.getAllKeys(Constants.REDIS_KEY_PERFIX.QM_REDIS_DEV + "*");
+//        redisCommand.delete(allKeys);
 		StaticParamsResponse staticParamsResponse = new StaticParamsResponse();
 		try {
 			StaticParamsExample example = new StaticParamsExample();
@@ -161,6 +187,9 @@ public class StaticParamsServiceImpl implements StaticParamsService {
 
 	@Override
 	public StaticParamsResponse updateStaticParams(StaticParams staticParams) throws Exception {
+		// 删除redis中的缓存
+//        Set<String> allKeys = redisCommand.getAllKeys(Constants.REDIS_KEY_PERFIX.QM_REDIS_DEV + "*");
+//        redisCommand.delete(allKeys);
 		StaticParamsResponse staticParamsResponse = new StaticParamsResponse();
 		try {
 			StaticParamsExample example = new StaticParamsExample();
