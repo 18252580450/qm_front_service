@@ -69,7 +69,7 @@ public class QmTaskServiceImpl implements IQmTaskService {
     }
 
     @Override
-    public boolean downloadRecordFiles() {
+    public boolean downloadRecordFiles(String startDate, String endDate) {
         try {
             //1.查询语音数据
             List<QmVoice> voices = queryVoices();
@@ -81,12 +81,18 @@ public class QmTaskServiceImpl implements IQmTaskService {
                     Map<String, String> params = new HashMap();
                     Calendar calendar = Calendar.getInstance();
                     Date beforeDay = DateUtil.currentBeforeDay();
-//                calendar.setTime(DateUtil.string2Date("2019-01-27 00:00:00"));
-                    logger.info("日期：" + DateUtil.date2String(beforeDay, "YYYY-MM-dd"));
-                    calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 00:00:00"));
+                    if (null != startDate && !"".equals(startDate)) {
+                        calendar.setTime(DateUtil.string2Date(startDate));
+                    } else {
+                        calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 00:00:00"));
+                    }
                     Long startTime = calendar.getTimeInMillis();
-//                calendar.setTime(DateUtil.string2Date("2019-01-27 23:59:59"));
-                    calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 23:59:59"));
+                    params.put("startTime", startTime + "");
+                    if (null != endDate && !"".equals(endDate)) {
+                        calendar.setTime(DateUtil.string2Date(endDate));
+                    } else {
+                        calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 23:59:59"));
+                    }
                     Long endTime = calendar.getTimeInMillis();
                     params.put("startTime", startTime + "");
                     params.put("endTime", endTime + "");
@@ -122,7 +128,7 @@ public class QmTaskServiceImpl implements IQmTaskService {
     }
 
     @Override
-    public boolean queryScore() throws Exception {
+    public boolean queryScore(String startDate, String endDate) throws Exception {
         try {
             //1.查询语音数据
             List<QmVoice> voices = queryVoices();
@@ -134,11 +140,18 @@ public class QmTaskServiceImpl implements IQmTaskService {
                     Map<String, String> params = new HashMap();
                     Calendar calendar = Calendar.getInstance();
                     Date beforeDay = DateUtil.currentBeforeDay();
-//                calendar.setTime(DateUtil.string2Date("2019-01-27 00:00:00"));
-                    calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 00:00:00"));
+                    if (null != startDate && !"".equals(startDate)) {
+                        calendar.setTime(DateUtil.string2Date(startDate));
+                    } else {
+                        calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 00:00:00"));
+                    }
                     Long startTime = calendar.getTimeInMillis();
-//                calendar.setTime(DateUtil.string2Date("2019-01-27 23:59:59"));
-                    calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 23:59:59"));
+                    params.put("startTime", startTime + "");
+                    if (null != endDate && !"".equals(endDate)) {
+                        calendar.setTime(DateUtil.string2Date(endDate));
+                    } else {
+                        calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 23:59:59"));
+                    }
                     Long endTime = calendar.getTimeInMillis();
                     params.put("startTime", startTime + "");
                     params.put("endTime", endTime + "");
@@ -442,6 +455,7 @@ public class QmTaskServiceImpl implements IQmTaskService {
         Long endTime = calendar.getTimeInMillis();
         params.put("endTime", endTime + "");
         params.put("entId", HttpConstants.HttpParams.ENT_ID);
+        params.put("endType", "255,252,254,206,207,208,209");
         params.put("pageNum", pageNum);
         String ret = httpClient.sendGet(url, params);
         JSONObject result = JSONObject.parseObject(ret);

@@ -69,9 +69,9 @@ public class QmTaskController {
 			flag = taskService.querySynchroVoices(startTime,endTime,1);
 			if(flag){
 				//更新满意度
-				taskService.queryScore();
+				taskService.queryScore(startTime, endTime);
 				//下载录音文件
-				taskService.downloadRecordFiles();
+				taskService.downloadRecordFiles(startTime, endTime);
 			}
 		}catch (Exception e){
 			logger.error("语音数据同步定时任务异常");
