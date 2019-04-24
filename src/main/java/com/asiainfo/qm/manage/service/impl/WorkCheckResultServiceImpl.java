@@ -46,6 +46,9 @@ public class WorkCheckResultServiceImpl implements OrderCheckResultService {
             if (null != params.get("touchId") && !"".equals(params.get("touchId"))) {
                 criteria.andWrkfmShowSwftnoEqualTo((String) params.get("touchId"));
             }
+            if (null != params.get("wrkfmId") && !"".equals(params.get("wrkfmId"))) {
+                criteria.andTouchIdEqualTo((String) params.get("wrkfmId"));
+            }
             if (null != params.get("originInspectionId") && !"".equals(params.get("originInspectionId"))) {
                 criteria.andOriginInspectionIdEqualTo((String) params.get("originInspectionId"));
             }
