@@ -6,7 +6,7 @@ package com.asiainfo.qm.manage.util;
 public class HttpConstants {
 
     public interface HttpParams{
-        String  URI = "http://221.226.14.187:48989";
+        String  URI = "http://221.226.14.187:48989";  //青牛
         //接口调用成功编码
         String CODE_SUCCESS = "0";
         //企业ID
@@ -29,10 +29,13 @@ public class HttpConstants {
         String NEW_REMOTE_PATH = "http://203.57.228.52:9002";
         //虚拟组人员接口
         String VIRTUAL_GROUP_PERSONAL_SERVLET = "http://203.57.226.107:3506/VirtualGroupPersonalServlet";
+//        String VIRTUAL_GROUP_PERSONAL_SERVLET = "http://10.150.20.26:3506/VirtualGroupPersonalServlet"; //内网
         //虚拟组列表接口
         String VIRTUAL_GROUP_SERVLET = "http://203.57.226.107:3505/VirtualGroupServlet";
+//        String VIRTUAL_GROUP_SERVLET = "http://10.150.20.26:3505/VirtualGroupServlet"; //内网
         //工单接口
-        String WRKFM_URL = "http://203.57.227.53:8082";
+        String WRKFM_URL = "http://203.57.227.53:8082/tcwfBack";
+//        String WRKFM_URL = "http://192.168.247.48:9990/tcwfBack"; //内网
         //工单数据同步接口
         String WRKFM_QUERY = "/tcwf/qualityCheck/getSynchroData";
         //省份编码
