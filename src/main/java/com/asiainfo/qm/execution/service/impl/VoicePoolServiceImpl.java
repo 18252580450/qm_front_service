@@ -72,6 +72,10 @@ public class VoicePoolServiceImpl implements VoicePoolService {
             if (null != params.get("extractBeginTime") && !"".equals(params.get("extractBeginTime")) && null != params.get("extractEndTime") && !"".equals(params.get("extractEndTime"))) {
                 criteria.andCheckedTimeBetween(sdf.parse((String) params.get("extractBeginTime")), sdf.parse((String) params.get("extractEndTime")));
             }
+            //分配时间
+            if (null != params.get("distributeBeginTime") && !"".equals(params.get("distributeBeginTime")) && null != params.get("distributeEndTime") && !"".equals(params.get("distributeEndTime"))) {
+                criteria.andOperateTimeBetween(sdf.parse((String) params.get("distributeBeginTime")), sdf.parse((String) params.get("distributeEndTime")));
+            }
             if (null != params.get("callType") && !"".equals(params.get("callType"))) {
                 criteria.andCallTypeEqualTo((String) params.get("callType"));
             }
