@@ -96,7 +96,7 @@ public class FtpUtil {
             closeFtpClient(ftpClient);
             closeStream(inputStream);
         }
-        return true;
+        return flag;
     }
 
     //改变目录路径

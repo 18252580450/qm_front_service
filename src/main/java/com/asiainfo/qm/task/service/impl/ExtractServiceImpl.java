@@ -26,7 +26,7 @@ import java.util.Map;
  * Created by shiying on 2018/12/21.
  */
 @Service
-public class ExtractServiceImpl implements IExtractService{
+public class ExtractServiceImpl implements IExtractService {
 
     @Autowired
     private QmPlanMapper qmPlanMapper;
@@ -43,56 +43,63 @@ public class ExtractServiceImpl implements IExtractService{
     @Autowired
     private IAutoExtractCommonService autoExtractCommonService;
 
-    public boolean extract(String planId){
+    public boolean extract(String planId) {
         try {
             //      1、根据计划ID查询计划实例，根据计划ID查询计划与质检人和被质检人（班组）表
             QmPlan qmPlan = qmPlanMapper.selectByPrimaryKey(planId);
+            //      2、校验计划是否生效（开始结束时间、发布状态校验）
+            long planStarttime = qmPlan.getPlanStarttime().getTime();
+            long planEndtime = qmPlan.getPlanEndtime().getTime();
+            long currentTime = DateUtil.getCurrontTime().getTime();
+            if (!qmPlan.getHaltFlag().equalsIgnoreCase("1") || planStarttime > currentTime || planEndtime < currentTime) {
+                return false;
+            }
             QmBindRlnExample example = new QmBindRlnExample();
             QmBindRlnExample.Criteria criteria = example.createCriteria();
             criteria.andPlanIdEqualTo(planId);
             List<QmBindRln> qmBindRlns = qmBindRlnMapper.selectByExample(example);
             List<String> staffIds = new ArrayList<>();
             List<String> departIds = new ArrayList<>();
-            if(qmBindRlns.size() > 0){
-                for(int i = 0;i<qmBindRlns.size();i++){
+            if (qmBindRlns.size() > 0) {
+                for (int i = 0; i < qmBindRlns.size(); i++) {
                     QmBindRln qmBindRln = qmBindRlns.get(i);
-                    if(null != qmBindRln.getCheckedObjectId() && !"".equals(qmBindRln.getCheckedObjectId())){
-                        if(qmBindRln.getUserType().equals("0")){
+                    if (null != qmBindRln.getCheckedObjectId() && !"".equals(qmBindRln.getCheckedObjectId())) {
+                        if (qmBindRln.getUserType().equals("0")) {
                             staffIds.add(qmBindRln.getCheckedObjectId());
-                        }else{
+                        } else {
                             departIds.add(qmBindRln.getCheckedObjectId());
                         }
                     }
                 }
             }
-//     2、封装参数（计划ID，策略ID，抽取条数，被质检人工号、被质检班组ID）
+//     3、封装参数（计划ID，策略ID，抽取条数，被质检人工号、被质检班组ID）
             Map params = new HashMap<>();
             params.put("planId", planId);
             params.put("staffIds", staffIds);
             params.put("departIds", departIds);
-            params.put("pId",qmPlan.getpId());
+            params.put("pId", qmPlan.getpId());
             params.put("limit", qmPlan.getPlanCount());
-            if(qmPlan.getPlanType().equals("0")){
+            if (qmPlan.getPlanType().equals("0")) {
                 //语音数据抽取
                 List<QmVoice> voices = autoExtractCommonService.selectExtractVoiceInfo(params);
                 //录入语音质检池
-                saveQmVoicePools(voices,qmBindRlns,qmPlan);
-            }else{
+                saveQmVoicePools(voices, qmBindRlns, qmPlan);
+            } else {
                 //工单数据抽取
                 List<QmWorkform> workforms = autoExtractCommonService.selectExtractWorkformInfo(params);
                 //录入工单质检池
-                saveQmWorkformPools(workforms,qmBindRlns,qmPlan);
+                saveQmWorkformPools(workforms, qmBindRlns, qmPlan);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
         return true;
     }
 
-    private void saveQmVoicePools(List<QmVoice> voices, List<QmBindRln> qmBindRlns,QmPlan qmPlan) throws Exception{
-        if(voices.size() > 0){
-            for(int i = 0;i<voices.size();i++){
+    private void saveQmVoicePools(List<QmVoice> voices, List<QmBindRln> qmBindRlns, QmPlan qmPlan) throws Exception {
+        if (voices.size() > 0) {
+            for (int i = 0; i < voices.size(); i++) {
                 QmVoice qmVoice = voices.get(i);
                 VoicePool voicePool = new VoicePool();
                 voicePool.setTenantId(qmVoice.getTenantId());
@@ -130,23 +137,23 @@ public class ExtractServiceImpl implements IExtractService{
                 voicePool.setReserve8(qmVoice.getReserve8());
                 //非公共参数
                 voicePool.setRecordTime(qmVoice.getTalkDuration());
-                if("0".equals(qmPlan.getManOrAuto())){
+                if ("0".equals(qmPlan.getManOrAuto())) {
                     //自动分派
-                    for(int j = 0;i<qmBindRlns.size();j++){
+                    for (int j = 0; i < qmBindRlns.size(); j++) {
                         QmBindRln qmBindRln = qmBindRlns.get(j);
-                        if(qmBindRln.getUserType().equals("0") && null != qmBindRln.getCheckedObjectId() &&
-                                qmBindRln.getCheckedObjectId().equals(qmVoice.getStaffId())){
+                        if (qmBindRln.getUserType().equals("0") && null != qmBindRln.getCheckedObjectId() &&
+                                qmBindRln.getCheckedObjectId().equals(qmVoice.getStaffId())) {
                             //话务员
                             voicePool.setCheckStaffId(qmBindRln.getCheckStaffId());
-                        }else if(qmBindRln.getUserType().equals("1") && null != qmBindRln.getCheckedObjectId() &&
-                        qmBindRln.getCheckedObjectId().equals(qmVoice.getDepartId())){
+                        } else if (qmBindRln.getUserType().equals("1") && null != qmBindRln.getCheckedObjectId() &&
+                                qmBindRln.getCheckedObjectId().equals(qmVoice.getDepartId())) {
                             //班组
                             voicePool.setCheckStaffId(qmBindRln.getCheckStaffId());
                         }
                     }
                     voicePool.setIsOperate("1");//分派状态 0未分派 1已分派
                     voicePool.setOperateTime(DateUtil.getCurrontTime());//分派时间
-                }else{
+                } else {
                     voicePool.setIsOperate("0");//分派状态 0未分派 1已分派
                 }
                 voicePool.setPlanId(qmPlan.getPlanId());
@@ -156,9 +163,9 @@ public class ExtractServiceImpl implements IExtractService{
         }
     }
 
-    private void saveQmWorkformPools(List<QmWorkform> workforms, List<QmBindRln> qmBindRlns,QmPlan qmPlan) throws Exception{
-        if(workforms.size() > 0){
-            for(int i = 0;i<workforms.size();i++){
+    private void saveQmWorkformPools(List<QmWorkform> workforms, List<QmBindRln> qmBindRlns, QmPlan qmPlan) throws Exception {
+        if (workforms.size() > 0) {
+            for (int i = 0; i < workforms.size(); i++) {
                 QmWorkform qmWorkform = workforms.get(i);
                 WorkformPool workformPool = new WorkformPool();
                 workformPool.setCheckedStaffId(qmWorkform.getDspsComplteStaffId());
@@ -186,23 +193,23 @@ public class ExtractServiceImpl implements IExtractService{
                 workformPool.setAcptStaffNum(qmWorkform.getAcptStaffNum()); //立单人姓名
 
                 //非公共参数
-                if("0".equals(qmPlan.getManOrAuto())){
+                if ("0".equals(qmPlan.getManOrAuto())) {
                     //自动分派
                     for (int j = 0; j < qmBindRlns.size(); j++) {
                         QmBindRln qmBindRln = qmBindRlns.get(j);
-                        if(qmBindRln.getUserType().equals("0") &&
-                                qmBindRln.getCheckedObjectId().equals(qmWorkform.getArcStaffId())){
+                        if (qmBindRln.getUserType().equals("0") &&
+                                qmBindRln.getCheckedObjectId().equals(qmWorkform.getArcStaffId())) {
                             //话务员
                             workformPool.setCheckStaffId(qmBindRln.getCheckStaffId());
-                        }else if(qmBindRln.getUserType().equals("1") &&
-                                qmBindRln.getCheckedObjectId().equals(qmWorkform.getArcStaffDeptId())){
+                        } else if (qmBindRln.getUserType().equals("1") &&
+                                qmBindRln.getCheckedObjectId().equals(qmWorkform.getArcStaffDeptId())) {
                             //班组
                             workformPool.setCheckStaffId(qmBindRln.getCheckStaffId());
                         }
                     }
                     workformPool.setIsOperate("1");//分派状态 0未分派 1已分派
                     workformPool.setOperateTime(DateUtil.getCurrontTime());//分派时间
-                }else{
+                } else {
                     workformPool.setIsOperate("0");//分派状态 0未分派 1已分派
                 }
                 workformPool.setPoolStatus(0);//质检状态标识 0待质检
