@@ -144,6 +144,7 @@ public class QmPlanServiceImpl implements QmPlanService {
 		QmPlanResponse qmPlanResponse = new QmPlanResponse();
 		try {
 			qmPlan.setCreateTime(DateUtil.getCurrontTime());
+			qmPlan.setHaltFlag("0");  //新增计划默认暂停状态
 			qmPlan.setPlanId(String.valueOf(sequenceUtils.getSequence("t_qm_plan")));
 			int result = qmPlanMapper.insertSelective(qmPlan);
 			if(result > 0){
