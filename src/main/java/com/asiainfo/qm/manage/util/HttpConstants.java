@@ -35,7 +35,7 @@ public class HttpConstants {
 //        String VIRTUAL_GROUP_SERVLET = "http://10.150.20.26:3505/VirtualGroupServlet"; //内网
         //工单接口
         String WRKFM_URL = "http://203.57.227.53:8082/tcwfBack";
-//        String WRKFM_URL = "http://192.168.247.48:9990/tcwfBack"; //内网
+//        String WRKFM_URL = "http://10.150.20.12:9990/tcwfBack"; //内网
         //工单数据同步接口
         String WRKFM_QUERY = "/tcwf/qualityCheck/getSynchroData";
         //省份编码
