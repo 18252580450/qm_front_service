@@ -117,7 +117,7 @@ public class QmTaskServiceImpl implements IQmTaskService {
                             //录音下载地址
                             String path = HttpConstants.HttpParams.REMOTE_PATH + String.valueOf(result.get(0).get("record_name"));
                             String fileName = path.substring(path.lastIndexOf("/"));
-                            FTPClient ftpClient = new FTPClient();
+                            FTPClient ftpClient = ftpUtil.getFtpClient();
                             URL urlNew = new URL(path);
                             HttpURLConnection conn = (HttpURLConnection) urlNew.openConnection();
                             //设置超时间为3秒
