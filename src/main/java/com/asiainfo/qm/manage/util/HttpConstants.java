@@ -24,6 +24,10 @@ public class HttpConstants {
         String REMOTE_PATH = "http://221.226.14.187:48989/dcmsRecord_yx/doublingRecord/";
         //本地物理路径
         String LOCAL_PATH = "/root/ctcqm/files/";
+        //ftp服务器录音保存地址
+        String FTP_RECORD_PATH = "/home/ftpuser/record_file/";
+        //ftp服务器远程访问地址
+        String FTP_REMOTE_PATH = "http://10.150.20.28:80/record_file/";
 //        String LOCAL_PATH = "E:\\logs";
         //本地远程路径
         String NEW_REMOTE_PATH = "http://203.57.228.52:9002";

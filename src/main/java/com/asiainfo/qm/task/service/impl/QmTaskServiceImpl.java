@@ -3,22 +3,23 @@ package com.asiainfo.qm.task.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.asiainfo.qm.manage.common.restClient.HttpClient;
 import com.asiainfo.qm.manage.common.restClient.RestClient;
-import com.asiainfo.qm.manage.util.DateUtil;
-import com.asiainfo.qm.manage.util.DateUtils;
-import com.asiainfo.qm.manage.util.FileUtils;
-import com.asiainfo.qm.manage.util.HttpConstants;
+import com.asiainfo.qm.manage.util.*;
 import com.asiainfo.qm.task.dao.QmVoiceMapper;
 import com.asiainfo.qm.task.dao.QmWorkformMapper;
 import com.asiainfo.qm.task.domain.QmVoice;
 import com.asiainfo.qm.task.domain.QmVoiceExample;
 import com.asiainfo.qm.task.domain.QmWorkform;
 import com.asiainfo.qm.task.service.IQmTaskService;
+import org.apache.commons.net.ftp.FTPClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -33,6 +34,9 @@ public class QmTaskServiceImpl implements IQmTaskService {
     private HttpClient httpClient;
 
     @Autowired
+    private FtpUtil ftpUtil;
+
+    @Autowired
     private RestClient restClient;
 
     @Autowired
@@ -42,10 +46,10 @@ public class QmTaskServiceImpl implements IQmTaskService {
     private QmWorkformMapper qmWorkformMapper;
 
     @Override
-    public boolean querySynchroVoices(String startTime,String endTime,int pageNum) {
+    public boolean querySynchroVoices(String startTime, String endTime, int pageNum) {
         try {
             //调明细数据查询接口，查询录音数据，获取数据和总页数，循环调用
-            JSONObject jsonObject = querySessionDetail(startTime,endTime,String.valueOf(pageNum));
+            JSONObject jsonObject = querySessionDetail(startTime, endTime, String.valueOf(pageNum));
             String code = jsonObject.getString("code");
             if (code.equals(HttpConstants.HttpParams.CODE_SUCCESS)) {
                 Integer totalPages = jsonObject.getInteger("totalPages");
@@ -55,7 +59,7 @@ public class QmTaskServiceImpl implements IQmTaskService {
                     saveVoices(voices);
                     if (pageNum < totalPages) {
                         pageNum++;
-                        querySynchroVoices(startTime,endTime,pageNum);
+                        querySynchroVoices(startTime, endTime, pageNum);
                     }
                 }
                 return true;
@@ -110,10 +114,26 @@ public class QmTaskServiceImpl implements IQmTaskService {
                     if (code.equals(HttpConstants.HttpParams.CODE_SUCCESS)) {
                         List<Map<String, Object>> result = (List<Map<String, Object>>) retJson.get("result");
                         if (result.size() > 0) {
+                            //录音下载地址
                             String path = HttpConstants.HttpParams.REMOTE_PATH + String.valueOf(result.get(0).get("record_name"));
-                            String newPath = FileUtils.downLoadFromUrl(path);
+                            String fileName = path.substring(path.lastIndexOf("/"));
+                            FTPClient ftpClient = new FTPClient();
+                            URL urlNew = new URL(path);
+                            HttpURLConnection conn = (HttpURLConnection) urlNew.openConnection();
+                            //设置超时间为3秒
+                            conn.setConnectTimeout(3 * 1000);
+                            //防止屏蔽程序抓取而返回403错误
+                            conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
+                            //得到输入流
+                            InputStream inputStream = conn.getInputStream();
+                            boolean uploadFlag = ftpUtil.uploadFile(ftpClient, HttpConstants.HttpParams.FTP_RECORD_PATH, fileName, inputStream);//上传
+                            if (uploadFlag) {
+                                String recordPath = HttpConstants.HttpParams.FTP_REMOTE_PATH + fileName;
+                                voice.setRecordPath(recordPath);
+                            }
+//                            String newPath = FileUtils.downLoadFromUrl(path);
+//                            voice.setRecordPath(newPath);
                             //4.更新数据库
-                            voice.setRecordPath(newPath);
                             updateVoice(voice);
                         }
                     }
@@ -189,14 +209,14 @@ public class QmTaskServiceImpl implements IQmTaskService {
             String url = HttpConstants.HttpParams.WRKFM_URL + HttpConstants.HttpParams.WRKFM_QUERY;
             Map<String, String> params = new HashMap();
             Date beforeDay = DateUtil.currentBeforeDay();
-            if(null != startTime && !"".equals(startTime)){
+            if (null != startTime && !"".equals(startTime)) {
                 params.put("arcStartTime", startTime);
-            }else{
+            } else {
                 params.put("arcStartTime", DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 00:00:00");
             }
-            if(null != endTime && !"".equals(endTime)){
+            if (null != endTime && !"".equals(endTime)) {
                 params.put("arcEndTime", endTime);
-            }else {
+            } else {
                 params.put("arcEndTime", DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 23:59:59");
             }
             params.put("provCode", HttpConstants.HttpParams.PROV_CODE);
@@ -206,8 +226,8 @@ public class QmTaskServiceImpl implements IQmTaskService {
                 if (rspRet.getString("rspCode").equals(HttpConstants.HttpParams.SUCCESS_CODE)) {
                     List<Map<String, Object>> datas = (List<Map<String, Object>>) rspRet.get("datas");
                     if (datas.size() > 0) {
-                        for(int i = 0;i<datas.size();i++){
-                            JSONObject data = (JSONObject)datas.get(i);
+                        for (int i = 0; i < datas.size(); i++) {
+                            JSONObject data = (JSONObject) datas.get(i);
                             saveWorkforms(data);
                         }
 
@@ -222,14 +242,14 @@ public class QmTaskServiceImpl implements IQmTaskService {
                 logger.error("【工单数据同步】：" + rsp.getString("msg"));
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("【工单数据同步】：" + e.getMessage());
             e.printStackTrace();
         }
         return false;
     }
 
-    public void saveWorkforms(JSONObject data) throws Exception{
+    public void saveWorkforms(JSONObject data) throws Exception {
         QmWorkform workform = new QmWorkform();
         workform.setWrkfmId((Long) data.get("wrkfmId"));//工单ID
         if (null != data.get("wrkfmShowSwftno")) {//工单展示编码
@@ -435,21 +455,21 @@ public class QmTaskServiceImpl implements IQmTaskService {
     }
 
     //调用查询录音数据接口
-    private JSONObject querySessionDetail(String startDate,String endDate,String pageNum) throws Exception {
+    private JSONObject querySessionDetail(String startDate, String endDate, String pageNum) throws Exception {
         String url = HttpConstants.HttpParams.URI + HttpConstants.HttpParams.SESSION_DETAIL_QUERY;
         Map<String, String> params = new HashMap();
         Calendar calendar = Calendar.getInstance();
         Date beforeDay = DateUtil.currentBeforeDay();
-        if(null != startDate && !"".equals(startDate)){
+        if (null != startDate && !"".equals(startDate)) {
             calendar.setTime(DateUtil.string2Date(startDate));
-        }else {
+        } else {
             calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 00:00:00"));
         }
         Long startTime = calendar.getTimeInMillis();
         params.put("startTime", startTime + "");
-        if(null != endDate && !"".equals(endDate)){
+        if (null != endDate && !"".equals(endDate)) {
             calendar.setTime(DateUtil.string2Date(endDate));
-        }else {
+        } else {
             calendar.setTime(DateUtil.string2Date(DateUtil.date2String(beforeDay, "YYYY-MM-dd") + " 23:59:59"));
         }
         Long endTime = calendar.getTimeInMillis();

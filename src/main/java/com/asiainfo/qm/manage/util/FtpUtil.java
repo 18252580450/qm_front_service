@@ -70,7 +70,7 @@ public class FtpUtil {
             if (ftpClient.isConnected()) {
                 LOGGER.info("开始上传文件:" + fileName);
                 ftpClient.setFileType(ftpClient.BINARY_FILE_TYPE);
-                ftpClient.makeDirectory(pathname);
+//                ftpClient.makeDirectory(pathname);
                 ftpClient.changeWorkingDirectory(pathname);
                 //设置为被动模式(如上传文件夹成功，不能上传文件，注释这行，否则报错refused:connect  )
                 ftpClient.enterLocalPassiveMode();
