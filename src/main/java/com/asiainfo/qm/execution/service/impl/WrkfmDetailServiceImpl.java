@@ -115,7 +115,7 @@ public class WrkfmDetailServiceImpl implements WrkfmDetailService {
         try {
             String provCode = params.get("provCode").toString();
             String wrkfmId = params.get("wrkfmId").toString();
-            String url = HttpConstants.HttpParams.WRKFM_URL + "/tcwf/detail/handingLog?provCode=" + provCode + "&wrkfmId=" + wrkfmId;
+                String url = HttpConstants.HttpParams.WRKFM_URL + "/tcwf/detail/handingLog?provCode=" + provCode + "&wrkfmId=" + wrkfmId;
             JSONObject rspRet = (JSONObject) restClient.callRemoteServicetWithHeader(url, HttpMethod.POST, null, JSONObject.class, null, "1");
             if (rspRet.getString("status").equals(HttpConstants.HttpParams.INT_SUCCESS_CODE)) {
                 JSONObject rsp = rspRet.getJSONObject("rsp");

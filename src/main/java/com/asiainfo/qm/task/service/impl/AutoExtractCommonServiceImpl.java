@@ -71,6 +71,7 @@ public class AutoExtractCommonServiceImpl implements IAutoExtractCommonService {
         addCriterion.invoke(criteria1, sql.toString());
         list = qmVoiceMapper.selectByExampleForAutoExract(tableName,example, limit);
         return list;
+
     }
 
     @Override
@@ -104,7 +105,8 @@ public class AutoExtractCommonServiceImpl implements IAutoExtractCommonService {
         Class<?> superclass = criteriaCls.getSuperclass();
         Method addCriterion = superclass.getDeclaredMethod("addCriterion", String.class);
         addCriterion.setAccessible(true);
-        addCriterion.invoke(criteria1, sql.toString());
+        String sql1="1=1  and ARC_TIME between '2019-05-10 00:00:00.0' and '2019-05-28 23:59:59.0'";
+        addCriterion.invoke(criteria1, sql1.toString());
         list = qmWorkformMapper.selectByExampleForAutoExract(tableName,example, limit);
         return list;
     }

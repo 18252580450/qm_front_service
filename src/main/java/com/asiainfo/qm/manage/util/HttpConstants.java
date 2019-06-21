@@ -28,24 +28,24 @@ public class HttpConstants {
         String FTP_RECORD_PATH = "/home/ftpuser/record_file/";
         //ftp服务器远程访问地址
         String FTP_REMOTE_PATH = "http://10.150.20.28:80/record_file/";
-//        String LOCAL_PATH = "E:\\logs";
+        //        String LOCAL_PATH = "E:\\logs";
         //本地远程路径
         String NEW_REMOTE_PATH = "http://203.57.228.52:9002";
         //虚拟组人员接口
 //        String VIRTUAL_GROUP_PERSONAL_SERVLET = "http://203.57.226.107:3506/VirtualGroupPersonalServlet";
 //        String VIRTUAL_GROUP_PERSONAL_SERVLET = "http://172.16.0.220:3506/VirtualGroupPersonalServlet";//测试环境的内网地址
         String VIRTUAL_GROUP_PERSONAL_SERVLET = "http://203.57.226.107:3506/VirtualGroupPersonalServlet";//测试环境的内网地址
-//        String VIRTUAL_GROUP_PERSONAL_SERVLET = "http://10.150.20.26:3506/VirtualGroupPersonalServlet"; //生产环境内网
+        //        String VIRTUAL_GROUP_PERSONAL_SERVLET = "http://10.150.20.26:3506/VirtualGroupPersonalServlet"; //生产环境内网
         //虚拟组列表接口
 //        String VIRTUAL_GROUP_SERVLET = "http://203.57.226.107:3505/VirtualGroupServlet";
 //        String VIRTUAL_GROUP_SERVLET = "http://172.16.0.220:3505/VirtualGroupServlet";//测试环境的内网地址
         String VIRTUAL_GROUP_SERVLET = "http://203.57.226.107:3505/VirtualGroupServlet";//测试环境的内网地址
-//        String VIRTUAL_GROUP_SERVLET = "http://10.150.20.26:3505/VirtualGroupServlet"; //生产环境内网
+        //        String VIRTUAL_GROUP_SERVLET = "http://10.150.20.26:3505/VirtualGroupServlet"; //生产环境内网
         //工单接口
 //        String WRKFM_URL = "http://203.57.227.53:8082/tcwfBack";
 //        String WRKFM_URL = "http://172.16.0.238:8082/tcwfBack";//测试环境的内网地址
         String WRKFM_URL = "http://203.57.227.53:8082/tcwfBack";//测试环境的内网地址
-//        String WRKFM_URL = "http://10.150.20.12:9990/tcwfBack"; //生产环境内网
+        //        String WRKFM_URL = "http://10.150.20.12:9990/tcwfBack"; //生产环境内网
         //工单数据同步接口
         String WRKFM_QUERY = "/tcwf/qualityCheck/getSynchroData";
         //省份编码

@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.asiainfo.qm.manage.dao.CheckTemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.asiainfo.qm.manage.domain.CheckTemplate" >
+    <id column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
+    <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
+    <result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
+    <result column="TEMPLATE_NAME" property="templateName" jdbcType="VARCHAR" />
+    <result column="CREATE_STAFF_ID" property="createStaffId" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="TEMPLATE_STATUS" property="templateStatus" jdbcType="VARCHAR" />
+    <result column="INFLUENCE_SCOPE" property="influenceScope" jdbcType="VARCHAR" />
+    <result column="CHECK_OBJ" property="checkObj" jdbcType="VARCHAR" />
+    <result column="SCORE_TYPE" property="scoreType" jdbcType="VARCHAR" />
+    <result column="TEMPLATE_TYPE" property="templateType" jdbcType="VARCHAR" />
+    <result column="CHECK_TYPE" property="checkType" jdbcType="VARCHAR" />
+    <result column="TEMPLATE_SCORE" property="templateScore" jdbcType="INTEGER" />
+    <result column="TEMPLATE_ROOT_NODE" property="templateRootNode" jdbcType="VARCHAR" />
+    <result column="WEIGHT_FLAG" property="weightFlag" jdbcType="VARCHAR" />
+    <result column="OPERATE_TYPE" property="operateType" jdbcType="VARCHAR" />
+    <result column="OPERATE_STAFF_ID" property="operateStaffId" jdbcType="VARCHAR" />
+    <result column="OPERATE_TIME" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="RESERVE_1" property="reserve1" jdbcType="CHAR" />
+    <result column="RESERVE_2" property="reserve2" jdbcType="VARCHAR" />
+    <result column="RESERVE_3" property="reserve3" jdbcType="VARCHAR" />
+    <result column="RESERVE_4" property="reserve4" jdbcType="VARCHAR" />
+    <result column="RESERVE_5" property="reserve5" jdbcType="VARCHAR" />
+    <result column="RESERVE_6" property="reserve6" jdbcType="VARCHAR" />
+    <result column="RESERVE_7" property="reserve7" jdbcType="VARCHAR" />
+    <result column="RESERVE_8" property="reserve8" jdbcType="VARCHAR" />
+    <result column="RESERVE_9" property="reserve9" jdbcType="VARCHAR" />
+    <result column="RESERVE_10" property="reserve10" jdbcType="VARCHAR" />
+    <result column="COPYED_TIMES" property="copyedTimes" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    TEMPLATE_ID, TENANT_ID, PROVINCE_ID, CITY_ID, TEMPLATE_NAME, CREATE_STAFF_ID, CREATE_TIME, 
+    TEMPLATE_STATUS, INFLUENCE_SCOPE, CHECK_OBJ, SCORE_TYPE, TEMPLATE_TYPE, CHECK_TYPE, 
+    TEMPLATE_SCORE, TEMPLATE_ROOT_NODE, WEIGHT_FLAG, OPERATE_TYPE, OPERATE_STAFF_ID, 
+    OPERATE_TIME, REMARK, RESERVE_1, RESERVE_2, RESERVE_3, RESERVE_4, RESERVE_5, RESERVE_6, 
+    RESERVE_7, RESERVE_8, RESERVE_9, RESERVE_10, COPYED_TIMES
+  </sql>
+
+  <!--批量更新-->
+  <update id="update" parameterType="java.util.List" >
+    update t_qm_checktemplate
+    set  TEMPLATE_STATUS =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TEMPLATE_ID" close="end">
+      when #{item.templateId} then  #{item.templateStatus,jdbcType=VARCHAR}
+    </foreach>
+    ,OPERATE_STAFF_ID =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TEMPLATE_ID" close="end">
+      when  #{item.templateId} then  #{item.operateStaffId,jdbcType=VARCHAR}
+    </foreach>
+    where TEMPLATE_ID in
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item.templateId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+
+  <!--批量删除-->
+  <delete id="deleteTemplate" parameterType="java.util.List" >
+    delete from t_qm_checktemplate
+    where TEMPLATE_ID in
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item.templateId,jdbcType=VARCHAR}
+    </foreach>
+  </delete>
+
+  <!--批量更新-->
+  <update id="updateTemplate" parameterType="java.util.List" >
+    update t_qm_checktemplate
+    set  TEMPLATE_NAME =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TEMPLATE_ID" close="end">
+      when #{item.templateId} then  #{item.templateName,jdbcType=VARCHAR}
+    </foreach>
+    ,TEMPLATE_TYPE =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TEMPLATE_ID" close="end">
+      when #{item.templateId} then  #{item.templateType,jdbcType=VARCHAR}
+    </foreach>
+    ,TEMPLATE_STATUS =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TEMPLATE_ID" close="end">
+      when #{item.templateId} then  #{item.templateStatus,jdbcType=VARCHAR}
+    </foreach>
+    ,OPERATE_TYPE =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TEMPLATE_ID" close="end">
+      when #{item.templateId} then  #{item.operateType,jdbcType=VARCHAR}
+    </foreach>
+    ,REMARK =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case TEMPLATE_ID" close="end">
+      when #{item.templateId} then  #{item.remark,jdbcType=VARCHAR}
+    </foreach>
+    where TEMPLATE_ID in
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item.templateId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.CheckTemplateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_qm_checktemplate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_qm_checktemplate
+    where TEMPLATE_ID = #{templateId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_qm_checktemplate
+    where TEMPLATE_ID = #{templateId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.asiainfo.qm.manage.domain.CheckTemplateExample" >
+    delete from t_qm_checktemplate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.asiainfo.qm.manage.domain.CheckTemplate" >
+    insert ignore into t_qm_checktemplate (TEMPLATE_ID, TENANT_ID, PROVINCE_ID,
+      CITY_ID, TEMPLATE_NAME, CREATE_STAFF_ID, 
+      CREATE_TIME, TEMPLATE_STATUS, INFLUENCE_SCOPE, 
+      CHECK_OBJ, SCORE_TYPE, TEMPLATE_TYPE, 
+      CHECK_TYPE, TEMPLATE_SCORE, TEMPLATE_ROOT_NODE, 
+      WEIGHT_FLAG, OPERATE_TYPE, OPERATE_STAFF_ID, 
+      OPERATE_TIME, REMARK, RESERVE_1, 
+      RESERVE_2, RESERVE_3, RESERVE_4, 
+      RESERVE_5, RESERVE_6, RESERVE_7, 
+      RESERVE_8, RESERVE_9, RESERVE_10, 
+      COPYED_TIMES)
+    values (#{templateId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, 
+      #{cityId,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR}, #{createStaffId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{templateStatus,jdbcType=VARCHAR}, #{influenceScope,jdbcType=VARCHAR}, 
+      #{checkObj,jdbcType=VARCHAR}, #{scoreType,jdbcType=VARCHAR}, #{templateType,jdbcType=VARCHAR}, 
+      #{checkType,jdbcType=VARCHAR}, #{templateScore,jdbcType=INTEGER}, #{templateRootNode,jdbcType=VARCHAR}, 
+      #{weightFlag,jdbcType=VARCHAR}, #{operateType,jdbcType=VARCHAR}, #{operateStaffId,jdbcType=VARCHAR}, 
+      #{operateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{reserve1,jdbcType=CHAR}, 
+      #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR}, #{reserve4,jdbcType=VARCHAR}, 
+      #{reserve5,jdbcType=VARCHAR}, #{reserve6,jdbcType=VARCHAR}, #{reserve7,jdbcType=VARCHAR}, 
+      #{reserve8,jdbcType=VARCHAR}, #{reserve9,jdbcType=VARCHAR}, #{reserve10,jdbcType=VARCHAR}, 
+      #{copyedTimes,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.asiainfo.qm.manage.domain.CheckTemplate" >
+    insert ignore into t_qm_checktemplate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="templateId != null" >
+        TEMPLATE_ID,
+      </if>
+      <if test="tenantId != null" >
+        TENANT_ID,
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID,
+      </if>
+      <if test="cityId != null" >
+        CITY_ID,
+      </if>
+      <if test="templateName != null" >
+        TEMPLATE_NAME,
+      </if>
+      <if test="createStaffId != null" >
+        CREATE_STAFF_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="templateStatus != null" >
+        TEMPLATE_STATUS,
+      </if>
+      <if test="influenceScope != null" >
+        INFLUENCE_SCOPE,
+      </if>
+      <if test="checkObj != null" >
+        CHECK_OBJ,
+      </if>
+      <if test="scoreType != null" >
+        SCORE_TYPE,
+      </if>
+      <if test="templateType != null" >
+        TEMPLATE_TYPE,
+      </if>
+      <if test="checkType != null" >
+        CHECK_TYPE,
+      </if>
+      <if test="templateScore != null" >
+        TEMPLATE_SCORE,
+      </if>
+      <if test="templateRootNode != null" >
+        TEMPLATE_ROOT_NODE,
+      </if>
+      <if test="weightFlag != null" >
+        WEIGHT_FLAG,
+      </if>
+      <if test="operateType != null" >
+        OPERATE_TYPE,
+      </if>
+      <if test="operateStaffId != null" >
+        OPERATE_STAFF_ID,
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="reserve1 != null" >
+        RESERVE_1,
+      </if>
+      <if test="reserve2 != null" >
+        RESERVE_2,
+      </if>
+      <if test="reserve3 != null" >
+        RESERVE_3,
+      </if>
+      <if test="reserve4 != null" >
+        RESERVE_4,
+      </if>
+      <if test="reserve5 != null" >
+        RESERVE_5,
+      </if>
+      <if test="reserve6 != null" >
+        RESERVE_6,
+      </if>
+      <if test="reserve7 != null" >
+        RESERVE_7,
+      </if>
+      <if test="reserve8 != null" >
+        RESERVE_8,
+      </if>
+      <if test="reserve9 != null" >
+        RESERVE_9,
+      </if>
+      <if test="reserve10 != null" >
+        RESERVE_10,
+      </if>
+      <if test="copyedTimes != null" >
+        COPYED_TIMES,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="templateId != null" >
+        #{templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="tenantId != null" >
+        #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="templateName != null" >
+        #{templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="createStaffId != null" >
+        #{createStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="templateStatus != null" >
+        #{templateStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="influenceScope != null" >
+        #{influenceScope,jdbcType=VARCHAR},
+      </if>
+      <if test="checkObj != null" >
+        #{checkObj,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreType != null" >
+        #{scoreType,jdbcType=VARCHAR},
+      </if>
+      <if test="templateType != null" >
+        #{templateType,jdbcType=VARCHAR},
+      </if>
+      <if test="checkType != null" >
+        #{checkType,jdbcType=VARCHAR},
+      </if>
+      <if test="templateScore != null" >
+        #{templateScore,jdbcType=INTEGER},
+      </if>
+      <if test="templateRootNode != null" >
+        #{templateRootNode,jdbcType=VARCHAR},
+      </if>
+      <if test="weightFlag != null" >
+        #{weightFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="operateType != null" >
+        #{operateType,jdbcType=VARCHAR},
+      </if>
+      <if test="operateStaffId != null" >
+        #{operateStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve1 != null" >
+        #{reserve1,jdbcType=CHAR},
+      </if>
+      <if test="reserve2 != null" >
+        #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve3 != null" >
+        #{reserve3,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve4 != null" >
+        #{reserve4,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve5 != null" >
+        #{reserve5,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve6 != null" >
+        #{reserve6,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve7 != null" >
+        #{reserve7,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve8 != null" >
+        #{reserve8,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve9 != null" >
+        #{reserve9,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve10 != null" >
+        #{reserve10,jdbcType=VARCHAR},
+      </if>
+      <if test="copyedTimes != null" >
+        #{copyedTimes,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.asiainfo.qm.manage.domain.CheckTemplateExample" resultType="java.lang.Integer" >
+    select count(*) from t_qm_checktemplate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_qm_checktemplate
+    <set >
+      <if test="record.templateId != null" >
+        TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tenantId != null" >
+        TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceId != null" >
+        PROVINCE_ID = #{record.provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null" >
+        CITY_ID = #{record.cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.templateName != null" >
+        TEMPLATE_NAME = #{record.templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createStaffId != null" >
+        CREATE_STAFF_ID = #{record.createStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.templateStatus != null" >
+        TEMPLATE_STATUS = #{record.templateStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.influenceScope != null" >
+        INFLUENCE_SCOPE = #{record.influenceScope,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkObj != null" >
+        CHECK_OBJ = #{record.checkObj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scoreType != null" >
+        SCORE_TYPE = #{record.scoreType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.templateType != null" >
+        TEMPLATE_TYPE = #{record.templateType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkType != null" >
+        CHECK_TYPE = #{record.checkType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.templateScore != null" >
+        TEMPLATE_SCORE = #{record.templateScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.templateRootNode != null" >
+        TEMPLATE_ROOT_NODE = #{record.templateRootNode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weightFlag != null" >
+        WEIGHT_FLAG = #{record.weightFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateType != null" >
+        OPERATE_TYPE = #{record.operateType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateStaffId != null" >
+        OPERATE_STAFF_ID = #{record.operateStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateTime != null" >
+        OPERATE_TIME = #{record.operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve1 != null" >
+        RESERVE_1 = #{record.reserve1,jdbcType=CHAR},
+      </if>
+      <if test="record.reserve2 != null" >
+        RESERVE_2 = #{record.reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve3 != null" >
+        RESERVE_3 = #{record.reserve3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve4 != null" >
+        RESERVE_4 = #{record.reserve4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve5 != null" >
+        RESERVE_5 = #{record.reserve5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve6 != null" >
+        RESERVE_6 = #{record.reserve6,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve7 != null" >
+        RESERVE_7 = #{record.reserve7,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve8 != null" >
+        RESERVE_8 = #{record.reserve8,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve9 != null" >
+        RESERVE_9 = #{record.reserve9,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve10 != null" >
+        RESERVE_10 = #{record.reserve10,jdbcType=VARCHAR},
+      </if>
+      <if test="record.copyedTimes != null" >
+        COPYED_TIMES = #{record.copyedTimes,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_qm_checktemplate
+    set TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
+      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      PROVINCE_ID = #{record.provinceId,jdbcType=VARCHAR},
+      CITY_ID = #{record.cityId,jdbcType=VARCHAR},
+      TEMPLATE_NAME = #{record.templateName,jdbcType=VARCHAR},
+      CREATE_STAFF_ID = #{record.createStaffId,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      TEMPLATE_STATUS = #{record.templateStatus,jdbcType=VARCHAR},
+      INFLUENCE_SCOPE = #{record.influenceScope,jdbcType=VARCHAR},
+      CHECK_OBJ = #{record.checkObj,jdbcType=VARCHAR},
+      SCORE_TYPE = #{record.scoreType,jdbcType=VARCHAR},
+      TEMPLATE_TYPE = #{record.templateType,jdbcType=VARCHAR},
+      CHECK_TYPE = #{record.checkType,jdbcType=VARCHAR},
+      TEMPLATE_SCORE = #{record.templateScore,jdbcType=INTEGER},
+      TEMPLATE_ROOT_NODE = #{record.templateRootNode,jdbcType=VARCHAR},
+      WEIGHT_FLAG = #{record.weightFlag,jdbcType=VARCHAR},
+      OPERATE_TYPE = #{record.operateType,jdbcType=VARCHAR},
+      OPERATE_STAFF_ID = #{record.operateStaffId,jdbcType=VARCHAR},
+      OPERATE_TIME = #{record.operateTime,jdbcType=TIMESTAMP},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      RESERVE_1 = #{record.reserve1,jdbcType=CHAR},
+      RESERVE_2 = #{record.reserve2,jdbcType=VARCHAR},
+      RESERVE_3 = #{record.reserve3,jdbcType=VARCHAR},
+      RESERVE_4 = #{record.reserve4,jdbcType=VARCHAR},
+      RESERVE_5 = #{record.reserve5,jdbcType=VARCHAR},
+      RESERVE_6 = #{record.reserve6,jdbcType=VARCHAR},
+      RESERVE_7 = #{record.reserve7,jdbcType=VARCHAR},
+      RESERVE_8 = #{record.reserve8,jdbcType=VARCHAR},
+      RESERVE_9 = #{record.reserve9,jdbcType=VARCHAR},
+      RESERVE_10 = #{record.reserve10,jdbcType=VARCHAR},
+      COPYED_TIMES = #{record.copyedTimes,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.qm.manage.domain.CheckTemplate" >
+    update t_qm_checktemplate
+    <set >
+      <if test="tenantId != null" >
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        CITY_ID = #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="templateName != null" >
+        TEMPLATE_NAME = #{templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="createStaffId != null" >
+        CREATE_STAFF_ID = #{createStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="templateStatus != null" >
+        TEMPLATE_STATUS = #{templateStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="influenceScope != null" >
+        INFLUENCE_SCOPE = #{influenceScope,jdbcType=VARCHAR},
+      </if>
+      <if test="checkObj != null" >
+        CHECK_OBJ = #{checkObj,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreType != null" >
+        SCORE_TYPE = #{scoreType,jdbcType=VARCHAR},
+      </if>
+      <if test="templateType != null" >
+        TEMPLATE_TYPE = #{templateType,jdbcType=VARCHAR},
+      </if>
+      <if test="checkType != null" >
+        CHECK_TYPE = #{checkType,jdbcType=VARCHAR},
+      </if>
+      <if test="templateScore != null" >
+        TEMPLATE_SCORE = #{templateScore,jdbcType=INTEGER},
+      </if>
+      <if test="templateRootNode != null" >
+        TEMPLATE_ROOT_NODE = #{templateRootNode,jdbcType=VARCHAR},
+      </if>
+      <if test="weightFlag != null" >
+        WEIGHT_FLAG = #{weightFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="operateType != null" >
+        OPERATE_TYPE = #{operateType,jdbcType=VARCHAR},
+      </if>
+      <if test="operateStaffId != null" >
+        OPERATE_STAFF_ID = #{operateStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve1 != null" >
+        RESERVE_1 = #{reserve1,jdbcType=CHAR},
+      </if>
+      <if test="reserve2 != null" >
+        RESERVE_2 = #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve3 != null" >
+        RESERVE_3 = #{reserve3,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve4 != null" >
+        RESERVE_4 = #{reserve4,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve5 != null" >
+        RESERVE_5 = #{reserve5,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve6 != null" >
+        RESERVE_6 = #{reserve6,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve7 != null" >
+        RESERVE_7 = #{reserve7,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve8 != null" >
+        RESERVE_8 = #{reserve8,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve9 != null" >
+        RESERVE_9 = #{reserve9,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve10 != null" >
+        RESERVE_10 = #{reserve10,jdbcType=VARCHAR},
+      </if>
+      <if test="copyedTimes != null" >
+        COPYED_TIMES = #{copyedTimes,jdbcType=INTEGER},
+      </if>
+    </set>
+    where TEMPLATE_ID = #{templateId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.manage.domain.CheckTemplate" >
+    update t_qm_checktemplate
+    set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      CITY_ID = #{cityId,jdbcType=VARCHAR},
+      TEMPLATE_NAME = #{templateName,jdbcType=VARCHAR},
+      CREATE_STAFF_ID = #{createStaffId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      TEMPLATE_STATUS = #{templateStatus,jdbcType=VARCHAR},
+      INFLUENCE_SCOPE = #{influenceScope,jdbcType=VARCHAR},
+      CHECK_OBJ = #{checkObj,jdbcType=VARCHAR},
+      SCORE_TYPE = #{scoreType,jdbcType=VARCHAR},
+      TEMPLATE_TYPE = #{templateType,jdbcType=VARCHAR},
+      CHECK_TYPE = #{checkType,jdbcType=VARCHAR},
+      TEMPLATE_SCORE = #{templateScore,jdbcType=INTEGER},
+      TEMPLATE_ROOT_NODE = #{templateRootNode,jdbcType=VARCHAR},
+      WEIGHT_FLAG = #{weightFlag,jdbcType=VARCHAR},
+      OPERATE_TYPE = #{operateType,jdbcType=VARCHAR},
+      OPERATE_STAFF_ID = #{operateStaffId,jdbcType=VARCHAR},
+      OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      RESERVE_1 = #{reserve1,jdbcType=CHAR},
+      RESERVE_2 = #{reserve2,jdbcType=VARCHAR},
+      RESERVE_3 = #{reserve3,jdbcType=VARCHAR},
+      RESERVE_4 = #{reserve4,jdbcType=VARCHAR},
+      RESERVE_5 = #{reserve5,jdbcType=VARCHAR},
+      RESERVE_6 = #{reserve6,jdbcType=VARCHAR},
+      RESERVE_7 = #{reserve7,jdbcType=VARCHAR},
+      RESERVE_8 = #{reserve8,jdbcType=VARCHAR},
+      RESERVE_9 = #{reserve9,jdbcType=VARCHAR},
+      RESERVE_10 = #{reserve10,jdbcType=VARCHAR},
+      COPYED_TIMES = #{copyedTimes,jdbcType=INTEGER}
+    where TEMPLATE_ID = #{templateId,jdbcType=VARCHAR}
+  </update>
+</mapper>

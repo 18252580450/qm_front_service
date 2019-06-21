@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.asiainfo.qm.manage.dao.QmPlanMapper" >
+  <resultMap id="BaseResultMap" type="com.asiainfo.qm.manage.domain.QmPlan" >
+    <id column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
+    <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
+    <result column="PLAN_NAME" property="planName" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_STAFF_ID" property="createStaffId" jdbcType="VARCHAR" />
+    <result column="MODIFIED_TIME" property="modifiedTime" jdbcType="TIMESTAMP" />
+    <result column="MODIFIED_STAFF_ID" property="modifiedStaffId" jdbcType="VARCHAR" />
+    <result column="PLAN_STARTTIME" property="planStarttime" jdbcType="TIMESTAMP" />
+    <result column="PLAN_ENDTIME" property="planEndtime" jdbcType="TIMESTAMP" />
+    <result column="PLAN_TYPE" property="planType" jdbcType="VARCHAR" />
+    <result column="TEMPLATE_NAME" property="templateName" jdbcType="VARCHAR" />
+    <result column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
+    <result column="P_NAME" property="pName" jdbcType="VARCHAR" />
+    <result column="P_ID" property="pId" jdbcType="VARCHAR" />
+    <result column="MAN_OR_AUTO" property="manOrAuto" jdbcType="CHAR" />
+    <result column="BIND_RELATION" property="bindRelation" jdbcType="CHAR" />
+    <result column="HALT_FLAG" property="haltFlag" jdbcType="CHAR" />
+    <result column="PLAN_STATUS" property="planStatus" jdbcType="CHAR" />
+    <result column="DELETE_FLAG" property="deleteFlag" jdbcType="TINYINT" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="PLAN_COUNT" property="planCount" jdbcType="INTEGER" />
+    <result column="EXTRACT_COUNT" property="extractCount" jdbcType="INTEGER" />
+    <result column="PLAN_RUNTIME" property="planRuntime" jdbcType="TIME" />
+    <result column="PLAN_RUNTYPE" property="planRuntype" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Delete_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and t.${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and t.${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and t.${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and t.${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    t.PLAN_ID, t.TENANT_ID, t.PROVINCE_ID, t.PLAN_NAME, t.CREATE_TIME, t.CREATE_STAFF_ID, t.MODIFIED_TIME,
+    t.MODIFIED_STAFF_ID, t.PLAN_STARTTIME, t.PLAN_ENDTIME, t.PLAN_TYPE, t1.TEMPLATE_NAME, t.TEMPLATE_ID,
+    t2.P_NAME, t.P_ID, t.MAN_OR_AUTO, t.BIND_RELATION, t.HALT_FLAG, t.PLAN_STATUS, t.DELETE_FLAG, t.REMARK,
+    t.PLAN_COUNT, t.EXTRACT_COUNT, t.PLAN_RUNTIME, t.PLAN_RUNTYPE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.QmPlanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_qm_plan t left outer join t_qm_checktemplate t1 ON t.TEMPLATE_ID = t1.TEMPLATE_ID
+     left outer join t_qm_strategy t2 ON t.P_ID = t2.P_ID
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by t.${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleOld" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.manage.domain.QmPlanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_qm_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_qm_plan t left outer join t_qm_checktemplate t1 ON t.TEMPLATE_ID = t1.TEMPLATE_ID
+     left outer join t_qm_strategy t2 ON t.P_ID = t2.P_ID
+     where t.PLAN_ID = #{planId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_qm_plan
+    where PLAN_ID = #{planId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.asiainfo.qm.manage.domain.QmPlanExample" >
+    delete from t_qm_plan
+    <if test="_parameter != null" >
+      <include refid="Delete_By_Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.asiainfo.qm.manage.domain.QmPlan" >
+    insert into t_qm_plan (PLAN_ID, TENANT_ID, PROVINCE_ID, 
+      PLAN_NAME, CREATE_TIME, CREATE_STAFF_ID, 
+      MODIFIED_TIME, MODIFIED_STAFF_ID, PLAN_STARTTIME, 
+      PLAN_ENDTIME, PLAN_TYPE,
+      TEMPLATE_ID, P_NAME, P_ID, 
+      MAN_OR_AUTO, BIND_RELATION, HALT_FLAG, 
+      PLAN_STATUS, DELETE_FLAG, REMARK, 
+      PLAN_COUNT, EXTRACT_COUNT, PLAN_RUNTIME, 
+      PLAN_RUNTYPE)
+    values (#{planId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, 
+      #{planName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createStaffId,jdbcType=VARCHAR}, 
+      #{modifiedTime,jdbcType=TIMESTAMP}, #{modifiedStaffId,jdbcType=VARCHAR}, #{planStarttime,jdbcType=TIMESTAMP}, 
+      #{planEndtime,jdbcType=TIMESTAMP}, #{planType,jdbcType=VARCHAR},
+      #{templateId,jdbcType=VARCHAR}, #{pName,jdbcType=VARCHAR}, #{pId,jdbcType=VARCHAR}, 
+      #{manOrAuto,jdbcType=CHAR}, #{bindRelation,jdbcType=CHAR}, #{haltFlag,jdbcType=CHAR}, 
+      #{planStatus,jdbcType=CHAR}, #{deleteFlag,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
+      #{planCount,jdbcType=INTEGER}, #{extractCount,jdbcType=INTEGER}, #{planRuntime,jdbcType=TIME}, 
+      #{planRuntype,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.asiainfo.qm.manage.domain.QmPlan" >
+    insert into t_qm_plan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="planId != null" >
+        PLAN_ID,
+      </if>
+      <if test="tenantId != null" >
+        TENANT_ID,
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID,
+      </if>
+      <if test="planName != null" >
+        PLAN_NAME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createStaffId != null" >
+        CREATE_STAFF_ID,
+      </if>
+      <if test="modifiedTime != null" >
+        MODIFIED_TIME,
+      </if>
+      <if test="modifiedStaffId != null" >
+        MODIFIED_STAFF_ID,
+      </if>
+      <if test="planStarttime != null" >
+        PLAN_STARTTIME,
+      </if>
+      <if test="planEndtime != null" >
+        PLAN_ENDTIME,
+      </if>
+      <if test="planType != null" >
+        PLAN_TYPE,
+      </if>
+      <if test="templateId != null" >
+        TEMPLATE_ID,
+      </if>
+      <if test="pName != null" >
+        P_NAME,
+      </if>
+      <if test="pId != null" >
+        P_ID,
+      </if>
+      <if test="manOrAuto != null" >
+        MAN_OR_AUTO,
+      </if>
+      <if test="bindRelation != null" >
+        BIND_RELATION,
+      </if>
+      <if test="haltFlag != null" >
+        HALT_FLAG,
+      </if>
+      <if test="planStatus != null" >
+        PLAN_STATUS,
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="planCount != null" >
+        PLAN_COUNT,
+      </if>
+      <if test="extractCount != null" >
+        EXTRACT_COUNT,
+      </if>
+      <if test="planRuntime != null" >
+        PLAN_RUNTIME,
+      </if>
+      <if test="planRuntype != null" >
+        PLAN_RUNTYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="planId != null" >
+        #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="tenantId != null" >
+        #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="planName != null" >
+        #{planName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createStaffId != null" >
+        #{createStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="modifiedTime != null" >
+        #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedStaffId != null" >
+        #{modifiedStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="planStarttime != null" >
+        #{planStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planEndtime != null" >
+        #{planEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planType != null" >
+        #{planType,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null" >
+        #{templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="pName != null" >
+        #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null" >
+        #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="manOrAuto != null" >
+        #{manOrAuto,jdbcType=CHAR},
+      </if>
+      <if test="bindRelation != null" >
+        #{bindRelation,jdbcType=CHAR},
+      </if>
+      <if test="haltFlag != null" >
+        #{haltFlag,jdbcType=CHAR},
+      </if>
+      <if test="planStatus != null" >
+        #{planStatus,jdbcType=CHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="planCount != null" >
+        #{planCount,jdbcType=INTEGER},
+      </if>
+      <if test="extractCount != null" >
+        #{extractCount,jdbcType=INTEGER},
+      </if>
+      <if test="planRuntime != null" >
+        #{planRuntime,jdbcType=TIME},
+      </if>
+      <if test="planRuntype != null" >
+        #{planRuntype,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.asiainfo.qm.manage.domain.QmPlanExample" resultType="java.lang.Integer" >
+    select count(t.*) from t_qm_plan t left outer join t_qm_checktemplate t1 ON t.TEMPLATE_ID = t1.TEMPLATE_ID
+     left outer join t_qm_strategy t2 ON t.P_ID = t2.P_ID
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_qm_plan
+    <set >
+      <if test="record.planId != null" >
+        PLAN_ID = #{record.planId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tenantId != null" >
+        TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceId != null" >
+        PROVINCE_ID = #{record.provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planName != null" >
+        PLAN_NAME = #{record.planName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createStaffId != null" >
+        CREATE_STAFF_ID = #{record.createStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifiedTime != null" >
+        MODIFIED_TIME = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedStaffId != null" >
+        MODIFIED_STAFF_ID = #{record.modifiedStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planStarttime != null" >
+        PLAN_STARTTIME = #{record.planStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.planEndtime != null" >
+        PLAN_ENDTIME = #{record.planEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.planType != null" >
+        PLAN_TYPE = #{record.planType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.templateId != null" >
+        TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pName != null" >
+        P_NAME = #{record.pName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pId != null" >
+        P_ID = #{record.pId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manOrAuto != null" >
+        MAN_OR_AUTO = #{record.manOrAuto,jdbcType=CHAR},
+      </if>
+      <if test="record.bindRelation != null" >
+        BIND_RELATION = #{record.bindRelation,jdbcType=CHAR},
+      </if>
+      <if test="record.haltFlag != null" >
+        HALT_FLAG = #{record.haltFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.planStatus != null" >
+        PLAN_STATUS = #{record.planStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.deleteFlag != null" >
+        DELETE_FLAG = #{record.deleteFlag,jdbcType=TINYINT},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planCount != null" >
+        PLAN_COUNT = #{record.planCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.extractCount != null" >
+        EXTRACT_COUNT = #{record.extractCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.planRuntime != null" >
+        PLAN_RUNTIME = #{record.planRuntime,jdbcType=TIME},
+      </if>
+      <if test="record.planRuntype != null" >
+        PLAN_RUNTYPE = #{record.planRuntype,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_qm_plan
+    set PLAN_ID = #{record.planId,jdbcType=VARCHAR},
+      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      PROVINCE_ID = #{record.provinceId,jdbcType=VARCHAR},
+      PLAN_NAME = #{record.planName,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      CREATE_STAFF_ID = #{record.createStaffId,jdbcType=VARCHAR},
+      MODIFIED_TIME = #{record.modifiedTime,jdbcType=TIMESTAMP},
+      MODIFIED_STAFF_ID = #{record.modifiedStaffId,jdbcType=VARCHAR},
+      PLAN_STARTTIME = #{record.planStarttime,jdbcType=TIMESTAMP},
+      PLAN_ENDTIME = #{record.planEndtime,jdbcType=TIMESTAMP},
+      PLAN_TYPE = #{record.planType,jdbcType=VARCHAR},
+      TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
+      P_NAME = #{record.pName,jdbcType=VARCHAR},
+      P_ID = #{record.pId,jdbcType=VARCHAR},
+      MAN_OR_AUTO = #{record.manOrAuto,jdbcType=CHAR},
+      BIND_RELATION = #{record.bindRelation,jdbcType=CHAR},
+      HALT_FLAG = #{record.haltFlag,jdbcType=CHAR},
+      PLAN_STATUS = #{record.planStatus,jdbcType=CHAR},
+      DELETE_FLAG = #{record.deleteFlag,jdbcType=TINYINT},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      PLAN_COUNT = #{record.planCount,jdbcType=INTEGER},
+      EXTRACT_COUNT = #{record.extractCount,jdbcType=INTEGER},
+      PLAN_RUNTIME = #{record.planRuntime,jdbcType=TIME},
+      PLAN_RUNTYPE = #{record.planRuntype,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.qm.manage.domain.QmPlan" >
+    update t_qm_plan
+    <set >
+      <if test="tenantId != null" >
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="planName != null" >
+        PLAN_NAME = #{planName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createStaffId != null" >
+        CREATE_STAFF_ID = #{createStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="modifiedTime != null" >
+        MODIFIED_TIME = #{modifiedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedStaffId != null" >
+        MODIFIED_STAFF_ID = #{modifiedStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="planStarttime != null" >
+        PLAN_STARTTIME = #{planStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planEndtime != null" >
+        PLAN_ENDTIME = #{planEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planType != null" >
+        PLAN_TYPE = #{planType,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null" >
+        TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="pName != null" >
+        P_NAME = #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="pId != null" >
+        P_ID = #{pId,jdbcType=VARCHAR},
+      </if>
+      <if test="manOrAuto != null" >
+        MAN_OR_AUTO = #{manOrAuto,jdbcType=CHAR},
+      </if>
+      <if test="bindRelation != null" >
+        BIND_RELATION = #{bindRelation,jdbcType=CHAR},
+      </if>
+      <if test="haltFlag != null" >
+        HALT_FLAG = #{haltFlag,jdbcType=CHAR},
+      </if>
+      <if test="planStatus != null" >
+        PLAN_STATUS = #{planStatus,jdbcType=CHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        DELETE_FLAG = #{deleteFlag,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="planCount != null" >
+        PLAN_COUNT = #{planCount,jdbcType=INTEGER},
+      </if>
+      <if test="extractCount != null" >
+        EXTRACT_COUNT = #{extractCount,jdbcType=INTEGER},
+      </if>
+      <if test="planRuntime != null" >
+        PLAN_RUNTIME = #{planRuntime,jdbcType=TIME},
+      </if>
+      <if test="planRuntype != null" >
+        PLAN_RUNTYPE = #{planRuntype,jdbcType=CHAR},
+      </if>
+    </set>
+    where PLAN_ID = #{planId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.manage.domain.QmPlan" >
+    update t_qm_plan
+    set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      PLAN_NAME = #{planName,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_STAFF_ID = #{createStaffId,jdbcType=VARCHAR},
+      MODIFIED_TIME = #{modifiedTime,jdbcType=TIMESTAMP},
+      MODIFIED_STAFF_ID = #{modifiedStaffId,jdbcType=VARCHAR},
+      PLAN_STARTTIME = #{planStarttime,jdbcType=TIMESTAMP},
+      PLAN_ENDTIME = #{planEndtime,jdbcType=TIMESTAMP},
+      PLAN_TYPE = #{planType,jdbcType=VARCHAR},
+      TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
+      P_NAME = #{pName,jdbcType=VARCHAR},
+      P_ID = #{pId,jdbcType=VARCHAR},
+      MAN_OR_AUTO = #{manOrAuto,jdbcType=CHAR},
+      BIND_RELATION = #{bindRelation,jdbcType=CHAR},
+      HALT_FLAG = #{haltFlag,jdbcType=CHAR},
+      PLAN_STATUS = #{planStatus,jdbcType=CHAR},
+      DELETE_FLAG = #{deleteFlag,jdbcType=TINYINT},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      PLAN_COUNT = #{planCount,jdbcType=INTEGER},
+      EXTRACT_COUNT = #{extractCount,jdbcType=INTEGER},
+      PLAN_RUNTIME = #{planRuntime,jdbcType=TIME},
+      PLAN_RUNTYPE = #{planRuntype,jdbcType=CHAR}
+    where PLAN_ID = #{planId,jdbcType=VARCHAR}
+  </update>
+
+  <!--新建-->
+  <select id="selectByTemplateId" parameterType="java.util.List" resultType="java.lang.Integer">
+    select count(*)
+    from t_qm_plan t
+    WHERE t.TEMPLATE_ID in
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+      #{item.templateId,jdbcType=VARCHAR}
+    </foreach>
+  </select>
+</mapper>

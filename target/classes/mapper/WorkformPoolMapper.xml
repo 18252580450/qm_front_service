@@ -1,0 +1,993 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.asiainfo.qm.execution.dao.WorkformPoolMapper" >
+  <resultMap id="BaseResultMap" type="com.asiainfo.qm.execution.domain.WorkformPool" >
+    <id column="WRKFM_ID" property="wrkfmId" jdbcType="BIGINT" />
+    <id column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
+    <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
+    <result column="HANDLE_DURATION" property="handleDuration" jdbcType="INTEGER" />
+    <result column="ACTUAL_HANDLE_DURATION" property="actualHandleDuration" jdbcType="INTEGER" />
+    <result column="POOL_STATUS" property="poolStatus" jdbcType="INTEGER" />
+    <result column="OPERATE_STAFF_ID" property="operateStaffId" jdbcType="VARCHAR" />
+    <result column="OPERATE_TIME" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="STAFF_ID" property="staffId" jdbcType="VARCHAR" />
+    <result column="DEPART_ID" property="departId" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="CHECKED_TIME" property="checkedTime" jdbcType="TIMESTAMP" />
+    <result column="CUSTOMER_CITY" property="customerCity" jdbcType="VARCHAR" />
+    <result column="CUSTOMER_LEVEL" property="customerLevel" jdbcType="VARCHAR" />
+    <result column="BUSINESS_TYPE" property="businessType" jdbcType="VARCHAR" />
+    <result column="CUSTOMER_BRAND" property="customerBrand" jdbcType="VARCHAR" />
+    <result column="CHECK_STAFF_NAME" property="checkStaffName" jdbcType="VARCHAR" />
+    <result column="TEMPLATE_ID" property="templateId" jdbcType="VARCHAR" />
+    <result column="PROJECT_TYPE" property="projectType" jdbcType="VARCHAR" />
+    <result column="MARKETING_RESULT" property="marketingResult" jdbcType="VARCHAR" />
+    <result column="CRT_TIME" property="crtTime" jdbcType="TIMESTAMP" />
+    <result column="MODF_TIME" property="modfTime" jdbcType="TIMESTAMP" />
+    <result column="SRV_REQST_TYPE_ID" property="srvReqstTypeId" jdbcType="VARCHAR" />
+    <result column="SRV_REQST_TYPE_NM" property="srvReqstTypeNm" jdbcType="VARCHAR" />
+    <result column="SRV_REQST_TYPE_FULL_NM" property="srvReqstTypeFullNm" jdbcType="VARCHAR" />
+    <result column="CHECK_LINK" property="checkLink" jdbcType="VARCHAR" />
+    <result column="RESERVE_1" property="reserve1" jdbcType="VARCHAR" />
+    <result column="RESERVE_2" property="reserve2" jdbcType="VARCHAR" />
+    <result column="RESERVE_3" property="reserve3" jdbcType="VARCHAR" />
+    <result column="RESERVE_4" property="reserve4" jdbcType="VARCHAR" />
+    <result column="RESERVE_5" property="reserve5" jdbcType="VARCHAR" />
+    <result column="WRKFM_SHOW_SWFTNO" property="wrkfmShowSwftno" jdbcType="VARCHAR" />
+    <result column="BIZ_CNTT" property="bizCntt" jdbcType="VARCHAR" />
+    <result column="BIZ_TITLE" property="bizTitle" jdbcType="VARCHAR" />
+    <result column="CUST_EMAIL" property="custEmail" jdbcType="VARCHAR" />
+    <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
+    <result column="CUST_NUM" property="custNum" jdbcType="VARCHAR" />
+    <result column="ARC_TIME" property="arcTime" jdbcType="TIMESTAMP" />
+    <result column="ACPT_STAFF_ID" property="acptStaffId" jdbcType="VARCHAR" />
+    <result column="ACPT_STAFF_NUM" property="acptStaffNum" jdbcType="VARCHAR" />
+    <result column="DSPS_COMPLTE_STAFF_ID" property="dspsComplteStaffId" jdbcType="VARCHAR" />
+    <result column="IS_OPERATE" property="isOperate" jdbcType="VARCHAR" />
+    <result column="CHECK_STAFF_ID" property="checkStaffId" jdbcType="VARCHAR" />
+    <result column="CHECKED_STAFF_ID" property="checkedStaffId" jdbcType="VARCHAR" />
+    <result column="CHECKED_STAFF_NAME" property="checkedStaffName" jdbcType="VARCHAR" />
+    <result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
+
+    <!--联合元素用来处理“一对一”的关系 ,传入planId,返回一个qmPlan实体.
+    使用select指定的方法（传入column指定的这列参数的值）查出对象，并封装给property指定的属性-->
+    <association property="qmPlan" column="PLAN_ID" javaType="com.asiainfo.qm.manage.domain.QmPlan" select="queryPool">
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    WRKFM_ID, PLAN_ID, TENANT_ID, PROVINCE_ID, HANDLE_DURATION, ACTUAL_HANDLE_DURATION, 
+    POOL_STATUS, OPERATE_STAFF_ID, OPERATE_TIME, STAFF_ID, DEPART_ID, BEGIN_TIME, END_TIME, CHECKED_TIME,
+    CUSTOMER_CITY, CUSTOMER_LEVEL, BUSINESS_TYPE, CUSTOMER_BRAND, CHECK_STAFF_NAME, TEMPLATE_ID, 
+    PROJECT_TYPE, MARKETING_RESULT, CRT_TIME, MODF_TIME, SRV_REQST_TYPE_ID, SRV_REQST_TYPE_NM, 
+    SRV_REQST_TYPE_FULL_NM, CHECK_LINK, RESERVE_1, RESERVE_2, RESERVE_3, RESERVE_4, RESERVE_5, 
+    WRKFM_SHOW_SWFTNO, BIZ_CNTT, BIZ_TITLE, CUST_EMAIL, CUST_NAME, CUST_NUM, ARC_TIME, 
+    ACPT_STAFF_ID, ACPT_STAFF_NUM, DSPS_COMPLTE_STAFF_ID, IS_OPERATE, CHECK_STAFF_ID, 
+    CHECKED_STAFF_ID, CHECKED_STAFF_NAME, CITY_ID
+  </sql>
+
+  <!--新增查询方法-->
+  <select id="queryPool" resultType="com.asiainfo.qm.manage.domain.QmPlan" parameterType="String">
+   select PLAN_NAME planName from t_qm_plan where PLAN_ID is not null and PLAN_ID = #{planId,jdbcType=VARCHAR}
+</select>
+
+  <!--批量更新-->
+  <update id="update" parameterType="java.util.List" >
+    update t_qm_workform_pool
+    set  CHECK_STAFF_ID =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case WRKFM_SHOW_SWFTNO" close="end">
+      when #{item} then null
+    </foreach>
+    ,CHECK_STAFF_NAME =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case WRKFM_SHOW_SWFTNO" close="end">
+      when #{item} then null
+    </foreach>
+    ,IS_OPERATE =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case WRKFM_SHOW_SWFTNO" close="end">
+      when #{item} then  "0"
+    </foreach>
+    ,OPERATE_TIME =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case WRKFM_SHOW_SWFTNO" close="end">
+    when #{item} then  null
+    </foreach>
+    where WRKFM_SHOW_SWFTNO in
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+
+  <!--根据工单流水号更新质检池-->
+  <update id="updateByWorkFormId" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
+    update t_qm_workform_pool
+    <set >
+      <if test="poolStatus != null" >
+        POOL_STATUS = #{poolStatus,jdbcType=INTEGER},
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkStaffId != null" >
+        CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStaffName != null" >
+        CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="isOperate != null" >
+        IS_OPERATE = #{isOperate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WRKFM_ID = #{wrkfmId,jdbcType=BIGINT}
+  </update>
+
+  <!--申诉复检更新质检池状态-->
+  <update id="recheckUpdate" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
+    update t_qm_workform_pool
+    set CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
+        CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
+        OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+        POOL_STATUS = #{poolStatus,jdbcType=INTEGER},
+        IS_OPERATE = #{isOperate,jdbcType=VARCHAR}
+        where WRKFM_ID = #{wrkfmId,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateCheck" parameterType="java.util.List" >
+    update t_qm_workform_pool
+    set  CHECK_STAFF_ID =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case WRKFM_SHOW_SWFTNO" close="end">
+      when #{item.wrkfmShowSwftno} then  #{item.checkStaffId,jdbcType=VARCHAR}
+    </foreach>
+    ,CHECK_STAFF_NAME =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case WRKFM_SHOW_SWFTNO" close="end">
+      when #{item.wrkfmShowSwftno} then  #{item.checkStaffName,jdbcType=TIMESTAMP}
+    </foreach>
+    ,OPERATE_TIME =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case WRKFM_SHOW_SWFTNO" close="end">
+      when #{item.wrkfmShowSwftno} then  now()
+    </foreach>
+    ,IS_OPERATE =
+    <foreach collection="list" item="item" index="index"
+             separator=" " open="case WRKFM_SHOW_SWFTNO" close="end">
+      when #{item.wrkfmShowSwftno} then  "1"
+    </foreach>
+    where WRKFM_SHOW_SWFTNO in
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item.wrkfmShowSwftno,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.execution.domain.WorkformPoolExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_qm_workform_pool
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.asiainfo.qm.execution.domain.WorkformPoolKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_qm_workform_pool
+    where WRKFM_ID = #{wrkfmId,jdbcType=BIGINT}
+      and PLAN_ID = #{planId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.asiainfo.qm.execution.domain.WorkformPoolKey" >
+    delete from t_qm_workform_pool
+    where WRKFM_ID = #{wrkfmId,jdbcType=BIGINT}
+      and PLAN_ID = #{planId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.asiainfo.qm.execution.domain.WorkformPoolExample" >
+    delete from t_qm_workform_pool
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
+    insert into t_qm_workform_pool (WRKFM_ID, PLAN_ID, TENANT_ID, 
+      PROVINCE_ID, HANDLE_DURATION, ACTUAL_HANDLE_DURATION, 
+      POOL_STATUS, OPERATE_STAFF_ID, OPERATE_TIME, 
+      STAFF_ID, DEPART_ID, BEGIN_TIME, 
+      END_TIME, CHECKED_TIME, CUSTOMER_CITY, CUSTOMER_LEVEL,
+      BUSINESS_TYPE, CUSTOMER_BRAND, CHECK_STAFF_NAME, 
+      TEMPLATE_ID, PROJECT_TYPE, MARKETING_RESULT, 
+      CRT_TIME, MODF_TIME, SRV_REQST_TYPE_ID, 
+      SRV_REQST_TYPE_NM, SRV_REQST_TYPE_FULL_NM, CHECK_LINK, 
+      RESERVE_1, RESERVE_2, RESERVE_3, 
+      RESERVE_4, RESERVE_5, WRKFM_SHOW_SWFTNO, 
+      BIZ_CNTT, BIZ_TITLE, CUST_EMAIL, 
+      CUST_NAME, CUST_NUM, ARC_TIME, 
+      ACPT_STAFF_ID, ACPT_STAFF_NUM, DSPS_COMPLTE_STAFF_ID, 
+      IS_OPERATE, CHECK_STAFF_ID, CHECKED_STAFF_ID, 
+      CHECKED_STAFF_NAME, CITY_ID)
+    values (#{wrkfmId,jdbcType=BIGINT}, #{planId,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, 
+      #{provinceId,jdbcType=VARCHAR}, #{handleDuration,jdbcType=INTEGER}, #{actualHandleDuration,jdbcType=INTEGER}, 
+      #{poolStatus,jdbcType=INTEGER}, #{operateStaffId,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, 
+      #{staffId,jdbcType=VARCHAR}, #{departId,jdbcType=VARCHAR}, #{beginTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{checkedTime,jdbcType=TIMESTAMP}, #{customerCity,jdbcType=VARCHAR}, #{customerLevel,jdbcType=VARCHAR},
+      #{businessType,jdbcType=VARCHAR}, #{customerBrand,jdbcType=VARCHAR}, #{checkStaffName,jdbcType=VARCHAR}, 
+      #{templateId,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, #{marketingResult,jdbcType=VARCHAR}, 
+      #{crtTime,jdbcType=TIMESTAMP}, #{modfTime,jdbcType=TIMESTAMP}, #{srvReqstTypeId,jdbcType=VARCHAR}, 
+      #{srvReqstTypeNm,jdbcType=VARCHAR}, #{srvReqstTypeFullNm,jdbcType=VARCHAR}, #{checkLink,jdbcType=VARCHAR}, 
+      #{reserve1,jdbcType=VARCHAR}, #{reserve2,jdbcType=VARCHAR}, #{reserve3,jdbcType=VARCHAR}, 
+      #{reserve4,jdbcType=VARCHAR}, #{reserve5,jdbcType=VARCHAR}, #{wrkfmShowSwftno,jdbcType=VARCHAR}, 
+      #{bizCntt,jdbcType=VARCHAR}, #{bizTitle,jdbcType=VARCHAR}, #{custEmail,jdbcType=VARCHAR}, 
+      #{custName,jdbcType=VARCHAR}, #{custNum,jdbcType=VARCHAR}, #{arcTime,jdbcType=TIMESTAMP}, 
+      #{acptStaffId,jdbcType=VARCHAR}, #{acptStaffNum,jdbcType=VARCHAR}, #{dspsComplteStaffId,jdbcType=VARCHAR}, 
+      #{isOperate,jdbcType=VARCHAR}, #{checkStaffId,jdbcType=VARCHAR}, #{checkedStaffId,jdbcType=VARCHAR}, 
+      #{checkedStaffName,jdbcType=VARCHAR}, #{cityId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
+    insert IGNORE into t_qm_workform_pool
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wrkfmId != null" >
+        WRKFM_ID,
+      </if>
+      <if test="planId != null" >
+        PLAN_ID,
+      </if>
+      <if test="tenantId != null" >
+        TENANT_ID,
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID,
+      </if>
+      <if test="handleDuration != null" >
+        HANDLE_DURATION,
+      </if>
+      <if test="actualHandleDuration != null" >
+        ACTUAL_HANDLE_DURATION,
+      </if>
+      <if test="poolStatus != null" >
+        POOL_STATUS,
+      </if>
+      <if test="operateStaffId != null" >
+        OPERATE_STAFF_ID,
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME,
+      </if>
+      <if test="staffId != null" >
+        STAFF_ID,
+      </if>
+      <if test="departId != null" >
+        DEPART_ID,
+      </if>
+      <if test="beginTime != null" >
+        BEGIN_TIME,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="checkedTime != null" >
+        CHECKED_TIME,
+      </if>
+      <if test="customerCity != null" >
+        CUSTOMER_CITY,
+      </if>
+      <if test="customerLevel != null" >
+        CUSTOMER_LEVEL,
+      </if>
+      <if test="businessType != null" >
+        BUSINESS_TYPE,
+      </if>
+      <if test="customerBrand != null" >
+        CUSTOMER_BRAND,
+      </if>
+      <if test="checkStaffName != null" >
+        CHECK_STAFF_NAME,
+      </if>
+      <if test="templateId != null" >
+        TEMPLATE_ID,
+      </if>
+      <if test="projectType != null" >
+        PROJECT_TYPE,
+      </if>
+      <if test="marketingResult != null" >
+        MARKETING_RESULT,
+      </if>
+      <if test="crtTime != null" >
+        CRT_TIME,
+      </if>
+      <if test="modfTime != null" >
+        MODF_TIME,
+      </if>
+      <if test="srvReqstTypeId != null" >
+        SRV_REQST_TYPE_ID,
+      </if>
+      <if test="srvReqstTypeNm != null" >
+        SRV_REQST_TYPE_NM,
+      </if>
+      <if test="srvReqstTypeFullNm != null" >
+        SRV_REQST_TYPE_FULL_NM,
+      </if>
+      <if test="checkLink != null" >
+        CHECK_LINK,
+      </if>
+      <if test="reserve1 != null" >
+        RESERVE_1,
+      </if>
+      <if test="reserve2 != null" >
+        RESERVE_2,
+      </if>
+      <if test="reserve3 != null" >
+        RESERVE_3,
+      </if>
+      <if test="reserve4 != null" >
+        RESERVE_4,
+      </if>
+      <if test="reserve5 != null" >
+        RESERVE_5,
+      </if>
+      <if test="wrkfmShowSwftno != null" >
+        WRKFM_SHOW_SWFTNO,
+      </if>
+      <if test="bizCntt != null" >
+        BIZ_CNTT,
+      </if>
+      <if test="bizTitle != null" >
+        BIZ_TITLE,
+      </if>
+      <if test="custEmail != null" >
+        CUST_EMAIL,
+      </if>
+      <if test="custName != null" >
+        CUST_NAME,
+      </if>
+      <if test="custNum != null" >
+        CUST_NUM,
+      </if>
+      <if test="arcTime != null" >
+        ARC_TIME,
+      </if>
+      <if test="acptStaffId != null" >
+        ACPT_STAFF_ID,
+      </if>
+      <if test="acptStaffNum != null" >
+        ACPT_STAFF_NUM,
+      </if>
+      <if test="dspsComplteStaffId != null" >
+        DSPS_COMPLTE_STAFF_ID,
+      </if>
+      <if test="isOperate != null" >
+        IS_OPERATE,
+      </if>
+      <if test="checkStaffId != null" >
+        CHECK_STAFF_ID,
+      </if>
+      <if test="checkedStaffId != null" >
+        CHECKED_STAFF_ID,
+      </if>
+      <if test="checkedStaffName != null" >
+        CHECKED_STAFF_NAME,
+      </if>
+      <if test="cityId != null" >
+        CITY_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wrkfmId != null" >
+        #{wrkfmId,jdbcType=BIGINT},
+      </if>
+      <if test="planId != null" >
+        #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="tenantId != null" >
+        #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="handleDuration != null" >
+        #{handleDuration,jdbcType=INTEGER},
+      </if>
+      <if test="actualHandleDuration != null" >
+        #{actualHandleDuration,jdbcType=INTEGER},
+      </if>
+      <if test="poolStatus != null" >
+        #{poolStatus,jdbcType=INTEGER},
+      </if>
+      <if test="operateStaffId != null" >
+        #{operateStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="staffId != null" >
+        #{staffId,jdbcType=VARCHAR},
+      </if>
+      <if test="departId != null" >
+        #{departId,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null" >
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkedTime != null" >
+        #{checkedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerCity != null" >
+        #{customerCity,jdbcType=VARCHAR},
+      </if>
+      <if test="customerLevel != null" >
+        #{customerLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null" >
+        #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="customerBrand != null" >
+        #{customerBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStaffName != null" >
+        #{checkStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null" >
+        #{templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null" >
+        #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="marketingResult != null" >
+        #{marketingResult,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null" >
+        #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modfTime != null" >
+        #{modfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="srvReqstTypeId != null" >
+        #{srvReqstTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="srvReqstTypeNm != null" >
+        #{srvReqstTypeNm,jdbcType=VARCHAR},
+      </if>
+      <if test="srvReqstTypeFullNm != null" >
+        #{srvReqstTypeFullNm,jdbcType=VARCHAR},
+      </if>
+      <if test="checkLink != null" >
+        #{checkLink,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve1 != null" >
+        #{reserve1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve2 != null" >
+        #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve3 != null" >
+        #{reserve3,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve4 != null" >
+        #{reserve4,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve5 != null" >
+        #{reserve5,jdbcType=VARCHAR},
+      </if>
+      <if test="wrkfmShowSwftno != null" >
+        #{wrkfmShowSwftno,jdbcType=VARCHAR},
+      </if>
+      <if test="bizCntt != null" >
+        #{bizCntt,jdbcType=VARCHAR},
+      </if>
+      <if test="bizTitle != null" >
+        #{bizTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="custEmail != null" >
+        #{custEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custNum != null" >
+        #{custNum,jdbcType=VARCHAR},
+      </if>
+      <if test="arcTime != null" >
+        #{arcTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acptStaffId != null" >
+        #{acptStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="acptStaffNum != null" >
+        #{acptStaffNum,jdbcType=VARCHAR},
+      </if>
+      <if test="dspsComplteStaffId != null" >
+        #{dspsComplteStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="isOperate != null" >
+        #{isOperate,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStaffId != null" >
+        #{checkStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedStaffId != null" >
+        #{checkedStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedStaffName != null" >
+        #{checkedStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.asiainfo.qm.execution.domain.WorkformPoolExample" resultType="java.lang.Integer" >
+    select count(*) from t_qm_workform_pool
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_qm_workform_pool
+    <set >
+      <if test="record.wrkfmId != null" >
+        WRKFM_ID = #{record.wrkfmId,jdbcType=BIGINT},
+      </if>
+      <if test="record.planId != null" >
+        PLAN_ID = #{record.planId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tenantId != null" >
+        TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceId != null" >
+        PROVINCE_ID = #{record.provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handleDuration != null" >
+        HANDLE_DURATION = #{record.handleDuration,jdbcType=INTEGER},
+      </if>
+      <if test="record.actualHandleDuration != null" >
+        ACTUAL_HANDLE_DURATION = #{record.actualHandleDuration,jdbcType=INTEGER},
+      </if>
+      <if test="record.poolStatus != null" >
+        POOL_STATUS = #{record.poolStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.operateStaffId != null" >
+        OPERATE_STAFF_ID = #{record.operateStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateTime != null" >
+        OPERATE_TIME = #{record.operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.staffId != null" >
+        STAFF_ID = #{record.staffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departId != null" >
+        DEPART_ID = #{record.departId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beginTime != null" >
+        BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkedTime != null" >
+        CHECKED_TIME = #{record.checkedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.customerCity != null" >
+        CUSTOMER_CITY = #{record.customerCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerLevel != null" >
+        CUSTOMER_LEVEL = #{record.customerLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessType != null" >
+        BUSINESS_TYPE = #{record.businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerBrand != null" >
+        CUSTOMER_BRAND = #{record.customerBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkStaffName != null" >
+        CHECK_STAFF_NAME = #{record.checkStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.templateId != null" >
+        TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectType != null" >
+        PROJECT_TYPE = #{record.projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.marketingResult != null" >
+        MARKETING_RESULT = #{record.marketingResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.crtTime != null" >
+        CRT_TIME = #{record.crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modfTime != null" >
+        MODF_TIME = #{record.modfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.srvReqstTypeId != null" >
+        SRV_REQST_TYPE_ID = #{record.srvReqstTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srvReqstTypeNm != null" >
+        SRV_REQST_TYPE_NM = #{record.srvReqstTypeNm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srvReqstTypeFullNm != null" >
+        SRV_REQST_TYPE_FULL_NM = #{record.srvReqstTypeFullNm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkLink != null" >
+        CHECK_LINK = #{record.checkLink,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve1 != null" >
+        RESERVE_1 = #{record.reserve1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve2 != null" >
+        RESERVE_2 = #{record.reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve3 != null" >
+        RESERVE_3 = #{record.reserve3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve4 != null" >
+        RESERVE_4 = #{record.reserve4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reserve5 != null" >
+        RESERVE_5 = #{record.reserve5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wrkfmShowSwftno != null" >
+        WRKFM_SHOW_SWFTNO = #{record.wrkfmShowSwftno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bizCntt != null" >
+        BIZ_CNTT = #{record.bizCntt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bizTitle != null" >
+        BIZ_TITLE = #{record.bizTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custEmail != null" >
+        CUST_EMAIL = #{record.custEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custName != null" >
+        CUST_NAME = #{record.custName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custNum != null" >
+        CUST_NUM = #{record.custNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.arcTime != null" >
+        ARC_TIME = #{record.arcTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.acptStaffId != null" >
+        ACPT_STAFF_ID = #{record.acptStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acptStaffNum != null" >
+        ACPT_STAFF_NUM = #{record.acptStaffNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dspsComplteStaffId != null" >
+        DSPS_COMPLTE_STAFF_ID = #{record.dspsComplteStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isOperate != null" >
+        IS_OPERATE = #{record.isOperate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkStaffId != null" >
+        CHECK_STAFF_ID = #{record.checkStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkedStaffId != null" >
+        CHECKED_STAFF_ID = #{record.checkedStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkedStaffName != null" >
+        CHECKED_STAFF_NAME = #{record.checkedStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null" >
+        CITY_ID = #{record.cityId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_qm_workform_pool
+    set WRKFM_ID = #{record.wrkfmId,jdbcType=BIGINT},
+      PLAN_ID = #{record.planId,jdbcType=VARCHAR},
+      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      PROVINCE_ID = #{record.provinceId,jdbcType=VARCHAR},
+      HANDLE_DURATION = #{record.handleDuration,jdbcType=INTEGER},
+      ACTUAL_HANDLE_DURATION = #{record.actualHandleDuration,jdbcType=INTEGER},
+      POOL_STATUS = #{record.poolStatus,jdbcType=INTEGER},
+      OPERATE_STAFF_ID = #{record.operateStaffId,jdbcType=VARCHAR},
+      OPERATE_TIME = #{record.operateTime,jdbcType=TIMESTAMP},
+      STAFF_ID = #{record.staffId,jdbcType=VARCHAR},
+      DEPART_ID = #{record.departId,jdbcType=VARCHAR},
+      BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
+      END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      CHECKED_TIME = #{record.checkedTime,jdbcType=TIMESTAMP},
+      CUSTOMER_CITY = #{record.customerCity,jdbcType=VARCHAR},
+      CUSTOMER_LEVEL = #{record.customerLevel,jdbcType=VARCHAR},
+      BUSINESS_TYPE = #{record.businessType,jdbcType=VARCHAR},
+      CUSTOMER_BRAND = #{record.customerBrand,jdbcType=VARCHAR},
+      CHECK_STAFF_NAME = #{record.checkStaffName,jdbcType=VARCHAR},
+      TEMPLATE_ID = #{record.templateId,jdbcType=VARCHAR},
+      PROJECT_TYPE = #{record.projectType,jdbcType=VARCHAR},
+      MARKETING_RESULT = #{record.marketingResult,jdbcType=VARCHAR},
+      CRT_TIME = #{record.crtTime,jdbcType=TIMESTAMP},
+      MODF_TIME = #{record.modfTime,jdbcType=TIMESTAMP},
+      SRV_REQST_TYPE_ID = #{record.srvReqstTypeId,jdbcType=VARCHAR},
+      SRV_REQST_TYPE_NM = #{record.srvReqstTypeNm,jdbcType=VARCHAR},
+      SRV_REQST_TYPE_FULL_NM = #{record.srvReqstTypeFullNm,jdbcType=VARCHAR},
+      CHECK_LINK = #{record.checkLink,jdbcType=VARCHAR},
+      RESERVE_1 = #{record.reserve1,jdbcType=VARCHAR},
+      RESERVE_2 = #{record.reserve2,jdbcType=VARCHAR},
+      RESERVE_3 = #{record.reserve3,jdbcType=VARCHAR},
+      RESERVE_4 = #{record.reserve4,jdbcType=VARCHAR},
+      RESERVE_5 = #{record.reserve5,jdbcType=VARCHAR},
+      WRKFM_SHOW_SWFTNO = #{record.wrkfmShowSwftno,jdbcType=VARCHAR},
+      BIZ_CNTT = #{record.bizCntt,jdbcType=VARCHAR},
+      BIZ_TITLE = #{record.bizTitle,jdbcType=VARCHAR},
+      CUST_EMAIL = #{record.custEmail,jdbcType=VARCHAR},
+      CUST_NAME = #{record.custName,jdbcType=VARCHAR},
+      CUST_NUM = #{record.custNum,jdbcType=VARCHAR},
+      ARC_TIME = #{record.arcTime,jdbcType=TIMESTAMP},
+      ACPT_STAFF_ID = #{record.acptStaffId,jdbcType=VARCHAR},
+      ACPT_STAFF_NUM = #{record.acptStaffNum,jdbcType=VARCHAR},
+      DSPS_COMPLTE_STAFF_ID = #{record.dspsComplteStaffId,jdbcType=VARCHAR},
+      IS_OPERATE = #{record.isOperate,jdbcType=VARCHAR},
+      CHECK_STAFF_ID = #{record.checkStaffId,jdbcType=VARCHAR},
+      CHECKED_STAFF_ID = #{record.checkedStaffId,jdbcType=VARCHAR},
+      CHECKED_STAFF_NAME = #{record.checkedStaffName,jdbcType=VARCHAR},
+      CITY_ID = #{record.cityId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
+    update t_qm_workform_pool
+    <set >
+      <if test="tenantId != null" >
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="handleDuration != null" >
+        HANDLE_DURATION = #{handleDuration,jdbcType=INTEGER},
+      </if>
+      <if test="actualHandleDuration != null" >
+        ACTUAL_HANDLE_DURATION = #{actualHandleDuration,jdbcType=INTEGER},
+      </if>
+      <if test="poolStatus != null" >
+        POOL_STATUS = #{poolStatus,jdbcType=INTEGER},
+      </if>
+      <if test="operateStaffId != null" >
+        OPERATE_STAFF_ID = #{operateStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="staffId != null" >
+        STAFF_ID = #{staffId,jdbcType=VARCHAR},
+      </if>
+      <if test="departId != null" >
+        DEPART_ID = #{departId,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null" >
+        BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkedTime != null" >
+        CHECKED_TIME = #{checkedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerCity != null" >
+        CUSTOMER_CITY = #{customerCity,jdbcType=VARCHAR},
+      </if>
+      <if test="customerLevel != null" >
+        CUSTOMER_LEVEL = #{customerLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null" >
+        BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="customerBrand != null" >
+        CUSTOMER_BRAND = #{customerBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStaffName != null" >
+        CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null" >
+        TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null" >
+        PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="marketingResult != null" >
+        MARKETING_RESULT = #{marketingResult,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null" >
+        CRT_TIME = #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modfTime != null" >
+        MODF_TIME = #{modfTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="srvReqstTypeId != null" >
+        SRV_REQST_TYPE_ID = #{srvReqstTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="srvReqstTypeNm != null" >
+        SRV_REQST_TYPE_NM = #{srvReqstTypeNm,jdbcType=VARCHAR},
+      </if>
+      <if test="srvReqstTypeFullNm != null" >
+        SRV_REQST_TYPE_FULL_NM = #{srvReqstTypeFullNm,jdbcType=VARCHAR},
+      </if>
+      <if test="checkLink != null" >
+        CHECK_LINK = #{checkLink,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve1 != null" >
+        RESERVE_1 = #{reserve1,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve2 != null" >
+        RESERVE_2 = #{reserve2,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve3 != null" >
+        RESERVE_3 = #{reserve3,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve4 != null" >
+        RESERVE_4 = #{reserve4,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve5 != null" >
+        RESERVE_5 = #{reserve5,jdbcType=VARCHAR},
+      </if>
+      <if test="wrkfmShowSwftno != null" >
+        WRKFM_SHOW_SWFTNO = #{wrkfmShowSwftno,jdbcType=VARCHAR},
+      </if>
+      <if test="bizCntt != null" >
+        BIZ_CNTT = #{bizCntt,jdbcType=VARCHAR},
+      </if>
+      <if test="bizTitle != null" >
+        BIZ_TITLE = #{bizTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="custEmail != null" >
+        CUST_EMAIL = #{custEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        CUST_NAME = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custNum != null" >
+        CUST_NUM = #{custNum,jdbcType=VARCHAR},
+      </if>
+      <if test="arcTime != null" >
+        ARC_TIME = #{arcTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acptStaffId != null" >
+        ACPT_STAFF_ID = #{acptStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="acptStaffNum != null" >
+        ACPT_STAFF_NUM = #{acptStaffNum,jdbcType=VARCHAR},
+      </if>
+      <if test="dspsComplteStaffId != null" >
+        DSPS_COMPLTE_STAFF_ID = #{dspsComplteStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="isOperate != null" >
+        IS_OPERATE = #{isOperate,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStaffId != null" >
+        CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedStaffId != null" >
+        CHECKED_STAFF_ID = #{checkedStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkedStaffName != null" >
+        CHECKED_STAFF_NAME = #{checkedStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        CITY_ID = #{cityId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WRKFM_ID = #{wrkfmId,jdbcType=BIGINT}
+      and PLAN_ID = #{planId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.asiainfo.qm.execution.domain.WorkformPool" >
+    update t_qm_workform_pool
+    set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      HANDLE_DURATION = #{handleDuration,jdbcType=INTEGER},
+      ACTUAL_HANDLE_DURATION = #{actualHandleDuration,jdbcType=INTEGER},
+      POOL_STATUS = #{poolStatus,jdbcType=INTEGER},
+      OPERATE_STAFF_ID = #{operateStaffId,jdbcType=VARCHAR},
+      OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+      STAFF_ID = #{staffId,jdbcType=VARCHAR},
+      DEPART_ID = #{departId,jdbcType=VARCHAR},
+      BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      CHECKED_TIME = #{checkedTime,jdbcType=TIMESTAMP},
+      CUSTOMER_CITY = #{customerCity,jdbcType=VARCHAR},
+      CUSTOMER_LEVEL = #{customerLevel,jdbcType=VARCHAR},
+      BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
+      CUSTOMER_BRAND = #{customerBrand,jdbcType=VARCHAR},
+      CHECK_STAFF_NAME = #{checkStaffName,jdbcType=VARCHAR},
+      TEMPLATE_ID = #{templateId,jdbcType=VARCHAR},
+      PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
+      MARKETING_RESULT = #{marketingResult,jdbcType=VARCHAR},
+      CRT_TIME = #{crtTime,jdbcType=TIMESTAMP},
+      MODF_TIME = #{modfTime,jdbcType=TIMESTAMP},
+      SRV_REQST_TYPE_ID = #{srvReqstTypeId,jdbcType=VARCHAR},
+      SRV_REQST_TYPE_NM = #{srvReqstTypeNm,jdbcType=VARCHAR},
+      SRV_REQST_TYPE_FULL_NM = #{srvReqstTypeFullNm,jdbcType=VARCHAR},
+      CHECK_LINK = #{checkLink,jdbcType=VARCHAR},
+      RESERVE_1 = #{reserve1,jdbcType=VARCHAR},
+      RESERVE_2 = #{reserve2,jdbcType=VARCHAR},
+      RESERVE_3 = #{reserve3,jdbcType=VARCHAR},
+      RESERVE_4 = #{reserve4,jdbcType=VARCHAR},
+      RESERVE_5 = #{reserve5,jdbcType=VARCHAR},
+      WRKFM_SHOW_SWFTNO = #{wrkfmShowSwftno,jdbcType=VARCHAR},
+      BIZ_CNTT = #{bizCntt,jdbcType=VARCHAR},
+      BIZ_TITLE = #{bizTitle,jdbcType=VARCHAR},
+      CUST_EMAIL = #{custEmail,jdbcType=VARCHAR},
+      CUST_NAME = #{custName,jdbcType=VARCHAR},
+      CUST_NUM = #{custNum,jdbcType=VARCHAR},
+      ARC_TIME = #{arcTime,jdbcType=TIMESTAMP},
+      ACPT_STAFF_ID = #{acptStaffId,jdbcType=VARCHAR},
+      ACPT_STAFF_NUM = #{acptStaffNum,jdbcType=VARCHAR},
+      DSPS_COMPLTE_STAFF_ID = #{dspsComplteStaffId,jdbcType=VARCHAR},
+      IS_OPERATE = #{isOperate,jdbcType=VARCHAR},
+      CHECK_STAFF_ID = #{checkStaffId,jdbcType=VARCHAR},
+      CHECKED_STAFF_ID = #{checkedStaffId,jdbcType=VARCHAR},
+      CHECKED_STAFF_NAME = #{checkedStaffName,jdbcType=VARCHAR},
+      CITY_ID = #{cityId,jdbcType=VARCHAR}
+    where WRKFM_ID = #{wrkfmId,jdbcType=BIGINT}
+      and PLAN_ID = #{planId,jdbcType=VARCHAR}
+  </update>
+</mapper>
